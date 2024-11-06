@@ -1,0 +1,38 @@
+﻿<Window x:Class="QLDT_WPF.Views.Login.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login"
+        Height="720" Width="1280"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <!-- Hình nền -->
+        <Image Source="/Images/bg.png" Stretch="Fill" Opacity="0.7"/>
+
+        <!-- Bảng đăng nhập ở giữa -->
+        <Border Background="White" Opacity="0.9" CornerRadius="10" Width="422" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center" Height="414">
+            <StackPanel>
+                <!-- Logo -->
+                <Image Source="/Images/logo.png" Width="80" Height="80" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                <!-- Văn bản chào mừng -->
+                <TextBlock Text="Welcome to" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="University of Transport and Communication" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,5,0,20"/>
+
+                <!-- Nhãn và ô nhập tên đăng nhập -->
+                <TextBlock Text="Tên đăng nhập" FontSize="14" FontWeight="Bold" Margin="0,5,0,5"/>
+                <TextBox Name="UsernameTextBox" Height="30" Margin="0,0,0,10" FontSize="14"/>
+
+                <!-- Nhãn và ô nhập mật khẩu -->
+                <TextBlock Text="Mật khẩu" FontSize="14" FontWeight="Bold" Margin="0,5,0,5"/>
+                <PasswordBox Name="PasswordBox" Height="30" Margin="0,0,0,10" FontSize="14"/>
+
+                <!-- Liên kết quên mật khẩu -->
+                <TextBlock Text="Quên mật khẩu?" FontSize="12" Foreground="Blue" TextDecorations="Underline" HorizontalAlignment="Right" Margin="0,5,0,10" Cursor="Hand"/>
+
+                <!-- Nút Đăng nhập -->
+                <Button Content="Login" Click="LoginButton_Click" Background="#0078D7" Foreground="White" FontSize="16" FontWeight="Bold" Height="40" Margin="0,10,0,0" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
