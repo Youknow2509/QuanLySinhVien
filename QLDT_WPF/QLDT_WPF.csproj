@@ -1,71 +1,78 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Images\bg.png" />
-    <None Remove="Images\LeftNavBar\arrow-right.png" />
-    <None Remove="Images\LeftNavBar\bank.png" />
-    <None Remove="Images\LeftNavBar\book-alt.png" />
-    <None Remove="Images\LeftNavBar\book.png" />
-    <None Remove="Images\LeftNavBar\chalkboard-user.png" />
-    <None Remove="Images\LeftNavBar\edit.png" />
-    <None Remove="Images\LeftNavBar\graduation-cap.png" />
-    <None Remove="Images\LeftNavBar\left-arrow.png" />
-    <None Remove="Images\LeftNavBar\search.png" />
-    <None Remove="Images\LeftNavBar\student.png" />
-    <None Remove="Images\logo.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Images\bg.png" />
+        <None Remove="Images\LeftNavBar\arrow-right.png" />
+        <None Remove="Images\LeftNavBar\bank.png" />
+        <None Remove="Images\LeftNavBar\book-alt.png" />
+        <None Remove="Images\LeftNavBar\book.png" />
+        <None Remove="Images\LeftNavBar\chalkboard-user.png" />
+        <None Remove="Images\LeftNavBar\edit.png" />
+        <None Remove="Images\LeftNavBar\graduation-cap.png" />
+        <None Remove="Images\LeftNavBar\left-arrow.png" />
+        <None Remove="Images\LeftNavBar\search.png" />
+        <None Remove="Images\LeftNavBar\student.png" />
+        <None Remove="Images\logo.png" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Resources\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Resources\" />
+        <Folder Include="ViewModels\" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Images\bg.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\arrow-right.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\bank.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\book-alt.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\book.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\chalkboard-user.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\edit.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\graduation-cap.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\left-arrow.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\search.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\LeftNavBar\student.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+            Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Resource Include="Images\bg.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\arrow-right.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\bank.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\book-alt.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\book.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\chalkboard-user.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\edit.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\graduation-cap.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\left-arrow.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\search.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\LeftNavBar\student.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\logo.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
 
 </Project>
+  
