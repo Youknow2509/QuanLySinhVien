@@ -4,6 +4,7 @@ using System.Linq;
 //
 using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Repositories;
 
@@ -144,7 +145,59 @@ public class DiemRepository
     /**
      * Them diem
      */
+    public async Task<ApiResponse<DiemDto>> Add(DiemDto diemDto)
+    {
+        // Handle if dont have Id diem
+        if (diemDto.IdDiem == null)
+        {
+            diemDto.IdDiem = Guid.NewGuid().ToString();
+        }
+        // Check id lop hoc phan, id sinh vien
+        var checkLopHocPhan = await _context.LopHocPhans.FindAsync(diem.IdLopHocPhan);
+        var checkSinhVien = await _context.SinhViens.FindAsync(diem.IdSinhVien);
+        if (checkLopHocPhan == null)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Message = "Id Lop Hoc Phan Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+        if (checkSinhVien == null)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Message = "Id Sinh Vien Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+        // Create new diem
+        var newDiem = new Diem
+        {
+            IdDiem = diem.IdDiem,
+            IdLopHocPhan = diem.IdLopHocPhan,
+            IdSinhVien = diem.IdSinhVien,
+            DiemQuaTrinh = diem.DiemQuaTrinh,
+            DiemKetThuc = diem.DiemKetThuc,
+            DiemTongKet = diem.DiemTongKet,
+            LanHoc = diem.LanHoc,
+        };
+        // Add new diem
+        _context.Diems.Add(newDiem);
+        await _context.SaveChangesAsync();
 
+        return new ApiResponse<DiemDto>
+        {
+            Status = true,
+            Message = "Thêm điểm thành công",
+            StatusCode = 200,
+            Data = diem
+        };
+    }
 
     /**
      * Xoa diem By Id 
@@ -182,7 +235,6 @@ public class DiemRepository
             Data = null
         };
     }
-
 
     /**
      * Trả Về Danh Sách Điểm Của Sinh Viên Với Lần Thi Cuối Cùng, 
