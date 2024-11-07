@@ -46,5 +46,11 @@
     dotnet run
 ```
 
+## <div align="center">Contribute</div>
+
+<a href="https://github.com/hoangmanhkhiem/QLDT_WPF/graphs/contributors">
+<img width="100%" src="https://contrib.rocks/image?repo=Youknow2509/web_qlsv" alt="Ultralytics open-source contributors"></a>
+
+
 # [DEMO_WEB](https://youtu.be/7JjGT8xnrl4)
 # [DEMO_APP]()
