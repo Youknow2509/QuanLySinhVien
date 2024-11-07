@@ -140,7 +140,72 @@ public class DiemRepository
     /**
      * Sua thong tin diem
      */
-    
+    public async Task<ApiResponse<DiemDto>> Edit(DiemDto diem)
+    {
+        // Query
+        var query = await (
+            from d in _context.Diems
+            where d.IdDiem == diem.IdDiem
+            select d
+        ).FirstOrDefaultAsync();
+
+        // Check if the query is null
+        if (query == null)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Message = "Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+
+        // Check id lop hoc phan, id sinh vien
+        var checkLopHocPhan = await _context.LopHocPhans
+            .FirstOrDefaultAsync(x => x.IdLopHocPhan == diem.IdLopHocPhan);
+        var checkSinhVien = await _context.SinhViens
+            .FirstOrDefaultAsync(x => x.IdSinhVien == diem.IdSinhVien);
+        if (checkLopHocPhan == null)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Message = "Id Lop Hoc Phan Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+        if (checkSinhVien == null)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Message = "Id Sinh Vien Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+
+        // Update the query
+        query.IdSinhVien = diem.IdSinhVien;
+        query.IdLopHocPhan = diem.IdLopHocPhan;
+        query.DiemQuaTrinh = diem.DiemQuaTrinh;
+        query.DiemKetThuc = diem.DiemKetThuc;
+        query.DiemTongKet = diem.DiemTongKet;
+        query.LanHoc = diem.LanHoc;
+
+        // Save the changes
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<DiemDto>
+        {
+            Status = true,
+            Message = "Cập nhật điểm thành công",
+            StatusCode = 200,
+            Data = diem
+        };
+    }
 
     /**
      * Them diem
