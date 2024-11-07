@@ -15,6 +15,16 @@ namespace QLDT_WPF.Data
 
         }
 
+        // Cấu hình kết nối với cơ sở dữ liệu nếu cần
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                string connectionStrings = ConfigurationManager.ConnectionStrings["SessionDbConnection"];
+                optionsBuilder.UseSqlServer(connectionStrings);
+            }
+        }
+
         // 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -18,6 +18,16 @@ public class IdentityDbContext : IdentityDbContext<UserCustom>
 
     }
 
+    // Cấu hình kết nối với cơ sở dữ liệu nếu cần
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            string connectionStrings = ConfigurationManager.ConnectionStrings["IdentityDbConnection"];
+            optionsBuilder.UseSqlServer(connectionStrings);
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
 

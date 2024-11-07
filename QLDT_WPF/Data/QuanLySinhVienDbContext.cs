@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+
 using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Data;
@@ -25,6 +27,17 @@ public class QuanLySinhVienDbContext : DbContext
         : base(options)
     {
     }
+
+    // Cấu hình kết nối với cơ sở dữ liệu nếu cần
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            string connectionStrings = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbConnection"];
+            optionsBuilder.UseSqlServer(connectionStrings);
+        }
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
