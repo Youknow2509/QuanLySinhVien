@@ -16,7 +16,7 @@ namespace QLDT_WPF.Repositories
 
         public ChuongTrinhHocRepository()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbContext"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbConnection"].ConnectionString;
             _context = new QuanLySinhVienDbContext(
                 new DbContextOptionsBuilder<QuanLySinhVienDbContext>()
                     .UseSqlServer(connectionString)
