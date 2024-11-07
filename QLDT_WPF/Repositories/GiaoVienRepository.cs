@@ -68,7 +68,42 @@ public class GiaoVienRepository
     /**
      * Lay giao vien by id
      */
+    public async Task<ApiResponse<GiaoVienDto>> GetById(string id)
+    {
+        // Query
+        var query = await (
+            from gv in _context.GiaoViens
+            where gv.IdGiaoVien == id
+            join k in _context.Khoas on gv.IdKhoa equals k.IdKhoa
+            select new GiaoVienDto
+            {
+                IdGiaoVien = gv.IdGiaoVien,
+                TenGiaoVien = gv.TenGiaoVien,
+                Email = gv.Email,
+                SoDienThoai = gv.SoDienThoai,
+                IdKhoa = gv.IdKhoa,
+                TenKhoa = k.TenKhoa
+            }
+        ).FirstOrDefaultAsync();
 
+        // handle the case not found
+        if (query == null)
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        return new ApiResponse<GiaoVienDto>
+        {
+            Data = query,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Sua thong tin giao vien
