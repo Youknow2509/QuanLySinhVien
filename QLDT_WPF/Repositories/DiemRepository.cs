@@ -402,6 +402,45 @@ public class DiemRepository
     /**
      * Nhập điểm cho sinh viên
      */
+    public async Task<ApiResponse<NhapDiemDto>> NhapDiemSinhVien(NhapDiemDto nhapDiemDto)
+    {
+        if (nhapDiemDto.IdDiem == null)
+        {
+            return new ApiResponse<NhapDiemDto>
+            {
+                Status = false,
+                Message = "Id Diem is required",
+                StatusCode = 400,
+                Data = null
+            };
+        }
+        // Query
+        var qr = _context.Diems.Where(x => x.IdDiem == nhapDiemDto.IdDiem).FirstOrDefault();
+        if (qr == null)
+        {
+            return new ApiResponse<NhapDiemDto>
+            {
+                Status = false,
+                Message = "Id Diem Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+        qr.DiemQuaTrinh = nhapDiemDto.DiemQuaTrinh;
+        qr.DiemKetThuc = nhapDiemDto.DiemKetThuc;
+        qr.DiemTongKet = nhapDiemDto.DiemTongKet;
+
+        _context.Diems.Update(qr);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NhapDiemDto>
+        {
+            Status = true,
+            Message = "Nhập điểm thành công",
+            StatusCode = 200,
+            Data = nhapDiemDto
+        };
+    }
 
     /**
      * Nhap 'List' Diem Sinh Vien
