@@ -445,6 +445,46 @@ public class DiemRepository
     /**
      * Nhap 'List' Diem Sinh Vien
      */
+    public async Task<ApiResponse<List<NhapDiemDto>>> NhapDiemSinhVienList(List<NhapDiemDto> listDiem)
+    {
+        foreach (NhapDiemDto diem in listDiem)
+        {
+            if (diem.IdDiem == null)
+            {
+                return new ApiResponse<List<NhapDiemDto>>
+                {
+                    Status = false,
+                    Message = "Id Diem is required",
+                    StatusCode = 400,
+                    Data = null
+                };
+            }
+            // Query
+            var qr = _context.Diems.Where(x => x.IdDiem == diem.IdDiem).FirstOrDefault();
+            if (qr == null)
+            {
+                return new ApiResponse<List<NhapDiemDto>>
+                {
+                    Status = false,
+                    Message = "Id Diem Not Found",
+                    StatusCode = 404,
+                    Data = null
+                };
+            }
+            qr.DiemQuaTrinh = diem.DiemQuaTrinh;
+            qr.DiemKetThuc = diem.DiemKetThuc;
+            qr.DiemTongKet = diem.DiemTongKet;
+            _context.Diems.Update(qr);
+        }
+        await _context.SaveChangesAsync();
 
+        return new ApiResponse<List<NhapDiemDto>>
+        {
+            Status = true,
+            Message = "Nhập điểm thành công",
+            StatusCode = 200,
+            Data = listDiem
+        };
+    }
 
 }
