@@ -7,5 +7,6 @@ namespace QLDT_WPF.Dto
         public string Email { get; set; }
         public string SoDienThoai { get; set; }
         public string IdKhoa { get; set; }
+        public string? TenKhoa { get; set; }
     }
 }
