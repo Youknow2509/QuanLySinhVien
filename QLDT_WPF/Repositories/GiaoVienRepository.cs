@@ -174,7 +174,7 @@ public class GiaoVienRepository
             {
                 IdClaim = giaoVien.IdGiaoVien,
                 UserName = giaoVien.IdGiaoVien,
-                PasswordHash = _securityHelper.Hash("123456"),
+                PasswordHash = _securityService.Hash("123"),
                 FullName = giaoVien.TenGiaoVien,
                 Email = giaoVien.Email,
                 PhoneNumber = giaoVien.SoDienThoai,
