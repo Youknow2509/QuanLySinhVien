@@ -33,7 +33,7 @@ public class QuanLySinhVienDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            string connectionStrings = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbConnection"];
+            string connectionStrings = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbConnection"].ConnectionString;
             optionsBuilder.UseSqlServer(connectionStrings);
         }
     }

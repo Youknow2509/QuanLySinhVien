@@ -23,7 +23,7 @@ public class IdentityDbContext : IdentityDbContext<UserCustom>
     {
         if (!optionsBuilder.IsConfigured)
         {
-            string connectionStrings = ConfigurationManager.ConnectionStrings["IdentityDbConnection"];
+            string connectionStrings = ConfigurationManager.ConnectionStrings["IdentityDbConnection"].ConnectionString;
             optionsBuilder.UseSqlServer(connectionStrings);
         }
     }

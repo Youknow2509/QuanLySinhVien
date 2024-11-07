@@ -20,7 +20,7 @@ namespace QLDT_WPF.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string connectionStrings = ConfigurationManager.ConnectionStrings["SessionDbConnection"];
+                string connectionStrings = ConfigurationManager.ConnectionStrings["SessionDbConnection"].ConnectionString;
                 optionsBuilder.UseSqlServer(connectionStrings);
             }
         }
