@@ -362,6 +362,42 @@ public class DiemRepository
     /**
      * Lay diem by id lop hoc phan
      */
+    public async Task<ApiResponse<List<DiemDto>>> GetDiemByIdLopHocPhan(string idLopHocPhan)
+    {
+        var qr = await (
+           from lhp in _context.LopHocPhans
+           where lhp.IdLopHocPhan == idLopHocPhan
+           join d in _context.Diems
+               on lhp.IdLopHocPhan equals d.IdLopHocPhan
+           join mon in _context.MonHocs
+               on lhp.IdMonHoc equals mon.IdMonHoc
+           join sv in _context.SinhViens
+               on d.IdSinhVien equals sv.IdSinhVien
+           select new DiemDto
+           {
+               IdDiem = d.IdDiem,
+               IdSinhVien = d.IdSinhVien,
+               IdLopHocPhan = d.IdLopHocPhan,
+               IdMon = mon.IdMonHoc,
+
+               TenSinhVien = sv.HoTen,
+               DiemQuaTrinh = d.DiemQuaTrinh,
+               DiemKetThuc = d.DiemKetThuc,
+               DiemTongKet = d.DiemTongKet,
+               LanHoc = d.LanHoc,
+               TenMonHoc = mon.TenMonHoc,
+               TenLopHocPhan = lhp.TenHocPhan,
+           }
+       ).ToListAsync();
+
+        return new ApiResponse<List<DiemDto>>
+        {
+            Status = true,
+            Message = "Success",
+            StatusCode = 200,
+            Data = qr
+        };
+    }
 
     /**
      * Nhập điểm cho sinh viên
