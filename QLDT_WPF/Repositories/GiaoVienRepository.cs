@@ -113,6 +113,104 @@ public class GiaoVienRepository
     /**
      * Them giao vien
      */
+    public async Task<ApiResponse<GiaoVienDto>> Create(GiaoVienDto giaoVien)
+    {
+        giaoVien.IdGiaoVien = Guid.NewGuid().ToString();
+
+        try
+        {
+            // Convert the DTO to the entity model, assuming your entity model is GiaoVien
+            var giaoVien = new GiaoVien
+            {
+                IdGiaoVien = newGiaoVien.IdGiaoVien,
+                TenGiaoVien = newGiaoVien.TenGiaoVien,
+                Email = newGiaoVien.Email,
+                SoDienThoai = newGiaoVien.SoDienThoai,
+                IdKhoa = newGiaoVien.IdKhoa
+            };
+            // Check duplicate ID, email, phone number
+            if (_context.GiaoViens.Any(gv => gv.IdGiaoVien == giaoVien.IdGiaoVien))
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "ID giáo viên đã tồn tại."
+                };
+            }
+            if (_context.GiaoViens.Any(gv => gv.Email == giaoVien.Email))
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "Email đã tồn tại."
+                };
+            }
+            if (_context.GiaoViens.Any(gv => gv.SoDienThoai == giaoVien.SoDienThoai))
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "Số điện thoại đã tồn tại."
+                };
+            }
+            // Create user identity with default password is 123456
+            // Find id role is GiaoVien
+            var role = _identityContext.Roles.FirstOrDefault(r => r.Name == "GiaoVien");
+            if (role == null)
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "Không tìm thấy role GiaoVien"
+                };
+            }
+
+            // Create new user
+            var user = new UserCustom
+            {
+                IdClaim = giaoVien.IdGiaoVien,
+                UserName = giaoVien.IdGiaoVien,
+                PasswordHash = _securityHelper.Hash("123456"),
+                FullName = giaoVien.TenGiaoVien,
+                Email = giaoVien.Email,
+                PhoneNumber = giaoVien.SoDienThoai,
+            };
+
+            // Add role to user
+            _identityContext.UserRoles.Add(new IdentityUserRole<string>
+            {
+                UserId = user.Id,
+                RoleId = role.Id
+            });
+
+            // Add to database
+            _identityContext.Users.Add(user);
+            _context.GiaoViens.Add(giaoVien);
+            
+            _identityContext.SaveChanges();
+            _context.SaveChanges();
+
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = newGiaoVien,
+                Status = true,
+                Message = "Thêm giáo viên thành công"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = ex.Message
+            };
+        }
+    }
 
 
     /**
