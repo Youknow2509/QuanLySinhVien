@@ -149,6 +149,40 @@ public class DiemRepository
     /**
      * Xoa diem By Id 
      */
+    public async Task<ApiResponse<DiemDto>> Delete(string id)
+    {
+        // Query
+        var query = await (
+            from d in _context.Diems
+            where d.IdDiem == id
+            select d
+        ).FirstOrDefaultAsync();
+
+        // Check if the query is null
+        if (query == null)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Message = "Not Found",
+                StatusCode = 404,
+                Data = null
+            };
+        }
+
+        // Remove the query
+        _context.Diems.Remove(query);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<DiemDto>
+        {
+            Status = true,
+            Message = "Success",
+            StatusCode = 200,
+            Data = null
+        };
+    }
+
 
     /**
      * Trả Về Danh Sách Điểm Của Sinh Viên Với Lần Thi Cuối Cùng, 
