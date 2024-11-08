@@ -216,7 +216,31 @@ public class GiaoVienRepository
     /**
      * Xoa giao vien By Id 
      */
+    public async Task<ApiResponse<GiaoVienDto>> Delete(string id)
+    {
+        var qr = _context.GiaoViens
+            .FirstOrDefault(gv => gv.IdGiaoVien == id);
 
+        if (qr == null)
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        _context.Remove(qr);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<GiaoVienDto>
+        {
+            Data = qr,
+            Status = true,
+            Message = "Xóa giáo viên thành công"
+        };
+    }
 
     /**
      * Admin Xử Lí Cập Nhập Mật Khẩu Giáo Viên
