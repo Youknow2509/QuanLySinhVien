@@ -194,6 +194,33 @@ public class KhoaRepository
     /**
      * Lay sinh vien thuoc khoa
      */
+    public async Task<ApiResponse<List<SinhVienDto>>> GetSinhVien(string id)
+    {
+        var qr = await (
+            from k in _context.Khoas
+            where k.IdKhoa == id
+            join sv in _context.SinhViens
+                on k.IdSinhVien equals sv.IdSinhVien
+            select new SinhVienDto
+            {
+                IdSinhVien = sv.IdSinhVien,
+                IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
+                IdKhoa = sv.IdKhoa,
+
+                HoTen = sv.HoTen,
+                NgaySinh = sv.NgaySinh,
+                DiaChi = sv.DiaChi,
+                Lop = sv.Lop,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<SinhVienDto>
+        {
+            Data = qr,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Lay giao vien thuoc khoa
