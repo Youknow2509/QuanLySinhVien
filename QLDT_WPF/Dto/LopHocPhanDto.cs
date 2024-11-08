@@ -8,5 +8,8 @@ namespace QLDT_WPF.Dto
         public string IdMonHoc { set; get; }
         public DateTime ThoiGianBatDau { set; get; }
         public DateTime ThoiGianKetThuc { set; get; }
+
+        public string? TenGiaoVien { get; set; }
+        public string? TenMonHoc { get; set; }
     }
 }
