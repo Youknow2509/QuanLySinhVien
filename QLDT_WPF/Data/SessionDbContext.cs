@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QLDT_WPF.Models;
+using System.Configuration;
 
 namespace QLDT_WPF.Data
 {
