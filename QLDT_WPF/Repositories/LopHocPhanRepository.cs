@@ -158,7 +158,81 @@ public class LopHocPhanRepository
     /**
      * Them lop hoc phan
      */
+    public async Task<ApiResponse<LopHocPhanDto>> Add(LopHocPhanDto lopHocPhan)
+    {
+        // if id lop hoc phan is null -> generate new id
+        if (lopHocPhan.IdLopHocPhan == null)
+        {
+            lopHocPhan.IdLopHocPhan = Guid.NewGuid().ToString();
+        }
 
+        // Check thoi gian
+        if (lopHocPhan.ThoiGianBatDau >= lopHocPhan.ThoiGianKetThuc)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Thời gian kết thúc phải lớn hơn thời gian bắt đầu"
+            };
+        }
+
+        // Xử lí lớp học phần tạo chỉ được tạo ở tương lai
+        if (lopHocPhan.ThoiGianBatDau < DateTime.Now 
+            || lopHocPhan.ThoiGianKetThuc < DateTime.Now)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Thời gian bắt đầu và kết thúc phải lớn hơn thời gian hiện tại"
+            };
+        }
+
+        // Create new lop hoc phan
+        var newLopHocPhan = new LopHocPhan
+        {
+            IdLopHocPhan = lopHocPhan.IdLopHocPhan,
+            TenHocPhan = lopHocPhan.TenLopHocPhan,
+            IdGiaoVien = lopHocPhan.IdGiaoVien,
+            IdMonHoc = lopHocPhan.IdMonHoc,
+            ThoiGianBatDau = lopHocPhan.ThoiGianBatDau,
+            ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc,
+        };
+
+         // Check giao vien, mon hoc
+        var mon = await _context.MonHocs.FindAsync(lopHocPhan.IdMonHoc);
+        if (mon == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+        var gv = await _context.GiaoViens.FindAsync(lopHocPhan.IdGiaoVien);
+        if (gv == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        // Add new lop hoc phan
+        _context.LopHocPhans.Add(newLopHocPhan);
+        _context.SaveChanges();
+
+        return new ApiResponse<LopHocPhanDto>
+        {
+            Data = lopHocPhan,
+            Success = true,
+            Message = "Thêm lớp học phần thành công"
+        };
+    }
 
     /**
      * Xoa lop hoc phan By Id 
