@@ -127,9 +127,6 @@ public class KhoaRepository
         }
 
         khoa.TenKhoa = khoaDto.TenKhoa;
-        khoa.IdSinhVien = khoaDto.IdSinhVien;
-        khoa.IdGiaoVien = khoaDto.IdGiaoVien;
-        khoa.IdMonHoc = khoaDto.IdMonHoc;
 
         _context.Khoas.Update(khoa);
         await _context.SaveChangesAsync();
@@ -172,6 +169,27 @@ public class KhoaRepository
     /**
      * Xoa khoa By Id 
      */
+    public async Task<ApiResponse<KhoaDto>> Delete(string id)
+    {
+        var khoa = _context.Khoas.FirstOrDefault(k => k.IdKhoa == id);
+
+        if (khoa == null)
+        {
+            return new ApiResponse<KhoaDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy khoa"
+            };
+        }
+
+        return new ApiResponse<KhoaDto>
+        {
+            Data = null,
+            Success = true,
+            Message = "Xóa dữ liệu thành công"
+        };
+    }
 
     /**
      * Lay sinh vien thuoc khoa
