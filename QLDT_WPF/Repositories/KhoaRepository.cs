@@ -225,5 +225,29 @@ public class KhoaRepository
     /**
      * Lay giao vien thuoc khoa
      */
+    public async Task<ApiResponse<List<GiaoVienDto>>> GetGiaoVien(string id)
+    {
+        var qr = await (
+            from k in _context.Khoas
+            where k.IdKhoa == id
+            join gv in _context.GiaoViens
+                on k.IdGiaoVien equals gv.IdGiaoVien
+            select new GiaoVienDto
+            {
+                IdGiaoVien = gv.IdGiaoVien,
+                IdKhoa = gv.IdKhoa,
 
+                TenGiaoVien = gv.HoTen,
+                SoDienThoai = gv.SoDienThoai,
+                Email = gv.Email,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<GiaoVienDto>
+        {
+            Data = qr,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 }
