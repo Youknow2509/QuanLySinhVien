@@ -332,7 +332,7 @@ public class GiaoVienRepository
 
         // Update password
         user.PasswordHash = _securityService.Hash(passwordDto.NewPassword);
-        
+
         _identityContext.Users.Update(user);
         await _identityContext.SaveChangesAsync();
 
@@ -347,6 +347,44 @@ public class GiaoVienRepository
     /**
      * Xử Lí Cập Nhập Mật Khẩu Giáo Viên - Từ Chính Giáo Viên
      */
+    public async Task<ApiResponse<GiaoVienDto>> ChangePassword(UpdatePasswordDto passwordDto)
+    {
+        var user = await _identityContext.Users
+            .FirstOrDefaultAsync(u => u.IdClaim == passwordDto.IdGiaoVien);
 
+        if (user == null)
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        // Check old password
+        if (!_securityService.Verify(passwordDto.OldPassword, user.PasswordHash))
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Mật khẩu cũ không đúng"
+            };
+        }
+
+        // Update password
+        user.PasswordHash = _securityService.Hash(passwordDto.NewPassword);
+
+        _identityContext.Users.Update(user);
+        await _identityContext.SaveChangesAsync();
+
+        return new ApiResponse<GiaoVienDto>
+        {
+            Data = null,
+            Status = true,
+            Message = "Cập nhật mật khẩu thành công"
+        };
+    }
 
 }
