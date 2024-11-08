@@ -37,6 +37,13 @@ public class GiaoVienRepository
         _securityService = new SecurityService();
     }
 
+    // Dispose
+    public void Dispose()
+    {
+        _context.Dispose();
+        _securityService.Dispose();
+    }
+
     /**
      * Lay tat ca giao vien
      */
@@ -190,7 +197,7 @@ public class GiaoVienRepository
             // Add to database
             _identityContext.Users.Add(user);
             _context.GiaoViens.Add(giaoVien);
-            
+
             _identityContext.SaveChanges();
             _context.SaveChanges();
 

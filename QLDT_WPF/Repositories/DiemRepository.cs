@@ -23,6 +23,12 @@ public class DiemRepository
                 .Options);
     }
 
+    // Dispose
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
+
     /**
      * Lay tat ca diem
      */
