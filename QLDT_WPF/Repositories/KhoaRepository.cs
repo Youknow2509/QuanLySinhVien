@@ -111,19 +111,63 @@ public class KhoaRepository
     }
 
     /**
-     * Lay khoa by id
-     */
-
-
-    /**
      * Sua thong tin khoa
      */
+    public async Task<ApiResponse<KhoaDto>> Update(KhoaDto khoaDto)
+    {
+        var khoa = await _context.Khoas.FirstOrDefaultAsync(k => k.IdKhoa == khoaDto.Id);
+        if (khoa == null)
+        {
+            return new ApiResponse<KhoaDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy khoa"
+            };
+        }
 
+        khoa.TenKhoa = khoaDto.TenKhoa;
+        khoa.IdSinhVien = khoaDto.IdSinhVien;
+        khoa.IdGiaoVien = khoaDto.IdGiaoVien;
+        khoa.IdMonHoc = khoaDto.IdMonHoc;
+
+        _context.Khoas.Update(khoa);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<KhoaDto>
+        {
+            Data = khoaDto,
+            Success = true,
+            Message = "Sửa dữ liệu thành công"
+        };
+    }
 
     /**
      * Them khoa
      */
+    public async Task<ApiResponse<KhoaDto>> Add(KhoaDto khoa)
+    {
+        if (khoa.IdKhoa == null) 
+        {
+            khoa.IdKhoa = Guid.NewGuid().ToString();
+        }
 
+        var newKhoa = new Khoa
+        {
+            IdKhoa = khoa.IdKhoa,
+            TenKhoa = khoa.TenKhoa,
+        };
+
+        await _context.Khoas.AddAsync(newKhoa);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<KhoaDto>
+        {
+            Data = khoa,
+            Success = true,
+            Message = "Thêm dữ liệu thành công"
+        };
+    }
 
     /**
      * Xoa khoa By Id 
