@@ -63,6 +63,34 @@ public class LopHocPhanRepository
     /**
      * Lay lop hoc phan by id
      */
+    public async Task<ApiResponse<LopHocPhanDto>> GetById(int id)
+    {
+        // Query
+        var query = await (
+            from lhp in _context.LopHocPhans
+            join gv in _context.GiaoViens on lhp.IdGiaoVien equals gv.IdGiaoVien
+            join mh in _context.MonHocs on lhp.IdMonHoc equals mh.IdMonHoc
+            where lhp.IdLopHocPhan == id
+            select new LopHocPhanDto
+            {
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mh.TenMonHoc,
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdGiaoVien = gv.IdGiaoVien,
+                IdMonHoc = mh.IdMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+            }
+        ).FirstOrDefaultAsync();
+
+        return new ApiResponse<LopHocPhanDto>
+        {
+            Data = query,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Lay lop hoc phan by id
