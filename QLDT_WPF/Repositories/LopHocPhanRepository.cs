@@ -3,6 +3,7 @@ using System.Linq;
 
 //
 using QLDT_WPF.Data;
+using QLDT_WPF.Dto;
 
 namespace QLDT_WPF.Repositories;
 
@@ -31,7 +32,33 @@ public class LopHocPhanRepository
     /**
      * Lay tat ca lop hoc phan
      */
+    public async Task<ApiResponse<List<LopHocPhanDto>>> GetAll()
+    {
+        // Query
+        var query = await (
+            from lhp in _context.LopHocPhans
+            join gv in _context.GiaoViens on lhp.IdGiaoVien equals gv.IdGiaoVien
+            join mh in _context.MonHocs on lhp.IdMonHoc equals mh.IdMonHoc
+            select new LopHocPhanDto
+            {
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mh.TenMonHoc,
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdGiaoVien = gv.IdGiaoVien,
+                IdMonHoc = mh.IdMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+            }
+        ).ToListAsync();
 
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
+            Data = query,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Lay lop hoc phan by id
