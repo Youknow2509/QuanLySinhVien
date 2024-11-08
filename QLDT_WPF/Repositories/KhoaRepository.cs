@@ -9,8 +9,24 @@ namespace QLDT_WPF.Repositories;
 public class KhoaRepository
 {
     // Variables
+    private readonly QuanLySinhVienDbContext _context;
 
     // Constructor
+    public KhoaRepository()
+    {
+        // Connect to database QuanLySinhVienDbContext
+        var connectionString = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbConnection"].ConnectionString;
+        _context = new QuanLySinhVienDbContext(
+            new DbContextOptionsBuilder<QuanLySinhVienDbContext>()
+                .UseSqlServer(connectionString)
+                .Options);
+    }
+    
+    // Dispose
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     /**
      * Lay tat ca khoa
@@ -47,5 +63,5 @@ public class KhoaRepository
     /**
      * Lay giao vien thuoc khoa
      */
-    
+
 }
