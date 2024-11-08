@@ -93,14 +93,67 @@ public class LopHocPhanRepository
     }
 
     /**
-     * Lay lop hoc phan by id
-     */
-
-
-    /**
      * Sua thong tin lop hoc phan
      */
+    public async Task<ApiResponse<LopHocPhanDto>> Edit(LopHocPhanDto lopHocPhan)
+    {
+        // find lhp
+        var qr = await (
+            from lhp in _context.LopHocPhans
+            where lhp.IdLopHocPhan == IdLopHocPhan
+            select lhp
+        ).FirstOrDefaultAsync();
 
+        if (qr == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        // Update lop hoc phan
+        qr.TenHocPhan = lopHocPhan.TenLopHocPhan;
+        qr.IdGiaoVien = lopHocPhan.IdGiaoVien;
+        qr.IdMonHoc = lopHocPhan.IdMonHoc;
+        qr.ThoiGianBatDau = lopHocPhan.ThoiGianBatDau;
+        qr.ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc;
+
+        // Check giao vien, mon hoc
+        var mon = await _context.MonHocs.FindAsync(lopHocPhan.IdMonHoc);
+        var gv = await _context.GiaoViens.FindAsync(lopHocPhan.IdGiaoVien);
+        if (mon == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+        if (gv == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        // Save
+        _context.LopHocPhans.Update(qr);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<LopHocPhanDto>
+        {
+            Data = lopHocPhan,
+            Success = true,
+            Message = "Sửa thông tin lớp học phần thành công"
+        };
+    }
 
     /**
      * Them lop hoc phan
