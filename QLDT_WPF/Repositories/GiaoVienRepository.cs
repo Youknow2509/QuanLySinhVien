@@ -115,7 +115,70 @@ public class GiaoVienRepository
     /**
      * Sua thong tin giao vien
      */
+    public async Task<ApiResponse<GiaoVienDto>> Edit(GiaoVienDto giaoVien)
+    {
+        try
+        {
+            // Convert the DTO to the entity model, assuming your entity model is GiaoVien
+            var gv = new GiaoVien
+            {
+                IdGiaoVien = giaoVien.IdGiaoVien,
+                TenGiaoVien = giaoVien.TenGiaoVien,
+                Email = giaoVien.Email,
+                SoDienThoai = giaoVien.SoDienThoai,
+                IdKhoa = giaoVien.IdKhoa
+            };
 
+            // Check duplicate ID, email, phone number
+            if (_context.GiaoViens.Any(gv => gv.IdGiaoVien == giaoVien.IdGiaoVien))
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "ID giáo viên đã tồn tại."
+                };
+            }
+            if (_context.GiaoViens.Any(gv => gv.Email == giaoVien.Email))
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "Email đã tồn tại."
+                };
+            }
+            if (_context.GiaoViens.Any(gv => gv.SoDienThoai == giaoVien.SoDienThoai))
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Data = null,
+                    Status = false,
+                    Message = "Số điện thoại đã tồn tại."
+                };
+            }
+
+            // Update to database
+            _context.GiaoViens.Update(gv);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = giaoVien,
+                Status = true,
+                Message = "Sửa thông tin giáo viên thành công"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = ex.Message
+            };
+        }
+    }
 
     /**
      * Them giao vien
