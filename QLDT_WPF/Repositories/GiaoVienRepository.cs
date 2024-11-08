@@ -315,6 +315,34 @@ public class GiaoVienRepository
     /**
      * Admin Xử Lí Cập Nhập Mật Khẩu Giáo Viên
      */
+    public async Task<ApiResponse<GiaoVienDto>> AdminChangePassword(AdminUpdatePasswordDto passwordDto)
+    {
+        var user = await _identityContext.Users
+            .FirstOrDefaultAsync(u => u.IdClaim == passwordDto.IdGiaoVien);
+
+        if (user == null)
+        {
+            return new ApiResponse<GiaoVienDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        // Update password
+        user.PasswordHash = _securityService.Hash(passwordDto.NewPassword);
+        
+        _identityContext.Users.Update(user);
+        await _identityContext.SaveChangesAsync();
+
+        return new ApiResponse<GiaoVienDto>
+        {
+            Data = null,
+            Status = true,
+            Message = "Cập nhật mật khẩu thành công"
+        };
+    }
 
     /**
      * Xử Lí Cập Nhập Mật Khẩu Giáo Viên - Từ Chính Giáo Viên
