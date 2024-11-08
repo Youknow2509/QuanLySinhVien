@@ -237,6 +237,31 @@ public class LopHocPhanRepository
     /**
      * Xoa lop hoc phan By Id 
      */
+    public async Task<ApiResponse<LopHocPhanDto>> Delete(string id)
+    {
+        // Find lop hoc phan
+        var lopHocPhan = await _context.LopHocPhans.FindAsync(id);
+        if (lopHocPhan == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        // Remove lop hoc phan
+        _context.LopHocPhans.Remove(lopHocPhan);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<LopHocPhanDto>
+        {
+            Data = null,
+            Success = true,
+            Message = "Xóa lớp học phần thành công"
+        };
+    }
 
     /** 
      * Get lop hoc phan cua sinh vien tu id
