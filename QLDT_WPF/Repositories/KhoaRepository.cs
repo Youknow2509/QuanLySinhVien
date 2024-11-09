@@ -55,10 +55,22 @@ public class KhoaRepository
     /**
      * Lay khoa by id
      */
-    public async Task<ApiResponse<List<KhoaDto>>> GetById(string id)
+    public async Task<ApiResponse<KhoaDto>> GetById(string id)
     {
-        // TODO 
-        return null;
+        var khoa = await (
+            from kh in _context.Khoas
+            where kh.IdKhoa == id
+            select new KhoaDto{
+                IdKhoa = kh.IdKhoa,
+                TenKhoa = kh.TenKhoa
+            }
+        ).FirstOrDefaultAsync();
+        return new ApiResponse<KhoaDto>
+        {
+            Data = khoa,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 
     /**
