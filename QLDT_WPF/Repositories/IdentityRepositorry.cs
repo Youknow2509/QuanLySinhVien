@@ -55,11 +55,11 @@ namespace QLDT_WPF.Repositories
                     IdClaim = x.IdClaim,
                     UserName = x.UserName,
                     Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
+                    Phone = x.PhoneNumber,
                     FullName = x.FullName,
                     Address = x.Address,
-                    IdRole = x.UserRoles.RoleId,
-                    RoleName = x.Roles.RoleName
+                    IdRole = x.UserRoles.FirstOrDefault()?.RoleId,
+                    RoleName = x.Roles.FirstOrDefault()?.RoleName
                 })
                 .ToListAsync();
 
@@ -69,6 +69,35 @@ namespace QLDT_WPF.Repositories
                 StatusCode = 200,
                 Message = "Lấy danh sách người dùng thành công.",
                 Data = list_users
+            };
+        }
+    
+        // Get all sinh vien
+        public async Task<ApiResponse<List<SinhVienDto>>> GetAllSinhVien()
+        {
+            var list_sinhvien = await _context.SinhViens
+                .Include(x => x.Khoa)
+                .Select(x => new SinhVienDto
+                {
+                    IdSinhVien = x.IdSinhVien,
+                    IdKhoa = x.IdKhoa,
+                    IdChuongTrinhHoc = x.IdChuongTrinhHoc,
+                    HoTen = x.HoTen,
+                    Lop = x.Lop,  
+                    NgaySinh = x.NgaySinh,
+                    DiaChi = x.DiaChi,
+                    TenKhoa = x.Khoa.TenKhoa, 
+                    SoDienThoai = x.SoDienThoai,
+                    Email = x.Email,
+                })
+                .ToListAsync();
+
+            return new ApiResponse<List<SinhVienDto>>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Lấy danh sách sinh viên thành công.",
+                Data = list_sinhvien
             };
         }
     }
