@@ -465,6 +465,61 @@ namespace QLDT_WPF.Repositories
             };
         }
 
+        // Upgrade information SinhVien
+        public async Task<ApiResponse<SinhVienDto>> UpgradeSinhVien(SinhVienDto sinhVien)
+        {
+            // Find the existing sinh vien
+            var existingSinhVien = await _context.SinhViens
+                .FirstOrDefaultAsync(x => x.IdSinhVien == sinhVien.IdSinhVien);
+            if (existingSinhVien == null)
+            {
+                return new ApiResponse<SinhVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy sinh viên.",
+                    Data = null
+                };
+            }
+            
+            // Update the existing sinh vien
+            existingSinhVien.HoTen = sinhVien.HoTen;
+            existingSinhVien.Lop = sinhVien.Lop;
+            existingSinhVien.NgaySinh = sinhVien.NgaySinh;
+            existingSinhVien.DiaChi = sinhVien.DiaChi;
+            // Save the changes
+            await _context.SaveChangesAsync();
+
+            // Upgrade user information
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.IdClaim == sinhVien.IdSinhVien);
+            if (user == null)
+            {
+                return new ApiResponse<SinhVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy người dùng.",
+                    Data = null
+                };
+            }
+
+            user.Email = sinhVien.Email;
+            user.PhoneNumber = sinhVien.SoDienThoai;
+            user.FullName = sinhVien.HoTen;
+            user.Address = sinhVien.DiaChi;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+            
+            return new Task<ApiResponse<SinhVienDto>>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Cập nhật sinh viên thành công.",
+                Data = sinhVien
+            };
+        }
+
         // Helper check user name, email, phone number exist
         private async Task<(bool status, string message)> CheckExist(string username, string email, string phone)
         {
