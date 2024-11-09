@@ -178,7 +178,7 @@ public class LopHocPhanRepository
         }
 
         // Xử lí lớp học phần tạo chỉ được tạo ở tương lai
-        if (lopHocPhan.ThoiGianBatDau < DateTime.Now 
+        if (lopHocPhan.ThoiGianBatDau < DateTime.Now
             || lopHocPhan.ThoiGianKetThuc < DateTime.Now)
         {
             return new ApiResponse<LopHocPhanDto>
@@ -200,7 +200,7 @@ public class LopHocPhanRepository
             ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc,
         };
 
-         // Check giao vien, mon hoc
+        // Check giao vien, mon hoc
         var mon = await _context.MonHocs.FindAsync(lopHocPhan.IdMonHoc);
         if (mon == null)
         {
@@ -267,7 +267,7 @@ public class LopHocPhanRepository
      * Get lop hoc phan cua sinh vien tu id
      */
     public async Task<ApiResponse<List<LopHocPhanDto>>> GetLopHocPhansFromSinhVien(string id)
-    {   
+    {
         // check sv exist
         var sv_c = await _context.SinhViens.FirstOrDefaultAsync(x => x.IdSinhVien == id);
         if (sv_c == null)
@@ -282,11 +282,11 @@ public class LopHocPhanRepository
         // Query
         var query = await (
             from sv in sv_c
-            join svlhp in _context.SinhVienLopHocPhans 
+            join svlhp in _context.SinhVienLopHocPhans
                 on sv.IdSinhVien equals svlhp.IdSinhVien
-            join lhp in _context.LopHocPhans 
+            join lhp in _context.LopHocPhans
                 on svlhp.IdLopHocPhan equals lhp.IdLopHocPhan
-            join gv in _context.GiaoViens 
+            join gv in _context.GiaoViens
                 on lhp.IdGiaoVien equals gv.IdGiaoVien
             join mon in _context.MonHocs
                 on lhp.IdMonHoc equals mon.IdMonHoc
@@ -310,10 +310,50 @@ public class LopHocPhanRepository
             Message = "Lấy dữ liệu thành công"
         };
     }
-    
+
     /** 
      * Get lop hoc phan cua giao vien tu id
      */
+    public async Task<ApiResponse<List<LopHocPhanDto>>> GetLopHocPhansFromGiaoVien(string id)
+    {
+        var gv_c = await _context.GiaoViens
+            .FirstOrDefaultAsync(x => x.IdGiaoVien == id);
+
+        if (gv_c == null)
+        {
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không Tìm Thấy Giáo Viên",
+            };
+        }
+
+        vả qr = await (
+            from gv in gv_c
+            join lhp in _context.LopHocPhans
+                on gv.IdGiaoVien equals lhp.IdGiaoVien
+            join mon in _context.MonHocs
+                on mon.IdLopHocPhan equals lhp.IdLopHocPhan
+            select new LopHocPhanDto
+            {
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mon.TenMonHoc,
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdGiaoVien = gv.IdGiaoVien,
+                IdMonHoc = mon.IdMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>{
+            Data = query,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Get lop hoc phan tu id mon hoc
@@ -327,5 +367,5 @@ public class LopHocPhanRepository
      * Thêm thời gian cho lớp học phần
      */
 
-    
+
 }
