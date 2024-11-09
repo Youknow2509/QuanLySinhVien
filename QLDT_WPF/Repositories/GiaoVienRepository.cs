@@ -183,18 +183,6 @@ public class GiaoVienRepository
     }
 
     /**
-     * Them giao vien
-     */
-    public async Task<ApiResponse<GiaoVienDto>> Create(GiaoVienDto giaoVien)
-    {
-        giaoVien.IdGiaoVien = Guid.NewGuid().ToString();
-
-        // TODO
-        return null;
-    }
-
-
-    /**
      * Xoa giao vien By Id 
      */
     public async Task<ApiResponse<GiaoVienDto>> Delete(string id)
@@ -215,7 +203,12 @@ public class GiaoVienRepository
         _context.Remove(qr);
         await _context.SaveChangesAsync();
 
-        return null; // TODO
+        return new ApiResponse<GiaoVienDto>
+        {
+            Data = null,
+            Status = true,
+            Message = "Xóa giáo viên thành công"
+        };
     }
 
     /**
