@@ -45,7 +45,7 @@ public class KhoaRepository
             }
         ).ToListAsync();
 
-        return new Task<ApiResponse<List<KhoaDto>>>{
+        return new ApiResponse<List<KhoaDto>>{
             Data = khoa,
             Status = true,
             Message = "Lấy dữ liệu thành công"
