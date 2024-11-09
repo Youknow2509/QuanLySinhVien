@@ -520,6 +520,60 @@ namespace QLDT_WPF.Repositories
             };
         }
 
+        // Upgrade information GiaoVien
+        public async Task<ApiResponse<GiaoVienDto>> UpgradeGiaoVien(GiaoVienDto giaovien)
+        {
+            // Find the existing giao vien
+            var existingGiaoVien = await _context.GiaoViens
+                .FirstOrDefaultAsync(x => x.IdGiaoVien == giaovien.IdGiaoVien);
+            if (existingGiaoVien == null)
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy giáo viên.",
+                    Data = null
+                };
+            }
+            
+            // Update the existing giao vien
+            existingGiaoVien.TenGiaoVien = giaovien.TenGiaoVien;
+            existingGiaoVien.Email = giaovien.Email;
+            existingGiaoVien.SoDienThoai = giaovien.SoDienThoai;
+            existingGiaoVien.IdKhoa = giaovien.IdKhoa;
+            // Save the changes
+            await _context.SaveChangesAsync();
+
+            // Upgrade user information
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.IdClaim == giaovien.IdGiaoVien);
+            if (user == null)
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy người dùng.",
+                    Data = null
+                };
+            }
+
+            user.Email = giaovien.Email;
+            user.PhoneNumber = giaovien.SoDienThoai;
+            user.FullName = giaovien.TenGiaoVien;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+            
+            return new Task<ApiResponse<GiaoVienDto>>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Cập nhật giáo viên thành công.",
+                Data = giaovien
+            };
+        }
+
         // Helper check user name, email, phone number exist
         private async Task<(bool status, string message)> CheckExist(string username, string email, string phone)
         {
