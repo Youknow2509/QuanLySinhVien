@@ -82,6 +82,8 @@ namespace QLDT_WPF.Repositories
                 from x in _context.SinhViens
                 join y in _context.Khoas
                     on x.IdKhoa equals y.IdKhoa
+                join z in _dbContext.Users
+                    on x.IdSinhVien equals z.IdClaim
                 select new SinhVienDto
                 {
                     IdSinhVien = x.IdSinhVien,
@@ -92,8 +94,8 @@ namespace QLDT_WPF.Repositories
                     NgaySinh = x.NgaySinh,
                     DiaChi = x.DiaChi,
                     TenKhoa = y.TenKhoa,
-                    SoDienThoai = x.SoDienThoai,
-                    Email = x.Email,
+                    SoDienThoai = z.PhoneNumber,
+                    Email = z.Email,
                 })
                 .ToListAsync();
 
