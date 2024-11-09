@@ -193,14 +193,14 @@ namespace QLDT_WPF.Repositories
             var user = new UserCustom
             {
                 UserName = sinhVien.IdSinhVien,
-                IdClaims = sinhVien.IdSinhVien,
+                IdClaim = sinhVien.IdSinhVien,
                 Email = sinhVien.Email,
                 PhoneNumber = sinhVien.SoDienThoai,
                 FullName = sinhVien.HoTen,
                 Address = sinhVien.DiaChi,
                 PasswordHash = _securityService.Hash(password),
             };
-            if (CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai).status)
+            if (await CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai).status)
             {
                 return new ApiResponse<SinhVienDto>
                 {
