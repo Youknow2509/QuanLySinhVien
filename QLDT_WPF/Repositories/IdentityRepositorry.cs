@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System.Configuration;
 //
 using QLDT_WPF.Data;
@@ -179,7 +180,9 @@ namespace QLDT_WPF.Repositories
                 Status = true,
                 StatusCode = 200,
                 Message = "Tạo người dùng thành công.",
-                Data = userDto
+                Data = new UserDto {
+                    UserName = username,
+                }
             };
         }
     }
