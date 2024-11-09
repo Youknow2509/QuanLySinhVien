@@ -9,6 +9,7 @@ using QLDT_WPF.Data;
 using QLDT_WPF.Models;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Views.Login;
+using QLDT_WPF.Services;
 
 namespace QLDT_WPF.Repositories
 {
@@ -16,6 +17,7 @@ namespace QLDT_WPF.Repositories
     {
         private readonly QuanLySinhVienDbContext _context;
         private readonly IdentityDbContext _dbContext;
+        private readonly SecurityService _securityService;
 
         public IdentityRepository()
         {
@@ -35,6 +37,8 @@ namespace QLDT_WPF.Repositories
                     .UseSqlServer(identityConnectionString)
                     .Options);
 
+            // Init security service
+            _securityService = new SecurityService();
         }
 
         // Dispose
@@ -133,6 +137,49 @@ namespace QLDT_WPF.Repositories
                 StatusCode = 200,
                 Message = "Lấy danh sách giáo viên thành công.",
                 Data = list_gv
+            };
+        }
+
+        // Create admin user
+        public async Task<ApiResponse<UserDto>> CreateAdminUser(string username, string password)
+        {
+            // Add user
+            var user = new UserCustom
+            {
+                UserName = username,
+                PasswordHash = _securityService.Hash(password),
+            };
+            var result = await _dbContext.Users.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
+
+            // Add role
+            var adminRole = _dbContext.Roles.FirstOrDefault(x => x.Name.ToUpper() == "ADMIN");
+            if (adminRole == null)
+            {
+                return new ApiResponse<UserDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy role ADMIN.",
+                    Data = null
+                };
+            }
+
+            var userRole = new UserRoles
+            {
+                UserId = user.Id,
+                RoleId = adminRole.Id,
+            };
+
+            await _dbContext.UserRoles.AddAsync(userRole);
+            await _dbContext.SaveChangesAsync();
+
+            return new ApiResponse<UserDto>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Tạo người dùng thành công.",
+                Data = userDto
             };
         }
     }
