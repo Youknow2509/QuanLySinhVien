@@ -271,6 +271,75 @@ namespace QLDT_WPF.Repositories
             };
         }
 
+        // create giao vien
+        public async Task<ApiResponse<GiaoVienDto>> CreateGiaoVienUser(GiaoVienDto giaoVien, string password)
+        {
+            // Add user
+            var user = new UserCustom
+            {
+                UserName = giaoVien.IdGiaoVien,
+                IdClaim = giaoVien.IdGiaoVien,
+                Email = giaoVien.Email,
+                PhoneNumber = giaoVien.SoDienThoai,
+                FullName = giaoVien.TenGiaoVien,
+                PasswordHash = _securityService.Hash(password),
+            };
+            // Check if user, email, or phone number already exists
+            var checkResult = await CheckExist(giaoVien.Email, giaoVien.Email, giaoVien.SoDienThoai);
+            if (checkResult.status)
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = checkResult.message,
+                    Data = null
+                };
+            }
+            var result = await _dbContext.Users.AddAsync(user);
+            // Add role
+            var giaoVienRole = _dbContext.Roles
+                .FirstOrDefault(x => x.Name.ToUpper() == "GIAOVIEN");
+            var userRole = new IdentityUserRole<string>
+            {
+                UserId = user.Id,
+                RoleId = giaoVienRole.Id,
+            };
+            await _dbContext.UserRoles.AddAsync(userRole);
+            // add giao vien
+            var gv = new GiaoVien
+            {
+                IdGiaoVien = giaoVien.IdGiaoVien,
+                TenGiaoVien = giaoVien.TenGiaoVien,
+                Email = giaoVien.Email,
+                SoDienThoai = giaoVien.SoDienThoai,
+                IdKhoa = giaoVien.IdKhoa,
+            };
+            // Check khoa
+            var khoa = await _context.Khoas.FirstOrDefaultAsync(x => x.IdKhoa == giaoVien.IdKhoa);
+            if (khoa == null)
+            {
+                return new ApiResponse<GiaoVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy khoa.",
+                    Data = null
+                };
+            }
+            var result_gv = await _context.GiaoViens.AddAsync(gv);
+
+            // Save changes
+            await _dbContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return new ApiResponse<GiaoVienDto>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Tạo giáo viên thành công.",
+            };
+        }
+
         // Helper check user name, email, phone number exist
         private async Task<(bool status, string message)> CheckExist(string username, string email, string phone)
         {
