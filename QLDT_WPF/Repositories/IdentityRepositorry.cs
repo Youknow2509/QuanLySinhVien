@@ -8,6 +8,7 @@ using System.Configuration;
 using QLDT_WPF.Data;
 using QLDT_WPF.Models;
 using QLDT_WPF.Dto;
+using QLDT_WPF.Views.Login;
 
 namespace QLDT_WPF.Repositories
 {
@@ -105,6 +106,33 @@ namespace QLDT_WPF.Repositories
                 StatusCode = 200,
                 Message = "Lấy danh sách sinh viên thành công.",
                 Data = list_sinhvien
+            };
+        }
+
+        // Get all giao vien
+        public async Task<ApiResponse<List<GiaoVienDto>>> GetAllGiaoVien()
+        {
+            var list_gv = await (
+                from gv in _context.GiaoViens
+                join khoa in _context.Khoas
+                    on gv.IdKhoa equals khoa.IdKhoa
+                select new GiaoVienDto
+                {
+                    IdGiaoVien = gv.IdGiaoVien,
+                    TenGiaoVien = gv.TenGiaoVien,
+                    Email = gv.Email,
+                    SoDienThoai = gv.SoDienThoai,
+                    IdKhoa = gv.IdKhoa,
+                    TenKhoa = khoa.TenKhoa,
+                }
+            ).ToListAsync();
+
+            return new ApiResponse<List<GiaoVienDto>>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Lấy danh sách giáo viên thành công.",
+                Data = list_gv
             };
         }
     }
