@@ -166,7 +166,7 @@ namespace QLDT_WPF.Repositories
                 };
             }
 
-            var userRole = new UserRoles
+            var userRole = new IdentityUserRole<string>
             {
                 UserId = user.Id,
                 RoleId = adminRole.Id,
