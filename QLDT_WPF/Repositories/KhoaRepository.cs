@@ -36,8 +36,20 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<KhoaDto>>> GetAll()
     {
-        // TODO
-        return null;
+        var khoa = await (
+            from k in _context.Khoas
+            select new KhoaDto
+            {
+                IdKhoa = k.IdKhoa,
+                TenKhoa = k.TenKhoa
+            }
+        ).ToListAsync();
+
+        return new Task<ApiResponse<List<KhoaDto>>>{
+            Data = khoa,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 
     /**
