@@ -185,5 +185,113 @@ namespace QLDT_WPF.Repositories
                 }
             };
         }
+
+        // Create sinh vien
+        public async Task<ApiResponse<SinhVienDto>> CreateSinhVienUser(SinhVienDto sinhVien, string password)
+        {
+            // Add user
+            var user = new UserCustom
+            {
+                UserName = sinhVien.IdSinhVien,
+                IdClaims = sinhVien.IdSinhVien,
+                Email = sinhVien.Email,
+                PhoneNumber = sinhVien.SoDienThoai,
+                FullName = sinhVien.HoTen,
+                Address = sinhVien.DiaChi,
+                PasswordHash = _securityService.Hash(password),
+            };
+            if (CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai).status)
+            {
+                return new ApiResponse<SinhVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai).message,
+                    Data = null
+                };
+            }
+            var result = await _dbContext.Users.AddAsync(user);
+            // Add role
+            var sinhVienRole = _dbContext.Roles
+                .FirstOrDefault(x => x.Name.ToUpper() == "SINHVIEN");
+            var userRole = new IdentityUserRole<string>{
+                UserId = user.Id,
+                RoleId = sinhVienRole.Id,
+            };
+            await _dbContext.UserRoles.AddAsync(userRole);
+            // add sinh vien
+            var sv = new SinhVien
+            {
+                IdSinhVien = sinhVien.IdSinhVien,
+                IdKhoa = sinhVien.IdKhoa,
+                IdChuongTrinhHoc = sinhVien.IdChuongTrinhHoc,
+                HoTen = sinhVien.HoTen,
+                Lop = sinhVien.Lop,
+                NgaySinh = sinhVien.NgaySinh,
+                DiaChi = sinhVien.DiaChi,
+            };
+            // Check khoa, chuong trinh hoc
+            var khoa = await _context.Khoas.FirstOrDefaultAsync(x => x.IdKhoa == sinhVien.IdKhoa);
+            if (khoa == null)
+            {
+                return new ApiResponse<SinhVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy khoa.",
+                    Data = null
+                };
+            }
+            var cth = await _context.ChuongTrinhHocs.FirstOrDefaultAsync(x => x.IdChuongTrinhHoc == sinhVien.IdChuongTrinhHoc);
+            if (cth == null)
+            {
+                return new ApiResponse<SinhVienDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy chương trình học.",
+                    Data = null
+                };
+            }
+            var result_sv = await _context.SinhViens.AddAsync(sv);
+
+            // Save changes
+            await _dbContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Tạo sinh viên thành công.",
+                Data = sinhVien
+            };
+        }
+
+        // Helper check user name, email, phone number exist
+        private async Task<(bool status, string message)> CheckExist(string username, string email, string phone)
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.UserName == username);
+            if (user != null)
+            {
+                return (true, "Tên đăng nhập đã tồn tại.");
+            }
+
+            user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.Email == email);
+            if (user != null)
+            {
+                return (true, "Email đã tồn tại.");
+            }
+
+            user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.PhoneNumber == phone);
+            if (user != null)
+            {
+                return (true, "Số điện thoại đã tồn tại.");
+            }
+
+            return (false, "");
+        }
     }
 }
