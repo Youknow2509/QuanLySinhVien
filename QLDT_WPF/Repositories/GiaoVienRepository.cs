@@ -53,7 +53,8 @@ public class GiaoVienRepository
         // Query
         var query = await (
             from gv in _context.GiaoViens
-            join k in _context.Khoas on gv.IdKhoa equals k.IdKhoa
+            join k in _context.Khoas 
+                on gv.IdKhoa equals k.IdKhoa
             select new GiaoVienDto
             {
                 IdGiaoVien = gv.IdGiaoVien,
@@ -64,8 +65,13 @@ public class GiaoVienRepository
                 TenKhoa = k.TenKhoa
             }
         ).ToListAsync();
-        //TODO
-        return null;
+        
+        return new ApiResponse<List<GiaoVienDto>>
+        {
+            Data = query,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 
     /**
