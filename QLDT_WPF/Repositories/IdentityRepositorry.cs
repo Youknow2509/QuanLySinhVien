@@ -46,20 +46,23 @@ namespace QLDT_WPF.Repositories
         // Get all users
         public async Task<ApiResponse<List<UserDto>>> GetAll()
         {
-            var list_users = await _dbContext.Users
-                .Include(x => x.UserRoles)
-                .Include(x => x.Roles)
-                .Select(x => new UserDto
+            var list_users = await (
+                from user in _dbContext.Users
+                join userRole in _dbContext.UserRoles
+                    on user.Id equals userRole.UserId
+                join role in _dbContext.Roles
+                    on userRole.RoleId equals role.Id
+                select new UserDto
                 {
-                    Id = x.Id,
-                    IdClaim = x.IdClaim,
-                    UserName = x.UserName,
-                    Email = x.Email,
-                    Phone = x.PhoneNumber,
-                    FullName = x.FullName,
-                    Address = x.Address,
-                    IdRole = x.UserRoles.FirstOrDefault()?.RoleId,
-                    RoleName = x.Roles.FirstOrDefault()?.RoleName
+                    Id = user.Id,
+                    IdClaim = user.IdClaim,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Phone = user.PhoneNumber,
+                    FullName = user.FullName,
+                    Address = user.Address,
+                    IdRole = role.IdRole,
+                    RoleName = userRole.RoleName,
                 })
                 .ToListAsync();
 
@@ -71,34 +74,7 @@ namespace QLDT_WPF.Repositories
                 Data = list_users
             };
         }
-    
-        // Get all sinh vien
-        public async Task<ApiResponse<List<SinhVienDto>>> GetAllSinhVien()
-        {
-            var list_sinhvien = await _context.SinhViens
-                .Include(x => x.Khoa)
-                .Select(x => new SinhVienDto
-                {
-                    IdSinhVien = x.IdSinhVien,
-                    IdKhoa = x.IdKhoa,
-                    IdChuongTrinhHoc = x.IdChuongTrinhHoc,
-                    HoTen = x.HoTen,
-                    Lop = x.Lop,  
-                    NgaySinh = x.NgaySinh,
-                    DiaChi = x.DiaChi,
-                    TenKhoa = x.Khoa.TenKhoa, 
-                    SoDienThoai = x.SoDienThoai,
-                    Email = x.Email,
-                })
-                .ToListAsync();
 
-            return new ApiResponse<List<SinhVienDto>>
-            {
-                Status = true,
-                StatusCode = 200,
-                Message = "Lấy danh sách sinh viên thành công.",
-                Data = list_sinhvien
-            };
-        }
+        
     }
 }
