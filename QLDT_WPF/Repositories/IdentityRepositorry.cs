@@ -340,6 +340,23 @@ namespace QLDT_WPF.Repositories
             };
         }
 
+        public async Task<(bool status, string message)> Login(string username, string password)
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.UserName.ToUpper() == username.ToUpper());
+            if (user == null)
+            {
+                return (false, "Tên đăng nhập không tồn tại.");
+            }
+
+            if (!_securityService.ValidateHash(password, user.PasswordHash))
+            {
+                return (false, "Mật khẩu không đúng.");
+            }
+
+            return (true, "");
+        }
+
         // Helper check user name, email, phone number exist
         private async Task<(bool status, string message)> CheckExist(string username, string email, string phone)
         {
