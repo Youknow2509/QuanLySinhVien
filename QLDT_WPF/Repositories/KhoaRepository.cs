@@ -24,7 +24,7 @@ public class KhoaRepository
                 .UseSqlServer(connectionString)
                 .Options);
     }
-    
+
     // Dispose
     public void Dispose()
     {
@@ -36,7 +36,7 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<KhoaDto>>> GetAll()
     {
-        // todo
+        // TODO
         return null;
     }
 
@@ -45,7 +45,7 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<KhoaDto>>> GetById(string id)
     {
-        // todo 
+        // TODO 
         return null;
     }
 
@@ -83,7 +83,7 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<KhoaDto>> Add(KhoaDto khoa)
     {
-        // todo 
+        // TODO 
         return null;
     }
 
@@ -488,9 +488,9 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<SinhVienDto>>> GetSinhVien(string id)
     {
-        return null; // todo
+        return null; // TODO
 
-       
+
     }
 
     /**
@@ -498,6 +498,6 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<GiaoVienDto>>> GetGiaoVien(string id)
     {
-        return null; // todo
+        return null; // TODO
     }
 }

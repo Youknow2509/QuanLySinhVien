@@ -64,7 +64,7 @@ public class GiaoVienRepository
                 TenKhoa = k.TenKhoa
             }
         ).ToListAsync();
-        //todo
+        //TODO
         return null;
     }
 
@@ -183,7 +183,7 @@ public class GiaoVienRepository
     {
         giaoVien.IdGiaoVien = Guid.NewGuid().ToString();
 
-        // todo
+        // TODO
         return null;
     }
 
@@ -209,7 +209,7 @@ public class GiaoVienRepository
         _context.Remove(qr);
         await _context.SaveChangesAsync();
 
-        return null; // todo
+        return null; // TODO
     }
 
     /**
@@ -217,7 +217,7 @@ public class GiaoVienRepository
      */
     public async Task<ApiResponse<GiaoVienDto>> AdminChangePassword(AdminUpdatePasswordDto passwordDto)
     {
-        //todo 
+        //TODO 
         return null;
     }
 
@@ -226,7 +226,7 @@ public class GiaoVienRepository
      */
     public async Task<ApiResponse<GiaoVienDto>> ChangePassword(UpdatePasswordDto passwordDto)
     {
-        // todo 
+        // TODO 
         return null;
     }
 

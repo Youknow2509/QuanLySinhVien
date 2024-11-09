@@ -36,7 +36,7 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<List<LopHocPhanDto>>> GetAll()
     {
-        // todo 
+        // TODO 
         return null;
     }
 
@@ -45,7 +45,7 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<LopHocPhanDto>> GetById(int id)
     {
-        // todo
+        // TODO
 
         return null;
     }
@@ -55,7 +55,7 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<LopHocPhanDto>> Edit(LopHocPhanDto lopHocPhan)
     {
-        //todo
+        //TODO
         return null;
     }
 
@@ -65,7 +65,7 @@ public class LopHocPhanRepository
     public async Task<ApiResponse<LopHocPhanDto>> Add(LopHocPhanDto lopHocPhan)
     {
         // if id lop hoc phan is null -> generate new id
-        // todo
+        // TODO
         return null;
     }
 
@@ -74,7 +74,7 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<LopHocPhanDto>> Delete(string id)
     {
-        // todo
+        // TODO
         return null;
     }
 
@@ -83,10 +83,10 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<List<LopHocPhanDto>>> GetLopHocPhansFromSinhVien(string id)
     {
-        // todo 
+        // TODO 
         return null;
     }
-    
+
     /** 
      * Get lop hoc phan cua giao vien tu id
      */
@@ -103,5 +103,5 @@ public class LopHocPhanRepository
      * Thêm thời gian cho lớp học phần
      */
 
-    
+
 }
