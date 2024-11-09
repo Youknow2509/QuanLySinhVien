@@ -61,8 +61,8 @@ namespace QLDT_WPF.Repositories
                     Phone = user.PhoneNumber,
                     FullName = user.FullName,
                     Address = user.Address,
-                    IdRole = role.IdRole,
-                    RoleName = userRole.RoleName,
+                    IdRole = role.Id,
+                    RoleName = role.Name,
                 })
                 .ToListAsync();
 
@@ -75,6 +75,35 @@ namespace QLDT_WPF.Repositories
             };
         }
 
-        
+        // Get all sinh vien
+        public async Task<ApiResponse<List<SinhVienDto>>> GetAllSinhVien()
+        {
+            var list_sinhvien = await (
+                from x in _context.SinhVien
+                join y in _context.Khoa
+                    on x.IdKhoa equals y.IdKhoa
+                select new SinhVienDto
+                {
+                    IdSinhVien = x.IdSinhVien,
+                    IdKhoa = x.IdKhoa,
+                    IdChuongTrinhHoc = x.IdChuongTrinhHoc,
+                    HoTen = x.HoTen,
+                    Lop = x.Lop,
+                    NgaySinh = x.NgaySinh,
+                    DiaChi = x.DiaChi,
+                    TenKhoa = y.TenKhoa,
+                    SoDienThoai = x.SoDienThoai,
+                    Email = x.Email,
+                })
+                .ToListAsync();
+
+            return new ApiResponse<List<SinhVienDto>>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Lấy danh sách sinh viên thành công.",
+                Data = list_sinhvien
+            };
+        }
     }
 }
