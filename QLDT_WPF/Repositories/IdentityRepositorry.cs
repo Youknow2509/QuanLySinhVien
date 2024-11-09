@@ -340,6 +340,7 @@ namespace QLDT_WPF.Repositories
             };
         }
 
+        // Handle login
         public async Task<(bool status, string message)> Login(string username, string password)
         {
             var user = await _dbContext.Users
@@ -356,6 +357,40 @@ namespace QLDT_WPF.Repositories
 
             return (true, "");
         }
+
+        // admin edit password sinh vien, giao vien
+        public async Task<ApiResponse<UserDto>> AdminEditPassword(string id, string password)
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.IdClaim == id);
+            if (user == null)
+            {
+                return new ApiResponse<UserDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy người dùng.",
+                    Data = null
+                };
+            }
+
+            user.PasswordHash = _securityService.Hash(password);
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+
+            return new ApiResponse<UserDto>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Đổi mật khẩu thành công.",
+                Data = new UserDto
+                {
+                    UserName = user.UserName,
+                }
+            };
+        }
+
+        
 
         // Helper check user name, email, phone number exist
         private async Task<(bool status, string message)> CheckExist(string username, string email, string phone)
