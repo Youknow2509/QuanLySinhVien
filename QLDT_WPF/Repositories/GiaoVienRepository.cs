@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 //
 using QLDT_WPF.Data;
@@ -41,7 +43,6 @@ public class GiaoVienRepository
     public void Dispose()
     {
         _context.Dispose();
-        _securityService.Dispose();
     }
 
     /**
@@ -63,13 +64,8 @@ public class GiaoVienRepository
                 TenKhoa = k.TenKhoa
             }
         ).ToListAsync();
-
-        return new ApiResponse<List<GiaoVienDto>>
-        {
-            Data = query,
-            Succeeded = true,
-            Message = "Lấy dữ liệu thành công"
-        };
+        //todo
+        return null;
     }
 
     /**
@@ -187,99 +183,8 @@ public class GiaoVienRepository
     {
         giaoVien.IdGiaoVien = Guid.NewGuid().ToString();
 
-        try
-        {
-            // Convert the DTO to the entity model, assuming your entity model is GiaoVien
-            var giaoVien = new GiaoVien
-            {
-                IdGiaoVien = newGiaoVien.IdGiaoVien,
-                TenGiaoVien = newGiaoVien.TenGiaoVien,
-                Email = newGiaoVien.Email,
-                SoDienThoai = newGiaoVien.SoDienThoai,
-                IdKhoa = newGiaoVien.IdKhoa
-            };
-            // Check duplicate ID, email, phone number
-            if (_context.GiaoViens.Any(gv => gv.IdGiaoVien == giaoVien.IdGiaoVien))
-            {
-                return new ApiResponse<GiaoVienDto>
-                {
-                    Data = null,
-                    Status = false,
-                    Message = "ID giáo viên đã tồn tại."
-                };
-            }
-            if (_context.GiaoViens.Any(gv => gv.Email == giaoVien.Email))
-            {
-                return new ApiResponse<GiaoVienDto>
-                {
-                    Data = null,
-                    Status = false,
-                    Message = "Email đã tồn tại."
-                };
-            }
-            if (_context.GiaoViens.Any(gv => gv.SoDienThoai == giaoVien.SoDienThoai))
-            {
-                return new ApiResponse<GiaoVienDto>
-                {
-                    Data = null,
-                    Status = false,
-                    Message = "Số điện thoại đã tồn tại."
-                };
-            }
-            // Create user identity with default password is 123456
-            // Find id role is GiaoVien
-            var role = _identityContext.Roles.FirstOrDefault(r => r.Name == "GiaoVien");
-            if (role == null)
-            {
-                return new ApiResponse<GiaoVienDto>
-                {
-                    Data = null,
-                    Status = false,
-                    Message = "Không tìm thấy role GiaoVien"
-                };
-            }
-
-            // Create new user
-            var user = new UserCustom
-            {
-                IdClaim = giaoVien.IdGiaoVien,
-                UserName = giaoVien.IdGiaoVien,
-                PasswordHash = _securityService.Hash("123"),
-                FullName = giaoVien.TenGiaoVien,
-                Email = giaoVien.Email,
-                PhoneNumber = giaoVien.SoDienThoai,
-            };
-
-            // Add role to user
-            _identityContext.UserRoles.Add(new IdentityUserRole<string>
-            {
-                UserId = user.Id,
-                RoleId = role.Id
-            });
-
-            // Add to database
-            _identityContext.Users.Add(user);
-            _context.GiaoViens.Add(giaoVien);
-
-            _identityContext.SaveChanges();
-            _context.SaveChanges();
-
-            return new ApiResponse<GiaoVienDto>
-            {
-                Data = newGiaoVien,
-                Status = true,
-                Message = "Thêm giáo viên thành công"
-            };
-        }
-        catch (Exception ex)
-        {
-            return new ApiResponse<GiaoVienDto>
-            {
-                Data = null,
-                Status = false,
-                Message = ex.Message
-            };
-        }
+        // todo
+        return null;
     }
 
 
@@ -304,12 +209,7 @@ public class GiaoVienRepository
         _context.Remove(qr);
         await _context.SaveChangesAsync();
 
-        return new ApiResponse<GiaoVienDto>
-        {
-            Data = qr,
-            Status = true,
-            Message = "Xóa giáo viên thành công"
-        };
+        return null; // todo
     }
 
     /**
@@ -317,31 +217,8 @@ public class GiaoVienRepository
      */
     public async Task<ApiResponse<GiaoVienDto>> AdminChangePassword(AdminUpdatePasswordDto passwordDto)
     {
-        var user = await _identityContext.Users
-            .FirstOrDefaultAsync(u => u.IdClaim == passwordDto.IdGiaoVien);
-
-        if (user == null)
-        {
-            return new ApiResponse<GiaoVienDto>
-            {
-                Data = null,
-                Status = false,
-                Message = "Không tìm thấy giáo viên"
-            };
-        }
-
-        // Update password
-        user.PasswordHash = _securityService.Hash(passwordDto.NewPassword);
-
-        _identityContext.Users.Update(user);
-        await _identityContext.SaveChangesAsync();
-
-        return new ApiResponse<GiaoVienDto>
-        {
-            Data = null,
-            Status = true,
-            Message = "Cập nhật mật khẩu thành công"
-        };
+        //todo 
+        return null;
     }
 
     /**
@@ -349,42 +226,8 @@ public class GiaoVienRepository
      */
     public async Task<ApiResponse<GiaoVienDto>> ChangePassword(UpdatePasswordDto passwordDto)
     {
-        var user = await _identityContext.Users
-            .FirstOrDefaultAsync(u => u.IdClaim == passwordDto.IdGiaoVien);
-
-        if (user == null)
-        {
-            return new ApiResponse<GiaoVienDto>
-            {
-                Data = null,
-                Status = false,
-                Message = "Không tìm thấy giáo viên"
-            };
-        }
-
-        // Check old password
-        if (!_securityService.Verify(passwordDto.OldPassword, user.PasswordHash))
-        {
-            return new ApiResponse<GiaoVienDto>
-            {
-                Data = null,
-                Status = false,
-                Message = "Mật khẩu cũ không đúng"
-            };
-        }
-
-        // Update password
-        user.PasswordHash = _securityService.Hash(passwordDto.NewPassword);
-
-        _identityContext.Users.Update(user);
-        await _identityContext.SaveChangesAsync();
-
-        return new ApiResponse<GiaoVienDto>
-        {
-            Data = null,
-            Status = true,
-            Message = "Cập nhật mật khẩu thành công"
-        };
+        // todo 
+        return null;
     }
 
 }

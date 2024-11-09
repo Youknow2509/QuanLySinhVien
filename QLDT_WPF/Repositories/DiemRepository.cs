@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 //
 using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
@@ -32,7 +33,7 @@ public class DiemRepository
     /**
      * Lay tat ca diem
      */
-    public Task<ApiResponse<List<DiemDto>>> GetAll()
+    public async Task<ApiResponse<List<DiemDto>>> GetAll()
     {
         // Query
         var query = await(
@@ -70,10 +71,10 @@ public class DiemRepository
     /**
      * Lay diem by id
      */
-    public Task<ApiResponse<DiemDto>> GetById(string id)
+    public async Task<ApiResponse<DiemDto>> GetById(string id)
     {
         // Query
-        var query = await(
+        var query = await (
             from d in _context.Diems
             join lhp in _context.LopHocPhans
                 on d.IdLopHocPhan equals lhp.IdLopHocPhan
@@ -94,7 +95,7 @@ public class DiemRepository
                 TenMonHoc = mon.TenMonHoc,
                 TenLopHocPhan = lhp.TenHocPhan,
             }
-        ).FirstOrDefault();
+        ).FirstOrDefaultAsync();
 
         return new ApiResponse<DiemDto>
         {
@@ -108,12 +109,12 @@ public class DiemRepository
     /**
      * Lay diem by id sinh vien
      */
-    public Task<ApiResponse<List<DiemDto>>> GetByIdSinhVien(string id)
+    public async Task<ApiResponse<List<DiemDto>>> GetByIdSinhVien(string id)
     {
         // Query
         var query = await(
             from d in _context.Diems
-            where d.IdSinhVien == idSinhVien
+            where d.IdSinhVien == id
             join lhp in _context.LopHocPhans
                 on d.IdLopHocPhan equals lhp.IdLopHocPhan
             join mon in _context.MonHocs
@@ -224,8 +225,8 @@ public class DiemRepository
             diemDto.IdDiem = Guid.NewGuid().ToString();
         }
         // Check id lop hoc phan, id sinh vien
-        var checkLopHocPhan = await _context.LopHocPhans.FindAsync(diem.IdLopHocPhan);
-        var checkSinhVien = await _context.SinhViens.FindAsync(diem.IdSinhVien);
+        var checkLopHocPhan = await _context.LopHocPhans.FindAsync(diemDto.IdLopHocPhan);
+        var checkSinhVien = await _context.SinhViens.FindAsync(diemDto.IdSinhVien);
         if (checkLopHocPhan == null)
         {
             return new ApiResponse<DiemDto>
@@ -249,13 +250,13 @@ public class DiemRepository
         // Create new diem
         var newDiem = new Diem
         {
-            IdDiem = diem.IdDiem,
-            IdLopHocPhan = diem.IdLopHocPhan,
-            IdSinhVien = diem.IdSinhVien,
-            DiemQuaTrinh = diem.DiemQuaTrinh,
-            DiemKetThuc = diem.DiemKetThuc,
-            DiemTongKet = diem.DiemTongKet,
-            LanHoc = diem.LanHoc,
+            IdDiem = diemDto.IdDiem,
+            IdLopHocPhan = diemDto.IdLopHocPhan,
+            IdSinhVien = diemDto.IdSinhVien,
+            DiemQuaTrinh = diemDto.DiemQuaTrinh,
+            DiemKetThuc = diemDto.DiemKetThuc,
+            DiemTongKet = diemDto.DiemTongKet,
+            LanHoc = diemDto.LanHoc,
         };
         // Add new diem
         _context.Diems.Add(newDiem);
@@ -266,7 +267,7 @@ public class DiemRepository
             Status = true,
             Message = "Thêm điểm thành công",
             StatusCode = 200,
-            Data = diem
+            Data = diemDto
         };
     }
 
@@ -354,7 +355,7 @@ public class DiemRepository
         ).ToListAsync();
 
         // Loại bỏ các môn học đã đăng ký
-        query = query.Where(x => !queryDangKy.Contains(x.IdMonHoc)).ToList();
+        query = query.Where(x => !queryDangKy.Contains(x.IdMon)).ToList();
 
         return new ApiResponse<List<DiemDto>>
         {
