@@ -210,23 +210,4 @@ public class GiaoVienRepository
             Message = "Xóa giáo viên thành công"
         };
     }
-
-    /**
-     * Admin Xử Lí Cập Nhập Mật Khẩu Giáo Viên
-     */
-    public async Task<ApiResponse<GiaoVienDto>> AdminChangePassword(AdminUpdatePasswordDto passwordDto)
-    {
-        //TODO 
-        return null;
-    }
-
-    /**
-     * Xử Lí Cập Nhập Mật Khẩu Giáo Viên - Từ Chính Giáo Viên
-     */
-    public async Task<ApiResponse<GiaoVienDto>> ChangePassword(UpdatePasswordDto passwordDto)
-    {
-        // TODO 
-        return null;
-    }
-
 }
