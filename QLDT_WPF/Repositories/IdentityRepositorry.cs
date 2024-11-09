@@ -481,7 +481,7 @@ namespace QLDT_WPF.Repositories
                     Data = null
                 };
             }
-            
+
             // Update the existing sinh vien
             existingSinhVien.HoTen = sinhVien.HoTen;
             existingSinhVien.Lop = sinhVien.Lop;
@@ -510,8 +510,8 @@ namespace QLDT_WPF.Repositories
             user.Address = sinhVien.DiaChi;
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
-            
-            return new Task<ApiResponse<SinhVienDto>>
+
+            return new ApiResponse<SinhVienDto>
             {
                 Status = true,
                 StatusCode = 200,
@@ -536,7 +536,7 @@ namespace QLDT_WPF.Repositories
                     Data = null
                 };
             }
-            
+
             // Update the existing giao vien
             existingGiaoVien.TenGiaoVien = giaovien.TenGiaoVien;
             existingGiaoVien.Email = giaovien.Email;
@@ -564,8 +564,8 @@ namespace QLDT_WPF.Repositories
             user.FullName = giaovien.TenGiaoVien;
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
-            
-            return new Task<ApiResponse<GiaoVienDto>>
+
+            return new ApiResponse<GiaoVienDto>
             {
                 Status = true,
                 StatusCode = 200,
