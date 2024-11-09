@@ -79,8 +79,8 @@ namespace QLDT_WPF.Repositories
         public async Task<ApiResponse<List<SinhVienDto>>> GetAllSinhVien()
         {
             var list_sinhvien = await (
-                from x in _context.SinhVien
-                join y in _context.Khoa
+                from x in _context.SinhViens
+                join y in _context.Khoas
                     on x.IdKhoa equals y.IdKhoa
                 select new SinhVienDto
                 {
