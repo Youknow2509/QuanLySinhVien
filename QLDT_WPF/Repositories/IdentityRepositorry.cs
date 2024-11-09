@@ -180,7 +180,8 @@ namespace QLDT_WPF.Repositories
                 Status = true,
                 StatusCode = 200,
                 Message = "Tạo người dùng thành công.",
-                Data = new UserDto {
+                Data = new UserDto
+                {
                     UserName = username,
                 }
             };
@@ -200,13 +201,15 @@ namespace QLDT_WPF.Repositories
                 Address = sinhVien.DiaChi,
                 PasswordHash = _securityService.Hash(password),
             };
-            if (await CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai).status)
+            // Check if user, email, or phone number already exists
+            var checkResult = await CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai);
+            if (checkResult.status)
             {
                 return new ApiResponse<SinhVienDto>
                 {
                     Status = false,
                     StatusCode = 400,
-                    Message = CheckExist(sinhVien.Email, sinhVien.Email, sinhVien.SoDienThoai).message,
+                    Message = checkResult.message,
                     Data = null
                 };
             }
@@ -214,7 +217,8 @@ namespace QLDT_WPF.Repositories
             // Add role
             var sinhVienRole = _dbContext.Roles
                 .FirstOrDefault(x => x.Name.ToUpper() == "SINHVIEN");
-            var userRole = new IdentityUserRole<string>{
+            var userRole = new IdentityUserRole<string>
+            {
                 UserId = user.Id,
                 RoleId = sinhVienRole.Id,
             };
