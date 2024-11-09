@@ -266,6 +266,50 @@ public class LopHocPhanRepository
     /** 
      * Get lop hoc phan cua sinh vien tu id
      */
+    public async Task<ApiResponse<List<LopHocPhanDto>>> GetLopHocPhansFromSinhVien(string id)
+    {   
+        // check sv exist
+        var sv_c = await _context.SinhViens.FirstOrDefaultAsync(x => x.IdSinhVien == id);
+        if (sv_c == null)
+        {
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Data = null,
+                Success = false,
+                Message = "Không tìm thấy sinh viên"
+            };
+        }
+        // Query
+        var query = await (
+            from sv in sv_c
+            join svlhp in _context.SinhVienLopHocPhans 
+                on sv.IdSinhVien equals svlhp.IdSinhVien
+            join lhp in _context.LopHocPhans 
+                on svlhp.IdLopHocPhan equals lhp.IdLopHocPhan
+            join gv in _context.GiaoViens 
+                on lhp.IdGiaoVien equals gv.IdGiaoVien
+            join mon in _context.MonHocs
+                on lhp.IdMonHoc equals mon.IdMonHoc
+            select new LopHocPhanDto
+            {
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mon.TenMonHoc,
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdGiaoVien = gv.IdGiaoVien,
+                IdMonHoc = mon.IdMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
+            Data = query,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
     
     /** 
      * Get lop hoc phan cua giao vien tu id
