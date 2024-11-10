@@ -377,7 +377,8 @@ public class LopHocPhanRepository
     {
         var monhoc = await _context.MonHocs
             .FirstOrDefaultAsync(x => x.IdMonHoc == id);
-        if (monhoc == null){
+        if (monhoc == null)
+        {
             return new ApiResponse<List<LopHocPhanDto>>
             {
                 Data = null,
@@ -418,15 +419,110 @@ public class LopHocPhanRepository
     /**
      * Thay doi thoi gian lop hoc phan 
      */
+    public async Task<ApiResponse<ThayDoiThoiGianLopHocPhanDto>>
+        ChangeTime(ThayDoiThoiGianLopHocPhanDto thayDoiThoiGianLopHocPhan)
+    {
+        var thoiGian = await _context.ThoiGians
+            .FirstOrDefaultAsync(t => t.IdThoiGian == thayDoiThoiGianLopHocPhan.IdThoiGian);
+        if (thoiGian == null)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy thời gian"
+            };
+        }
+
+        var lopHocPhan = await _context.LopHocPhans
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == thoiGian.IdLopHocPhan);
+        if (lopHocPhan == null)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        // Check thoi gian co thoa man khong
+        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= thayDoiThoiGianLopHocPhan.ThoiGianKetThuc)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian bắt đầu phải trước thời gian kết thúc"
+            };
+        }
+
+        // Check Thời Gian Truyền Vào Ở Quá Khứ
+        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= DateTime.Now
+            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không thể thay đổi thời gian lớp học phần khi thời gian lớp học phần đã diễn ra"
+            };
+        }
+        
+        // Check trong khoang cho phep
+        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
+            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian thay đổi không nằm trong khoảng thời gian cho phép"
+            };
+        }
+
+        // check thoi gian lop hoc phan co bi trung khong 
+        var check_trung_thoi_gian_lop_hoc_phan = await (
+            from tg in _context.ThoiGians
+            join tg_lhp in _context.ThoiGianLopHocPhans
+                on tg.IdThoiGian equals tg_lhp.IdThoiGian
+            where tg_lhp.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdThoiGian
+                && (
+                    (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= tg.ThoiGianBatDau
+                        && thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= tg.ThoiGianKetThuc)
+                    || (thayDoiThoiGianLopHocPhan.ThoiGianKetThuc >= tg.ThoiGianBatDau
+                        && thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= tg.ThoiGianKetThuc)
+                )
+            select tg
+        ).AnyAsync();
+        if (check_trung_thoi_gian_lop_hoc_phan)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian lớp học phần bị trùng"
+            };
+        }
+
+        // update thoi gian
+        thoiGian.ThoiGianBatDau = thayDoiThoiGianLopHocPhan.ThoiGianBatDau;
+        thoiGian.ThoiGianKetThuc = thayDoiThoiGianLopHocPhan.ThoiGianKetThuc;
+
+        _context.ThoiGians.Update(thoiGian);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+        {
+            Data = thayDoiThoiGianLopHocPhan,
+            Status = true,
+            Message = "Thay đổi thời gian lớp học phần thành công"
+        };
+    }
 
     /**
      * Thêm thời gian cho lớp học phần
      */
 
-    // Helper check thoi gian
-    private async Task<ApiResponse<LopHocPhanDto>> checkThoiGian(LopHocPhanDto lopHocPhan)
-    {
-        // TODO
-        return null;
-    }
+
 }
