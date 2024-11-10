@@ -214,5 +214,40 @@ public class MonHocRepository
     /**
      * Get data mon hoc for giao vien with id giao vien
      */
+    public async Task<ApiResponse<List<MonHocDto>>> GetMonHocForGiaoVien(string idGiaoVien)
+    {
+        var gv_c = await _context.GiaoViens
+            .FirstOrDefaultAsync(x => x.IdGiaoVien == idGiaoVien);
+        if (gv_c == null)   
+        {
+            return new ApiResponse<List<MonHocDto> > {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên",
+                StatusCode = 404,
+            };
+        }
 
+        var listMH = await (
+            from gv in _quanLySinhVienDbContext.GiaoViens
+            where gv.IdGiaoVien == IdGiaoVien
+            join khoa in _quanLySinhVienDbContext.Khoas on gv.IdKhoa equals khoa.IdKhoa
+            join mh in _quanLySinhVienDbContext.MonHocs on khoa.IdKhoa equals mh.IdKhoa
+            select new MonHocDto{
+                IdMonHoc = mh.IdMonHoc,
+                TenMonHoc = mh.TenMonHoc,
+                SoTinChi = mh.SoTinChi,
+                SoTietHoc = mh.SoTietHoc,
+                TenKhoa = khoa.TenKhoa,
+                IdKhoa = khoa.IdKhoa
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<MonHocDto>> {
+            Data = listMH,
+            Status = true,
+            Message = "Lấy dữ liệu thành công",
+            StatusCode = 200,
+        };
+    }
 }
