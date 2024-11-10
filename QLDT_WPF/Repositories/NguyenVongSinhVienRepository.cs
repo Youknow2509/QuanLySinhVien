@@ -35,7 +35,7 @@ public class NguyenVongSinhVienRepository
     /**
      * Lay tat ca nguyen vong cua sinh vien
      */
-    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>> 
+    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>>
         GetAll()
     {
         var list_nguyen_vong = await (
@@ -54,7 +54,8 @@ public class NguyenVongSinhVienRepository
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<NguyenVongSinhVienDto>>{
+        return new ApiResponse<List<NguyenVongSinhVienDto>>
+        {
             Data = list_nguyen_vong,
             StatusCode = 200,
             Status = true,
@@ -66,7 +67,7 @@ public class NguyenVongSinhVienRepository
     /**
      * Lay nguyen vong cua sinh vien by id
      */
-    public async Task<ApiResponse<NguyenVongSinhVienDto>> 
+    public async Task<ApiResponse<NguyenVongSinhVienDto>>
         GetById(string id)
     {
         var nguyen_vong = await (
@@ -88,7 +89,8 @@ public class NguyenVongSinhVienRepository
 
         if (nguyen_vong == null)
         {
-            return new ApiResponse<NguyenVongSinhVienDto>{
+            return new ApiResponse<NguyenVongSinhVienDto>
+            {
                 Data = null,
                 StatusCode = 404,
                 Status = false,
@@ -96,7 +98,8 @@ public class NguyenVongSinhVienRepository
             };
         }
 
-        return new ApiResponse<NguyenVongSinhVienDto>{
+        return new ApiResponse<NguyenVongSinhVienDto>
+        {
             Data = nguyen_vong,
             StatusCode = 200,
             Status = true,
@@ -107,24 +110,25 @@ public class NguyenVongSinhVienRepository
     /**
      * Lay nguyen vong cua sinh vien by id
      */
-    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>> 
+    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>>
         GetByIdSinhVien(string idSinhVien)
     {
         var sv = await _context.SinhViens
             .FirstOrDefaultAsync(v => v.IdSinhVien == idSinhVien);
         if (sv == null)
         {
-            return new ApiResponse<List<NguyenVongSinhVienDto>>{
+            return new ApiResponse<List<NguyenVongSinhVienDto>>
+            {
                 Data = null,
                 StatusCode = 404,
                 Status = false,
                 Message = "Không tìm thấy sinh viên"
             };
         }
-    
+
         var list_nguyen_vong = await (
             from nv in _context.DangKyNguyenVongs
-            join mh in _context.MonHocs 
+            join mh in _context.MonHocs
                 on nv.IdMonHoc equals mh.IdMonHoc
             where nv.IdSinhVien == idSinhVien
             select new NguyenVongSinhVienDto
@@ -139,7 +143,8 @@ public class NguyenVongSinhVienRepository
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<NguyenVongSinhVienDto>>{
+        return new ApiResponse<List<NguyenVongSinhVienDto>>
+        {
             Data = list_nguyen_vong,
             StatusCode = 200,
             Status = true,
@@ -148,14 +153,56 @@ public class NguyenVongSinhVienRepository
     }
 
     /**
-     * Sua thong tin nguyen vong cua sinh vien
-     */
-
-
-    /**
      * Them nguyen vong cua sinh vien
      */
+    public async Task<ApiResponse<NguyenVongSinhVienDto>>
+        Add(NguyenVongSinhVienDto dto)
+    {
+        var sv = await _context.SinhViens
+            .FirstOrDefaultAsync(v => v.IdSinhVien == dto.IdSinhVien);
+        if (sv == null)
+        {
+            return new ApiResponse<NguyenVongSinhVienDto>
+            {
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy sinh viên"
+            };
+        }
 
+        var mh = await _context.MonHocs
+            .FirstOrDefaultAsync(v => v.IdMonHoc == dto.IdMonHoc);
+        if (mh == null)
+        {
+            return new ApiResponse<NguyenVongSinhVienDto>
+            {
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+
+        var nguyen_vong = new DangKyNguyenVong
+        {
+            IdDangKyNguyenVong = Guid.NewGuid().ToString(),
+            IdSinhVien = dto.IdSinhVien,
+            IdMonHoc = dto.IdMonHoc,
+            TrangThai = -1
+        };
+
+        _context.DangKyNguyenVongs.Add(nguyen_vong);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongSinhVienDto>
+        {
+            Data = dto,
+            StatusCode = 200,
+            Status = true,
+            Message = "Thêm nguyện vọng thành công"
+        };
+    }
 
     /**
      * Xoa nguyen vong cua sinh vien By Id 
