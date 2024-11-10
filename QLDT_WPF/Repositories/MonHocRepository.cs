@@ -144,7 +144,44 @@ public class MonHocRepository
     /**
      * Them mon hoc
      */
+    public async Task<ApiResponse<MonHocDto>> Add(MonHocDto monhocDto)
+    {   
+        // check khoa exist
+        var khoa = await _context.Khoas
+            .FirstOrDefaultAsync(x => x.IdKhoa == monhocDto.IdKhoa);
+        if (khoa == null)
+        {
+            return new ApiResponse<MonHocDto> {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy khoa",
+                StatusCode = 404,
+            };
+        }
 
+        if (monhocDto.IdMonHoc == null)
+        {
+            monhocDto.IdMonHoc = Guid.NewGuid().ToString();
+        }
+
+        var monhoc = new MonHoc {
+            IdMonHoc = monhocDto.IdMonHoc,
+            TenMonHoc = monhocDto.TenMonHoc,
+            SoTinChi = monhocDto.SoTinChi,
+            SoTietHoc = monhocDto.SoTietHoc,
+            IdKhoa = monhocDto.IdKhoa,
+        };
+
+        await _context.MonHocs.AddAsync(monhoc);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<MonHocDto> {
+            Data = monhocDto,
+            Status = true,
+            Message = "Thêm môn học thành công",
+            StatusCode = 200,
+        };
+    }
 
     /**
      * Xoa mon hoc By Id 
