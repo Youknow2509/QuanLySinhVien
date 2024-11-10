@@ -178,14 +178,21 @@ public class KhoaRepository
         var sinhVien = await (
             from sv in _context.SinhViens
             where sv.IdKhoa == id
+            join kh in _context.Khoas
+                on kh.IdKhoa equals sv.IdKhoa
+            join cth in _context.ChuongTrinhHocs
+                on sv.IdChuongTrinhHoc equals cth.IdChuongTrinhHoc
             select new SinhVienDto
             {
                 IdSinhVien = sv.IdSinhVien,
+                IdKhoa = sv.IdKhoa,
+                IdChuongTrinhHochuan = sv.IdChuongTrinhHoc,
+
                 HoTen = sv.HoTen,
                 NgaySinh = sv.NgaySinh,
-                GioiTinh = sv.GioiTinh,
                 DiaChi = sv.DiaChi,
-                IdKhoa = sv.IdKhoa
+                TenKhoa = kh.TenKhoa,
+                TenChuongTrinhHoc = cth.TenChuongTrinhHoc,
             }
         ).ToListAsync();
         
