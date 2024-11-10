@@ -107,8 +107,30 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<KhoaDto>> Add(KhoaDto khoa)
     {
-        // TODO 
-        return null;
+        var khoaEntity = new Khoa
+        {
+            IdKhoa = khoa.IdKhoa,
+            TenKhoa = khoa.TenKhoa
+        };
+
+        try {
+            _context.Khoas.Add(khoaEntity);
+            await _context.SaveChangesAsync();
+        } catch (Exception e) {
+            return new ApiResponse<KhoaDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thêm dữ liệu thất bại"
+            };
+        }
+
+        return new ApiResponse<KhoaDto>
+        {
+            Data = khoa,
+            Status = true,
+            Message = "Thêm dữ liệu thành công"
+        };
     }
 
     /**
