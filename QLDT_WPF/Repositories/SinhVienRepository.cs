@@ -75,7 +75,7 @@ public class SinhVienRepository
 
         return new ApiResponse<List<SinhVienDto>>
         {
-            Success = true,
+            Status = true,
             Data = sinhViens,
             Message = "Lấy danh sách sinh viên thành công",
         };
@@ -113,14 +113,14 @@ public class SinhVienRepository
         {
             return new ApiResponse<SinhVienDto>
             {
-                Success = false,
+                Status = false,
                 Message = "Không tìm thấy sinh viên",
             };
         }
 
         return new ApiResponse<SinhVienDto>
         {
-            Success = true,
+            Status = true,
             Data = sinhVien,
             Message = "Lấy sinh viên thành công",
         };
@@ -142,7 +142,7 @@ public class SinhVienRepository
         {
             return new ApiResponse<SinhVienDto>
             {
-                Success = false,
+                Status = false,
                 Message = "Không tìm thấy sinh viên",
                 Data = null,
             };
@@ -153,7 +153,7 @@ public class SinhVienRepository
 
         return new ApiResponse
         {
-            Success = true,
+            Status = true,
             Message = "Xóa sinh viên thành công",
             Data = null,
         };
@@ -172,7 +172,7 @@ public class SinhVienRepository
         {
             return new ApiResponse<List<SinhVienDto>>
             {
-                Success = false,
+                Status = false,
                 Message = "Không tìm thấy lớp học phần",
             };
         }
@@ -200,7 +200,7 @@ public class SinhVienRepository
 
         return new ApiResponse<List<SinhVienDto>>
         {
-            Success = true,
+            Status = true,
             Data = qr,
             Message = "Lấy danh sách sinh viên thành công",
         };
