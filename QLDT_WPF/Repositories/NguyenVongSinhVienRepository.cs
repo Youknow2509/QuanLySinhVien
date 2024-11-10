@@ -35,6 +35,31 @@ public class NguyenVongSinhVienRepository
     /**
      * Lay tat ca nguyen vong cua sinh vien
      */
+    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>> GetAll()
+    {
+        var list_nguyen_vong = await (
+            from nv in _context.DangKyNguyenVongs
+            join sv in _context.SinhViens on nv.IdSinhVien equals sv.IdSinhVien
+            join mh in _context.MonHocs on nv.IdMonHoc equals mh.IdMonHoc
+            select new NguyenVongSinhVienDto
+            {
+                IdNguyenVong = nv.IdDangKyNguyenVong,
+                IdSinhVien = nv.IdSinhVien,
+                IdMonHoc = mh.IdMonHoc,
+                
+                TenSinhVien = sv.HoTen,
+                TenMonHoc = mh.TenMonHoc,
+                TrangThai = nv.TrangThai,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<NguyenVongSinhVienDto>>{
+            Data = list_nguyen_vong,
+            StatusCode = 200,
+            Status = true,
+            Message = "Lấy danh sách nguyện vọng thành công"
+        };
+    }
 
 
     /**
