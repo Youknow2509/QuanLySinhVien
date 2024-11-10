@@ -179,14 +179,14 @@ public class KhoaRepository
             from sv in _context.SinhViens
             where sv.IdKhoa == id
             join kh in _context.Khoas
-                on kh.IdKhoa equals sv.IdKhoa
+                on sv.IdKhoa equals kh.IdKhoa 
             join cth in _context.ChuongTrinhHocs
                 on sv.IdChuongTrinhHoc equals cth.IdChuongTrinhHoc
             select new SinhVienDto
             {
                 IdSinhVien = sv.IdSinhVien,
                 IdKhoa = sv.IdKhoa,
-                IdChuongTrinhHochuan = sv.IdChuongTrinhHoc,
+                IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
 
                 HoTen = sv.HoTen,
                 NgaySinh = sv.NgaySinh,
