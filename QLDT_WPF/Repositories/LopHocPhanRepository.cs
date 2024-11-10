@@ -343,7 +343,7 @@ public class LopHocPhanRepository
         var list_lhp = await (
             from lhp in _context.LopHocPhans
             where lhp.IdGiaoVien == id
-            join gv in giaovien
+            join gv in _context.GiaoViens
                 on lhp.IdGiaoVien equals gv.IdGiaoVien
             join mh in _context.MonHocs
                 on lhp.IdMonHoc equals mh.IdMonHoc
