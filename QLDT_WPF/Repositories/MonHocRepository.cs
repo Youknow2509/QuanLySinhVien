@@ -60,6 +60,42 @@ public class MonHocRepository
     /**
      * Lay mon hoc by id
      */
+    public async Task<ApiResponse<MonHocDto>> GetById(string id)
+    {
+        var monhoc = await (
+            from mh in _context.MonHocs
+            join khoa in _context.Khoas 
+                on mh.IdKhoa equals khoa.IdKhoa
+            where mh.IdMonHoc == id
+            select new MonHocDto {
+                IdMonHoc = mh.IdMonHoc,
+                IdKhoa = khoa.IdKhoa,
+
+                TenMonHoc = mh.TenMonHoc,
+                SoTinChi = mh.SoTinChi,
+                SoTietHoc = mh.SoTietHoc,
+                TenKhoa = khoa.TenKhoa,
+            }
+        ).FirstOrDefaultAsync();
+
+        if (monhoc == null)
+        {
+            return new ApiResponse<MonHocDto> {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học",
+                StatusCode = 404,
+            };
+        }
+
+        return new ApiResponse<MonHocDto> {
+            Data = monhoc,
+            Status = true,
+            Message = "Lấy dữ liệu thành công",
+            StatusCode = 200,
+        };
+    }
+
 
     /**
      * Lay mon hoc by id
