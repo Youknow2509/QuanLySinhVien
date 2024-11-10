@@ -137,14 +137,14 @@ public class LopHocPhanRepository
         }
 
         // check thoi gian thay doi
-        var check_tg = await checkThoiGian(lopHocPhan);
-        if (check_tg.Status == false)
+        if ((lhp.ThoiGianBatDau != lopHocPhan.ThoiGianBatDau
+            || lhp.ThoiGianKetThuc != lopHocPhan.ThoiGianKetThuc)
+            && lhp.ThoiGianBatDau >= DateTime.Now)
         {
-            return new ApiResponse<LopHocPhanDto>
-            {
+            return new ApiResponse<LopHocPhanDto>{
                 Data = null,
                 Status = false,
-                Message = check_tg.Message
+                Message = "Không thể thay đổi thời gian lớp học phần khi lớp học phần đã diễn ra"
             };
         }
 
