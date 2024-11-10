@@ -208,6 +208,39 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<GiaoVienDto>>> GetGiaoVien(string id)
     {
-        return null; // TODO
+        var khoa = await _context.Khoas.FirstOrDefaultAsync(k => k.IdKhoa == id);
+
+        if (khoa == null)
+        {
+            return new ApiResponse<List<GiaoVienDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy khoa"
+            };
+        }
+
+        var giaoVien = await (
+            from gv in _context.GiaoViens
+            where gv.IdKhoa == id
+            join kh in _context.Khoas
+                on gv.IdKhoa equals kh.IdKhoa
+            select new GiaoVienDto
+            {
+                IdGiaoVien = gv.IdGiaoVien,
+                IdKhoa = gv.IdKhoa,
+                HoTen = gv.HoTen,
+                NgaySinh = gv.NgaySinh,
+                DiaChi = gv.DiaChi,
+                TenKhoa = kh.TenKhoa
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<GiaoVienDto>>
+        {
+            Data = giaoVien,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 }
