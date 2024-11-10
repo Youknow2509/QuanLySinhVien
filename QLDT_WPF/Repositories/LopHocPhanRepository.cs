@@ -72,9 +72,9 @@ public class LopHocPhanRepository
             from lhp in _context.LopHocPhans
             where lhp.IdLopHocPhan == id
             join gv in _context.GiaoViens 
-                on l.IdGiaoVien equals gv.IdGiaoVien
+                on lhp.IdGiaoVien equals gv.IdGiaoVien
             join mh in _context.MonHocs
-                on l.IdMonHoc equals mh.IdMonHoc
+                on lhp.IdMonHoc equals mh.IdMonHoc
             select new LopHocPhanDto{
                 IdLopHocPhan = lhp.IdLopHocPhan,
                 IdMonHoc = lhp.IdMonHoc,
