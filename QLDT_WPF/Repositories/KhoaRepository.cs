@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 //
 using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Repositories;
 
@@ -152,377 +153,6 @@ public class KhoaRepository
 
         return new ApiResponse<KhoaDto>
         {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             Data = null,
             Status = true,
             Message = "Xóa dữ liệu thành công"
@@ -534,9 +164,37 @@ public class KhoaRepository
      */
     public async Task<ApiResponse<List<SinhVienDto>>> GetSinhVien(string id)
     {
-        return null; // TODO
+        var khoa = await _context.Khoas.FirstOrDefaultAsync(k => k.IdKhoa == id);
+        if (khoa == null)
+        {
+            return new ApiResponse<List<SinhVienDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy khoa"
+            };
+        }
 
-
+        var sinhVien = await (
+            from sv in _context.SinhViens
+            where sv.IdKhoa == id
+            select new SinhVienDto
+            {
+                IdSinhVien = sv.IdSinhVien,
+                HoTen = sv.HoTen,
+                NgaySinh = sv.NgaySinh,
+                GioiTinh = sv.GioiTinh,
+                DiaChi = sv.DiaChi,
+                IdKhoa = sv.IdKhoa
+            }
+        ).ToListAsync();
+        
+        return new ApiResponse<List<SinhVienDto>>
+        {
+            Data = sinhVien,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 
     /**
