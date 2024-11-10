@@ -186,6 +186,30 @@ public class MonHocRepository
     /**
      * Xoa mon hoc By Id 
      */
+    public async Task<ApiResponse<MonHocDto>> Delete(string id)
+    {
+        var monhoc = await _context.MonHocs
+            .FirstOrDefaultAsync(x => x.IdMonHoc == id);
+        if (monhoc == null)
+        {
+            return new ApiResponse<MonHocDto> {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học",
+                StatusCode = 404,
+            };
+        }
+
+        _context.MonHocs.Remove(monhoc);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<MonHocDto> {
+            Data = null,
+            Status = true,
+            Message = "Xóa môn học thành công",
+            StatusCode = 200,
+        };
+    }
 
     /**
      * Get data mon hoc for giao vien with id giao vien
