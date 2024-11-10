@@ -438,9 +438,60 @@ public class NguyenVongGiaoVienRepository
     /**
      * Chap nhan nguyen vong by id
      */
+    public async Task<ApiResponse<NguyenVongThayDoiLichDto>> Accpet(string id)
+    {
+        var nguyenVong = await _context.DangKyDoiLichs
+            .FirstOrDefaultAsync(x => x.IdDangKyDoiLich == id);
+        if (nguyenVong == null)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng",
+                StatusCode = 404,
+            };
+        }
+
+        nguyenVong.TrangThai = 1;
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongThayDoiLichDto>
+        {
+            Data = null,
+            Status = true,
+            Message = "Chấp nhận nguyện vọng thành công",
+            StatusCode = 200,
+        };
+    }
 
     /**
      * Tu choi nguyen vong by id
      */
+    public async Task<ApiResponse<NguyenVongThayDoiLichDto>> Reject(string id)
+    {
+        var nguyenVong = await _context.DangKyDoiLichs
+            .FirstOrDefaultAsync(x => x.IdDangKyDoiLich == id);
+        if (nguyenVong == null)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng",
+                StatusCode = 404,
+            };
+        }
 
+        nguyenVong.TrangThai = 0;
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongThayDoiLichDto>
+        {
+            Data = null,
+            Status = true,
+            Message = "Từ chối nguyện vọng thành công",
+            StatusCode = 200,
+        };
+    }
 }
