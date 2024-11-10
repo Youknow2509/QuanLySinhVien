@@ -229,10 +229,11 @@ public class KhoaRepository
             {
                 IdGiaoVien = gv.IdGiaoVien,
                 IdKhoa = gv.IdKhoa,
-                HoTen = gv.HoTen,
-                NgaySinh = gv.NgaySinh,
-                DiaChi = gv.DiaChi,
-                TenKhoa = kh.TenKhoa
+                
+                TenGiaoVien = gv.TenGiaoVien,
+                TenKhoa = kh.TenKhoa,
+                Email = gv.Email,
+                SoDienThoai = gv.SoDienThoai,
             }
         ).ToListAsync();
 
