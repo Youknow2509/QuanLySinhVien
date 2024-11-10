@@ -134,7 +134,7 @@ public class SinhVienRepository
     /**
      * Xoa Sinh Vien By Id Sinh Vien
      */
-    public async Task<ApiResponse<SinhVienDto>> Delete(int id)
+    public async Task<ApiResponse<SinhVienDto>> Delete(string id)
     {
         var sinhVien = await _context.SinhViens
             .FirstOrDefaultAsync(x => x.IdSinhVien == id);
