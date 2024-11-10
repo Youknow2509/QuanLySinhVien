@@ -43,6 +43,7 @@ public class GiaoVienRepository
     public void Dispose()
     {
         _context.Dispose();
+        _identityContext.Dispose();
     }
 
     /**
