@@ -251,8 +251,27 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<LopHocPhanDto>> Delete(string id)
     {
-        // TODO
-        return null;
+        var lhp = _context.LopHocPhans
+            .FirstOrDefault(l => l.IdLopHocPhan == id);
+        if (lhp == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        _context.Remove(lhp);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<LopHocPhanDto>
+        {
+            Data = null,
+            Status = true,
+            Message = "Xóa lớp học phần thành công"
+        };
     }
 
     /** 
