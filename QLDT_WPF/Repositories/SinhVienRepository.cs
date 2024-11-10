@@ -53,9 +53,9 @@ public class SinhVienRepository
     {
         var sinhViens = (
             from sv in _context.SinhViens
-            join khoa in _context.Khoas 
+            join khoa in _context.Khoas
                 on sv.IdKhoa equals khoa.IdKhoa
-            join cch in _context.ChuongTrinhHocs 
+            join cch in _context.ChuongTrinhHocs
                 on sv.IdChuongTrinhHoc equals cch.IdChuongTrinhHoc
             select new SinhVienDto
             {
@@ -88,9 +88,9 @@ public class SinhVienRepository
     {
         var sinhVien = (
             from sv in _context.SinhViens
-            join khoa in _context.Khoas 
+            join khoa in _context.Khoas
                 on sv.IdKhoa equals khoa.IdKhoa
-            join cch in _context.ChuongTrinhHocs 
+            join cch in _context.ChuongTrinhHocs
                 on sv.IdChuongTrinhHoc equals cch.IdChuongTrinhHoc
             where sv.IdSinhVien == id
             select new SinhVienDto
@@ -163,13 +163,46 @@ public class SinhVienRepository
      * Sinh Vien Thuoc Lop Hoc Phan
      * @param idLopHocPhan
      */
+    public async Task<ApiResponse<List<SinhVienDto>>> 
+        GetByLopHocPhan(string idLopHocPhan)
+    {   
+        var lopHocPhan = await _context.LopHocPhans
+            .FirstOrDefaultAsync(x => x.IdLopHocPhan == idLopHocPhan);
+        if (lopHocPhan == null)
+        {
+            return new ApiResponse<List<SinhVienDto>>
+            {
+                Success = false,
+                Message = "Không tìm thấy lớp học phần",
+            };
+        }
 
-    /**
-     * Admin Xử Lí Cập Nhập Mật Khẩu Sinh Viên
-     */
+        var qr = await (
+            from lhp in _context.LopHocPhans
+            join svlhp in _context.SinhVienLopHocPhans on lhp.IdLopHocPhan equals svlhp.IdLopHocPhan
+            join sv in _context.SinhViens on svlhp.IdSinhVien equals sv.IdSinhVien
+            join k in _context.Khoas on sv.IdKhoa equals k.IdKhoa
+            join cth in _context.ChuongTrinhHocs on sv.IdChuongTrinhHoc equals cth.IdChuongTrinhHoc
+            where lhp.IdLopHocPhan == idLopHocPhan
+            select new SinhVienDto
+            {
+                IdSinhVien = sv.IdSinhVien,
+                IdKhoa = sv.IdKhoa,
+                IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
+                HoTen = sv.HoTen,
+                Lop = sv.Lop,
+                NgaySinh = sv.NgaySinh,
+                DiaChi = sv.DiaChi,
+                TenKhoa = k.TenKhoa,
+                TenChuongTrinhHoc = cth.TenChuongTrinhHoc
+            }
+        ).ToListAsync();
 
-    /**
-     * Xử Lí Cập Nhập Mật Khẩu Sinh Viên - Từ Chính Sinh Viên
-     */
-
+        return new ApiResponse<List<SinhVienDto>>
+        {
+            Success = true,
+            Data = qr,
+            Message = "Lấy danh sách sinh viên thành công",
+        };
+    }
 }
