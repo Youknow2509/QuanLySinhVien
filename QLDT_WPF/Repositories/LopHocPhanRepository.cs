@@ -435,7 +435,7 @@ public class LopHocPhanRepository
         }
 
         var lopHocPhan = await _context.LopHocPhans
-            .FirstOrDefaultAsync(l => l.IdLopHocPhan == thoiGian.IdLopHocPhan);
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdLopHocPhan);
         if (lopHocPhan == null)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
