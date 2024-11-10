@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 //
 using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
@@ -50,8 +51,9 @@ public class MonHocRepository
 
         return new ApiResponse<List<MonHocDto>> {
             Data = monhocs,
-            Success = true,
-            Message = "Lấy dữ liệu thành công"
+            Status = true,
+            Message = "Lấy dữ liệu thành công",
+            StatusCode = 200,
         };
     }
 
