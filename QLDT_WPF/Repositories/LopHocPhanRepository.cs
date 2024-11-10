@@ -372,6 +372,48 @@ public class LopHocPhanRepository
     /**
      * Get lop hoc phan tu id mon hoc
      */
+    public async Task<ApiResponse<List<LopHocPhanDto>>>
+        GetLopHocPhansFromMonHoc(string id)
+    {
+        var monhoc = await _context.MonHocs
+            .FirstOrDefaultAsync(x => x.IdMonHoc == id);
+        if (monhoc == null){
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+
+        var list_lhp = await (
+            from lhp in _context.LopHocPhans
+            where lhp.IdMonHoc == id
+            join gv in _context.GiaoViens
+                on lhp.IdGiaoVien equals gv.IdGiaoVien
+            join mh in _context.MonHocs
+                on lhp.IdMonHoc equals mh.IdMonHoc
+            select new LopHocPhanDto
+            {
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdMonHoc = lhp.IdMonHoc,
+                IdGiaoVien = lhp.IdGiaoVien,
+
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mh.TenMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
+            Data = list_lhp,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Thay doi thoi gian lop hoc phan 
