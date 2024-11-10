@@ -524,8 +524,8 @@ public class LopHocPhanRepository
     /**
      * Thêm thời gian cho lớp học phần
      */
-    public async Task<ApiResponse<ThoiGianLopHocPhanDto>>
-        AddThoiGian(ThoiGianLopHocPhanDto thoiGianLopHocPhan)
+    public async Task<ApiResponse<ThayDoiThoiGianLopHocPhanDto>>
+        AddThoiGian(ThayDoiThoiGianLopHocPhanDto thoiGianLopHocPhan)
     {
         var mon = await (
             from lhp in _context.LopHocPhans
@@ -537,7 +537,7 @@ public class LopHocPhanRepository
 
         if (mon == null)
         {
-            return new ApiResponse<ThoiGianLopHocPhanDto>
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
                 Data = null,
                 Status = false,
@@ -554,7 +554,7 @@ public class LopHocPhanRepository
             select tg
         ).ToListAsync();
         if (tg_lhp.Count()*3 >= mon.SoTietHoc){
-            return new ApiResponse<ThoiGianLopHocPhanDto>
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
                 Data = null,
                 Status = false,
@@ -644,7 +644,7 @@ public class LopHocPhanRepository
         await _context.ThoiGianLopHocPhans.AddAsync(newThoiGianLopHocPhan);
         await _context.SaveChangesAsync();
 
-        return new ApiResponse<ThoiGianLopHocPhanDto>
+        return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
         {
             Data = thoiGianLopHocPhan,
             Status = true,
