@@ -228,8 +228,8 @@ public class NguyenVongGiaoVienRepository
         }
 
         // update
-        nguyenVongUpdate.ThoiGianBatDauMoi = nguyenVong.ThoiGianBatDauMoi;
-        nguyenVongUpdate.ThoiGianKetThucMoi = nguyenVong.ThoiGianKetThucMoi;
+        nguyenVongUpdate.ThoiGianBatDauMoi = nguyenVong.ThoiGianBatDauMoi ?? DateTime.MinValue;
+        nguyenVongUpdate.ThoiGianKetThucMoi = nguyenVong.ThoiGianKetThucMoi ?? DateTime.MinValue;
         nguyenVongUpdate.TrangThai = -1;
 
         await _context.SaveChangesAsync();
