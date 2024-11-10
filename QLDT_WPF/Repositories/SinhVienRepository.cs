@@ -171,12 +171,12 @@ public class SinhVienRepository
         }
 
         // Update the existing sinh vien
-        existingSinhVien.HoTen = sinhVien.HoTen;
-        existingSinhVien.Lop = sinhVien.Lop;
-        existingSinhVien.NgaySinh = sinhVien.NgaySinh;
-        existingSinhVien.DiaChi = sinhVien.DiaChi;
-        existingSinhVien.IdKhoa = sinhVien.IdKhoa;
-        existingSinhVien.IdChuongTrinhHoc = sinhVien.IdChuongTrinhHoc;
+        existingSinhVien.HoTen = sinhVienDto.HoTen;
+        existingSinhVien.Lop = sinhVienDto.Lop;
+        existingSinhVien.NgaySinh = sinhVienDto.NgaySinh;
+        existingSinhVien.DiaChi = sinhVienDto.DiaChi;
+        existingSinhVien.IdKhoa = sinhVienDto.IdKhoa;
+        existingSinhVien.IdChuongTrinhHoc = sinhVienDto.IdChuongTrinhHoc;
         // Save the changes
         await _context.SaveChangesAsync();
 
