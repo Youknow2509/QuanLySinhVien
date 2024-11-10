@@ -66,12 +66,19 @@ public class SinhVienRepository
                 // list value
                 HoTen = sv.HoTen,
                 Lop = sv.Lop,
-                NgaySinh = sv.NgaySinh.HasValue ? sv.NgaySinh.Value.ToString("dd/MM/yyyy") : null,
+                NgaySinh = sv.NgaySinh,
                 DiaChi = sv.DiaChi,
                 TenKhoa = khoa.TenKhoa,
                 TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
             }
         ).ToList();
+
+        return new ApiResponse<List<SinhVienDto>>
+        {
+            Success = true,
+            Data = sinhViens,
+            Message = "Lấy danh sách sinh viên thành công",
+        };
     }
 
     /**
@@ -95,7 +102,7 @@ public class SinhVienRepository
                 // list value
                 HoTen = sv.HoTen,
                 Lop = sv.Lop,
-                NgaySinh = sv.NgaySinh.HasValue ? sv.NgaySinh.Value.ToString("dd/MM/yyyy") : null,
+                NgaySinh = sv.NgaySinh,
                 DiaChi = sv.DiaChi,
                 TenKhoa = khoa.TenKhoa,
                 TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
@@ -115,6 +122,7 @@ public class SinhVienRepository
         {
             Success = true,
             Data = sinhVien,
+            Message = "Lấy sinh viên thành công",
         };
     }
 
@@ -163,6 +171,5 @@ public class SinhVienRepository
     /**
      * Xử Lí Cập Nhập Mật Khẩu Sinh Viên - Từ Chính Sinh Viên
      */
-
 
 }
