@@ -100,8 +100,69 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<LopHocPhanDto>> Edit(LopHocPhanDto lopHocPhan)
     {
-        //TODO
-        return null;
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == lopHocPhan.IdLopHocPhan);
+        if (lhp == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        // check giao vien, mon hoc ton tai
+        var gv = await _context.GiaoViens
+            .FirstOrDefaultAsync(g => g.IdGiaoVien == lopHocPhan.IdGiaoVien);
+        if (gv == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+        var mh = await _context.MonHocs
+            .FirstOrDefaultAsync(m => m.IdMonHoc == lopHocPhan.IdMonHoc);
+        if (mh == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+
+        // check thoi gian thay doi
+        var check_tg = await checkThoiGian(lopHocPhan);
+        if (check_tg.Status == false)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = check_tg.Message
+            };
+        }
+
+        // update lop hoc phan
+        lhp.TenHocPhan = lopHocPhan.TenLopHocPhan;
+        lhp.IdGiaoVien = lopHocPhan.IdGiaoVien;
+        lhp.IdMonHoc = lopHocPhan.IdMonHoc;
+        lhp.ThoiGianBatDau = lopHocPhan.ThoiGianBatDau;
+        lhp.ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<LopHocPhanDto>
+        {
+            Data = lopHocPhan,
+            Status = true,
+            Message = "Sửa thông tin lớp học phần thành công"
+        };
     }
 
     /**
@@ -148,5 +209,10 @@ public class LopHocPhanRepository
      * Thêm thời gian cho lớp học phần
      */
 
-
+    // Helper check thoi gian
+    private async Task<ApiResponse<LopHocPhanDto>> checkThoiGian(LopHocPhanDto lopHocPhan)
+    {
+        // TODO
+        return null;
+    }
 }
