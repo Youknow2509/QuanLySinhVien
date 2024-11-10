@@ -230,10 +230,10 @@ public class MonHocRepository
         }
 
         var listMH = await (
-            from gv in _quanLySinhVienDbContext.GiaoViens
+            from gv in _context.GiaoViens
             where gv.IdGiaoVien == IdGiaoVien
-            join khoa in _quanLySinhVienDbContext.Khoas on gv.IdKhoa equals khoa.IdKhoa
-            join mh in _quanLySinhVienDbContext.MonHocs on khoa.IdKhoa equals mh.IdKhoa
+            join khoa in _context.Khoas on gv.IdKhoa equals khoa.IdKhoa
+            join mh in _context.MonHocs on khoa.IdKhoa equals mh.IdKhoa
             select new MonHocDto{
                 IdMonHoc = mh.IdMonHoc,
                 TenMonHoc = mh.TenMonHoc,
