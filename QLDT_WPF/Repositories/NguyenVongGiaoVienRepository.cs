@@ -119,7 +119,7 @@ public class NguyenVongGiaoVienRepository
     /**
      * Sua thong tin nguyen vong cua giao vien
      */
-    public async Task<ApiResponse<NguyenVongThayDoiLichDto>> 
+    public async Task<ApiResponse<NguyenVongThayDoiLichDto>>
         Update(NguyenVongThayDoiLichDto nguyenVong)
     {
         var nguyenVongUpdate = await _context.DangKyDoiLichs
@@ -209,10 +209,10 @@ public class NguyenVongGiaoVienRepository
                 on thoigian.IdThoiGian equals tg_lhp.IdThoiGian
             where tg_lhp.IdLopHocPhan == nguyenVong.IdLopHocPhan &&
             (
-                (thoigian.ThoiGianBatDau <= nguyenVong.ThoiGianBatDauMoi &&
-                thoigian.ThoiGianKetThuc >= nguyenVong.ThoiGianBatDauMoi) ||
-                (thoigian.ThoiGianBatDau <= nguyenVong.ThoiGianKetThucMoi &&
-                thoigian.ThoiGianKetThuc >= nguyenVong.ThoiGianKetThucMoi)
+                (thoigian.NgayBatDau <= nguyenVong.ThoiGianBatDauMoi &&
+                thoigian.NgayKetThuc >= nguyenVong.ThoiGianBatDauMoi) ||
+                (thoigian.NgayBatDau <= nguyenVong.ThoiGianKetThucMoi &&
+                thoigian.NgayKetThuc >= nguyenVong.ThoiGianKetThucMoi)
             )
             select thoigian
         ).AnyAsync();
@@ -233,7 +233,7 @@ public class NguyenVongGiaoVienRepository
         nguyenVongUpdate.TrangThai = -1;
 
         await _context.SaveChangesAsync();
-        
+
         return new ApiResponse<NguyenVongThayDoiLichDto>
         {
             Data = nguyenVong,
