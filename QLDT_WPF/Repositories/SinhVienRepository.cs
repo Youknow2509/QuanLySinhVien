@@ -126,7 +126,30 @@ public class SinhVienRepository
     /**
      * Xoa Sinh Vien By Id Sinh Vien
      */
+    public async Task<ApiResponse<SinhVienDto>> Delete(int id)
+    {
+        var sinhVien = await _context.SinhViens
+            .FirstOrDefaultAsync(x => x.IdSinhVien == id);
+        if (sinhVien == null)
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Success = false,
+                Message = "Không tìm thấy sinh viên",
+                Data = null,
+            };
+        }
 
+        _context.SinhViens.Remove(sinhVien);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse
+        {
+            Success = true,
+            Message = "Xóa sinh viên thành công",
+            Data = null,
+        };
+    }
 
     /**
      * Sinh Vien Thuoc Lop Hoc Phan
