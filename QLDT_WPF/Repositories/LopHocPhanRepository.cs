@@ -423,7 +423,7 @@ public class LopHocPhanRepository
         ChangeTime(ThayDoiThoiGianLopHocPhanDto thayDoiThoiGianLopHocPhan)
     {
         var thoiGian = await _context.ThoiGians
-            .FirstOrDefaultAsync(t => t.IdThoiGian == thayDoiThoiGianLopHocPhan.IdThoiGian);
+            .FirstOrDefaultAsync(t => t.IdThoiGian == thoiGianLopHocPhan.IdThoiGian);
         if (thoiGian == null)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
@@ -435,7 +435,7 @@ public class LopHocPhanRepository
         }
 
         var lopHocPhan = await _context.LopHocPhans
-            .FirstOrDefaultAsync(l => l.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdLopHocPhan);
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan);
         if (lopHocPhan == null)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
@@ -447,7 +447,7 @@ public class LopHocPhanRepository
         }
 
         // Check thoi gian co thoa man khong
-        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= thayDoiThoiGianLopHocPhan.ThoiGianKetThuc)
+        if (thoiGianLopHocPhan.ThoiGianBatDau >= thoiGianLopHocPhan.ThoiGianKetThuc)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -458,8 +458,8 @@ public class LopHocPhanRepository
         }
 
         // Check Thời Gian Truyền Vào Ở Quá Khứ
-        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= DateTime.Now
-            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
+        if (thoiGianLopHocPhan.ThoiGianBatDau <= DateTime.Now
+            || thoiGianLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -470,8 +470,8 @@ public class LopHocPhanRepository
         }
         
         // Check trong khoang cho phep
-        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
-            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
+        if (thoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
+            || thoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -486,12 +486,12 @@ public class LopHocPhanRepository
             from tg in _context.ThoiGians
             join tg_lhp in _context.ThoiGianLopHocPhans
                 on tg.IdThoiGian equals tg_lhp.IdThoiGian
-            where tg_lhp.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdLopHocPhan
+            where tg_lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
                 && (
-                    (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
-                        && thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
-                    || (thayDoiThoiGianLopHocPhan.ThoiGianKetThuc >= tg.NgayBatDau
-                        && thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= tg.NgayKetThuc)
+                    (thoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
+                        && thoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
+                    || (thoiGianLopHocPhan.ThoiGianKetThuc >= tg.NgayBatDau
+                        && thoiGianLopHocPhan.ThoiGianKetThuc <= tg.NgayKetThuc)
                 )
             select tg
         ).AnyAsync();
@@ -506,9 +506,9 @@ public class LopHocPhanRepository
         }
 
         // update thoi gian
-        thoiGian.NgayBatDau = thayDoiThoiGianLopHocPhan.ThoiGianBatDau;
-        thoiGian.NgayKetThuc = thayDoiThoiGianLopHocPhan.ThoiGianKetThuc;
-        thoiGian.DiaDiem = thayDoiThoiGianLopHocPhan.DiaDiem;
+        thoiGian.NgayBatDau = thoiGianLopHocPhan.ThoiGianBatDau;
+        thoiGian.NgayKetThuc = thoiGianLopHocPhan.ThoiGianKetThuc;
+        thoiGian.DiaDiem = thoiGianLopHocPhan.DiaDiem;
 
         _context.ThoiGians.Update(thoiGian);
         await _context.SaveChangesAsync();
@@ -528,10 +528,10 @@ public class LopHocPhanRepository
         AddThoiGian(ThayDoiThoiGianLopHocPhanDto thoiGianLopHocPhan)
     {
         var mon = await (
-            from lhp in _context.LopHocPhans
+            from lh in _context.LopHocPhans
             join mh in _context.MonHocs
-                on lhp.IdMonHoc equals mh.IdMonHoc
-            where lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
+                on lh.IdMonHoc equals mh.IdMonHoc
+            where lh.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
             select mh
         ).FirstOrDefaultAsync();
 
@@ -548,9 +548,9 @@ public class LopHocPhanRepository
         // Check da du tiet chua
         var tg_lhp = await (
             from tg in _context.ThoiGians
-            join tg_lhp in _context.ThoiGianLopHocPhans
-                on tg.IdThoiGian equals tg_lhp.IdThoiGian
-            where tg_lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
+            join tglhp in _context.ThoiGianLopHocPhans
+                on tg.IdThoiGian equals tglhp.IdThoiGian
+            where tglhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
             select tg
         ).ToListAsync();
         if (tg_lhp.Count()*3 >= mon.SoTietHoc){
@@ -563,7 +563,7 @@ public class LopHocPhanRepository
         }
 
         // Check thoi gian co thoa man khong
-        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= thayDoiThoiGianLopHocPhan.ThoiGianKetThuc)
+        if (thoiGianLopHocPhan.ThoiGianBatDau >= thoiGianLopHocPhan.ThoiGianKetThuc)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -574,8 +574,8 @@ public class LopHocPhanRepository
         }
 
         // Check Thời Gian Truyền Vào Ở Quá Khứ
-        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= DateTime.Now
-            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
+        if (thoiGianLopHocPhan.ThoiGianBatDau <= DateTime.Now
+            || thoiGianLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -588,8 +588,8 @@ public class LopHocPhanRepository
         // Check trong khoang cho phep
         var lhp = await _context.LopHocPhans
             .FirstOrDefaultAsync(x => x.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan);
-        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
-            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
+        if (thoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
+            || thoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -604,12 +604,12 @@ public class LopHocPhanRepository
             from tg in _context.ThoiGians
             join tg_lhp in _context.ThoiGianLopHocPhans
                 on tg.IdThoiGian equals tg_lhp.IdThoiGian
-            where tg_lhp.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdLopHocPhan
+            where tg_lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
                 && (
-                    (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
-                        && thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
-                    || (thayDoiThoiGianLopHocPhan.ThoiGianKetThuc >= tg.NgayBatDau
-                        && thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= tg.NgayKetThuc)
+                    (thoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
+                        && thoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
+                    || (thoiGianLopHocPhan.ThoiGianKetThuc >= tg.NgayBatDau
+                        && thoiGianLopHocPhan.ThoiGianKetThuc <= tg.NgayKetThuc)
                 )
             select tg
         ).AnyAsync();
