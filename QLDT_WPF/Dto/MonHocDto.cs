@@ -7,5 +7,6 @@ namespace QLDT_WPF.Dto
         public int? SoTinChi { set; get; }
         public int? SoTietHoc { set; get; }
         public string? IdKhoa { set; get; }
+        public string? TenKhoa { set; get; }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 
 //
 using QLDT_WPF.Data;
+using QLDT_WPF.Dto;
 
 namespace QLDT_WPF.Repositories;
 
@@ -27,11 +28,32 @@ public class MonHocRepository
     {
         _context.Dispose();
     }
-    
+
     /**
      * Lay tat ca mon hoc
      */
+    public async Task<ApiResponse<List<MonHocDto>>> GetAll()
+    {
+        var monhocs = await (
+            from mh in _context.MonHocs
+            join khoa in _context.Khoas on mh.IdKhoa equals khoa.IdKhoa
+            select new MonHocDto {
+                IdMonHoc = mh.IdMonHoc,
+                IdKhoa = khoa.IdKhoa,
 
+                TenMonHoc = mh.TenMonHoc,
+                SoTinChi = mh.SoTinChi,
+                SoTietHoc = mh.SoTietHoc,
+                TenKhoa = khoa.TenKhoa,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<MonHocDto>> {
+            Data = monhocs,
+            Success = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Lay mon hoc by id
