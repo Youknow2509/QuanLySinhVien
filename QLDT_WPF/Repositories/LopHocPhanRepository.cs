@@ -279,8 +279,46 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<List<LopHocPhanDto>>> GetLopHocPhansFromSinhVien(string id)
     {
-        // TODO 
-        return null;
+        var sinhvien = await _context.SinhViens.
+            FirstOrDefaultAsync(s => s.IdSinhVien == id);
+        if (sinhvien == null)
+        {
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy sinh viên"
+            };
+        }
+
+        var list_lhp = await (
+            from sv_lhp in _context.SinhVienLopHocPhans
+            where sv_lhp.IdSinhVien == id
+            join lhp in _context.LopHocPhans
+                on sv_lhp.IdLopHocPhan equals lhp.IdLopHocPhan
+            join gv in _context.GiaoViens
+                on lhp.IdGiaoVien equals gv.IdGiaoVien
+            join mh in _context.MonHocs
+                on lhp.IdMonHoc equals mh.IdMonHoc
+            select new LopHocPhanDto{
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdMonHoc = lhp.IdMonHoc,
+                IdGiaoVien = lhp.IdGiaoVien,
+
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mh.TenMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
+            Data = list_lhp,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 
     /** 
