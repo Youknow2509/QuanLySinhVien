@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 //
 using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Repositories;
 
