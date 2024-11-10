@@ -62,8 +62,9 @@ public class NguyenVongGiaoVienRepository
         return new ApiResponse<List<NguyenVongThayDoiLichDto>>
         {
             Data = list_nguyen_vong,
-            Success = true,
-            Message = "Lấy danh sách nguyện vọng thành công"
+            Status = true,
+            Message = "Lấy danh sách nguyện vọng thành công",
+            StatusCode = 200,
         };
     }
 
