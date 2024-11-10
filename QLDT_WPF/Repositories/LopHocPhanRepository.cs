@@ -66,7 +66,7 @@ public class LopHocPhanRepository
     /**
      * Lay lop hoc phan by id
      */
-    public async Task<ApiResponse<List<LopHocPhanDto>>> GetById(int id)
+    public async Task<ApiResponse<List<LopHocPhanDto>>> GetById(string id)
     {
         var list_lhp = await (
             from lhp in _context.LopHocPhans
