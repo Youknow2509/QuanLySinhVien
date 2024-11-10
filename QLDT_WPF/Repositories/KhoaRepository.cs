@@ -192,7 +192,6 @@ public class KhoaRepository
                 NgaySinh = sv.NgaySinh,
                 DiaChi = sv.DiaChi,
                 TenKhoa = kh.TenKhoa,
-                TenChuongTrinhHoc = cth.TenChuongTrinhHoc,
             }
         ).ToListAsync();
         
