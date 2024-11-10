@@ -37,5 +37,7 @@ namespace QLDT_WPF.Dto
         public string? SoDienThoai { get; set; }
 
         public string? Email { get; set; }
+
+        public string? TenChuongTrinhHoc { get; set; }
     }
 }
