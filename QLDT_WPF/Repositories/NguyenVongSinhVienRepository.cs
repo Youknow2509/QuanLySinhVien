@@ -35,7 +35,8 @@ public class NguyenVongSinhVienRepository
     /**
      * Lay tat ca nguyen vong cua sinh vien
      */
-    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>> GetAll()
+    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>> 
+        GetAll()
     {
         var list_nguyen_vong = await (
             from nv in _context.DangKyNguyenVongs
@@ -46,7 +47,7 @@ public class NguyenVongSinhVienRepository
                 IdNguyenVong = nv.IdDangKyNguyenVong,
                 IdSinhVien = nv.IdSinhVien,
                 IdMonHoc = mh.IdMonHoc,
-                
+
                 TenSinhVien = sv.HoTen,
                 TenMonHoc = mh.TenMonHoc,
                 TrangThai = nv.TrangThai,
@@ -65,6 +66,44 @@ public class NguyenVongSinhVienRepository
     /**
      * Lay nguyen vong cua sinh vien by id
      */
+    public async Task<ApiResponse<NguyenVongSinhVienDto>> 
+        GetById(string id)
+    {
+        var nguyen_vong = await (
+            from nv in _context.DangKyNguyenVongs
+            join sv in _context.SinhViens on nv.IdSinhVien equals sv.IdSinhVien
+            join mh in _context.MonHocs on nv.IdMonHoc equals mh.IdMonHoc
+            where nv.IdDangKyNguyenVong == id
+            select new NguyenVongSinhVienDto
+            {
+                IdNguyenVong = nv.IdDangKyNguyenVong,
+                IdSinhVien = nv.IdSinhVien,
+                IdMonHoc = mh.IdMonHoc,
+
+                TenSinhVien = sv.HoTen,
+                TenMonHoc = mh.TenMonHoc,
+                TrangThai = nv.TrangThai,
+            }
+        ).FirstOrDefaultAsync();
+
+        if (nguyen_vong == null)
+        {
+            return new ApiResponse<NguyenVongSinhVienDto>{
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng"
+            };
+        }
+
+        return new ApiResponse<NguyenVongSinhVienDto>{
+            Data = nguyen_vong,
+            StatusCode = 200,
+            Status = true,
+            Message = "Lấy nguyện vọng thành công"
+        };
+    }
+
 
     /**
      * Lay nguyen vong cua sinh vien by id
