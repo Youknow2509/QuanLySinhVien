@@ -104,11 +104,48 @@ public class NguyenVongSinhVienRepository
         };
     }
 
-
     /**
      * Lay nguyen vong cua sinh vien by id
      */
+    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>> 
+        GetByIdSinhVien(string idSinhVien)
+    {
+        var sv = await _context.SinhViens
+            .FirstOrDefaultAsync(v => v.IdSinhVien == idSinhVien);
+        if (sv == null)
+        {
+            return new ApiResponse<List<NguyenVongSinhVienDto>>{
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy sinh viên"
+            };
+        }
+    
+        var list_nguyen_vong = await (
+            from nv in _context.DangKyNguyenVongs
+            join mh in _context.MonHocs 
+                on nv.IdMonHoc equals mh.IdMonHoc
+            where nv.IdSinhVien == idSinhVien
+            select new NguyenVongSinhVienDto
+            {
+                IdNguyenVong = nv.IdDangKyNguyenVong,
+                IdSinhVien = nv.IdSinhVien,
+                IdMonHoc = mh.IdMonHoc,
 
+                TenSinhVien = sv.HoTen,
+                TenMonHoc = mh.TenMonHoc,
+                TrangThai = nv.TrangThai,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<NguyenVongSinhVienDto>>{
+            Data = list_nguyen_vong,
+            StatusCode = 200,
+            Status = true,
+            Message = "Lấy danh sách nguyện vọng thành công"
+        };
+    }
 
     /**
      * Sua thong tin nguyen vong cua sinh vien
