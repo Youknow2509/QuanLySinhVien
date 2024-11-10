@@ -71,6 +71,50 @@ public class NguyenVongGiaoVienRepository
     /**
      * Lay nguyen vong cua giao vien by id
      */
+    public async Task<ApiResponse<NguyenVongThayDoiLichDto>> GetById(string id)
+    {
+        var nguyen_vong = await (
+            from nguyenvong in _context.DangKyDoiLichs
+            join tg_lhp in _context.ThoiGianLopHocPhans
+                on nguyenvong.IdThoiGian equals tg_lhp.IdThoiGian
+            join lhp in _context.LopHocPhans
+                on tg_lhp.IdLopHocPhan equals lhp.IdLopHocPhan
+            where nguyenvong.IdDangKyDoiLich == id
+            select new NguyenVongThayDoiLichDto
+            {
+                IdDangKyDoiLich = nguyenvong.IdDangKyDoiLich,
+                IdThoiGian = nguyenvong.IdThoiGian,
+                IdLopHocPhan = lhp.IdLopHocPhan,
+
+                ThoiGianBatDauHienTai = nguyenvong.ThoiGianBatDauHienTai,
+                ThoiGianKetThucHienTai = nguyenvong.ThoiGianKetThucHienTai,
+                ThoiGianBatDauMoi = nguyenvong.ThoiGianBatDauMoi,
+                ThoiGianKetThucMoi = nguyenvong.ThoiGianKetThucMoi,
+
+                TrangThai = nguyenvong.TrangThai,
+                TenLopHocPhan = lhp.TenHocPhan,
+            }
+            ).FirstOrDefaultAsync();
+
+        if (nguyen_vong == null)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng",
+                StatusCode = 404,
+            };
+        }
+
+        return new ApiResponse<NguyenVongThayDoiLichDto>
+        {
+            Data = nguyen_vong,
+            Status = true,
+            Message = "Lấy nguyện vọng thành công",
+            StatusCode = 200,
+        };
+    }
 
     /**
      * Lay nguyen vong cua giao vien by id
