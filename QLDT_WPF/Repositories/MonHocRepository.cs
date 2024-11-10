@@ -96,16 +96,50 @@ public class MonHocRepository
         };
     }
 
-
-    /**
-     * Lay mon hoc by id
-     */
-
-
     /**
      * Sua thong tin mon hoc
      */
+    public async Task<ApiResponse<MonHocDto>> Update(MonHocDto monhocDto)
+    {
+        var monhocUpgrade = await _context.MonHocs
+            .FirstOrDefaultAsync(x => x.IdMonHoc == monhocDto.IdMonHoc);
+        if (monhocUpgrade == null)
+        {
+            return new ApiResponse<MonHocDto> {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học",
+                StatusCode = 404,
+            };
+        }
 
+        // check khoa exist
+        var khoa = await _context.Khoas
+            .FirstOrDefaultAsync(x => x.IdKhoa == monhocDto.IdKhoa);
+        if (khoa == null)
+        {
+            return new ApiResponse<MonHocDto> {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy khoa",
+                StatusCode = 404,
+            };
+        }
+
+        monhocUpgrade.TenMonHoc = monhocDto.TenMonHoc;
+        monhocUpgrade.SoTinChi = monhocDto.SoTinChi;
+        monhocUpgrade.SoTietHoc = monhocDto.SoTietHoc;
+        monhocUpgrade.IdKhoa = monhocDto.IdKhoa;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<MonHocDto> {
+            Data = monhocDto,
+            Status = true,
+            Message = "Cập nhật môn học thành công",
+            StatusCode = 200,
+        };
+    }
 
     /**
      * Them mon hoc
