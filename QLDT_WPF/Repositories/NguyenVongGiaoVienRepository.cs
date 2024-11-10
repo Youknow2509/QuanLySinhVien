@@ -246,7 +246,126 @@ public class NguyenVongGiaoVienRepository
     /**
      * Them nguyen vong cua giao vien
      */
+    public async Task<ApiResponse<NguyenVongThayDoiLichDto>>
+        Add(NguyenVongThayDoiLichDto nguyenVong)
+    {
+        var thoiGian = await _context.ThoiGians
+            .FirstOrDefaultAsync(x => x.IdThoiGian == nguyenVong.IdThoiGian);
+        if (thoiGian == null)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy thời gian thay đổi lịch",
+                StatusCode = 404,
+            };
+        }
 
+        // check thoi gian
+        if (nguyenVong.ThoiGianBatDauHienTai > nguyenVong.ThoiGianKetThucHienTai)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian bắt đầu hiện tại phải nhỏ hơn thời gian kết thúc hiện tại",
+                StatusCode = 400,
+            };
+        }
+        if (nguyenVong.ThoiGianBatDauMoi > nguyenVong.ThoiGianKetThucMoi)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian bắt đầu mới phải nhỏ hơn thời gian kết thúc mới",
+                StatusCode = 400,
+            };
+        }
+        if (nguyenVong.ThoiGianBatDauHienTai < DateTime.Now)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Lớp học phần đã bắt đầu không thể thay đổi",
+                StatusCode = 400,
+            };
+        }
+
+        // check trong khoang cho phep
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(x => x.IdLopHocPhan == nguyenVong.IdLopHocPhan);
+        if (lhp == null)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần",
+                StatusCode = 404,
+            };
+        }
+        if (nguyenVong.ThoiGianBatDauMoi < lhp.ThoiGianBatDau ||
+            nguyenVong.ThoiGianKetThucMoi > lhp.ThoiGianKetThuc)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian mới không nằm trong khoảng thời gian cho phép",
+                StatusCode = 400,
+            };
+        }
+
+        // check trung lich
+        var check_trung_lich = await (
+            from thoigian in _context.ThoiGians
+            join tg_lhp in _context.ThoiGianLopHocPhans
+                on thoigian.IdThoiGian equals tg_lhp.IdThoiGian
+            where tg_lhp.IdLopHocPhan == nguyenVong.IdLopHocPhan &&
+            (
+                (thoigian.NgayBatDau <= nguyenVong.ThoiGianBatDauMoi &&
+                thoigian.NgayKetThuc >= nguyenVong.ThoiGianBatDauMoi) ||
+                (thoigian.NgayBatDau <= nguyenVong.ThoiGianKetThucMoi &&
+                thoigian.NgayKetThuc >= nguyenVong.ThoiGianKetThucMoi)
+            )
+            select thoigian
+        ).AnyAsync();
+        if (check_trung_lich)
+        {
+            return new ApiResponse<NguyenVongThayDoiLichDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Trùng lịch với lớp học phần khác",
+                StatusCode = 400,
+            };
+        }
+
+        // add
+        var new_nguyen_vong = new DangKyDoiLich
+        {
+            IdDangKyDoiLich = Guid.NewGuid().ToString(),
+            IdThoiGian = nguyenVong.IdThoiGian,
+            ThoiGianBatDauHienTai = nguyenVong.ThoiGianBatDauHienTai ?? DateTime.MinValue,
+            ThoiGianKetThucHienTai = nguyenVong.ThoiGianKetThucHienTai ?? DateTime.MinValue,
+            ThoiGianBatDauMoi = nguyenVong.ThoiGianBatDauMoi ?? DateTime.MinValue,
+            ThoiGianKetThucMoi = nguyenVong.ThoiGianKetThucMoi ?? DateTime.MinValue,
+            TrangThai = -1,
+        };
+        _context.DangKyDoiLichs.Add(new_nguyen_vong);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongThayDoiLichDto>
+        {
+            Data = nguyenVong,
+            Status = true,
+            Message = "Thêm nguyện vọng thành công",
+            StatusCode = 200,
+        };
+    }
 
     /**
      * Xoa nguyen vong cua giao vien By Id 
