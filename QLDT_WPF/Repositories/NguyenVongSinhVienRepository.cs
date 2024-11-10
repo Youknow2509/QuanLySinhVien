@@ -258,17 +258,17 @@ public class NguyenVongSinhVienRepository
             from nv in _context.DangKyNguyenVongs
             join sv in _context.SinhViens
                 on nv.IdSinhVien equals sv.IdSinhVien
-            join mh in _context.MonHocs
-                on nv.IdMonHoc equals mh.IdMonHoc
+            join monhoc in _context.MonHocs
+                on nv.IdMonHoc equals monhoc.IdMonHoc
             where nv.IdMonHoc == idMonHoc
             select new NguyenVongSinhVienDto
             {
                 IdNguyenVong = nv.IdDangKyNguyenVong,
                 IdSinhVien = nv.IdSinhVien,
-                IdMonHoc = mh.IdMonHoc,
+                IdMonHoc = monhoc.IdMonHoc,
 
                 TenSinhVien = sv.HoTen,
-                TenMonHoc = mh.TenMonHoc,
+                TenMonHoc = monhoc.TenMonHoc,
                 TrangThai = nv.TrangThai,
             }
         ).ToListAsync();
