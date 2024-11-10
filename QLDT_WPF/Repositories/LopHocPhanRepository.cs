@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
 using Azure.Identity;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Repositories;
 
@@ -38,7 +39,7 @@ public class LopHocPhanRepository
     {
         var lhp = await (
             from l in _context.LopHocPhans
-            join gv in _context.GiaoViens 
+            join gv in _context.GiaoViens
                 on l.IdGiaoVien equals gv.IdGiaoVien
             join mh in _context.MonHocs
                 on l.IdMonHoc equals mh.IdMonHoc
@@ -49,14 +50,15 @@ public class LopHocPhanRepository
                 IdGiaoVien = l.IdGiaoVien,
 
                 TenLopHocPhan = l.TenHocPhan,
-                TenGiaoVien= gv.TenGiaoVien,
+                TenGiaoVien = gv.TenGiaoVien,
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = l.ThoiGianBatDau,
                 ThoiGianKetThuc = l.ThoiGianKetThuc,
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<LopHocPhanDto>>{
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
             Data = lhp,
             Status = true,
             Message = "Lấy dữ liệu thành công"
@@ -71,24 +73,26 @@ public class LopHocPhanRepository
         var list_lhp = await (
             from lhp in _context.LopHocPhans
             where lhp.IdLopHocPhan == id
-            join gv in _context.GiaoViens 
+            join gv in _context.GiaoViens
                 on lhp.IdGiaoVien equals gv.IdGiaoVien
             join mh in _context.MonHocs
                 on lhp.IdMonHoc equals mh.IdMonHoc
-            select new LopHocPhanDto{
+            select new LopHocPhanDto
+            {
                 IdLopHocPhan = lhp.IdLopHocPhan,
                 IdMonHoc = lhp.IdMonHoc,
                 IdGiaoVien = lhp.IdGiaoVien,
 
                 TenLopHocPhan = lhp.TenHocPhan,
-                TenGiaoVien= gv.TenGiaoVien,
+                TenGiaoVien = gv.TenGiaoVien,
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<LopHocPhanDto>>{
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
             Data = list_lhp,
             Status = true,
             Message = "Lấy dữ liệu thành công"
@@ -141,7 +145,8 @@ public class LopHocPhanRepository
             || lhp.ThoiGianKetThuc != lopHocPhan.ThoiGianKetThuc)
             && lhp.ThoiGianBatDau >= DateTime.Now)
         {
-            return new ApiResponse<LopHocPhanDto>{
+            return new ApiResponse<LopHocPhanDto>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không thể thay đổi thời gian lớp học phần khi lớp học phần đã diễn ra"
@@ -170,9 +175,75 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<LopHocPhanDto>> Add(LopHocPhanDto lopHocPhan)
     {
-        // if id lop hoc phan is null -> generate new id
-        // TODO
-        return null;
+        if (lopHocPhan.IdLopHocPhan == null)
+        {
+            lopHocPhan.IdLopHocPhan = Guid.NewGuid().ToString();
+        }
+
+        LopHocPhan newLopHocPhan = new LopHocPhan
+        {
+            IdLopHocPhan = lopHocPhan.IdLopHocPhan,
+            IdMonHoc = lopHocPhan.IdMonHoc,
+            IdGiaoVien = lopHocPhan.IdGiaoVien,
+            TenHocPhan = lopHocPhan.TenLopHocPhan,
+            ThoiGianBatDau = lopHocPhan.ThoiGianBatDau,
+            ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc,
+        };
+
+        // check giao vien, mon hoc ton tai
+        var gv = await _context.GiaoViens
+            .FirstOrDefaultAsync(g => g.IdGiaoVien == lopHocPhan.IdGiaoVien);
+        if (gv == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+        var mh = await _context.MonHocs
+            .FirstOrDefaultAsync(m => m.IdMonHoc == lopHocPhan.IdMonHoc);
+        if (mh == null)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+
+        // check thoi gian
+        if (newLopHocPhan.ThoiGianBatDau <= DateTime.Now || newLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không thể thêm lớp học phần khi thời gian lớp học phần đã diễn ra"
+            };
+        }
+        if (newLopHocPhan.ThoiGianBatDau >= newLopHocPhan.ThoiGianKetThuc)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian bắt đầu phải trước thời gian kết thúc"
+            };
+        }
+
+        // handle add lop hoc phan
+        await _context.LopHocPhans.AddAsync(newLopHocPhan);
+
+        return
+            new ApiResponse<LopHocPhanDto>
+            {
+                Data = lopHocPhan,
+                Status = true,
+                Message = "Thêm lớp học phần thành công"
+            };
     }
 
     /**
