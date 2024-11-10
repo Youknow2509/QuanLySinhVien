@@ -207,6 +207,33 @@ public class NguyenVongSinhVienRepository
     /**
      * Xoa nguyen vong cua sinh vien By Id 
      */
+    public async Task<ApiResponse<NguyenVongSinhVienDto>>
+        Delete(string id)
+    {
+        var nguyen_vong = await _context.DangKyNguyenVongs
+            .FirstOrDefaultAsync(v => v.IdDangKyNguyenVong == id);
+        if (nguyen_vong == null)
+        {
+            return new ApiResponse<NguyenVongSinhVienDto>
+            {
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng"
+            };
+        }
+
+        _context.DangKyNguyenVongs.Remove(nguyen_vong);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongSinhVienDto>
+        {
+            Data = null,
+            StatusCode = 200,
+            Status = true,
+            Message = "Xóa nguyện vọng thành công"
+        };
+    }
 
     /**
      * Lay nguyen vong by id sinh vien
