@@ -317,5 +317,32 @@ public class NguyenVongSinhVienRepository
     /**
      * Tu choi nguyen vong by id
      */
+    public async Task<ApiResponse<NguyenVongSinhVienDto>>
+        Reject(string id)
+    {
+        var nguyen_vong = await _context.DangKyNguyenVongs
+            .FirstOrDefaultAsync(v => v.IdDangKyNguyenVong == id);
+        if (nguyen_vong == null)
+        {
+            return new ApiResponse<NguyenVongSinhVienDto>
+            {
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng"
+            };
+        }
+
+        nguyen_vong.TrangThai = 0;
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongSinhVienDto>
+        {
+            Data = null,
+            StatusCode = 200,
+            Status = true,
+            Message = "Chấp nhận nguyện vọng thành công"
+        };
+    }
 
 }
