@@ -129,7 +129,64 @@ public class SinhVienRepository
     /**
      * Sua thong tin sinh vien
      */
+    public async Task<ApiResponse<SinhVienDto>> Edit(SinhVienDto sinhVienDto)
+    {
+        // Find the existing sinh vien
+        var existingSinhVien = await _context.SinhViens
+            .FirstOrDefaultAsync(x => x.IdSinhVien == sinhVienDto.IdSinhVien);
+        if (existingSinhVien == null)
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = false,
+                Message = "Không tìm thấy sinh viên",
+                Data = null,
+            };
+        }
 
+        // check chuong trinh hoc
+        var chuongTrinhHoc = await _context.ChuongTrinhHocs
+            .FirstOrDefaultAsync(x => x.IdChuongTrinhHoc == sinhVienDto.IdChuongTrinhHoc);
+        if (chuongTrinhHoc == null) 
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = false,
+                Message = "Không tìm thấy chương trình học",
+                Data = null,
+            };
+        }
+
+        // check khoa
+        var khoa = await _context.Khoas
+            .FirstOrDefaultAsync(x => x.IdKhoa == sinhVienDto.IdKhoa);
+        if (khoa == null)
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = false,
+                Message = "Không tìm thấy khoa",
+                Data = null,
+            };
+        }
+
+        // Update the existing sinh vien
+        existingSinhVien.HoTen = sinhVien.HoTen;
+        existingSinhVien.Lop = sinhVien.Lop;
+        existingSinhVien.NgaySinh = sinhVien.NgaySinh;
+        existingSinhVien.DiaChi = sinhVien.DiaChi;
+        existingSinhVien.IdKhoa = sinhVien.IdKhoa;
+        existingSinhVien.IdChuongTrinhHoc = sinhVien.IdChuongTrinhHoc;
+        // Save the changes
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<SinhVienDto>
+        {
+            Status = true,
+            Message = "Sửa thông tin sinh viên thành công",
+            Data = sinhVienDto,
+        };
+    }
 
     /**
      * Xoa Sinh Vien By Id Sinh Vien
@@ -151,7 +208,7 @@ public class SinhVienRepository
         _context.SinhViens.Remove(sinhVien);
         await _context.SaveChangesAsync();
 
-        return new ApiResponse
+        return new ApiResponse<SinhVienDto>
         {
             Status = true,
             Message = "Xóa sinh viên thành công",
@@ -163,9 +220,9 @@ public class SinhVienRepository
      * Sinh Vien Thuoc Lop Hoc Phan
      * @param idLopHocPhan
      */
-    public async Task<ApiResponse<List<SinhVienDto>>> 
+    public async Task<ApiResponse<List<SinhVienDto>>>
         GetByLopHocPhan(string idLopHocPhan)
-    {   
+    {
         var lopHocPhan = await _context.LopHocPhans
             .FirstOrDefaultAsync(x => x.IdLopHocPhan == idLopHocPhan);
         if (lopHocPhan == null)
