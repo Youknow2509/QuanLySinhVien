@@ -300,7 +300,8 @@ public class LopHocPhanRepository
                 on lhp.IdGiaoVien equals gv.IdGiaoVien
             join mh in _context.MonHocs
                 on lhp.IdMonHoc equals mh.IdMonHoc
-            select new LopHocPhanDto{
+            select new LopHocPhanDto
+            {
                 IdLopHocPhan = lhp.IdLopHocPhan,
                 IdMonHoc = lhp.IdMonHoc,
                 IdGiaoVien = lhp.IdGiaoVien,
@@ -324,6 +325,49 @@ public class LopHocPhanRepository
     /** 
      * Get lop hoc phan cua giao vien tu id
      */
+    public async Task<ApiResponse<List<LopHocPhanDto>>>
+        GetLopHocPhansFromGiaoVien(string id)
+    {
+        var giaovien = await _context.GiaoViens.
+            FirstOrDefaultAsync(g => g.IdGiaoVien == id);
+        if (giaovien == null)
+        {
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        var list_lhp = await (
+            from lhp in _context.LopHocPhans
+            where lhp.IdGiaoVien == id
+            join gv in giaovien
+                on lhp.IdGiaoVien equals gv.IdGiaoVien
+            join mh in _context.MonHocs
+                on lhp.IdMonHoc equals mh.IdMonHoc
+            select new LopHocPhanDto
+            {
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdMonHoc = lhp.IdMonHoc,
+                IdGiaoVien = lhp.IdGiaoVien,
+
+                TenLopHocPhan = lhp.TenHocPhan,
+                TenGiaoVien = gv.TenGiaoVien,
+                TenMonHoc = mh.TenMonHoc,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
+            Data = list_lhp,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
+    }
 
     /**
      * Get lop hoc phan tu id mon hoc
