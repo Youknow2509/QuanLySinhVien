@@ -253,12 +253,12 @@ public class NguyenVongSinhVienRepository
                 Message = "Không tìm thấy môn học"
             };
         }
-    
+
         var list_nguyen_vong_sinh_vien = await (
             from nv in _context.DangKyNguyenVongs
-            join sv in _context.SinhViens 
+            join sv in _context.SinhViens
                 on nv.IdSinhVien equals sv.IdSinhVien
-            join mh in _context.MonHocs 
+            join mh in _context.MonHocs
                 on nv.IdMonHoc equals mh.IdMonHoc
             where nv.IdMonHoc == idMonHoc
             select new NguyenVongSinhVienDto
@@ -272,7 +272,7 @@ public class NguyenVongSinhVienRepository
                 TrangThai = nv.TrangThai,
             }
         ).ToListAsync();
-        
+
         return new ApiResponse<List<NguyenVongSinhVienDto>>
         {
             Data = list_nguyen_vong_sinh_vien,
@@ -286,6 +286,33 @@ public class NguyenVongSinhVienRepository
     /**
      * Chap nhan nguyen vong by id
      */
+    public async Task<ApiResponse<NguyenVongSinhVienDto>>
+        Accpet(string id)
+    {
+        var nguyen_vong = await _context.DangKyNguyenVongs
+            .FirstOrDefaultAsync(v => v.IdDangKyNguyenVong == id);
+        if (nguyen_vong == null)
+        {
+            return new ApiResponse<NguyenVongSinhVienDto>
+            {
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy nguyện vọng"
+            };
+        }
+
+        nguyen_vong.TrangThai = 1;
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<NguyenVongSinhVienDto>
+        {
+            Data = null,
+            StatusCode = 200,
+            Status = true,
+            Message = "Chấp nhận nguyện vọng thành công"
+        };
+    }
 
     /**
      * Tu choi nguyen vong by id
