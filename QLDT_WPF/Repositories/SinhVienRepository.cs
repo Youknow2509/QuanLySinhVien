@@ -77,7 +77,46 @@ public class SinhVienRepository
     /**
      * Lay sinh vien by id
      */
+    public async Task<ApiResponse<SinhVienDto>> GetById(int id)
+    {
+        var sinhVien = (
+            from sv in _context.SinhViens
+            join khoa in _context.Khoas 
+                on sv.IdKhoa equals khoa.IdKhoa
+            join cch in _context.ChuongTrinhHocs 
+                on sv.IdChuongTrinhHoc equals cch.IdChuongTrinhHoc
+            where sv.IdSinhVien == id
+            select new SinhVienDto
+            {
+                // List id
+                IdSinhVien = sv.IdSinhVien,
+                IdKhoa = sv.IdKhoa,
+                IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
+                // list value
+                HoTen = sv.HoTen,
+                Lop = sv.Lop,
+                NgaySinh = sv.NgaySinh.HasValue ? sv.NgaySinh.Value.ToString("dd/MM/yyyy") : null,
+                DiaChi = sv.DiaChi,
+                TenKhoa = khoa.TenKhoa,
+                TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
+            }
+        ).FirstOrDefault();
 
+        if (sinhVien == null)
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Success = false,
+                Message = "Không tìm thấy sinh viên",
+            };
+        }
+
+        return new ApiResponse<SinhVienDto>
+        {
+            Success = true,
+            Data = sinhVien,
+        };
+    }
 
     /**
      * Sua thong tin sinh vien
