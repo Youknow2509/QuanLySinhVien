@@ -486,12 +486,12 @@ public class LopHocPhanRepository
             from tg in _context.ThoiGians
             join tg_lhp in _context.ThoiGianLopHocPhans
                 on tg.IdThoiGian equals tg_lhp.IdThoiGian
-            where tg_lhp.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdThoiGian
+            where tg_lhp.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdLopHocPhan
                 && (
-                    (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= tg.ThoiGianBatDau
-                        && thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= tg.ThoiGianKetThuc)
-                    || (thayDoiThoiGianLopHocPhan.ThoiGianKetThuc >= tg.ThoiGianBatDau
-                        && thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= tg.ThoiGianKetThuc)
+                    (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
+                        && thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
+                    || (thayDoiThoiGianLopHocPhan.ThoiGianKetThuc >= tg.NgayBatDau
+                        && thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= tg.NgayKetThuc)
                 )
             select tg
         ).AnyAsync();
@@ -506,8 +506,8 @@ public class LopHocPhanRepository
         }
 
         // update thoi gian
-        thoiGian.ThoiGianBatDau = thayDoiThoiGianLopHocPhan.ThoiGianBatDau;
-        thoiGian.ThoiGianKetThuc = thayDoiThoiGianLopHocPhan.ThoiGianKetThuc;
+        thoiGian.NgayBatDau = thayDoiThoiGianLopHocPhan.ThoiGianBatDau;
+        thoiGian.NgayKetThuc = thayDoiThoiGianLopHocPhan.ThoiGianKetThuc;
 
         _context.ThoiGians.Update(thoiGian);
         await _context.SaveChangesAsync();
