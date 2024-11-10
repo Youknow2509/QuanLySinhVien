@@ -36,8 +36,31 @@ public class LopHocPhanRepository
      */
     public async Task<ApiResponse<List<LopHocPhanDto>>> GetAll()
     {
-        // TODO 
-        return null;
+        var lhp = await (
+            from l in _context.LopHocPhans
+            join gv in _context.GiaoViens 
+                on l.IdGiaoVien equals gv.IdGiaoVien
+            join mh in _context.MonHocs
+                on l.IdMonHoc equals mh.IdMonHoc
+            select new LopHocPhanDto
+            {
+                IdLopHocPhan = l.IdLopHocPhan,
+                IdMonHoc = l.IdMonHoc,
+                IdGiaoVien = l.IdGiaoVien,
+
+                TenLopHocPhan = l.TenLopHocPhan,
+                TenGiaoVien= gv.TenGiaoVien,
+                TenMonHoc = mh.TenMonHoc,
+                ThoiGianBatDau = l.ThoiGianBatDau,
+                ThoiGianKetThuc = l.ThoiGianKetThuc,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>{
+            Data = lhp,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
+        };
     }
 
     /**
