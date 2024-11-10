@@ -236,8 +236,52 @@ public class NguyenVongSinhVienRepository
     }
 
     /**
-     * Lay nguyen vong by id sinh vien
+     * Lay nguyen vong by mon hoc
      */
+    public async Task<ApiResponse<List<NguyenVongSinhVienDto>>>
+        GetByIdMonHoc(string idMonHoc)
+    {
+        var mh = await _context.MonHocs
+            .FirstOrDefaultAsync(x => x.IdMonHoc == idMonHoc);
+        if (mh == null)
+        {
+            return new ApiResponse<List<NguyenVongSinhVienDto>>
+            {
+                Data = null,
+                StatusCode = 404,
+                Status = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
+    
+        var list_nguyen_vong_sinh_vien = await (
+            from nv in _context.DangKyNguyenVongs
+            join sv in _context.SinhViens 
+                on nv.IdSinhVien equals sv.IdSinhVien
+            join mh in _context.MonHocs 
+                on nv.IdMonHoc equals mh.IdMonHoc
+            where nv.IdMonHoc == idMonHoc
+            select new NguyenVongSinhVienDto
+            {
+                IdNguyenVong = nv.IdDangKyNguyenVong,
+                IdSinhVien = nv.IdSinhVien,
+                IdMonHoc = mh.IdMonHoc,
+
+                TenSinhVien = sv.HoTen,
+                TenMonHoc = mh.TenMonHoc,
+                TrangThai = nv.TrangThai,
+            }
+        ).ToListAsync();
+        
+        return new ApiResponse<List<NguyenVongSinhVienDto>>
+        {
+            Data = list_nguyen_vong_sinh_vien,
+            StatusCode = 200,
+            Status = true,
+            Message = "Lấy danh sách nguyện vọng thành công"
+        };
+    }
+
 
     /**
      * Chap nhan nguyen vong by id
