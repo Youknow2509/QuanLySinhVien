@@ -508,6 +508,7 @@ public class LopHocPhanRepository
         // update thoi gian
         thoiGian.NgayBatDau = thayDoiThoiGianLopHocPhan.ThoiGianBatDau;
         thoiGian.NgayKetThuc = thayDoiThoiGianLopHocPhan.ThoiGianKetThuc;
+        thoiGian.DiaDiem = thayDoiThoiGianLopHocPhan.DiaDiem;
 
         _context.ThoiGians.Update(thoiGian);
         await _context.SaveChangesAsync();
@@ -523,6 +524,131 @@ public class LopHocPhanRepository
     /**
      * Thêm thời gian cho lớp học phần
      */
+    public async Task<ApiResponse<ThoiGianLopHocPhanDto>>
+        AddThoiGian(ThoiGianLopHocPhanDto thoiGianLopHocPhan)
+    {
+        var mon = await (
+            from lhp in _context.LopHocPhans
+            join mh in _context.MonHocs
+                on lhp.IdMonHoc equals mh.IdMonHoc
+            where lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
+            select mh
+        ).FirstOrDefaultAsync();
 
+        if (mon == null)
+        {
+            return new ApiResponse<ThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy môn học"
+            };
+        }
 
+        // Check da du tiet chua
+        var tg_lhp = await (
+            from tg in _context.ThoiGians
+            join tg_lhp in _context.ThoiGianLopHocPhans
+                on tg.IdThoiGian equals tg_lhp.IdThoiGian
+            where tg_lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
+            select tg
+        ).ToListAsync();
+        if (tg_lhp.Count()*3 >= mon.SoTietHoc){
+            return new ApiResponse<ThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Đã đủ số tiết học không thể thêm thời gian"
+            };
+        }
+
+        // Check thoi gian co thoa man khong
+        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= thayDoiThoiGianLopHocPhan.ThoiGianKetThuc)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian bắt đầu phải trước thời gian kết thúc"
+            };
+        }
+
+        // Check Thời Gian Truyền Vào Ở Quá Khứ
+        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= DateTime.Now
+            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= DateTime.Now)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không thể thay đổi thời gian lớp học phần khi thời gian lớp học phần đã diễn ra"
+            };
+        }
+        
+        // Check trong khoang cho phep
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(x => x.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan);
+        if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
+            || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian thay đổi không nằm trong khoảng thời gian cho phép"
+            };
+        }
+
+        // check thoi gian lop hoc phan co bi trung khong 
+        var check_trung_thoi_gian_lop_hoc_phan = await (
+            from tg in _context.ThoiGians
+            join tg_lhp in _context.ThoiGianLopHocPhans
+                on tg.IdThoiGian equals tg_lhp.IdThoiGian
+            where tg_lhp.IdLopHocPhan == thayDoiThoiGianLopHocPhan.IdLopHocPhan
+                && (
+                    (thayDoiThoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
+                        && thayDoiThoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
+                    || (thayDoiThoiGianLopHocPhan.ThoiGianKetThuc >= tg.NgayBatDau
+                        && thayDoiThoiGianLopHocPhan.ThoiGianKetThuc <= tg.NgayKetThuc)
+                )
+            select tg
+        ).AnyAsync();
+        if (check_trung_thoi_gian_lop_hoc_phan)
+        {
+            return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Thời gian lớp học phần bị trùng"
+            };
+        }
+
+        // add thoi gian
+        ThoiGian newThoiGian = new ThoiGian
+        {
+            IdThoiGian = Guid.NewGuid().ToString(),
+            NgayBatDau = thoiGianLopHocPhan.ThoiGianBatDau,
+            NgayKetThuc = thoiGianLopHocPhan.ThoiGianKetThuc,
+            DiaDiem = thoiGianLopHocPhan.DiaDiem
+        };
+
+        await _context.ThoiGians.AddAsync(newThoiGian);
+        await _context.SaveChangesAsync();
+
+        ThoiGianLopHocPhan newThoiGianLopHocPhan = new ThoiGianLopHocPhan
+        {
+            IdThoiGian = newThoiGian.IdThoiGian,
+            IdLopHocPhan = thoiGianLopHocPhan.IdLopHocPhan
+        };
+
+        await _context.ThoiGianLopHocPhans.AddAsync(newThoiGianLopHocPhan);
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<ThoiGianLopHocPhanDto>
+        {
+            Data = thoiGianLopHocPhan,
+            Status = true,
+            Message = "Thêm thời gian lớp học phần thành công"
+        };
+    }
 }
