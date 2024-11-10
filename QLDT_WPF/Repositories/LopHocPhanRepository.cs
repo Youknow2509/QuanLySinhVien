@@ -588,8 +588,8 @@ public class LopHocPhanRepository
         // Check trong khoang cho phep
         var lhp = await _context.LopHocPhans
             .FirstOrDefaultAsync(x => x.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan);
-        if (thoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
-            || thoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
+        if (thoiGianLopHocPhan.ThoiGianBatDau < lhp.ThoiGianBatDau
+            || thoiGianLopHocPhan.ThoiGianKetThuc > lhp.ThoiGianKetThuc)
         {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
@@ -602,9 +602,9 @@ public class LopHocPhanRepository
         // check thoi gian lop hoc phan co bi trung khong 
         var check_trung_thoi_gian_lop_hoc_phan = await (
             from tg in _context.ThoiGians
-            join tg_lhp in _context.ThoiGianLopHocPhans
-                on tg.IdThoiGian equals tg_lhp.IdThoiGian
-            where tg_lhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
+            join tglhp in _context.ThoiGianLopHocPhans
+                on tg.IdThoiGian equals tglhp.IdThoiGian
+            where tglhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
                 && (
                     (thoiGianLopHocPhan.ThoiGianBatDau >= tg.NgayBatDau
                         && thoiGianLopHocPhan.ThoiGianBatDau <= tg.NgayKetThuc)
