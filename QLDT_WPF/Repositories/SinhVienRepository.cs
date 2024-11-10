@@ -84,7 +84,7 @@ public class SinhVienRepository
     /**
      * Lay sinh vien by id
      */
-    public async Task<ApiResponse<SinhVienDto>> GetById(int id)
+    public async Task<ApiResponse<SinhVienDto>> GetById(string id)
     {
         var sinhVien = (
             from sv in _context.SinhViens
