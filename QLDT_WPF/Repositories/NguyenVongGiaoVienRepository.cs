@@ -1,16 +1,36 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 //
 using QLDT_WPF.Data;
+using QLDT_WPF.Dto;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Repositories;
 
 public class NguyenVongGiaoVienRepository
 {
     // Variables
+    private readonly QuanLySinhVienDbContext _context;
 
     // Constructor
+    public NguyenVongGiaoVienRepository()
+    {
+        // Connect to database QuanLySinhVienDbContext
+        var connectionString = ConfigurationManager.ConnectionStrings["QuanLySinhVienDbConnection"].ConnectionString;
+        _context = new QuanLySinhVienDbContext(
+            new DbContextOptionsBuilder<QuanLySinhVienDbContext>()
+                .UseSqlServer(connectionString)
+                .Options);
+    }
+
+    // Dispose
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     /**
      * Lay tat ca nguyen vong cua giao vien
