@@ -1,60 +1,53 @@
-﻿using System;
+﻿using QLDT_WPF.Views.Components;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace QLDT_WPF.Views.Shared
 {
     public partial class AdminLeftNavbar : UserControl
     {
-        // Event to notify the main window about the sidebar toggle
-        public event EventHandler SidebarToggled;
-        private bool isSidebarExpanded = true; // Initial state of the sidebar (expanded)
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(AdminLeftNavbar), new PropertyMetadata(null));
 
         public AdminLeftNavbar()
         {
             InitializeComponent();
-            btn_MenuAction.Click += Btn_MenuAction_Click; // Attach click event handler
         }
 
-        // Toggle button click handler
-        private void Btn_MenuAction_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Toggle the sidebar's expanded state
-            isSidebarExpanded = !isSidebarExpanded;
+            if (TargetContentArea == null) return;
 
-            // Notify the main window that the sidebar's state has changed
-            SidebarToggled?.Invoke(this, EventArgs.Empty);
-
-            // Update the visibility of items within the sidebar
-            UpdateSidebarItems();
-
-            // Update the icon of the toggle button based on the expanded state
-            img_MenuAction.Source = isSidebarExpanded
-                ? new BitmapImage(new Uri("pack://application:,,,/Images/LeftNavBar/left-arrow.png"))
-                : new BitmapImage(new Uri("pack://application:,,,/Images/LeftNavBar/arrow-right.png"));
-        }
-
-        // Updates visibility of sidebar items based on whether it is expanded or collapsed
-        private void UpdateSidebarItems()
-        {
-            // Access the StackPanel inside the sidebar Border
-            if (sideBar.Child is StackPanel stackPanel)
+            Button button = sender as Button;
+            switch (button.Name)
             {
-                // Iterate through each button in the sidebar
-                foreach (Button btn in stackPanel.Children.OfType<Button>())
-                {
-                    // Find the TextBlock inside each button and toggle its visibility
-                    var textBlock = (btn.Content as StackPanel)?.Children.OfType<TextBlock>().FirstOrDefault();
-                    if (textBlock != null)
-                    {
-                        textBlock.Visibility = isSidebarExpanded ? Visibility.Visible : Visibility.Collapsed;
-                    }
-                }
+                case "btnQLChuongTrinhHoc":
+                    TargetContentArea.Content = new ChuongTrinhHocTableView();
+                    break;
+                case "btnQLMonHoc":
+                    TargetContentArea.Content = new SubjectsTableView();
+                    break;
+                case "btnQLSinhVien":
+                    TargetContentArea.Content = new SinhVienTableView();
+                    break;
+                case "btnLichHoc":
+                    TargetContentArea.Content = new LopHocPhanTableView();
+                    break;
+                case "btnQLGiaoVien":
+                    TargetContentArea.Content = new TeacherTableView();
+                    break;
+                case "btnQLNguyenVong":
+                    TargetContentArea.Content = new NguyenVongTableView();
+                    break;
+                default:
+                    break;
             }
-
-            // Toggle visibility for the role TextBlock based on sidebar state
-            txtRole.Visibility = isSidebarExpanded ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

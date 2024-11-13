@@ -11,7 +11,7 @@ services:
     ports:
       - '1435:1433'
     volumes:
-      # Use in local {path_local}:/var/opt/mssql/ 
-      - /workspaces/db:/var/opt/mssql/ 
+      # Use in local {path_local}:/var/opt/mssql/       
+      - /QLDT_WPF/var/opt/mssql/ 
     restart: unless-stopped
     # user: '1000:1000'  # Uncomment only if required

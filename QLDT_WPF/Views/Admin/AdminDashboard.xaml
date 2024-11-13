@@ -2,37 +2,31 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shared="clr-namespace:QLDT_WPF.Views.Shared"
-        xmlns:components="clr-namespace:QLDT_WPF.Views.Components"
         Title="AdminDashboard" Height="720" Width="1280">
 
     <Grid>
         <!-- Define two columns: one for the sidebar and one for the main content -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <!-- Sidebar -->
             <ColumnDefinition Width="*"/>
-            <!-- Main content, will take remaining space -->
         </Grid.ColumnDefinitions>
 
-        <!-- Left Navbar -->
-        <shared:AdminLeftNavbar x:Name="sideBar" Grid.Column="0"/>
+        <!-- Left Navbar with TargetContentArea binding -->
+        <shared:AdminLeftNavbar x:Name="sideBar" Grid.Column="0" TargetContentArea="{Binding ElementName=ContentArea}"/>
 
         <!-- Header and Main Content Area -->
         <Grid Grid.Column="1" x:Name="mainContentGrid" HorizontalAlignment="Left" Width="980">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- Header -->
-                <RowDefinition />
-                <!-- Main Content -->
+                <RowDefinition/>
                 <RowDefinition Height="Auto" MinHeight="54"/>
-                <!-- Footer -->
             </Grid.RowDefinitions>
 
             <!-- Header -->
             <shared:Header Grid.Row="0" />
 
             <!-- Main Content Area -->
-            <components:TeacherTableView Grid.Row="1" Margin="0,46,0,46" />
+            <ContentControl x:Name="ContentArea" Grid.Row="1" Margin="0,0,0,80"/>
 
             <!-- Footer -->
             <shared:Footer Grid.Row="2" Margin="0,7,0,7" />
