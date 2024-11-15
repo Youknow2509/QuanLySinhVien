@@ -1,5 +1,8 @@
-﻿using System;
+﻿using QLDT_WPF.Dto;
+using QLDT_WPF.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +22,43 @@ namespace QLDT_WPF.Views.Components
     /// </summary>
     public partial class DepartmentTableView : UserControl
     {
+        // Variables
+        private KhoaRepository khoaRepository;
+        public ObservableCollection<KhoaDto> ObservableKhoa { get; private set; }
+
+
+        // Constructor
         public DepartmentTableView()
         {
             InitializeComponent();
+            khoaRepository = new KhoaRepository();
+            ObservableKhoa = new ObservableCollection<KhoaDto>();
+            // 
+
+            // Hook up Loaded event to call async initialization after control loads
+            Loaded += async (s, e) => await InitAsync();
+        }
+
+        // Init window asynchronously
+        private async Task InitAsync()
+        {
+            var list_khoa = await khoaRepository.GetAll();
+
+            // Handle unsuccessful response
+            if (list_khoa.Status == false)
+            {
+                MessageBox.Show(list_khoa.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Add items to ObservableCollection
+            foreach (var item in list_khoa.Data)
+            {
+                ObservableKhoa.Add(item);
+            }
+
+            // Bind to DataGrid or other UI components as needed
+            dataGridPrograms.ItemsSource = ObservableKhoa;
         }
     }
 }
