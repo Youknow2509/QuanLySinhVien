@@ -67,9 +67,11 @@
                             </Style>
                         </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Lớp Học Phần" Binding="{Binding ClassSection}" Width="*"/>
-                            <DataGridTextColumn Header="Giảng Viên" Binding="{Binding Lecturer}" Width="*"/>
-                            <DataGridTextColumn Header="Môn học" Binding="{Binding Subject}" Width="*"/>
+                            <DataGridTextColumn Header="Lớp Học Phần" Binding="{Binding TenLopHocPhan}" Width="*"/>
+                            <DataGridTextColumn Header="Giảng Viên" Binding="{Binding TenGiaoVien}" Width="*"/>
+                            <DataGridTextColumn Header="Môn học" Binding="{Binding TenMonHoc}" Width="*"/>
+                            <DataGridTextColumn Header="Thời gian bắt đầu" Binding="{Binding ThoiGianBatDau}" Width="*"/>
+                            <DataGridTextColumn Header="Thời gian kết thúc" Binding="{Binding ThoiGianKetThuc}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
