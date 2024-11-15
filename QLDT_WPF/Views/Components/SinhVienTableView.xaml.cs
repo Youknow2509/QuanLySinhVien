@@ -2,6 +2,7 @@
 using QLDT_WPF.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,29 @@ namespace QLDT_WPF.Views.Components
         public SinhVienTableView()
         {
             InitializeComponent();
+            sinhVienRepository = new SinhVienRepository();
+            ObservableSinhVien = new ObservableCollection<SinhVienDto>();
+            // Handle loading asynchronously
+            Loaded += async (sender, e) =>
+            {
+                await InitAsync();
+            };
+        }
+        // Init window asynchronously
+        private async Task InitAsync()
+        {
+            var list = await sinhVienRepository.GetAll();
+            if (list.Status == false)
+            {
+                MessageBox.Show(list.Message);
+                return;
+            }
+            ObservableSinhVien.Clear();
+            foreach (var item in list)
+            {
+                ObservableSinhVien.Add(item);
+            }
+            dataGridStudents.ItemsSource = ObservableSinhVien;
         }
     }
 }

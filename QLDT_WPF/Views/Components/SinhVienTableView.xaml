@@ -76,12 +76,13 @@
                             </Style>
                         </DataGrid.Resources>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Họ Và Tên" Binding="{Binding FullName}" Width="*"/>
-                            <DataGridTextColumn Header="Lớp" Binding="{Binding Class}" Width="*"/>
-                            <DataGridTextColumn Header="Ngày Sinh" Binding="{Binding BirthDate}" Width="*"/>
-                            <DataGridTextColumn Header="Địa Chỉ" Binding="{Binding Address}" Width="*"/>
-                            <DataGridTextColumn Header="Chương Trình Học" Binding="{Binding Program}" Width="*"/>
-                            <DataGridTextColumn Header="Khoa" Binding="{Binding Department}" Width="*"/>
+                            <DataGridTextColumn Header="Mã Sinh Viên" Binding="{Binding IdSinhVien}" Width="*"/>
+                            <DataGridTextColumn Header="Họ Và Tên" Binding="{Binding HoTen}" Width="*"/>
+                            <DataGridTextColumn Header="Lớp" Binding="{Binding Lop}" Width="*"/>
+                            <DataGridTextColumn Header="Ngày Sinh" Binding="{Binding NgaySinh}" Width="*"/>
+                            <DataGridTextColumn Header="Địa Chỉ" Binding="{Binding DiaChi}" Width="*"/>
+                            <DataGridTextColumn Header="Chương Trình Học" Binding="{Binding TenChuongTrinhHoc}" Width="*"/>
+                            <DataGridTextColumn Header="Khoa" Binding="{Binding TenKhoa}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
