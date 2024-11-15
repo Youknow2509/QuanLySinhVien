@@ -69,8 +69,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Tên Môn Học" Binding="{Binding TenMonHoc}" Width="*"/>
                             <DataGridTextColumn Header="Số Tín Chỉ" Binding="{Binding SoTinChi}" Width="*"/>
-                            <DataGridTextColumn Header="Số Tiết" Binding="{Binding SoTiet}" Width="*"/>
-                            <DataGridTextColumn Header="Khoa" Binding="{Binding Khoa}" Width="*"/>
+                            <DataGridTextColumn Header="Số Tiết" Binding="{Binding SoTietHoc}" Width="*"/>
+                            <DataGridTextColumn Header="Khoa" Binding="{Binding TenKhoa}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
