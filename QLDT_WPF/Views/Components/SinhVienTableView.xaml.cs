@@ -49,7 +49,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
             ObservableSinhVien.Clear();
-            foreach (var item in list)
+            foreach (var item in list.Data)
             {
                 ObservableSinhVien.Add(item);
             }
