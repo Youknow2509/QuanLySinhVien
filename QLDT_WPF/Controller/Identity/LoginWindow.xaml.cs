@@ -1,5 +1,6 @@
 ﻿using System.Windows;
-
+using QLDT_WPF.Repositories;
+using QLDT_WPF.ViewModels;
 using QLDT_WPF.Views.Admin;
 using QLDT_WPF.Views.GiaoVien;
 using QLDT_WPF.Views.SinhVien;
@@ -8,54 +9,51 @@ namespace QLDT_WPF.Views.Login
 {
     public partial class LoginWindow : Window
     {
+        private IdentityRepository identityRepository;
         public LoginWindow()
         {
             InitializeComponent();
+            identityRepository = new IdentityRepository();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-            string role = "";
 
             // Kiểm tra tài khoản và phân quyền
-            if (username == "admin" && password == "admin")
+            (bool status, string message) = await identityRepository.Login(username, password);
+            if (!status)
             {
-                role = "admin";
+                MessageBox.Show(message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
-            else if (username == "giaovien" && password == "giaovien")
+
+            UserInformation userInformation = await identityRepository.GetUserInformation(username);
+            if (userInformation == null)
             {
-                role = "giaovien";
-            }
-            else if (username == "sinhvien" && password == "sinhvien")
-            {
-                role = "sinhvien";
-            }
-            else
-            {
-                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                MessageBox.Show("Không thể lấy thông tin người dùng", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             // Chuyển đến cửa sổ tương ứng dựa trên quyền
-            OpenMainWindow(role);
+            OpenMainWindow(userInformation.RoleName, userInformation);
             this.Close();
         }
 
-        private void OpenMainWindow(string role)
+        private void OpenMainWindow(string role,UserInformation userInformation)
         {
             Window dashboard;
 
-            switch (role)
+            switch (role.ToUpper())
             {
-                case "admin":
-                    dashboard = new AdminDashboard();  // Giao diện chính cho Admin
+                case "ADMIN":
+                    dashboard = new AdminDashboard(userInformation);  // Giao diện chính cho Admin
                     break;
-                case "giaovien":
+                case "GIAOVIEN":
                     dashboard = new GiaoVienWindow();  // Giao diện chính cho Giáo viên
                     break;
-                case "sinhvien":
+                case "SINHVIEN":
                     dashboard = new SinhVienWindow();  // Giao diện chính cho Sinh viên
                     break;
                 default:
