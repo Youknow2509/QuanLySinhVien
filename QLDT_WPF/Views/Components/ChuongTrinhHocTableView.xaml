@@ -70,7 +70,7 @@
                     </DataGrid.Resources>
                     <DataGrid.Columns>
                         <!-- Program Name Column -->
-                        <DataGridTextColumn Header="Tên Chương Trình Học" Binding="{Binding ProgramName}" Width="*"/>
+                        <DataGridTextColumn Header="Tên Chương Trình Học" Binding="{Binding TenChuongTrinhHoc}" Width="*"/>
 
                         <!-- Action Buttons Column -->
                         <DataGridTemplateColumn Header="Hành Động" Width="150">
