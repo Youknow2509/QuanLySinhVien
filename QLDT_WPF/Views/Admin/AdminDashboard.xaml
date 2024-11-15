@@ -2,7 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shared="clr-namespace:QLDT_WPF.Views.Shared"
-        Title="AdminDashboard" Height="720" Width="1280">
+        Title="AdminDashboard" Height="720" Width="1280"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+>
 
     <Grid>
         <!-- Define two columns: one for the sidebar and one for the main content -->
@@ -23,7 +27,9 @@
             </Grid.RowDefinitions>
 
             <!-- Header -->
-            <shared:Header Grid.Row="0" />
+            <shared:Header 
+                FullName="{Binding FullName}" 
+                Grid.Row="0"/>
 
             <!-- Main Content Area -->
             <ContentControl x:Name="ContentArea" Grid.Row="1" Margin="0,0,0,80"/>
