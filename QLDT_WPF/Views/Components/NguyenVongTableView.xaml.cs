@@ -23,5 +23,6 @@ namespace QLDT_WPF.Views.Components
         {
             InitializeComponent();
         }
+        // TODO cmp
     }
 }
