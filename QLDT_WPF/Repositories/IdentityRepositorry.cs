@@ -9,8 +9,9 @@ using System.Configuration;
 using QLDT_WPF.Data;
 using QLDT_WPF.Models;
 using QLDT_WPF.Dto;
-using QLDT_WPF.Views.Login;
+using QLDT_WPF.ViewModels;
 using QLDT_WPF.Services;
+using System.Windows.Data;
 
 namespace QLDT_WPF.Repositories
 {
@@ -356,6 +357,31 @@ namespace QLDT_WPF.Repositories
             }
 
             return (true, "");
+        }
+
+        // Handle get user information after login success
+        public async Task<UserInformation> GetUserInformation(string userName)
+        {
+            var user_information = await (    
+                from user in _dbContext.Users
+                where user.UserName.ToUpper() == userName.ToUpper()
+                join userRole in _dbContext.UserRoles
+                    on user.Id equals userRole.UserId
+                join role in _dbContext.Roles
+                    on userRole.RoleId equals role.Id
+                orderby role.Name
+                select new UserInformation
+                {
+                    IdUser = user.Id,
+                    IdClaim = user.IdClaim,
+                    UserName = user.UserName,
+                    RoleName = role.Name,
+                    FullName = user.FullName,
+                    Image = user.ProfilePicture,
+                }
+            ).FirstOrDefaultAsync();
+
+            return user_information;
         }
 
         // admin edit password sinh vien, giao vien
