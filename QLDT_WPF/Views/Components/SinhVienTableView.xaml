@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-             Background="White" Height="510" Width="980">
+             Background="White">
     <Grid Margin="20">
         <!-- Border Container -->
         <Border BorderThickness="1" BorderBrush="#CCCCCC" CornerRadius="8" Padding="10">
@@ -42,18 +42,103 @@
                 <syncfusion:SfDataGrid x:Name="sfDataGrid"
                                        AutoGenerateColumns="False"
                                        ShowRowHeader="True"
-                                       GridLinesVisibility="None"
+                                       GridLinesVisibility="Both"
                                        RowHeight="40"
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên" MappingName="IdSinhVien" Width="100" />
-                        <syncfusion:GridTextColumn HeaderText="Họ Và Tên" MappingName="HoTen" Width="200" />
-                        <syncfusion:GridTextColumn HeaderText="Lớp" MappingName="Lop" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Ngày Sinh" MappingName="NgaySinh" Width="120" />
-                        <syncfusion:GridTextColumn HeaderText="Địa Chỉ" MappingName="DiaChi" Width="200" />
-                        <syncfusion:GridTextColumn HeaderText="Chương Trình Học" MappingName="TenChuongTrinhHoc" Width="200" />
-                        <syncfusion:GridTextColumn HeaderText="Khoa" MappingName="TenKhoa" Width="150" />
+                        <syncfusion:GridTemplateColumn HeaderText="Mã Sinh Viên" Width="100" MappingName="IdSinhVien">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding IdSinhVien}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridTemplateColumn HeaderText="Họ Và Tên" Width="200" MappingName="HoTen">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding HoTen}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridTemplateColumn HeaderText="Lớp" Width="150" MappingName="Lop">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Lop}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridTemplateColumn HeaderText="Ngày Sinh" Width="120" MappingName="NgaySinh">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding NgaySinh}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridTemplateColumn HeaderText="Địa Chỉ" Width="200" MappingName="DiaChi">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DiaChi}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridTemplateColumn HeaderText="Chương Trình Học" Width="200" MappingName="TenChuongTrinhHoc">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenChuongTrinhHoc}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridTemplateColumn HeaderText="Khoa" Width="150" MappingName="TenKhoa">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenKhoa}" 
+                                               TextAlignment="Center" 
+                                               TextWrapping="Wrap" 
+                                               VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <!-- Hành Động Column -->
+                        <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="Sửa" Padding="10,3" Margin="5,0,0,0"
+                                                Background="#FFA726" Foreground="White"
+                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"/>
+                                        <Button Content="Xóa" Padding="10,3" Margin="5,0,0,0"
+                                                Background="#F44336" Foreground="White"
+                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
 
