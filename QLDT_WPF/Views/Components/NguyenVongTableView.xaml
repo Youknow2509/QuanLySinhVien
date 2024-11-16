@@ -6,7 +6,7 @@
         <Grid Margin="20">
             <StackPanel Height="579" VerticalAlignment="Top">
                 <!-- Title for Courses in Program -->
-                <TextBlock FontSize="20" Foreground="#3A82E5" FontWeight="Bold" Text="Bảng Các Môn Đang Có Trong Chương Trình Học" Margin="10" />
+                <TextBlock FontSize="20" Foreground="#3A82E5" FontWeight="Bold" Text="Bảng Nguyện Vọng Học Nhu Cầu Sinh Viên" Margin="10" />
 
                 <!-- Dropdown and Search Bar for Courses in Program -->
                 <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,10">
@@ -28,7 +28,7 @@
                 </DockPanel>
 
                 <!-- DataGrid for Courses in Program -->
-                <DataGrid x:Name="dataGridMonTrongChuongTrinh" AutoGenerateColumns="False" IsReadOnly="True"
+                <DataGrid x:Name="dataGrid_nv_sinhvien" AutoGenerateColumns="False" IsReadOnly="True"
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       Background="White" BorderBrush="#CCCCCC" BorderThickness="1"
                       GridLinesVisibility="None" HeadersVisibility="Column"
@@ -54,11 +54,11 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Tên Môn Học" Binding="{Binding TenMonHoc}" Width="2*"/>
-                        <DataGridTextColumn Header="Số Tín Chỉ" Binding="{Binding SoTinChi}" Width="1*"/>
-                        <DataGridTextColumn Header="Số Tiết" Binding="{Binding SoTiet}" Width="1*"/>
+                        <DataGridTextColumn Header="Tên Sinh Viên" Binding="{Binding TenSinhVien}" Width="2*"/>
+                        <DataGridTextColumn Header="Tên Môn Học" Binding="{Binding TenMonHoc}" Width="1*"/>
+                        <DataGridTextColumn Header="Trạng Thái" Binding="{Binding TrangThai}" Width="1*"/>
                     </DataGrid.Columns>
-                    
+
                 </DataGrid>
 
                 <!-- Pagination for Courses in Program -->
@@ -71,7 +71,7 @@
                 </StackPanel>
 
                 <!-- Title for Courses not in Program -->
-                <TextBlock FontSize="20" Foreground="#3A82E5" FontWeight="Bold" Text="Bảng Các Môn Không Có Trong Chương Trình Học" Margin="10"/>
+                <TextBlock FontSize="20" Foreground="#3A82E5" FontWeight="Bold" Text="Bảng Nguyện Vọng Thay Đổi Lịch Giáo Viên" Margin="10"/>
 
                 <!-- Dropdown and Search Bar for Courses not in Program -->
                 <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,10">
@@ -93,7 +93,7 @@
                 </DockPanel>
 
                 <!-- DataGrid for Courses not in Program -->
-                <DataGrid x:Name="dataGridMonKhongTrongChuongTrinh" AutoGenerateColumns="False" IsReadOnly="True"
+                <DataGrid x:Name="dataGrid_nv_giaovien" AutoGenerateColumns="False" IsReadOnly="True"
                       HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       Background="White" BorderBrush="#CCCCCC" BorderThickness="1"
                       GridLinesVisibility="None" HeadersVisibility="Column"
@@ -119,9 +119,12 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Tên Môn Học" Binding="{Binding TenMonHoc}" Width="*"/>
-                        <DataGridTextColumn Header="Số Tín Chỉ" Binding="{Binding SoTinChi}" Width="*"/>
-                        <DataGridTextColumn Header="Số Tiết" Binding="{Binding SoTiet}" Width="*"/>
+                        <DataGridTextColumn Header="Tên Lớp Học Phần" Binding="{Binding TenLopHocPhan}" Width="*"/>
+                        <DataGridTextColumn Header="Thời Gian Bắt Đầu Hiện Tại" Binding="{Binding ThoiGianBatDauHienTai}" Width="*"/>
+                        <DataGridTextColumn Header="Thời Gian Kết Thúc Hiện Tại" Binding="{Binding ThoiGianKetThucHienTai}" Width="*"/>
+                        <DataGridTextColumn Header="Thời Gian Kết Thúc Mới" Binding="{Binding ThoiGianBatDauMoi}" Width="*"/>
+                        <DataGridTextColumn Header="Thời Gian Kết Thúc Mới" Binding="{Binding ThoiGianKetThucMoi}" Width="*"/>
+                        <DataGridTextColumn Header="Trạng Thái" Binding="{Binding TrangThai}" Width="*"/>
                         <DataGridTemplateColumn Header="">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
