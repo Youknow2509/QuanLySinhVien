@@ -36,14 +36,17 @@ namespace QLDT_WPF.Views.Shared
                 case "btnQLSinhVien":
                     TargetContentArea.Content = new SinhVienTableView();
                     break;
-                case "btnLichHoc":
-                    TargetContentArea.Content = new LopHocPhanTableView();
+                case "btnQLKhoa":
+                    TargetContentArea.Content = new DepartmentTableView();
                     break;
                 case "btnQLGiaoVien":
                     TargetContentArea.Content = new TeacherTableView();
                     break;
                 case "btnQLNguyenVong":
                     TargetContentArea.Content = new NguyenVongTableView();
+                    break;
+                case "btnLopHocPhan":
+                    TargetContentArea.Content = new LopHocPhanTableView();
                     break;
                 default:
                     break;
