@@ -49,7 +49,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             // Bind to DataGrid or other UI components as needed
-            dataGridPrograms.ItemsSource = ObservableChuongTrinhHoc;
+            sfDataGridPrograms.ItemsSource = ObservableChuongTrinhHoc;
         }
     }
 }

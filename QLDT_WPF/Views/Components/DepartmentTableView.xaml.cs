@@ -58,7 +58,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             // Bind to DataGrid or other UI components as needed
-            dataGridPrograms.ItemsSource = ObservableKhoa;
+            sfDataGridDepartments.ItemsSource = ObservableKhoa;
         }
     }
 }
