@@ -124,7 +124,22 @@ namespace QLDT_WPF.Views.Components
         // Handle Search
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string txt_search = ((TextBox)sender).Text.ToLower();
+            if (txt_search == "")
+            {
+                dataGridGiaoVien.ItemsSource = ObservableSinhVien;
+            }
+            else
+            {
+                dataGridGiaoVien.ItemsSource = ObservableSinhVien.Where(x =>
+                    x.IdGiaoVien.ToLower().Contains(txt_search) ||
+                    x.TenGiaoVien.ToLower().Contains(txt_search) ||
+                    x.Email.ToLower().Contains(txt_search) ||
+                    x.SoDienThoai.ToLower().Contains(txt_search) ||
+                    x.IdKhoa.ToLower().Contains(txt_search) ||
+                    x.TenKhoa.ToLower().Contains(txt_search)
+                );
+            }
         }
 
 
