@@ -154,7 +154,74 @@ namespace QLDT_WPF.Views.Components
         // Add new Lop Hoc Phan With File
         private void AddGiaoVienWithFile(object sender, RoutedEventArgs e)
         {
-            // TODO
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<GiaoVienDto> list_giao_vien = new List<GiaoVienDto>();
+
+                    foreach (string line in lines)
+                    {
+                        // Giả sử mỗi dòng là một môn học với định dạng "Mã Môn Học, Tên Môn Học, So Tin Chi, So Tiet Hoc, Id Khoa"
+                        string[] data = line.Split(',');
+                        if (data.Count() >= 6)
+                        {
+                            list_giao_vien.Add(new GiaoVienDto
+                            {
+                                IdGiaoVien = data[0],
+                                TenGiaoVien = data[1],
+                                Email = data[2],
+                                SoDienThoai = data[3],
+                                IdKhoa = data[4],
+                                TenKhoa = data[5]
+                            });
+                        }
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm thêm danh sách môn học từ file CSV trong repository
+                        var response = await identityRepository
+                            .CreateListGiaoVienFromCSV(list_giao_vien);
+
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(sv => sv.HoTen));
+
+                                // Hiển thị thông báo lỗi
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                // message box show list mon hoc dto
+                                MessageBox.Show("Thêm danh sách giáo viên từ file CSV: " + string.Join(", ", list_giao_vien.Select(x => x.HoTen)) + " thành công!");
+
+                                await InitAsync();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
+            }
         }
 
         // Delete GiaoVien
