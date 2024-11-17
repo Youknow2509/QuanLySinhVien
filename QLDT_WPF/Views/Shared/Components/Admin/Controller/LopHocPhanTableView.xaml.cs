@@ -145,7 +145,9 @@ namespace QLDT_WPF.Views.Components
         // Add new LopHocPhan
         private void AddLopHocPhan(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var addLopHocPhanWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddLopHocPhan();
+            addLopHocPhanWindow.ShowDialog();
+            InitAsync();
         }
 
         // Add new Lop Hoc Phan With File
