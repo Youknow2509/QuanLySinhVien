@@ -141,7 +141,69 @@ namespace QLDT_WPF.Views.Components
         // Add new Lop Hoc Phan With File
         private void AddChuongTrinhHocWithFile(object sender, RoutedEventArgs e)
         {
-            // TODO
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<ChuongTrinhHocDto> list_chuong_trinh_hoc = new List<ChuongTrinhHocDto>();
+
+                    foreach (string line in lines)
+                    {
+                        // Giả sử mỗi dòng là một môn học với định dạng "Mã Môn Học, Tên Môn Học, So Tin Chi, So Tiet Hoc, Id Khoa"
+                        string[] data = line.Split(',');
+                        if (data.Count() >= 5)
+                        {
+                            list_chuong_trinh_hoc.Add(new ChuongTrinhHocDto
+                            {
+                                IdChuongTrinhHoc = data[0],
+                                TenChuongTrinhHoc = data[1],
+                            });
+                        }  
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm thêm danh sách môn học từ file CSV trong repository
+                        var response = await chuongTrinhHocRepository
+                            .AddListChuongTrinhHocFromCSV(list_chuong_trinh_hoc);
+
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(monh => monh.TenMonHoc));
+
+                                // Hiển thị thông báo lỗi
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                // message box show list mon hoc dto
+                                MessageBox.Show("Thêm danh sách chương trình học từ file CSV: " + string.Join(", ", list_chuong_trinh_hoc.Select(x => x.TenMonHoc)) + " thành công!");
+
+                                await InitAsync();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            } else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
+            }
         }
 
         // Edit ChuongTrinhHoc
