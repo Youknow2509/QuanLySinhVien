@@ -209,7 +209,12 @@ namespace QLDT_WPF.Views.Components
         // Edit ChuongTrinhHoc
         private void Click_Edit_ChuongTrinhHoc(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if (sender is Button button && button.Tag is ChuongTrinhHocDto chuongTrinhHoc)
+            {
+                var editSubjectWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.EditChuongTrinhHoc(chuongTrinhHoc);
+                editSubjectWindow.ShowDialog();
+                InitAsync();
+            }
         }
 
         // Delete ChuongTrinhHoc
