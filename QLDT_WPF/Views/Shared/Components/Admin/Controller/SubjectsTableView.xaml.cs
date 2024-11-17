@@ -77,6 +77,12 @@ namespace QLDT_WPF.Views.Components
             }
         }
 
-
+        // Handle Add Subject Button Click
+        private void AddSubject(object sender, RoutedEventArgs e)
+        {
+            var addSubjectWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddSubject();
+            addSubjectWindow.ShowDialog();
+            InitAsync();
+        }
     }
 }
