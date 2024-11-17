@@ -142,7 +142,7 @@ public class KhoaRepository
     /**
      * Add Khoa from file cgv
      */
-    public async Task<ApiResponse<KhoaDto>> AddListKhoaFromCSV(List<KhoaDto> khoaDtoList)
+    public async Task<ApiResponse<List<KhoaDto>>> AddListKhoaFromCSV(List<KhoaDto> khoaDtoList)
     {
         // Kiểm tra nếu danh sách null hoặc trống
         if (khoaDtoList == null || !khoaDtoList.Any())
@@ -163,7 +163,7 @@ public class KhoaRepository
         {
             if (processedIds.Contains(kh.IdKhoa))
             {
-                kh.TenKhoa = $"Khoa: {kh.TenChuongTrinhHoc} lỗi trùng ID {kh.IdKhoa} trong file CSV";
+                kh.TenKhoa = $"Khoa: {kh.TenKhoa} lỗi trùng ID {kh.IdKhoa} trong file CSV";
                 khoaDtoListError.Add(kh);
                 continue;
             }

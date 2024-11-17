@@ -125,7 +125,7 @@ namespace QLDT_WPF.Views.Components
             }
             else
             {
-                sfDataGridDepartments.ItemsSource = ObservableKhoa.Where(x => 
+                sfDataGridDepartments.ItemsSource = ObservableKhoa.Where(x =>
                     x.TenKhoa.ToLower().Contains(txt_search)
                 );
             }
@@ -167,7 +167,7 @@ namespace QLDT_WPF.Views.Components
                                 IdKhoa = data[0],
                                 TenKhoa = data[1],
                             });
-                        }  
+                        }
                     }
 
                     Task.Run(async () =>
@@ -202,7 +202,8 @@ namespace QLDT_WPF.Views.Components
                 {
                     MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
             }
@@ -217,7 +218,52 @@ namespace QLDT_WPF.Views.Components
         // Delete Khoa
         private void Click_Delete_Khoa(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy đối tượng KhoaDto từ thuộc tính Tag của nút
+            if (sender is Button button && button.Tag is KhoaDto khoa)
+            {
+                string idkhoa = khoa.IdKhoa;
+                string tenkhoa = khoa.TenKhoa;
+
+                // Hiển thị hộp thoại xác nhận trước khi xóa
+                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa khoa '{tenkhoa}'?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Thực hiện thao tác xóa bất đồng bộ
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            // Gọi hàm xóa trong repository và lấy phản hồi
+                            var response = await khoaRepository.Delete(idkhoa);
+
+                            // Kiểm tra nếu việc xóa không thành công
+                            if (response.Status == false)
+                            {
+                                // Nếu thất bại, hiển thị thông báo lỗi trên luồng UI
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                                });
+                                return;
+                            }
+
+                            // Nếu xóa thành công, tải lại dữ liệu trên luồng UI
+                            Application.Current.Dispatcher.Invoke(async () =>
+                            {
+                                await InitAsync();
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            // Xử lý bất kỳ ngoại lệ nào xảy ra trong quá trình xóa
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show($"Có lỗi xảy ra khi xóa khoa '{tenkhoa}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            });
+                        }
+                    });
+                }
+            }
         }
     }
 }
