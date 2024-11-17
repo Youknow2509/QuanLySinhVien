@@ -50,12 +50,7 @@ namespace QLDT_WPF.Views.Components
                 ObservableSinhVien.Add(item);
             }
 
-            // Initialize filtered collection
-            FilteredSinhVien = new ObservableCollection<SinhVienDto>(ObservableSinhVien);
-
-            // Bind data to SfDataPager
-            sfDataPager.Source = FilteredSinhVien;
-            sfDataGrid.ItemsSource = sfDataPager.PagedSource;
+            sfDataGrid.ItemsSource = ObservableSinhVien;
         }
 
         // Handle page size change
@@ -63,7 +58,7 @@ namespace QLDT_WPF.Views.Components
         {
             if (cbbPageSize.SelectedItem is ComboBoxItem selectedItem)
             {
-                sfDataPager.PageSize = int.Parse(selectedItem.Content.ToString());
+                sfDataGrid.PageSize = int.Parse(selectedItem.Content.ToString());
             }
         }
 
@@ -130,7 +125,26 @@ namespace QLDT_WPF.Views.Components
         // Handle Search
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string txt_search = ((TextBox)sender).Text.ToLower();
+            if (txt_search == "")
+            {
+                sfDataGrid.ItemsSource = ObservableSinhVien;
+            }
+            else
+            {
+                sfDataGrid.ItemsSource = ObservableSinhVien.Where(x =>
+                    x.IdSinhVien.ToLower().Contains(txt_search) ||
+                    x.HoTen.ToLower().Contains(txt_search) ||
+                    x.IdKhoa.ToLower().Contains(txt_search) ||
+                    x.TenKhoa.ToLower().Contains(txt_search) ||
+                    x.IdChuongTrinhHoc.ToLower().Contains(txt_search) ||
+                    x.TenChuongTrinhHoc.ToLower().Contains(txt_search) ||
+                    x.Lop.ToLower().Contains(txt_search) ||
+                    x.NgaySinh.ToLower().Contains(txt_search) ||
+                    x.SoDienThoai.ToLower().Contains(txt_search) ||
+                    x.Email.ToLower().Contains(txt_search)
+                );
+            }
         }
 
 
