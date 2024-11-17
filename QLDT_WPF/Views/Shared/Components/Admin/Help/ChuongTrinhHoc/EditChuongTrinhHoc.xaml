@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QLDT_WPF.Views.Shared.Components.Admin.Help"
         mc:Ignorable="d"
-        Title="Sửa Chương Trình Học" Height="386" Width="350" WindowStartupLocation="CenterScreen">
+        Title="Sửa Chương Trình Học"
+        Height="386"
+        Width="350"
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
-        
+
     </Grid>
 </Window>

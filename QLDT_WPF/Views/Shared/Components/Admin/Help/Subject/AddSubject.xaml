@@ -5,41 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QLDT_WPF.Views.Shared.Components.Admin.Help"
         mc:Ignorable="d"
-        Title="Thêm Môn Học" Height="365" Width="350" WindowStartupLocation="CenterScreen">
+        Title="Thêm Môn Học"
+        Height="365"
+        Width="350"
+        WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
         <!-- Modal Header -->
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Thêm Môn Học" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center" />
+            <TextBlock Text="Thêm Môn Học"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"
+                       HorizontalAlignment="Center"/>
 
             <!-- Modal Body/Form -->
-            <StackPanel Orientation="Vertical" Margin="0,10">
+            <StackPanel Orientation="Vertical"
+                        Margin="0,10">
                 <!-- Tên Môn Học -->
-                <TextBlock Text="Tên Môn Học" Margin="0,5" />
-                <TextBox x:Name="txtTenMonHoc" />
+                <TextBlock Text="Tên Môn Học"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtTenMonHoc"/>
 
                 <!-- Số Tín Chỉ -->
-                <TextBlock Text="Số Tín Chỉ" Margin="0,10,0,5" />
+                <TextBlock Text="Số Tín Chỉ"
+                           Margin="0,10,0,5"/>
                 <TextBox x:Name="txtSoTinChi"
                          PreviewTextInput="handle_input_key_press_number"/>
 
                 <!-- Số Tiết -->
-                <TextBlock Text="Số Tiết" Margin="0,10,0,5" />
+                <TextBlock Text="Số Tiết"
+                           Margin="0,10,0,5"/>
                 <TextBox x:Name="txtSoTiet"
                          PreviewTextInput="handle_input_key_press_number"/>
 
                 <!-- Khoa -->
-                <TextBlock Text="Khoa" Margin="0,10,0,5" />
-                <ComboBox x:Name="cbbKhoa" Margin="0,0,0,10">
-                    <ComboBoxItem Content="Chọn Khoa" Tag="-1" IsSelected="True" />
+                <TextBlock Text="Khoa"
+                           Margin="0,10,0,5"/>
+                <ComboBox x:Name="cbbKhoa"
+                          Margin="0,0,0,10">
+                    <ComboBoxItem Content="Chọn Khoa"
+                                  Tag="-1"
+                                  IsSelected="True"/>
                     <!-- Add additional items here as needed -->
                 </ComboBox>
             </StackPanel>
 
             <!-- Modal Footer -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button Content="Đóng" Width="75" Margin="0,0,10,0" Click="CloseButton_Click" />
-                <Button Content="Tạo" Width="75" Background="#007BFF" Foreground="White" Click="CreateButton_Click" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0">
+                <Button Content="Đóng"
+                        Width="75"
+                        Margin="0,0,10,0"
+                        Click="CloseButton_Click"/>
+                <Button Content="Tạo"
+                        Width="75"
+                        Background="#007BFF"
+                        Foreground="White"
+                        Click="CreateButton_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

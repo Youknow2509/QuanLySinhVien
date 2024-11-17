@@ -5,35 +5,64 @@
              Background="White">
     <Grid Margin="20">
         <!-- Border Container -->
-        <Border BorderThickness="1" BorderBrush="#CCCCCC" CornerRadius="8" Padding="10">
+        <Border BorderThickness="1"
+                BorderBrush="#CCCCCC"
+                CornerRadius="8"
+                Padding="10">
             <StackPanel>
                 <!-- Title -->
-                <TextBlock Text="Bảng dữ liệu Sinh Viên" 
-                           FontSize="20" 
+                <TextBlock Text="Bảng dữ liệu Sinh Viên"
+                           FontSize="20"
                            FontWeight="Bold"
-                           Foreground="#3A82E5" 
-                           HorizontalAlignment="Left" 
+                           Foreground="#3A82E5"
+                           HorizontalAlignment="Left"
                            Margin="0,0,0,20"/>
 
                 <!-- Dropdown and Search Bar -->
-                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,10">
+                <DockPanel HorizontalAlignment="Stretch"
+                           VerticalAlignment="Top"
+                           Margin="0,0,0,10">
                     <!-- Dropdown on the left -->
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                        <TextBlock Text="Hiển thị:" VerticalAlignment="Center" Foreground="#333333" FontSize="14" Margin="0,0,5,0"/>
-                        <ComboBox x:Name="cbbPageSize" Width="60" SelectedIndex="0" Background="White" Foreground="#333333" FontSize="14">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Left">
+                        <TextBlock Text="Hiển thị:"
+                                   VerticalAlignment="Center"
+                                   Foreground="#333333"
+                                   FontSize="14"
+                                   Margin="0,0,5,0"/>
+                        <ComboBox x:Name="cbbPageSize"
+                                  Width="60"
+                                  SelectedIndex="0"
+                                  Background="White"
+                                  Foreground="#333333"
+                                  FontSize="14">
                             <ComboBoxItem Content="10"/>
                             <ComboBoxItem Content="25"/>
                             <ComboBoxItem Content="50"/>
                         </ComboBox>
-                        <TextBlock Text="dữ liệu" VerticalAlignment="Center" Margin="5,0,20,0" Foreground="#333333" FontSize="14"/>
+                        <TextBlock Text="dữ liệu"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0,20,0"
+                                   Foreground="#333333"
+                                   FontSize="14"/>
                     </StackPanel>
 
                     <!-- Search box on the right -->
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                        <TextBlock Text="Tìm Kiếm" VerticalAlignment="Center" Foreground="#333333" FontSize="14" Margin="0,0,5,0"/>
-                        <TextBox x:Name="txtTimKiem" Width="200" Height="30" VerticalAlignment="Center" 
-                                 FontSize="14" Foreground="#333333"
-                                 BorderBrush="#DDDDDD" Background="White"/>
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Right">
+                        <TextBlock Text="Tìm Kiếm"
+                                   VerticalAlignment="Center"
+                                   Foreground="#333333"
+                                   FontSize="14"
+                                   Margin="0,0,5,0"/>
+                        <TextBox x:Name="txtTimKiem"
+                                 Width="200"
+                                 Height="30"
+                                 VerticalAlignment="Center"
+                                 FontSize="14"
+                                 Foreground="#333333"
+                                 BorderBrush="#DDDDDD"
+                                 Background="White"/>
                     </StackPanel>
                 </DockPanel>
 
@@ -47,94 +76,121 @@
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTemplateColumn HeaderText="Mã Sinh Viên" Width="100" MappingName="IdSinhVien">
+                        <syncfusion:GridTemplateColumn HeaderText="Mã Sinh Viên"
+                                                       Width="100"
+                                                       MappingName="IdSinhVien">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding IdSinhVien}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding IdSinhVien}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Họ Và Tên" Width="200" MappingName="HoTen">
+                        <syncfusion:GridTemplateColumn HeaderText="Họ Và Tên"
+                                                       Width="200"
+                                                       MappingName="HoTen">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding HoTen}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding HoTen}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Lớp" Width="150" MappingName="Lop">
+                        <syncfusion:GridTemplateColumn HeaderText="Lớp"
+                                                       Width="150"
+                                                       MappingName="Lop">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Lop}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Lop}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Ngày Sinh" Width="120" MappingName="NgaySinh">
+                        <syncfusion:GridTemplateColumn HeaderText="Ngày Sinh"
+                                                       Width="120"
+                                                       MappingName="NgaySinh">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding NgaySinh}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding NgaySinh}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Địa Chỉ" Width="200" MappingName="DiaChi">
+                        <syncfusion:GridTemplateColumn HeaderText="Địa Chỉ"
+                                                       Width="200"
+                                                       MappingName="DiaChi">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding DiaChi}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding DiaChi}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Chương Trình Học" Width="200" MappingName="TenChuongTrinhHoc">
+                        <syncfusion:GridTemplateColumn HeaderText="Chương Trình Học"
+                                                       Width="200"
+                                                       MappingName="TenChuongTrinhHoc">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding TenChuongTrinhHoc}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding TenChuongTrinhHoc}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Khoa" Width="150" MappingName="TenKhoa">
+                        <syncfusion:GridTemplateColumn HeaderText="Khoa"
+                                                       Width="150"
+                                                       MappingName="TenKhoa">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding TenKhoa}" 
-                                               TextAlignment="Center" 
-                                               TextWrapping="Wrap" 
-                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding TenKhoa}"
+                                               TextAlignment="Center"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
                         <!-- Hành Động Column -->
-                        <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                        <syncfusion:GridTemplateColumn HeaderText="Hành Động"
+                                                       Width="150">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Click="Edit_Click" Content="Sửa" Padding="10,3" Margin="5,0,0,0"
-                                                Background="#FFA726" Foreground="White"
-                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"/>
-                                        <Button Content="Xóa" Padding="10,3" Margin="5,0,0,0"
-                                                Background="#F44336" Foreground="White"
-                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"/>
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                        <Button Click="Edit_Click"
+                                                Content="Sửa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="#FFA726"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"/>
+                                        <Button Content="Xóa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="#F44336"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
@@ -151,13 +207,25 @@
                                         Margin="0,10,0,0"/>
 
                 <!-- Add Student Button -->
-                <Button x:Name="btnAddStudent" Content="Thêm Sinh Viên" Width="200" Height="40" FontSize="14" Background="#007BFF" Foreground="White" 
-                        HorizontalAlignment="Left" Margin="0,20,0,0" BorderBrush="#007BFF">
+                <Button x:Name="btnAddStudent"
+                        Content="Thêm Sinh Viên"
+                        Width="200"
+                        Height="40"
+                        FontSize="14"
+                        Background="#007BFF"
+                        Foreground="White"
+                        HorizontalAlignment="Left"
+                        Margin="0,20,0,0"
+                        BorderBrush="#007BFF">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1" CornerRadius="5" Padding="10">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Padding="10">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
