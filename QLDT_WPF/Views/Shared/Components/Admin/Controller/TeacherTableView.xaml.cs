@@ -127,11 +127,11 @@ namespace QLDT_WPF.Views.Components
             string txt_search = ((TextBox)sender).Text.ToLower();
             if (txt_search == "")
             {
-                dataGridGiaoVien.ItemsSource = ObservableSinhVien;
+                dataGridGiaoVien.ItemsSource = ObservableGiaoVien;
             }
             else
             {
-                dataGridGiaoVien.ItemsSource = ObservableSinhVien.Where(x =>
+                dataGridGiaoVien.ItemsSource = ObservableGiaoVien.Where(x =>
                     x.IdGiaoVien.ToLower().Contains(txt_search) ||
                     x.TenGiaoVien.ToLower().Contains(txt_search) ||
                     x.Email.ToLower().Contains(txt_search) ||
@@ -146,7 +146,9 @@ namespace QLDT_WPF.Views.Components
         // Add new GiaoVien
         private void AddGiaoVien(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var addGiaoVienWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddGiaoVien();
+            addGiaoVienWindow.ShowDialog();
+            InitAsync();
         }
 
         // Add new Lop Hoc Phan With File
