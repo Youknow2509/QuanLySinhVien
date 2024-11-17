@@ -1,12 +1,28 @@
-﻿using System;
+﻿using Syncfusion.UI.Xaml.Grid.Converter;
+using Syncfusion.UI.Xaml.Grid;
+using Syncfusion.XlsIO;
+using QLDT_WPF.Dto;
+using QLDT_WPF.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-// Your namespaces
-using QLDT_WPF.Repositories;
-using QLDT_WPF.Dto;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using QLDT_WPF.Models;
+using Microsoft.Win32;
+using System.IO;
+using System;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -55,7 +71,45 @@ namespace QLDT_WPF.Views.Components
         // Export ChuongTrinhHoc to Excel
         private void ExportToExcel(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Kiểm tra nếu ObservableChuongTrinhHoc không có dữ liệu
+            if (ObservableChuongTrinhHoc == null || ObservableChuongTrinhHoc.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Chương Trình Học";
+                worksheet[1, 2].Text = "Tên Chương Trình Học";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var cch in ObservableChuongTrinhHoc)
+                {
+                    worksheet[row, 1].Text = cch.IdChuongTrinhHoc ?? "N/A";
+                    worksheet[row, 2].Text = cch.TenChuongTrinhHoc ?? "N/A";
+                    
+                    row++;
+                }
+
+                // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachChuongTrinhHoc.xlsx");
+            }
+
+            MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // Handle Search
