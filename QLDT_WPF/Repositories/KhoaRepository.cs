@@ -46,7 +46,8 @@ public class KhoaRepository
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<KhoaDto>>{
+        return new ApiResponse<List<KhoaDto>>
+        {
             Data = khoa,
             Status = true,
             Message = "Lấy dữ liệu thành công"
@@ -61,7 +62,8 @@ public class KhoaRepository
         var khoa = await (
             from kh in _context.Khoas
             where kh.IdKhoa == id
-            select new KhoaDto{
+            select new KhoaDto
+            {
                 IdKhoa = kh.IdKhoa,
                 TenKhoa = kh.TenKhoa
             }
@@ -114,10 +116,13 @@ public class KhoaRepository
             TenKhoa = khoa.TenKhoa
         };
 
-        try {
+        try
+        {
             _context.Khoas.Add(khoaEntity);
             await _context.SaveChangesAsync();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             return new ApiResponse<KhoaDto>
             {
                 Data = null,
@@ -131,6 +136,82 @@ public class KhoaRepository
             Data = khoa,
             Status = true,
             Message = "Thêm dữ liệu thành công"
+        };
+    }
+
+    /**
+     * Add Khoa from file cgv
+     */
+    public async Task<ApiResponse<List<KhoaDto>>> AddListKhoaFromCSV(List<KhoaDto> khoaDtoList)
+    {
+        // Kiểm tra nếu danh sách null hoặc trống
+        if (khoaDtoList == null || !khoaDtoList.Any())
+        {
+            return new ApiResponse<List<KhoaDto>>
+            {
+                Status = false,
+                Message = "File Không Được Để Trống!",
+                Data = null,
+            };
+        }
+
+        List<KhoaDto> khoaDtoListError = new List<KhoaDto>();
+        HashSet<string> processedIds = new HashSet<string>();
+
+        // Kiểm tra các bản ghi trùng lặp trong danh sách CSV
+        foreach (var kh in khoaDtoList)
+        {
+            if (processedIds.Contains(kh.IdKhoa))
+            {
+                kh.TenKhoa = $"Khoa: {kh.TenKhoa} lỗi trùng ID {kh.IdKhoa} trong file CSV";
+                khoaDtoListError.Add(kh);
+                continue;
+            }
+
+            processedIds.Add(kh.IdKhoa);
+        }
+
+        // Loại bỏ các bản ghi trùng lặp khỏi danh sách trước khi kiểm tra với CSDL
+        var uniquekhoaDtoList = khoaDtoList.Except(khoaDtoListError).ToList();
+
+        // Kiểm tra với cơ sở dữ liệu và thêm vào danh sách lỗi nếu cần
+        foreach (var cch in uniquekhoaDtoList)
+        {
+            var cct_c = await _context.Khoas
+                .FirstOrDefaultAsync(x => x.IdKhoa == cch.IdKhoa);
+            if (cct_c != null)
+            {
+                cch.TenKhoa = $"Khoa: {cch.TenKhoa} đã tồn tại trong CSDL";
+                khoaDtoListError.Add(cch);
+                continue;
+            }
+            // Nếu không có lỗi, thêm vào CSDL
+            await _context.Khoas.AddAsync(new Khoa
+            {
+                IdKhoa = cch.IdKhoa,
+                TenKhoa = cch.TenKhoa
+            });
+        }
+
+        // Nếu có bất kỳ lỗi nào trong quá trình xử lý
+        if (khoaDtoListError.Any())
+        {
+            return new ApiResponse<List<KhoaDto>>
+            {
+                Status = false,
+                Message = "Thêm Danh Sách Chương Trình Học Thất Bại! Có lỗi trong danh sách chương trình học.",
+                Data = khoaDtoListError,
+            };
+        }
+
+        // Lưu thay đổi nếu mọi thứ thành công
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<List<KhoaDto>>
+        {
+            Status = true,
+            Message = "Thêm Danh Sách Khoa Thành Công!",
+            Data = khoaDtoList,
         };
     }
 
@@ -179,7 +260,7 @@ public class KhoaRepository
             from sv in _context.SinhViens
             where sv.IdKhoa == id
             join kh in _context.Khoas
-                on sv.IdKhoa equals kh.IdKhoa 
+                on sv.IdKhoa equals kh.IdKhoa
             join cth in _context.ChuongTrinhHocs
                 on sv.IdChuongTrinhHoc equals cth.IdChuongTrinhHoc
             select new SinhVienDto
@@ -194,7 +275,7 @@ public class KhoaRepository
                 TenKhoa = kh.TenKhoa,
             }
         ).ToListAsync();
-        
+
         return new ApiResponse<List<SinhVienDto>>
         {
             Data = sinhVien,
@@ -229,7 +310,7 @@ public class KhoaRepository
             {
                 IdGiaoVien = gv.IdGiaoVien,
                 IdKhoa = gv.IdKhoa,
-                
+
                 TenGiaoVien = gv.TenGiaoVien,
                 TenKhoa = kh.TenKhoa,
                 Email = gv.Email,
