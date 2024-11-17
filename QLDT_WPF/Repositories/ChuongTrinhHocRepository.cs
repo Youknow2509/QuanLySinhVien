@@ -164,7 +164,7 @@ namespace QLDT_WPF.Repositories
         /**
          * Thêm danh sách chương trình học từ file CSV
          */
-        public async Task<ApiResponse<List<ChuongTrinhHocDto>>> 
+        public async Task<ApiResponse<List<ChuongTrinhHocDto>>>
             AddListChuongTrinhHocFromCSV(List<ChuongTrinhHocDto> listChuongTrinhHoc)
         {
             // Kiểm tra nếu danh sách null hoặc trống
@@ -223,7 +223,7 @@ namespace QLDT_WPF.Repositories
                 {
                     Status = false,
                     Message = "Thêm Danh Sách Chương Trình Học Thất Bại! Có lỗi trong danh sách chương trình học.",
-                    Data = listMonHocError,
+                    Data = listChuongTrinhHocError,
                 };
             }
 
@@ -272,13 +272,13 @@ namespace QLDT_WPF.Repositories
         /**
          * Lấy danh sách môn học có và không có trong chương trình học theo ID chương trình học
          */
-        public async Task<ApiResponse<(List<ChuongTrinhHocDto> MonHocInChuongTrinhHoc, List<ChuongTrinhHocDto> MonHocKhongCo)>> GetMonHocByIdChuongTrinhHoc(string id)
+        public async Task<ApiResponse<(List<MonHocDto> MonHocInChuongTrinhHoc, List<MonHocDto> MonHocKhongCo)>> GetMonHocByIdChuongTrinhHoc(string id)
         {
             var monHocInChuongTrinhHoc = await (
                 from cch_mh in _context.ChuongTrinhHocMonHocs
                 where cch_mh.IdChuongTrinhHoc == id
                 join mh in _context.MonHocs on cch_mh.IdMonHoc equals mh.IdMonHoc
-                select new ChuongTrinhHocDto
+                select new MonHocDto
                 {
                     IdMonHoc = mh.IdMonHoc,
                     TenMonHoc = mh.TenMonHoc,
@@ -295,7 +295,7 @@ namespace QLDT_WPF.Repositories
                     where cch_mh.IdChuongTrinhHoc == id
                     select cch_mh.IdMonHoc
                 ).Contains(mh.IdMonHoc)
-                select new ChuongTrinhHocDto
+                select new MonHocDto
                 {
                     IdMonHoc = mh.IdMonHoc,
                     TenMonHoc = mh.TenMonHoc,
@@ -305,7 +305,7 @@ namespace QLDT_WPF.Repositories
                 }
             ).ToListAsync();
 
-            return new ApiResponse<(List<ChuongTrinhHocDto>, List<ChuongTrinhHocDto>)>
+            return new ApiResponse<(List<MonHocDto>, List<MonHocDto>)>
             {
                 Status = true,
                 StatusCode = 200,
@@ -368,4 +368,5 @@ namespace QLDT_WPF.Repositories
             };
         }
     }
+}
 }
