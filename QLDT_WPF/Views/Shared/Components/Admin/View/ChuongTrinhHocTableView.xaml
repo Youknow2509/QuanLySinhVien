@@ -41,7 +41,8 @@
                                        ShowRowHeader="True"
                                        GridLinesVisibility="Both"
                                        RowHeight="40"
-                                       HorizontalAlignment="Stretch"
+                                       MaxHeight="300"
+                    HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
                         <!-- Program Name Column -->

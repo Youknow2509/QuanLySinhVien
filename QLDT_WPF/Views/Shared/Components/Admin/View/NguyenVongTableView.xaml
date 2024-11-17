@@ -32,21 +32,23 @@
                     </StackPanel>
                 </DockPanel>
 
-                <!-- SfDataGrid for Student Requests -->
-                <syncfusion:SfDataGrid x:Name="sfDataGridSinhVien"
-                                       AutoGenerateColumns="False"
-                                       ShowRowHeader="True"
-                                       GridLinesVisibility="Both"
-                                       RowHeight="40"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Top">
-                    <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên" MappingName="MaSinhVien" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Tên Sinh Viên" MappingName="TenSinhVien" Width="300" />
-                        <syncfusion:GridTextColumn HeaderText="Tên Môn Học" MappingName="TenMonHoc" Width="250" />
-                        <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="190" />
-                    </syncfusion:SfDataGrid.Columns>
-                </syncfusion:SfDataGrid>
+                <!-- Scrollable SfDataGrid for Student Requests -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="300">
+                    <syncfusion:SfDataGrid x:Name="sfDataGridSinhVien"
+                                           AutoGenerateColumns="False"
+                                           ShowRowHeader="True"
+                                           GridLinesVisibility="Both"
+                                           RowHeight="40"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Top">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên" MappingName="MaSinhVien" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Tên Sinh Viên" MappingName="TenSinhVien" Width="300" />
+                            <syncfusion:GridTextColumn HeaderText="Tên Môn Học" MappingName="TenMonHoc" Width="250" />
+                            <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="190" />
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+                </ScrollViewer>
 
                 <!-- SfDataPager -->
                 <syncfusion:SfDataPager x:Name="sfDataPagerSinhVien"
@@ -82,36 +84,38 @@
                     </StackPanel>
                 </DockPanel>
 
-                <!-- SfDataGrid for Teacher Requests -->
-                <syncfusion:SfDataGrid x:Name="sfDataGridGiaoVien"
-                                       AutoGenerateColumns="False"
-                                       ShowRowHeader="True"
-                                       GridLinesVisibility="Both"
-                                       RowHeight="40"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Top">
-                    <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Tên Lớp Học Phần" MappingName="TenLopHocPhan" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu HT" MappingName="ThoiGianBatDauHienTai" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc HT" MappingName="ThoiGianKetThucHienTai" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian BĐ Mới" MappingName="ThoiGianBatDauMoi" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian KT Mới" MappingName="ThoiGianKetThucMoi" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150" />
-                        <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
-                            <syncfusion:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Content="Duyệt" Padding="10,3" Margin="5,0,0,0"
-                                                Background="#007BFF" Foreground="White"
-                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"
-                                                Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </syncfusion:GridTemplateColumn.CellTemplate>
-                        </syncfusion:GridTemplateColumn>
-                    </syncfusion:SfDataGrid.Columns>
-                </syncfusion:SfDataGrid>
+                <!-- Scrollable SfDataGrid for Teacher Requests -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="300">
+                    <syncfusion:SfDataGrid x:Name="sfDataGridGiaoVien"
+                                           AutoGenerateColumns="False"
+                                           ShowRowHeader="True"
+                                           GridLinesVisibility="Both"
+                                           RowHeight="40"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Top">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn HeaderText="Tên Lớp Học Phần" MappingName="TenLopHocPhan" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu HT" MappingName="ThoiGianBatDauHienTai" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc HT" MappingName="ThoiGianKetThucHienTai" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian BĐ Mới" MappingName="ThoiGianBatDauMoi" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian KT Mới" MappingName="ThoiGianKetThucMoi" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150" />
+                            <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="Duyệt" Padding="10,3" Margin="5,0,0,0"
+                                                    Background="#007BFF" Foreground="White"
+                                                    FontSize="14" BorderBrush="Transparent" FontWeight="Bold"
+                                                    Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+                </ScrollViewer>
 
                 <!-- SfDataPager -->
                 <syncfusion:SfDataPager x:Name="sfDataPagerGiaoVien"

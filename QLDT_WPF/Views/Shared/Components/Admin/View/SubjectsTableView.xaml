@@ -45,14 +45,14 @@
                                        ShowRowHeader="True"
                                        GridLinesVisibility="Both"
                                        RowHeight="40"
-                                       HorizontalAlignment="Stretch"
+                                       MaxHeight="300"
+                    HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTextColumn HeaderText="Tên Môn Học" MappingName="TenMonHoc" Width="200" />
                         <syncfusion:GridTextColumn HeaderText="Số Tín Chỉ" MappingName="SoTinChi" Width="150" />
                         <syncfusion:GridTextColumn HeaderText="Số Tiết" MappingName="SoTietHoc" Width="150" />
                         <syncfusion:GridTextColumn HeaderText="Khoa" MappingName="TenKhoa" Width="200" />
-
 
                         <!-- Hành Động Column -->
                         <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
