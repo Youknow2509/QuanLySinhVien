@@ -16,7 +16,6 @@ namespace QLDT_WPF.Views.Components
         // Variables
         private SinhVienRepository sinhVienRepository;
         public ObservableCollection<SinhVienDto> ObservableSinhVien { get; private set; }
-        public ObservableCollection<SinhVienDto> FilteredSinhVien { get; private set; }
 
         // Constructor
         public SinhVienTableView()
@@ -24,7 +23,6 @@ namespace QLDT_WPF.Views.Components
             InitializeComponent();
             sinhVienRepository = new SinhVienRepository();
             ObservableSinhVien = new ObservableCollection<SinhVienDto>();
-            FilteredSinhVien = new ObservableCollection<SinhVienDto>();
 
             // Handle loading asynchronously
             Loaded += async (sender, e) =>
@@ -33,7 +31,6 @@ namespace QLDT_WPF.Views.Components
             };
 
             // Initialize events
-            txtTimKiem.TextChanged += SearchTextChanged;
             cbbPageSize.SelectionChanged += PageSizeChanged;
         }
 
@@ -61,25 +58,6 @@ namespace QLDT_WPF.Views.Components
             sfDataGrid.ItemsSource = sfDataPager.PagedSource;
         }
 
-        // Handle search functionality
-        private void SearchTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var searchText = txtTimKiem.Text.ToLower();
-
-            // // Filter data based on search text
-            // var filteredData = ObservableSinhVien.Where(s =>
-            //     s.HoTen.ToLower().Contains(searchText) ||
-            //     s.DiaChi.ToLower().Contains(searchText) ||
-            //     s..ToLower().Contains(searchText)).ToList();
-
-            // FilteredSinhVien = new ObservableCollection<SinhVienDto>(filteredData);
-
-            // // Refresh pager source
-            // sfDataPager.Source = FilteredSinhVien;
-
-            // TODO cmp
-        }
-
         // Handle page size change
         private void PageSizeChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -87,12 +65,6 @@ namespace QLDT_WPF.Views.Components
             {
                 sfDataPager.PageSize = int.Parse(selectedItem.Content.ToString());
             }
-        }
-
-        // Edit
-        private void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO
         }
 
         // Export SinhVien to Excel
@@ -120,16 +92,55 @@ namespace QLDT_WPF.Views.Components
             // TODO
         }
 
-        // Edit SinhVien
-        private void Click_Edit_SinhVien(object sender, RoutedEventArgs e)
-        {
-            // TODO
-        }
-
         // Delete SinhVien
         private void Click_Delete_SinhVien(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy đối tượng MonHocDto từ thuộc tính Tag của nút
+            if (sender is Button button && button.Tag is SinhVienDto sinhVien)
+            {
+                string idSinhVien = sinhVien.IdSinhVien;
+                string tenSinhVien = sinhVien.HoTen;
+
+                // Hiển thị hộp thoại xác nhận trước khi xóa
+                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa sinh viên '{tenSinhVien}'?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Thực hiện thao tác xóa bất đồng bộ
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            // Gọi hàm xóa trong repository và lấy phản hồi
+                            var response = await sinhVienRepository.Delete(idSinhVien);
+
+                            // Kiểm tra nếu việc xóa không thành công
+                            if (response.Status == false)
+                            {
+                                // Nếu thất bại, hiển thị thông báo lỗi trên luồng UI
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                                });
+                                return;
+                            }
+
+                            // Nếu xóa thành công, tải lại dữ liệu trên luồng UI
+                            Application.Current.Dispatcher.Invoke(async () =>
+                            {
+                                await InitAsync();
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            // Xử lý bất kỳ ngoại lệ nào xảy ra trong quá trình xóa
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show($"Có lỗi xảy ra khi xóa sinh viên '{tenSinhVien}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            });
+                        }
+                    });
+                }
+            }
         }
     }
 }
