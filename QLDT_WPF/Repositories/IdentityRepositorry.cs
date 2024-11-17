@@ -469,10 +469,123 @@ namespace QLDT_WPF.Repositories
         }
 
         // Create list giao vien form file
-        public async Task<ApiResponse<List<GiaoVienDto>>> CreateListGiaoVienFromCSV(List<GiaoVienDto> listGiaoVien)
+        public async Task<ApiResponse<List<GiaoVienDto>>> 
+            CreateListGiaoVienFromCSV(List<GiaoVienDto> listGiaoVien)
         {
-            // TODO
-            return null;
+            // Kiểm tra nếu danh sách null hoặc trống
+            if (listGiaoVien == null || !listGiaoVien.Any())
+            {
+                return new ApiResponse<List<GiaoVienDto>>
+                {
+                    Status = false,
+                    Message = "File Không Được Để Trống!",
+                    Data = null,
+                };
+            }
+
+            List<GiaoVienDto> listGiaoVienError = new List<GiaoVienDto>();
+            HashSet<string> processedIds = new HashSet<string>();
+
+            // Kiểm tra các bản ghi trùng lặp trong danh sách CSV
+            foreach (var gv in listGiaoVien)
+            {
+                if (processedIds.Contains(gv.IdGiaoVien))
+                {
+                    gv.TenGiaoVien = $"Giáo Viên: {gv.TenGiaoVien} lỗi trùng ID {gv.IdGiaoVien} trong file CSV";
+                    listGiaoVienError.Add(gv);
+                    continue;
+                }
+                processedIds.Add(gv.IdGiaoVien);
+            }
+
+            // Loại bỏ các bản ghi trùng lặp khỏi danh sách trước khi kiểm tra với CSDL
+            var uniquelistGiaoVien = listGiaoVien.Except(listGiaoVienError).ToList();
+
+            // Kiểm tra với cơ sở dữ liệu và thêm vào danh sách lỗi nếu cần
+            foreach (var gv in uniquelistGiaoVien)
+            {
+                // Check id giao vien
+                var existingGiaoVien = await _context.GiaoViens
+                    .FirstOrDefaultAsync(x => x.IdGiaoVien == gv.IdGiaoVien);
+                if (existingGiaoVien != null)
+                {
+                    gv.TenGiaoVien = $"Giáo Viên: {gv.TenGiaoVien} lỗi ID {gv.IdGiaoVien} đã tồn tại trong CSDL";
+                    listGiaoVienError.Add(gv);
+                    continue;
+                }
+
+                // Check email, phone number, user name
+                var checkResult = await CheckExist(gv.IdGiaoVien, gv.Email, gv.SoDienThoai);
+                if (checkResult.status == true)
+                {
+                    gv.TenGiaoVien = $"Giáo Viên: {gv.TenGiaoVien} lỗi {checkResult.message}";
+                    listGiaoVienError.Add(gv);
+                    continue;
+                }
+
+                // Check khoa
+                var khoa = await _context.Khoas.FirstOrDefaultAsync(x => x.IdKhoa == gv.IdKhoa);
+                if (khoa == null)
+                {
+                    gv.TenGiaoVien = $"Giáo Viên: {gv.TenGiaoVien} lỗi không tìm thấy khoa {gv.IdKhoa}";
+                    listGiaoVienError.Add(gv);
+                    continue;
+                }
+
+                // Add Giao Vien
+                await _context.GiaoViens.AddAsync(new GiaoVien
+                {
+                    IdGiaoVien = gv.IdGiaoVien,
+                    TenGiaoVien = gv.TenGiaoVien,
+                    Email = gv.Email,
+                    SoDienThoai = gv.SoDienThoai,
+                    IdKhoa = gv.IdKhoa,
+                });
+
+                // Add User Giao Vien
+                await _dbContext.Users.AddAsync(new UserCustom
+                {
+                    UserName = gv.IdGiaoVien,
+                    IdClaim = gv.IdGiaoVien,
+                    Email = gv.Email,
+                    PhoneNumber = gv.SoDienThoai,
+                    FullName = gv.TenGiaoVien,
+                    Address = "",
+                    PasswordHash = _securityService.Hash("123456789"),
+                });
+
+                // Add Role Giao Vien
+                var giaoVienRole = _dbContext.Roles
+                    .FirstOrDefault(x => x.Name.ToUpper() == "GIAOVIEN");
+                var userRole = new IdentityUserRole<string>
+                {
+                    UserId = gv.IdGiaoVien,
+                    RoleId = giaoVienRole.Id,
+                };
+                await _dbContext.UserRoles.AddAsync(userRole);
+            }
+
+            // Nếu có bất kỳ lỗi nào trong quá trình xử lý
+            if (listGiaoVienError.Any())
+            {
+                return new ApiResponse<List<GiaoVienDto>>
+                {
+                    Status = false,
+                    Message = "Thêm Danh Sách Sinh Giáo Thất Bại! Có lỗi trong danh sách Sinh Viên.",
+                    Data = listGiaoVienError,
+                };
+            }
+
+            // Lưu thay đổi nếu mọi thứ thành công
+            await _context.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
+
+            return new ApiResponse<List<GiaoVienDto>>
+            {
+                Status = true,
+                Message = "Thêm Danh Sách Giáo Viên Thành Công!",
+                Data = listGiaoVien,
+            };
         }
 
         // Handle login
