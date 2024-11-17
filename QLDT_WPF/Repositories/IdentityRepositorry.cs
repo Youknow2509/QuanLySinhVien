@@ -626,5 +626,20 @@ namespace QLDT_WPF.Repositories
 
             return (false, "");
         }
+
+        // Cập nhật thông tin người dùng
+        public async Task<bool> UpdateUserAsync(UserDto user)
+        {
+            // Giả lập việc gửi dữ liệu lên server (thay bằng logic thực tế)
+            await Task.Delay(1000); // Giả lập độ trễ
+            return true; // Trả về true nếu cập nhật thành công
+        }
+
+        // Thay đổi mật khẩu
+        public bool ChangePassword(string currentPassword, string newPassword)
+        {
+            // Giả lập việc gửi dữ liệu lên server (thay bằng logic thực tế)
+            return true;
+        }
     }
 }
