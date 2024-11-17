@@ -135,7 +135,9 @@ namespace QLDT_WPF.Views.Components
         // Add new Khoa
         private void AddKhoa(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var addKhoaWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddKhoa();
+            addKhoaWindow.ShowDialog();
+            InitAsync();
         }
 
         // Add new Lop Hoc Phan With File
