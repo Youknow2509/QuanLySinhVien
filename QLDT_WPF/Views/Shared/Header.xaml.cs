@@ -36,7 +36,14 @@ namespace QLDT_WPF.Views.Shared
                  typeof(string), 
                  typeof(Header),
                  new PropertyMetadata(string.Empty));
-     
+
+        // Avatar
+        public static readonly DependencyProperty AvatarProperty =
+            DependencyProperty.Register("Avatar",
+                               typeof(string),
+                                              typeof(Header),
+                                                             new PropertyMetadata(string.Empty));
+
 
         // Constructor
         public Header()
