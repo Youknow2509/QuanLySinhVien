@@ -98,7 +98,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             try
             {
                 // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
-                var response = Task.Run(() => monHocRepository.Add(newMonHoc)).Result;
+                var response = Task.Run(async () => await monHocRepository.Add(newMonHoc)).Result;
 
                 // Kiểm tra kết quả trả về
                 if (response.Status == false)
