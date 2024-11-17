@@ -48,8 +48,6 @@ namespace QLDT_WPF.Views.Components
                 await InitAsync();
             };
 
-            // Initialize events
-            cbbPageSize.SelectionChanged += PageSizeChanged;
         }
 
         // Init window asynchronously
@@ -69,15 +67,6 @@ namespace QLDT_WPF.Views.Components
             }
 
             sfDataGrid.ItemsSource = ObservableSinhVien;
-        }
-
-        // Handle page size change
-        private void PageSizeChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            if (cbbPageSize.SelectedItem is ComboBoxItem selectedItem)
-            {
-                sfDataGrid.PageSize = int.Parse(selectedItem.Content.ToString());
-            }
         }
 
         // Export SinhVien to Excel
@@ -123,7 +112,7 @@ namespace QLDT_WPF.Views.Components
                     worksheet[row, 5].Text = sinhVien.IdChuongTrinhHoc;
                     worksheet[row, 6].Text = sinhVien.TenChuongTrinhHoc;
                     worksheet[row, 7].Text = sinhVien.Lop;
-                    worksheet[row, 8].Text = sinhVien.NgaySinh;
+                    worksheet[row, 8].Date = sinhVien.NgaySinh;
                     worksheet[row, 9].Text = sinhVien.SoDienThoai;
                     worksheet[row, 10].Text = sinhVien.Email;
 
