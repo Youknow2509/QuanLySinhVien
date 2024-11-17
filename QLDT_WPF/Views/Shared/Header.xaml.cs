@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using QLDT_WPF.Views.Admin;
 using QLDT_WPF.Views.Shared;
 using QLDT_WPF.Views.Login;
+using QLDT_WPF.Views.Components;
 
 namespace QLDT_WPF.Views.Shared
 {
@@ -28,6 +29,12 @@ namespace QLDT_WPF.Views.Shared
         {
             get => (string)GetValue(FullNameProperty);
             set => SetValue(FullNameProperty, value);
+        }
+
+        public string Avatar
+        {
+            get => (string)GetValue(AvatarProperty);
+            set => SetValue(AvatarProperty, value);
         }
 
         // DependencyProperty
@@ -62,6 +69,13 @@ namespace QLDT_WPF.Views.Shared
                 Window.GetWindow(this).Close();
 
             }
+        }
+
+        private void Avatar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Mở cửa sổ UserProfileWindow
+            var userProfileWindow = new UserProfileWindow(UserDto);
+            userProfileWindow.ShowDialog();
         }
     }
 }
