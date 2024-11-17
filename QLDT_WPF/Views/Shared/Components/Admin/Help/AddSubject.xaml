@@ -1,0 +1,46 @@
+﻿<Window x:Class="QLDT_WPF.Views.Shared.Components.Admin.Help.AddSubject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QLDT_WPF.Views.Shared.Components.Admin.Help"
+        mc:Ignorable="d"
+        Title="Thêm Môn Học" Height="365" Width="350" WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <!-- Modal Header -->
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Thêm Môn Học" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" HorizontalAlignment="Center" />
+
+            <!-- Modal Body/Form -->
+            <StackPanel Orientation="Vertical" Margin="0,10">
+                <!-- Tên Môn Học -->
+                <TextBlock Text="Tên Môn Học" Margin="0,5" />
+                <TextBox x:Name="txtTenMonHoc" />
+
+                <!-- Số Tín Chỉ -->
+                <TextBlock Text="Số Tín Chỉ" Margin="0,10,0,5" />
+                <TextBox x:Name="txtSoTinChi"
+                         PreviewTextInput="handle_input_key_press_number"/>
+
+                <!-- Số Tiết -->
+                <TextBlock Text="Số Tiết" Margin="0,10,0,5" />
+                <TextBox x:Name="txtSoTiet"
+                         PreviewTextInput="handle_input_key_press_number"/>
+
+                <!-- Khoa -->
+                <TextBlock Text="Khoa" Margin="0,10,0,5" />
+                <ComboBox x:Name="cbbKhoa" Margin="0,0,0,10">
+                    <ComboBoxItem Content="Chọn Khoa" Tag="-1" IsSelected="True" />
+                    <!-- Add additional items here as needed -->
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Modal Footer -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Đóng" Width="75" Margin="0,0,10,0" Click="CloseButton_Click" />
+                <Button Content="Tạo" Width="75" Background="#007BFF" Foreground="White" Click="CreateButton_Click" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
