@@ -340,7 +340,7 @@ public class LopHocPhanRepository
         // Nếu có bất kỳ lỗi nào trong quá trình xử lý
         if (listLopHocPhanError.Any())
         {
-            return new ApiResponse<List<LopHocPhan>>
+            return new ApiResponse<List<LopHocPhanDto>>
             {
                 Status = false,
                 Message = "Thêm Danh Sách Lớp Học Phần Thất Bại! Có lỗi trong danh sách Lớp Học Phần.",
