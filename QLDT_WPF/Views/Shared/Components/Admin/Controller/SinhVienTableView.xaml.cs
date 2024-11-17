@@ -70,7 +70,61 @@ namespace QLDT_WPF.Views.Components
         // Export SinhVien to Excel
         private void ExportToExcel(object sender, RoutedEventArgs e)
         {
-            // TODO
+                        // Kiểm tra nếu ObservableSinhVien không có dữ liệu
+            if (ObservableSinhVien == null || ObservableSinhVien.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Sinh Viên";
+                worksheet[1, 2].Text = "Tên Sinh Viên";
+                worksheet[1, 3].Text = "ID Khoa";
+                worksheet[1, 4].Text = "Tên Khoa";
+                worksheet[1, 5].Text = "ID Chương Trình Học";
+                worksheet[1, 6].Text = "Tên Chương Trình Học";
+                worksheet[1, 7].Text = "Lớp";
+                worksheet[1, 8].Text = "Ngày Sinh";
+                worksheet[1, 9].Text = "Số Điện Thoại";
+                worksheet[1, 10].Text = "Email";                
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var sinhVien in ObservableSinhVien)
+                {
+                    worksheet[row, 1].Text = sinhVien.IdSinhVien;
+                    worksheet[row, 2].Text = sinhVien.HoTen;
+                    worksheet[row, 3].Text = sinhVien.IdKhoa;
+                    worksheet[row, 4].Text = sinhVien.TenKhoa;
+                    worksheet[row, 5].Text = sinhVien.IdChuongTrinhHoc;
+                    worksheet[row, 6].Text = sinhVien.TenChuongTrinhHoc;
+                    worksheet[row, 7].Text = sinhVien.Lop;
+                    worksheet[row, 8].Text = sinhVien.NgaySinh;
+                    worksheet[row, 9].Text = sinhVien.SoDienThoai;
+                    worksheet[row, 10].Text = sinhVien.Email;
+
+                    row++;
+                }
+
+                // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSinhVien.xlsx");
+            }
+
+            MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // Handle Search
