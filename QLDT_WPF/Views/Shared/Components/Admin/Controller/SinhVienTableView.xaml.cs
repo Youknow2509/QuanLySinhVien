@@ -151,7 +151,9 @@ namespace QLDT_WPF.Views.Components
         // Add new SinhVien
         private void AddSinhVien(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var addSinhVienWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddSinhVien();
+            addSinhVienWindow.ShowDialog();
+            InitAsync();
         }
 
         // Add new Lop Hoc Phan With File
