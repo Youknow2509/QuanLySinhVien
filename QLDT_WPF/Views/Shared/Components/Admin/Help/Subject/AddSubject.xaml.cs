@@ -97,14 +97,27 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             // Add new subject to database
             try
             {
-                monHocRepository.Add(newMonHoc);
+                // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
+                var response = Task.Run(() => monHocRepository.Add(newMonHoc)).Result;
 
-                MessageBox.Show("Môn học đã được tạo thành công!");
-                this.Close();
-            } catch (Exception ex)
+                // Kiểm tra kết quả trả về
+                if (response.Status == false)
+                {
+                    MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); // Đóng cửa sổ nếu thêm thành công
+                }
+                else
+                {
+                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (AggregateException ex)
             {
-                MessageBox.Show(ex.Message);
-                return;
+                // Xử lý ngoại lệ bất đồng bộ
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    MessageBox.Show($"Có lỗi xảy ra: {innerEx.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
