@@ -28,7 +28,7 @@ namespace QLDT_WPF.Views.Components
         {
             if (SinhVien != null)
             {
-                txtFirstName.Text = SinhVien.HoTen;
+                txtFullName.Text = SinhVien.HoTen;
                 txtEmail.Text = SinhVien.Email;
                 txtPhoneNumber.Text = SinhVien.SoDienThoai;
                 txtAddress.Text = SinhVien.DiaChi;
@@ -41,7 +41,7 @@ namespace QLDT_WPF.Views.Components
             if (SinhVien != null)
             {
                 // Cập nhật thông tin từ giao diện vào đối tượng SinhVien
-                SinhVien.HoTen = txtFirstName.Text;
+                SinhVien.HoTen = txtFullName.Text;
                 SinhVien.Email = txtEmail.Text;
                 SinhVien.SoDienThoai = txtPhoneNumber.Text;
                 SinhVien.DiaChi = txtAddress.Text;
@@ -67,6 +67,12 @@ namespace QLDT_WPF.Views.Components
         {
             this.DialogResult = false;
             this.Close();
+        }
+
+        // ChangePassword_Click
+        private void ChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            // Todo change password
         }
     }
 }
