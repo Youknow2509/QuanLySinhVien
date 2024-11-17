@@ -198,7 +198,7 @@ namespace QLDT_WPF.Views.Components
                             {
                                 // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
                                 string errorDetails = string.Join(Environment.NewLine,
-                                    response.Data.Select(sv => sv.HoTen));
+                                    response.Data.Select(gv => gv.TenGiaoVien));
 
                                 // Hiển thị thông báo lỗi
                                 MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -206,7 +206,7 @@ namespace QLDT_WPF.Views.Components
                             else
                             {
                                 // message box show list mon hoc dto
-                                MessageBox.Show("Thêm danh sách giáo viên từ file CSV: " + string.Join(", ", list_giao_vien.Select(x => x.HoTen)) + " thành công!");
+                                MessageBox.Show("Thêm danh sách giáo viên từ file CSV: " + string.Join(", ", list_giao_vien.Select(x => x.TenGiaoVien)) + " thành công!");
 
                                 await InitAsync();
                             }
