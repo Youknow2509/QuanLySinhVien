@@ -92,11 +92,7 @@ namespace QLDT_WPF.Views.Components
         // Edit
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            if (sfDataGrid.SelectedItem is SinhVienDto sinhVien)
-            {
-                var window = new UserProfileWindow(sinhVien);
-                window.ShowDialog();
-            }
+            // TODO
         }
 
         // Export SinhVien to Excel

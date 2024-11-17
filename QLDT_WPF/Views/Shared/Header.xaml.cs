@@ -15,6 +15,7 @@ using QLDT_WPF.Views.Admin;
 using QLDT_WPF.Views.Shared;
 using QLDT_WPF.Views.Login;
 using QLDT_WPF.Views.Components;
+using QLDT_WPF.Dto;
 
 namespace QLDT_WPF.Views.Shared
 {
@@ -24,6 +25,8 @@ namespace QLDT_WPF.Views.Shared
     public partial class Header : UserControl
     {
         // variables
+
+        private readonly UserDto _user;
 
         public string FullName
         {
@@ -74,7 +77,7 @@ namespace QLDT_WPF.Views.Shared
         private void Avatar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Mở cửa sổ UserProfileWindow
-            var userProfileWindow = new UserProfileWindow(UserDto);
+            var userProfileWindow = new UserProfileWindow(_user);
             userProfileWindow.ShowDialog();
         }
     }
