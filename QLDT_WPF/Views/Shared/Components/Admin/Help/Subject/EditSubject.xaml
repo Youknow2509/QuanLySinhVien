@@ -19,11 +19,13 @@
 
                 <!-- Số Tín Chỉ -->
                 <TextBlock Text="Số Tín Chỉ" Margin="0,10,0,5" />
-                <TextBox x:Name="txtEditSoTinChi"/>
+                <TextBox x:Name="txtEditSoTinChi"
+                         PreviewTextInput="handle_input_key_press_number"/>
 
                 <!-- Số Tiết -->
                 <TextBlock Text="Số Tiết" Margin="0,10,0,5" />
-                <TextBox x:Name="txtEditSoTiet" />
+                <TextBox x:Name="txtEditSoTiet" 
+                         PreviewTextInput="handle_input_key_press_number"/>
 
                 <!-- Khoa -->
                 <TextBlock Text="Khoa" Margin="0,10,0,5" />

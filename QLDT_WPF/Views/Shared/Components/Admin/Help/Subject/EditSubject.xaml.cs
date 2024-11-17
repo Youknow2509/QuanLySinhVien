@@ -79,12 +79,54 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             string tenMonHoc = txtEditTenMonHoc.Text;
             int.TryParse(txtEditSoTinChi.Text, out int soTinChi);
             int.TryParse(txtEditSoTiet.Text, out int soTiet);
-            string khoa = cbbEditKhoa.SelectedItem.ToString();
+            string idKhoa = cbbEditKhoa.SelectedValue.ToString() ?? string.Empty;
 
-            // TODO: Add logic to save the edited subject (e.g., update in database)
+            if (idMonHoc == "" || tenMonHoc == "" || soTinChi == 0 || soTiet == 0 || idKhoa == "" || idKhoa == null)
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
 
-            MessageBox.Show("Thông tin môn học đã được lưu thành công!");
-            this.Close();
+            MonHocDto monHocDto = new MonHocDto
+            {
+                IdMonHoc = idMonHoc,
+                TenMonHoc = tenMonHoc,
+                SoTinChi = soTinChi,
+                SoTietHoc = soTiet,
+                IdKhoa = idKhoa
+            };
+
+            // Update mon hoc
+            try
+            {
+                // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
+                var response = Task.Run(async () => await monHocRepository.Update(monHocDto)).Result;
+
+                // Kiểm tra kết quả trả về
+                if (response.Status == true)
+                {
+                    MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); // Đóng cửa sổ nếu thêm thành công
+                }
+                else
+                {
+                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (AggregateException ex)
+            {
+                // Xử lý ngoại lệ bất đồng bộ
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    MessageBox.Show($"Có lỗi xảy ra: {innerEx.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        // Only allow integer input in text box
+        private void handle_input_key_press_number(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !int.TryParse(e.Text, out _);
         }
     }
 }
