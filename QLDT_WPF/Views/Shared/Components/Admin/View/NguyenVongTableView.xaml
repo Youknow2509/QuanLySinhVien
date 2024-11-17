@@ -33,7 +33,7 @@
                 </DockPanel>
 
                 <!-- Scrollable SfDataGrid for Student Requests -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="300">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="600">
                     <syncfusion:SfDataGrid x:Name="sfDataGridSinhVien"
                                            AutoGenerateColumns="False"
                                            ShowRowHeader="True"
@@ -85,7 +85,7 @@
                 </DockPanel>
 
                 <!-- Scrollable SfDataGrid for Teacher Requests -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="300">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="600">
                     <syncfusion:SfDataGrid x:Name="sfDataGridGiaoVien"
                                            AutoGenerateColumns="False"
                                            ShowRowHeader="True"
