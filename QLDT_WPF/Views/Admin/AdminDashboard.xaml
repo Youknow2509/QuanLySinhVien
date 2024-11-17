@@ -6,8 +6,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        ResizeMode="CanResize" 
-        SizeToContent="Manual">
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        MinHeight="720" MinWidth="1280">
 
     <Grid>
         <!-- Define two columns: one for the sidebar and one for the main content -->
@@ -43,10 +44,16 @@
                 VerticalAlignment="Top"/>
 
             <!-- Main Content Area -->
-            <ContentControl x:Name="ContentArea" Grid.Row="1"
-                            Margin="0"
-                            HorizontalAlignment="Stretch" 
-                            VerticalAlignment="Stretch"/>
+            <ScrollViewer Grid.Row="1"
+                          Margin="0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto">
+                <ContentControl x:Name="ContentArea"
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"/>
+            </ScrollViewer>
 
             <!-- Footer -->
             <shared:Footer Grid.Row="2" Margin="0,7,0,7"
