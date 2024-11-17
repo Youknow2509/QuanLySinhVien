@@ -212,7 +212,12 @@ namespace QLDT_WPF.Views.Components
         // Edit Khoa
         private void Click_Edit_Khoa(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if (sender is Button button && button.Tag is KhoaDto khoa)
+            {
+                var editKhoaWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.EditKhoa(khoa);
+                editKhoaWindow.ShowDialog();
+                InitAsync();
+            }
         }
 
         // Delete Khoa
