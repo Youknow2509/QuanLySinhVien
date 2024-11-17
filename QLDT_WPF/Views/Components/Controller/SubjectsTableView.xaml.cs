@@ -76,5 +76,7 @@ namespace QLDT_WPF.Views.Components
                 );
             }
         }
+
+
     }
 }
