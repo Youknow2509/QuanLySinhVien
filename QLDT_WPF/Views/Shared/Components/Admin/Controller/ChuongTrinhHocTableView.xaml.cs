@@ -133,7 +133,9 @@ namespace QLDT_WPF.Views.Components
         // Add new ChuongTrinhHoc
         private void AddChuongTrinhHoc(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var addSubjectWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddChuongTrinhHoc();
+            addSubjectWindow.ShowDialog();
+            InitAsync();
         }
 
         // Add new Lop Hoc Phan With File
