@@ -76,7 +76,7 @@ namespace QLDT_WPF.Views.Components
             }
             else
             {
-                dataGridMonHoc.ItemsSource = ObservableMonHoc.Where(x => 
+                dataGridMonHoc.ItemsSource = ObservableMonHoc.Where(x =>
                     x.TenMonHoc.ToLower().Contains(txt_search.ToLower()) ||
                     x.TenKhoa.ToLower().Contains(txt_search.ToLower()) ||
                     x.SoTinChi.ToString().Contains(txt_search) ||
@@ -205,7 +205,7 @@ namespace QLDT_WPF.Views.Components
 
             MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-        
+
         // hande add subject with file 
         private void AddSubjectWithFile(object sender, RoutedEventArgs e)
         {
@@ -236,7 +236,7 @@ namespace QLDT_WPF.Views.Components
                                 SoTietHoc = int.Parse(data[3]),
                                 IdKhoa = data[4]
                             });
-                        }  
+                        }
                     }
 
                     Task.Run(async () =>
@@ -270,7 +270,8 @@ namespace QLDT_WPF.Views.Components
                 {
                     MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
             }

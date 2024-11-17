@@ -39,7 +39,8 @@ public class MonHocRepository
         var monhocs = await (
             from mh in _context.MonHocs
             join khoa in _context.Khoas on mh.IdKhoa equals khoa.IdKhoa
-            select new MonHocDto {
+            select new MonHocDto
+            {
                 IdMonHoc = mh.IdMonHoc,
                 IdKhoa = khoa.IdKhoa,
 
@@ -50,7 +51,8 @@ public class MonHocRepository
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<MonHocDto>> {
+        return new ApiResponse<List<MonHocDto>>
+        {
             Data = monhocs,
             Status = true,
             Message = "Lấy dữ liệu thành công",
@@ -65,10 +67,11 @@ public class MonHocRepository
     {
         var monhoc = await (
             from mh in _context.MonHocs
-            join khoa in _context.Khoas 
+            join khoa in _context.Khoas
                 on mh.IdKhoa equals khoa.IdKhoa
             where mh.IdMonHoc == id
-            select new MonHocDto {
+            select new MonHocDto
+            {
                 IdMonHoc = mh.IdMonHoc,
                 IdKhoa = khoa.IdKhoa,
 
@@ -81,7 +84,8 @@ public class MonHocRepository
 
         if (monhoc == null)
         {
-            return new ApiResponse<MonHocDto> {
+            return new ApiResponse<MonHocDto>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không tìm thấy môn học",
@@ -89,7 +93,8 @@ public class MonHocRepository
             };
         }
 
-        return new ApiResponse<MonHocDto> {
+        return new ApiResponse<MonHocDto>
+        {
             Data = monhoc,
             Status = true,
             Message = "Lấy dữ liệu thành công",
@@ -106,7 +111,8 @@ public class MonHocRepository
             .FirstOrDefaultAsync(x => x.IdMonHoc == monhocDto.IdMonHoc);
         if (monhocUpgrade == null)
         {
-            return new ApiResponse<MonHocDto> {
+            return new ApiResponse<MonHocDto>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không tìm thấy môn học",
@@ -119,7 +125,8 @@ public class MonHocRepository
             .FirstOrDefaultAsync(x => x.IdKhoa == monhocDto.IdKhoa);
         if (khoa == null)
         {
-            return new ApiResponse<MonHocDto> {
+            return new ApiResponse<MonHocDto>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không tìm thấy khoa",
@@ -134,7 +141,8 @@ public class MonHocRepository
 
         await _context.SaveChangesAsync();
 
-        return new ApiResponse<MonHocDto> {
+        return new ApiResponse<MonHocDto>
+        {
             Data = monhocDto,
             Status = true,
             Message = "Cập nhật môn học thành công",
@@ -146,13 +154,14 @@ public class MonHocRepository
      * Them mon hoc
      */
     public async Task<ApiResponse<MonHocDto>> Add(MonHocDto monhocDto)
-    {   
+    {
         // check khoa exist
         var khoa = await _context.Khoas
             .FirstOrDefaultAsync(x => x.IdKhoa == monhocDto.IdKhoa);
         if (khoa == null)
         {
-            return new ApiResponse<MonHocDto> {
+            return new ApiResponse<MonHocDto>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không tìm thấy khoa",
@@ -165,7 +174,8 @@ public class MonHocRepository
             monhocDto.IdMonHoc = Guid.NewGuid().ToString();
         }
 
-        var monhoc = new MonHoc {
+        var monhoc = new MonHoc
+        {
             IdMonHoc = monhocDto.IdMonHoc,
             TenMonHoc = monhocDto.TenMonHoc,
             SoTinChi = monhocDto.SoTinChi,
@@ -176,7 +186,8 @@ public class MonHocRepository
         await _context.MonHocs.AddAsync(monhoc);
         await _context.SaveChangesAsync();
 
-        return new ApiResponse<MonHocDto> {
+        return new ApiResponse<MonHocDto>
+        {
             Data = monhocDto,
             Status = true,
             Message = "Thêm môn học thành công",
@@ -285,7 +296,8 @@ public class MonHocRepository
             .FirstOrDefaultAsync(x => x.IdMonHoc == id);
         if (monhoc == null)
         {
-            return new ApiResponse<MonHocDto> {
+            return new ApiResponse<MonHocDto>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không tìm thấy môn học",
@@ -296,7 +308,8 @@ public class MonHocRepository
         _context.MonHocs.Remove(monhoc);
         await _context.SaveChangesAsync();
 
-        return new ApiResponse<MonHocDto> {
+        return new ApiResponse<MonHocDto>
+        {
             Data = null,
             Status = true,
             Message = "Xóa môn học thành công",
@@ -311,9 +324,10 @@ public class MonHocRepository
     {
         var gv_c = await _context.GiaoViens
             .FirstOrDefaultAsync(x => x.IdGiaoVien == idGiaoVien);
-        if (gv_c == null)   
+        if (gv_c == null)
         {
-            return new ApiResponse<List<MonHocDto> > {
+            return new ApiResponse<List<MonHocDto>>
+            {
                 Data = null,
                 Status = false,
                 Message = "Không tìm thấy giáo viên",
@@ -326,7 +340,8 @@ public class MonHocRepository
             where gv.IdGiaoVien == idGiaoVien
             join khoa in _context.Khoas on gv.IdKhoa equals khoa.IdKhoa
             join mh in _context.MonHocs on khoa.IdKhoa equals mh.IdKhoa
-            select new MonHocDto{
+            select new MonHocDto
+            {
                 IdMonHoc = mh.IdMonHoc,
                 TenMonHoc = mh.TenMonHoc,
                 SoTinChi = mh.SoTinChi,
@@ -336,7 +351,8 @@ public class MonHocRepository
             }
         ).ToListAsync();
 
-        return new ApiResponse<List<MonHocDto>> {
+        return new ApiResponse<List<MonHocDto>>
+        {
             Data = listMH,
             Status = true,
             Message = "Lấy dữ liệu thành công",
