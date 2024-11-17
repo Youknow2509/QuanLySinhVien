@@ -270,7 +270,7 @@ public class LopHocPhanRepository
         {
             if (processedIds.Contains(lhp.IdLopHocPhan))
             {
-                lhp.TenHocPhan = $"Lớp Học Phần: {lhp.TenHocPhan} lỗi trùng ID {lhp.IdLopHocPhan} trong file CSV";
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi trùng ID {lhp.IdLopHocPhan} trong file CSV";
                 listLopHocPhanError.Add(lhp);
                 continue;
             }
@@ -327,7 +327,7 @@ public class LopHocPhanRepository
                 continue;
             }
 
-            await _context.LopHocPhans.Add(new LopHocPhan{
+            await _context.LopHocPhans.AddAsync(new LopHocPhan{
                 IdLopHocPhan = lhp.IdLopHocPhan,
                 IdMonHoc = lhp.IdMonHoc,
                 IdGiaoVien = lhp.IdGiaoVien,
@@ -340,7 +340,7 @@ public class LopHocPhanRepository
         // Nếu có bất kỳ lỗi nào trong quá trình xử lý
         if (listLopHocPhanError.Any())
         {
-            return new ApiResponse<List<MonHocDto>>
+            return new ApiResponse<List<LopHocPhan>>
             {
                 Status = false,
                 Message = "Thêm Danh Sách Lớp Học Phần Thất Bại! Có lỗi trong danh sách Lớp Học Phần.",

@@ -110,8 +110,8 @@ namespace QLDT_WPF.Views.Components
                 worksheet[1, 2].Text = "Tên Lớp Học Phần";
                 worksheet[1, 3].Text = "ID Giáo Viên";
                 worksheet[1, 4].Text = "Tên Giáo Viên";
-                worksheet[1, 5].Text = "ID Môn Học";
-                worksheet[1, 6].Text = "Tên Môn Học";
+                worksheet[1, 5].Text = "ID lớp học phần";
+                worksheet[1, 6].Text = "Tên lớp học phần";
                 worksheet[1, 7].Text = "Thời Gian Bắt Đầu";
                 worksheet[1, 8].Text = "Thời Gian Kết Thúc";
 
@@ -153,7 +153,76 @@ namespace QLDT_WPF.Views.Components
         // Add new Lop Hoc Phan With File
         private void AddLopHocPhanWithFile(object sender, RoutedEventArgs e)
         {
-            // TODO
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<LopHocPhanDto> list_lop_hoc_phan = new List<LopHocPhanDto>();
+
+                    foreach (string line in lines)
+                    {
+                        // Giả sử mỗi dòng là một lớp học phần với định dạng "Mã lớp học phần, Tên lớp học phần, So Tin Chi, So Tiet Hoc, Id Khoa"
+                        string[] data = line.Split(',');
+                        if (data.Count() >= 8)
+                        {
+                            list_lop_hoc_phan.Add(new LopHocPhanDto
+                            {
+                                IdLopHocPhan = data[0],
+                                TenLopHocPhan = data[1],
+                                IdGiaoVien = data[2],
+                                TenGiaoVien = data[3],
+                                IdMonHoc = data[4],
+                                TenMonHoc = data[5],
+                                ThoiGianBatDau = DateTime.Parse(data[6]),
+                                ThoiGianKetThuc = DateTime.Parse(data[7])
+                            });
+                        }
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm thêm danh sách lớp học phần từ file CSV trong repository
+                        var response = await lopHocPhanRepository
+                            .AddListLopHocPhanFromCSV(list_lop_hoc_phan);
+
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi lớp học phần bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(monh => monh.TenLopHocPhan));
+
+                                // Hiển thị thông báo lỗi
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                // message box show list mon hoc dto
+                                MessageBox.Show("Thêm danh sách lớp học phần từ file CSV: " + string.Join(", ", list_lop_hoc_phan.Select(x => x.TenMonHoc)) + " thành công!");
+
+                                await InitAsync();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm lớp học phần!");
+            }
         }
 
         // Edit LopHocPhan
@@ -210,7 +279,7 @@ namespace QLDT_WPF.Views.Components
                             // Xử lý bất kỳ ngoại lệ nào xảy ra trong quá trình xóa
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                MessageBox.Show($"Có lỗi xảy ra khi xóa môn học '{tenlopHocPhan}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show($"Có lỗi xảy ra khi xóa lớp học phần '{tenlopHocPhan}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                             });
                         }
                     });
