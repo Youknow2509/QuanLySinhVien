@@ -66,16 +66,18 @@ namespace QLDT_WPF.Views.Components
         {
             var searchText = txtTimKiem.Text.ToLower();
 
-            // Filter data based on search text
-            var filteredData = ObservableSinhVien.Where(s =>
-                s.HoTen.ToLower().Contains(searchText) ||
-                s.DiaChi.ToLower().Contains(searchText) ||
-                s.TenSinhVien.ToLower().Contains(searchText)).ToList();
+            // // Filter data based on search text
+            // var filteredData = ObservableSinhVien.Where(s =>
+            //     s.HoTen.ToLower().Contains(searchText) ||
+            //     s.DiaChi.ToLower().Contains(searchText) ||
+            //     s..ToLower().Contains(searchText)).ToList();
 
-            FilteredSinhVien = new ObservableCollection<SinhVienDto>(filteredData);
+            // FilteredSinhVien = new ObservableCollection<SinhVienDto>(filteredData);
 
-            // Refresh pager source
-            sfDataPager.Source = FilteredSinhVien;
+            // // Refresh pager source
+            // sfDataPager.Source = FilteredSinhVien;
+
+            // TODO cmp
         }
 
         // Handle page size change
