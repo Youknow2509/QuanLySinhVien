@@ -70,7 +70,7 @@ namespace QLDT_WPF.Views.Components
             var filteredData = ObservableSinhVien.Where(s =>
                 s.HoTen.ToLower().Contains(searchText) ||
                 s.DiaChi.ToLower().Contains(searchText) ||
-                s.TenChuongTrinhHoc.ToLower().Contains(searchText)).ToList();
+                s.TenSinhVien.ToLower().Contains(searchText)).ToList();
 
             FilteredSinhVien = new ObservableCollection<SinhVienDto>(filteredData);
 
@@ -95,6 +95,43 @@ namespace QLDT_WPF.Views.Components
                 var window = new UserProfileWindow(sinhVien);
                 window.ShowDialog();
             }
+        }
+
+        // Export SinhVien to Excel
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Handle Search
+        private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+
+        // Add new SinhVien
+        private void AddSinhVien(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // Add new Lop Hoc Phan With File
+        private void AddSinhVienWithFile(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Edit SinhVien
+        private void Click_Edit_SinhVien(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Delete SinhVien
+        private void Click_Delete_SinhVien(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
     }
 }

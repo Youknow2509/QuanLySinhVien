@@ -56,5 +56,42 @@ namespace QLDT_WPF.Views.Components
             }
             dataGridGiaoVien.ItemsSource = ObservableGiaoVien;
         }
+
+        // Export GiaoVien to Excel
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Handle Search
+        private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+
+        // Add new GiaoVien
+        private void AddGiaoVien(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // Add new Lop Hoc Phan With File
+        private void AddGiaoVienWithFile(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Edit GiaoVien
+        private void Click_Edit_GiaoVien(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Delete GiaoVien
+        private void Click_Delete_GiaoVien(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }
