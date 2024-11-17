@@ -5,42 +5,79 @@
              Background="White">
     <Grid Margin="20">
         <!-- Border Container -->
-        <Border BorderThickness="1" BorderBrush="#CCCCCC" CornerRadius="8" Padding="10">
+        <Border BorderThickness="1"
+                BorderBrush="#CCCCCC"
+                CornerRadius="8"
+                Padding="10">
             <StackPanel>
 
                 <!-- Title -->
-                <TextBlock Text="Bảng dữ liệu Lớp Học Phần" 
-                           FontSize="20" 
-                           FontWeight="Bold" 
-                           Foreground="#3A82E5" 
-                           HorizontalAlignment="Left" 
+                <TextBlock Text="Bảng dữ liệu Lớp Học Phần"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#3A82E5"
+                           HorizontalAlignment="Left"
                            Margin="0,0,0,20"/>
 
                 <!-- Dropdown, Save to Excel, and Search Bar -->
-                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,10">
+                <DockPanel HorizontalAlignment="Stretch"
+                           VerticalAlignment="Top"
+                           Margin="0,0,0,10">
                     <!-- Dropdown on the left -->
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                        <TextBlock Text="Hiển thị:" VerticalAlignment="Center" Foreground="#333333" FontSize="14" Margin="0,0,5,0"/>
-                        <ComboBox x:Name="cbbPageSize" Width="60" SelectedIndex="0" Background="White" Foreground="#333333" FontSize="14">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Left">
+                        <TextBlock Text="Hiển thị:"
+                                   VerticalAlignment="Center"
+                                   Foreground="#333333"
+                                   FontSize="14"
+                                   Margin="0,0,5,0"/>
+                        <ComboBox x:Name="cbbPageSize"
+                                  Width="60"
+                                  SelectedIndex="0"
+                                  Background="White"
+                                  Foreground="#333333"
+                                  FontSize="14">
                             <ComboBoxItem Content="10"/>
                             <ComboBoxItem Content="25"/>
                             <ComboBoxItem Content="50"/>
                         </ComboBox>
-                        <TextBlock Text="dữ liệu" VerticalAlignment="Center" Margin="5,0,20,0" Foreground="#333333" FontSize="14"/>
+                        <TextBlock Text="dữ liệu"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0,20,0"
+                                   Foreground="#333333"
+                                   FontSize="14"/>
 
                         <!-- Button Save To Excel -->
-                        <Button Content="Lưu Excel" Width="100" Height="30" Margin="10,0,0,0" FontSize="14" Background="#4CAF50" Foreground="White"
-                                HorizontalAlignment="Left" BorderBrush="Transparent" 
+                        <Button Content="Lưu Excel"
+                                Width="100"
+                                Height="30"
+                                Margin="10,0,0,0"
+                                FontSize="14"
+                                Background="#4CAF50"
+                                Foreground="White"
+                                HorizontalAlignment="Left"
+                                BorderBrush="Transparent"
                                 Click="ExportToExcel"/>
                     </StackPanel>
 
                     <!-- Search box on the right -->
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="20,0,0,0">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Right"
+                                Margin="20,0,0,0">
                         <!-- Thêm margin để tạo khoảng cách -->
-                        <TextBlock Text="Tìm Kiếm" VerticalAlignment="Center" Foreground="#333333" FontSize="14" Margin="0,0,5,0"/>
-                        <TextBox x:Name="txtTimKiem" Width="200" Height="30" VerticalAlignment="Center" 
-                                 FontSize="14" Foreground="#333333"
-                                 BorderBrush="#DDDDDD" Background="White"
+                        <TextBlock Text="Tìm Kiếm"
+                                   VerticalAlignment="Center"
+                                   Foreground="#333333"
+                                   FontSize="14"
+                                   Margin="0,0,5,0"/>
+                        <TextBox x:Name="txtTimKiem"
+                                 Width="200"
+                                 Height="30"
+                                 VerticalAlignment="Center"
+                                 FontSize="14"
+                                 Foreground="#333333"
+                                 BorderBrush="#DDDDDD"
+                                 Background="White"
                                  TextChanged="txtTimKiem_TextChanged"/>
                     </StackPanel>
                 </DockPanel>
@@ -55,25 +92,47 @@
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="TenLopHocPhan" Width="200" />
-                        <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="TenGiaoVien" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="TenMonHoc" Width="150" />
-                        <syncfusion:GridTextColumn HeaderText="Thời gian bắt đầu" MappingName="ThoiGianBatDau" Width="180" />
-                        <syncfusion:GridTextColumn HeaderText="Thời gian kết thúc" MappingName="ThoiGianKetThuc" Width="180" />
+                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần"
+                                                   MappingName="TenLopHocPhan"
+                                                   Width="200"/>
+                        <syncfusion:GridTextColumn HeaderText="Giảng Viên"
+                                                   MappingName="TenGiaoVien"
+                                                   Width="150"/>
+                        <syncfusion:GridTextColumn HeaderText="Môn Học"
+                                                   MappingName="TenMonHoc"
+                                                   Width="150"/>
+                        <syncfusion:GridTextColumn HeaderText="Thời gian bắt đầu"
+                                                   MappingName="ThoiGianBatDau"
+                                                   Width="180"/>
+                        <syncfusion:GridTextColumn HeaderText="Thời gian kết thúc"
+                                                   MappingName="ThoiGianKetThuc"
+                                                   Width="180"/>
 
                         <!-- Hành Động Column -->
-                        <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                        <syncfusion:GridTemplateColumn HeaderText="Hành Động"
+                                                       Width="150">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Content="Sửa" Padding="10,3" Margin="5,0,0,0"
-                                                Background="#FFA726" Foreground="White"
-                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold" 
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                        <Button Content="Sửa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="#FFA726"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"
                                                 Click="Click_Edit_LopHocPhan"
                                                 Tag="{Binding}"/>
-                                        <Button Content="Xóa" Padding="10,3" Margin="5,0,0,0"
-                                                Background="#F44336" Foreground="White"
-                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"
+                                        <Button Content="Xóa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="#F44336"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"
                                                 Click="Click_Delete_LopHocPhan"
                                                 Tag="{Binding}"/>
                                     </StackPanel>
@@ -91,28 +150,54 @@
                                         VerticalAlignment="Top"
                                         Margin="0,10,0,0"/>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Margin="0,20,0,0">
                     <!-- Add Lop Hoc Phan Button -->
-                    <Button x:Name="btnAddLopHocPhan" Content="Thêm Lớp Học Phần" Width="200" Height="40" FontSize="14" Background="#007BFF" Foreground="White" 
-            BorderBrush="#007BFF" Margin="10,0,10,0" Click="AddLopHocPhan">
+                    <Button x:Name="btnAddLopHocPhan"
+                            Content="Thêm Lớp Học Phần"
+                            Width="200"
+                            Height="40"
+                            FontSize="14"
+                            Background="#007BFF"
+                            Foreground="White"
+                            BorderBrush="#007BFF"
+                            Margin="10,0,10,0"
+                            Click="AddLopHocPhan">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="1" CornerRadius="5" Padding="10">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="5"
+                                        Padding="10">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
 
                     <!-- Add Lop Hoc Phan with Upload File Button -->
-                    <Button x:Name="btnAddLopHocPhanWithFile" Content="Thêm Lớp Học Phần từ File (.csv)" Width="200" Height="40" FontSize="14" Background="#007BFF" Foreground="White" 
-            BorderBrush="#007BFF" Margin="10,0,10,0" Click="AddLopHocPhanWithFile">
+                    <Button x:Name="btnAddLopHocPhanWithFile"
+                            Content="Thêm Lớp Học Phần từ File (.csv)"
+                            Width="200"
+                            Height="40"
+                            FontSize="14"
+                            Background="#007BFF"
+                            Foreground="White"
+                            BorderBrush="#007BFF"
+                            Margin="10,0,10,0"
+                            Click="AddLopHocPhanWithFile">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="1" CornerRadius="5" Padding="10">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="5"
+                                        Padding="10">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>

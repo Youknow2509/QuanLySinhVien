@@ -5,22 +5,49 @@
         MinHeight="600" MinWidth="800">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Image Upload Section -->
-        <Border Grid.Column="0" Background="#F8F9FA" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="8" Padding="10">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border Grid.Column="0"
+                Background="#F8F9FA"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="10">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
                 <!-- Placeholder for Image -->
-                <Border BorderThickness="1" BorderBrush="#CCCCCC" CornerRadius="8" Width="200" Height="200" Background="White">
-                    <TextBlock Text="Photo" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#999999" />
+                <Border BorderThickness="1"
+                        BorderBrush="#CCCCCC"
+                        CornerRadius="8"
+                        Width="200"
+                        Height="200"
+                        Background="White">
+                    <TextBlock Text="Photo"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="#999999"/>
                 </Border>
 
                 <!-- Buttons -->
-                <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
-                    <Button Content="Choose file" Width="100" Height="35" Background="#3A82E5" Foreground="White" Margin="5,0,5,0" BorderBrush="Transparent" />
-                    <Button Content="Upload new image" Width="150" Height="35" Background="#FFC107" Foreground="White" BorderBrush="Transparent" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Center">
+                    <Button Content="Choose file"
+                            Width="100"
+                            Height="35"
+                            Background="#3A82E5"
+                            Foreground="White"
+                            Margin="5,0,5,0"
+                            BorderBrush="Transparent"/>
+                    <Button Content="Upload new image"
+                            Width="150"
+                            Height="35"
+                            Background="#FFC107"
+                            Foreground="White"
+                            BorderBrush="Transparent"/>
                 </StackPanel>
             </StackPanel>
         </Border>

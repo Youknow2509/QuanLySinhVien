@@ -78,20 +78,20 @@
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTextColumn HeaderText="Tên Giáo Viên"
                                                    MappingName="TenGiaoVien"
-                                                   Width="200" />
+                                                   Width="200"/>
                         <syncfusion:GridTextColumn HeaderText="Email"
                                                    MappingName="Email"
-                                                   Width="200" />
+                                                   Width="200"/>
                         <syncfusion:GridTextColumn HeaderText="Số Điện Thoại"
                                                    MappingName="SoDienThoai"
-                                                   Width="150" />
+                                                   Width="150"/>
                         <syncfusion:GridTextColumn HeaderText="Khoa"
                                                    MappingName="TenKhoa"
-                                                   Width="150" />
+                                                   Width="150"/>
 
                         <!-- Hành Động Column -->
                         <syncfusion:GridTemplateColumn HeaderText="Hành Động"
-                                                        Width="200">
+                                                       Width="200">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal"
@@ -105,7 +105,7 @@
                                                 BorderBrush="Transparent"
                                                 FontWeight="Bold"
                                                 Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" />
+                                                CommandParameter="{Binding}"/>
                                         <Button Content="Xóa"
                                                 Padding="10,3"
                                                 Margin="5,0,0,0"
@@ -115,7 +115,7 @@
                                                 BorderBrush="Transparent"
                                                 FontWeight="Bold"
                                                 Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" />
+                                                CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
