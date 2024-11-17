@@ -7,7 +7,6 @@
         <!-- Border Container -->
         <Border BorderThickness="1" BorderBrush="#CCCCCC" CornerRadius="8" Padding="10">
             <StackPanel>
-
                 <!-- Title -->
                 <TextBlock Text="Bảng dữ liệu Sinh Viên" 
                            FontSize="20" 
@@ -44,7 +43,8 @@
                                        ShowRowHeader="True"
                                        GridLinesVisibility="Both"
                                        RowHeight="40"
-                                       HorizontalAlignment="Stretch"
+                                       MaxHeight="350"
+                    HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTemplateColumn HeaderText="Mã Sinh Viên" Width="100" MappingName="IdSinhVien">
