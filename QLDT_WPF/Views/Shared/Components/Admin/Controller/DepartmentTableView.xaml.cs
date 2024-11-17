@@ -160,7 +160,7 @@ namespace QLDT_WPF.Views.Components
                     {
                         // Giả sử mỗi dòng là một môn học với định dạng "Mã Môn Học, Tên Môn Học, So Tin Chi, So Tiet Hoc, Id Khoa"
                         string[] data = line.Split(',');
-                        if (data.Count() >= 5)
+                        if (data.Count() >= 2)
                         {
                             list_khoa.Add(new KhoaDto
                             {
