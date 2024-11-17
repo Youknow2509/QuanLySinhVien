@@ -115,7 +115,18 @@ namespace QLDT_WPF.Views.Components
         // Handle Search
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string txt_search = ((TextBox)sender).Text.ToLower();
+            if (txt_search == "")
+            {
+                sfDataGridPrograms.ItemsSource = ObservableChuongTrinhHoc;
+            }
+            else
+            {
+                sfDataGridPrograms.ItemsSource = ObservableChuongTrinhHoc.Where(x => 
+                    x.IdChuongTrinhHoc.ToLower().Contains(txt_search) ||
+                    x.TenChuongTrinhHoc.ToLower().Contains(txt_search)
+                );
+            }
         }
 
 
