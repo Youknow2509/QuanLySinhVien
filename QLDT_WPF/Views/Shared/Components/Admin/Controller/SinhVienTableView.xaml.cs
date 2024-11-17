@@ -214,7 +214,7 @@ namespace QLDT_WPF.Views.Components
                             {
                                 // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
                                 string errorDetails = string.Join(Environment.NewLine,
-                                    response.Data.Select(sv => monh.HoTen));
+                                    response.Data.Select(sv => sv.HoTen));
 
                                 // Hiển thị thông báo lỗi
                                 MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
