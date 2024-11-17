@@ -112,7 +112,7 @@ namespace QLDT_WPF.Views.Components
                     worksheet[row, 5].Text = sinhVien.IdChuongTrinhHoc;
                     worksheet[row, 6].Text = sinhVien.TenChuongTrinhHoc;
                     worksheet[row, 7].Text = sinhVien.Lop;
-                    worksheet[row, 8].Date = sinhVien.NgaySinh;
+                    worksheet[row, 8].Text = sinhVien.NgaySinh?.ToString("dd/MM/yyyy HH:mm") ?? "N/A";
                     worksheet[row, 9].Text = sinhVien.SoDienThoai;
                     worksheet[row, 10].Text = sinhVien.Email;
 
@@ -147,7 +147,7 @@ namespace QLDT_WPF.Views.Components
                     x.IdChuongTrinhHoc.ToLower().Contains(txt_search) ||
                     x.TenChuongTrinhHoc.ToLower().Contains(txt_search) ||
                     x.Lop.ToLower().Contains(txt_search) ||
-                    x.NgaySinh.ToLower().Contains(txt_search) ||
+                    x.NgaySinh.ToString().ToLower().Contains(txt_search) ||
                     x.SoDienThoai.ToLower().Contains(txt_search) ||
                     x.Email.ToLower().Contains(txt_search)
                 );
