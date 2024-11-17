@@ -72,7 +72,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // Handle page size change
-        private void PageSizeChanged(object sender, SelectionChangedEventArgs e)
+        private void PageSizeChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (cbbPageSize.SelectedItem is ComboBoxItem selectedItem)
             {

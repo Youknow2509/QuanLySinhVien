@@ -272,6 +272,12 @@ namespace QLDT_WPF.Repositories
             };
         }
 
+        // Create list sinh vien form file
+        public async Task<ApiResponse<List<SinhVienDto>>> CreateListSinhVienFromCSV(List<SinhVienDto> listSinhVien)
+        {
+            return null;
+        }
+
         // create giao vien
         public async Task<ApiResponse<GiaoVienDto>> CreateGiaoVienUser(GiaoVienDto giaoVien, string password)
         {
@@ -339,6 +345,12 @@ namespace QLDT_WPF.Repositories
                 StatusCode = 200,
                 Message = "Tạo giáo viên thành công.",
             };
+        }
+
+        // Create list giao vien form file
+        public async Task<ApiResponse<List<GiaoVienDto>>> CreateListGiaoVienFromCSV(List<GiaoVienDto> listGiaoVien)
+        {
+            return null;
         }
 
         // Handle login
