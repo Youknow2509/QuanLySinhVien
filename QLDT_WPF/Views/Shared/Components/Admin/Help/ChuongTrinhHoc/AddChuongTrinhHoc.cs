@@ -45,21 +45,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         // Init window asynchronously
         private async Task InitAsync()
         {
-            var rep = await khoaRepository.GetAll();
-            if (rep.Status == false)
-            {
-                MessageBox.Show(rep.Message);
-                return;
-            }
-            khoaDtoList = rep.Data;
-            foreach (var khoa in khoaDtoList)
-            {
-                cbbKhoa.Items.Add(
-                    new ComboBoxItem { 
-                        Content = khoa.TenKhoa ,
-                        Tag = khoa.IdKhoa
-                    });
-            }
+            
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
