@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -55,6 +56,25 @@ namespace QLDT_WPF.Views.Components
                 ObservableMonHoc.Add(item);
             }
             dataGridMonHoc.ItemsSource = ObservableMonHoc;
+        }
+
+        // TextBox TextChanged Event Handler - Handle search when changle value 
+        private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string txt_search = ((TextBox)sender).Text;
+            if (txt_search == "")
+            {
+                dataGridMonHoc.ItemsSource = ObservableMonHoc;
+            }
+            else
+            {
+                dataGridMonHoc.ItemsSource = ObservableMonHoc.Where(x => 
+                    x.TenMonHoc.ToLower().Contains(txt_search.ToLower()) ||
+                    x.TenKhoa.ToLower().Contains(txt_search.ToLower()) ||
+                    x.SoTinChi.ToString().Contains(txt_search) ||
+                    x.SoTietHoc.ToString().Contains(txt_search)
+                );
+            }
         }
     }
 }
