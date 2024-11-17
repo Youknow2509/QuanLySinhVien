@@ -61,14 +61,14 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Content="Sửa" Padding="10,3" Margin="5,0,0,0"
                                                 Background="#FFA726" Foreground="White"
-                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold"
-                                                Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" />
+                                                FontSize="14" BorderBrush="Transparent" FontWeight="Bold" 
+                                                Click="Click_Edit_Subject"
+                                                Tag="{Binding}"/>
                                         <Button Content="Xóa" Padding="10,3" Margin="5,0,0,0"
                                                 Background="#F44336" Foreground="White"
                                                 FontSize="14" BorderBrush="Transparent" FontWeight="Bold"
-                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding}" />
+                                                Click="Click_Delete_Subject"
+                                                Tag="{Binding}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>

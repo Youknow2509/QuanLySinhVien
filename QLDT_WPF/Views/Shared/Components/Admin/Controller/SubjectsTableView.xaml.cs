@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -83,6 +84,67 @@ namespace QLDT_WPF.Views.Components
             var addSubjectWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.AddSubject();
             addSubjectWindow.ShowDialog();
             InitAsync();
+        }
+
+        // Hanle Edit Subject Button Click
+        private void Click_Edit_Subject(object sender, RoutedEventArgs e)
+        {
+            // Get tag
+            var button = sender as Button;
+            string idMonHoc = button.Tag.ToString();
+
+            //MessageBox.Show("Edit Subject " + idMonHoc);
+        }
+
+        // Xử lý sự kiện khi nhấn nút Xóa Môn Học
+        private void Click_Delete_Subject(object sender, RoutedEventArgs e)
+        {
+            // Lấy đối tượng MonHocDto từ thuộc tính Tag của nút
+            if (sender is Button button && button.Tag is MonHocDto monHoc)
+            {
+                string idMonHoc = monHoc.IdMonHoc;
+                string tenMonHoc = monHoc.TenMonHoc;
+
+                // Hiển thị hộp thoại xác nhận trước khi xóa
+                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa môn học '{tenMonHoc}'?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Thực hiện thao tác xóa bất đồng bộ
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            // Gọi hàm xóa trong repository và lấy phản hồi
+                            var response = await monHocRepository.Delete(idMonHoc);
+
+                            // Kiểm tra nếu việc xóa không thành công
+                            if (response.Status == false)
+                            {
+                                // Nếu thất bại, hiển thị thông báo lỗi trên luồng UI
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                                });
+                                return;
+                            }
+
+                            // Nếu xóa thành công, tải lại dữ liệu trên luồng UI
+                            Application.Current.Dispatcher.Invoke(async () =>
+                            {
+                                await InitAsync();
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            // Xử lý bất kỳ ngoại lệ nào xảy ra trong quá trình xóa
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show($"Có lỗi xảy ra khi xóa môn học '{tenMonHoc}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            });
+                        }
+                    });
+                }
+            }
         }
     }
 }
