@@ -101,7 +101,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
                 var response = Task.Run(async () => await monHocRepository.Add(newMonHoc)).Result;
 
                 // Kiểm tra kết quả trả về
-                if (response.Status == false)
+                if (response.Status == true)
                 {
                     MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                     this.Close(); // Đóng cửa sổ nếu thêm thành công
