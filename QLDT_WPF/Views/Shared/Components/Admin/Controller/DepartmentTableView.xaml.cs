@@ -65,7 +65,45 @@ namespace QLDT_WPF.Views.Components
         // Export Khoa to Excel
         private void ExportToExcel(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Kiểm tra nếu ObservableKhoa không có dữ liệu
+            if (ObservableKhoa == null || ObservableKhoa.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Khoa";
+                worksheet[1, 2].Text = "Tên Khoa";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var kh in ObservableKhoa)
+                {
+                    worksheet[row, 1].Text = kh.IdKhoa ?? "N/A";
+                    worksheet[row, 2].Text = kh.TenKhoa ?? "N/A";
+
+                    row++;
+                }
+
+                // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachKhoa.xlsx");
+            }
+
+            MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // Handle Search
