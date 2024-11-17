@@ -89,11 +89,12 @@ namespace QLDT_WPF.Views.Components
         // Hanle Edit Subject Button Click
         private void Click_Edit_Subject(object sender, RoutedEventArgs e)
         {
-            // Get tag
-            var button = sender as Button;
-            string idMonHoc = button.Tag.ToString();
-
-            //MessageBox.Show("Edit Subject " + idMonHoc);
+            if (sender is Button button && button.Tag is MonHocDto monHoc)
+            {
+                var editSubjectWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.EditSubject(monHoc);
+                editSubjectWindow.ShowDialog();
+                InitAsync();
+            }
         }
 
         // Xử lý sự kiện khi nhấn nút Xóa Môn Học
