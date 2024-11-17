@@ -240,55 +240,5 @@ namespace QLDT_WPF.Views.Components
             }
         }
 
-        // Delete SinhVien
-        private void Click_Delete_SinhVien(object sender, RoutedEventArgs e)
-        {
-            // Lấy đối tượng MonHocDto từ thuộc tính Tag của nút
-            if (sender is Button button && button.Tag is SinhVienDto sinhVien)
-            {
-                string idSinhVien = sinhVien.IdSinhVien;
-                string tenSinhVien = sinhVien.HoTen;
-
-                // Hiển thị hộp thoại xác nhận trước khi xóa
-                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa sinh viên '{tenSinhVien}'?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    // Thực hiện thao tác xóa bất đồng bộ
-                    Task.Run(async () =>
-                    {
-                        try
-                        {
-                            // Gọi hàm xóa trong repository và lấy phản hồi
-                            var response = await sinhVienRepository.Delete(idSinhVien);
-
-                            // Kiểm tra nếu việc xóa không thành công
-                            if (response.Status == false)
-                            {
-                                // Nếu thất bại, hiển thị thông báo lỗi trên luồng UI
-                                Application.Current.Dispatcher.Invoke(() =>
-                                {
-                                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                                });
-                                return;
-                            }
-
-                            // Nếu xóa thành công, tải lại dữ liệu trên luồng UI
-                            Application.Current.Dispatcher.Invoke(async () =>
-                            {
-                                await InitAsync();
-                            });
-                        }
-                        catch (Exception ex)
-                        {
-                            // Xử lý bất kỳ ngoại lệ nào xảy ra trong quá trình xóa
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                MessageBox.Show($"Có lỗi xảy ra khi xóa sinh viên '{tenSinhVien}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                            });
-                        }
-                    });
-                }
-            }
-        }
     }
 }
