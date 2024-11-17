@@ -141,19 +141,131 @@ namespace QLDT_WPF.Views.Components
         // Add new Lop Hoc Phan With File
         private void AddChuongTrinhHocWithFile(object sender, RoutedEventArgs e)
         {
-            // TODO
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<ChuongTrinhHocDto> list_chuong_trinh_hoc = new List<ChuongTrinhHocDto>();
+
+                    foreach (string line in lines)
+                    {
+                        // Giả sử mỗi dòng là một môn học với định dạng "Mã Môn Học, Tên Môn Học, So Tin Chi, So Tiet Hoc, Id Khoa"
+                        string[] data = line.Split(',');
+                        if (data.Count() >= 5)
+                        {
+                            list_chuong_trinh_hoc.Add(new ChuongTrinhHocDto
+                            {
+                                IdChuongTrinhHoc = data[0],
+                                TenChuongTrinhHoc = data[1],
+                            });
+                        }  
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm thêm danh sách môn học từ file CSV trong repository
+                        var response = await chuongTrinhHocRepository
+                            .AddListChuongTrinhHocFromCSV(list_chuong_trinh_hoc);
+
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(monh => monh.TenChuongTrinhHoc));
+
+                                // Hiển thị thông báo lỗi
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                // message box show list mon hoc dto
+                                MessageBox.Show("Thêm danh sách chương trình học từ file CSV: " + string.Join(", ", list_chuong_trinh_hoc.Select(x => x.TenChuongTrinhHoc)) + " thành công!");
+
+                                await InitAsync();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            } else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
+            }
         }
 
         // Edit ChuongTrinhHoc
         private void Click_Edit_ChuongTrinhHoc(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if (sender is Button button && button.Tag is ChuongTrinhHocDto chuongTrinhHoc)
+            {
+                var editSubjectWindow = new QLDT_WPF.Views.Shared.Components.Admin.Help.EditChuongTrinhHoc(chuongTrinhHoc);
+                editSubjectWindow.ShowDialog();
+                InitAsync();
+            }
         }
 
         // Delete ChuongTrinhHoc
         private void Click_Delete_ChuongTrinhHoc(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy đối tượng ChuongTrinhHocDto từ thuộc tính Tag của nút
+            if (sender is Button button && button.Tag is ChuongTrinhHocDto chuongTrinhHoc)
+            {
+                string idchuongTrinhHoc = chuongTrinhHoc.IdChuongTrinhHoc;
+                string tenchuongTrinhHoc = chuongTrinhHoc.TenChuongTrinhHoc;
+
+                // Hiển thị hộp thoại xác nhận trước khi xóa
+                var result = MessageBox.Show($"Bạn có chắc chắn muốn xóa chương trình học '{tenchuongTrinhHoc}'?", "Xác nhận", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Thực hiện thao tác xóa bất đồng bộ
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            // Gọi hàm xóa trong repository và lấy phản hồi
+                            var response = await chuongTrinhHocRepository.Delete(idchuongTrinhHoc);
+
+                            // Kiểm tra nếu việc xóa không thành công
+                            if (response.Status == false)
+                            {
+                                // Nếu thất bại, hiển thị thông báo lỗi trên luồng UI
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                                });
+                                return;
+                            }
+
+                            // Nếu xóa thành công, tải lại dữ liệu trên luồng UI
+                            Application.Current.Dispatcher.Invoke(async () =>
+                            {
+                                await InitAsync();
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            // Xử lý bất kỳ ngoại lệ nào xảy ra trong quá trình xóa
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                MessageBox.Show($"Có lỗi xảy ra khi xóa chương trình học '{tenchuongTrinhHoc}': {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            });
+                        }
+                    });
+                }
+            }
         }
     }
 }

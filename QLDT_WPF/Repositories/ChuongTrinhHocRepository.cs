@@ -162,6 +162,83 @@ namespace QLDT_WPF.Repositories
         }
 
         /**
+         * Thêm danh sách chương trình học từ file CSV
+         */
+        public async Task<ApiResponse<List<ChuongTrinhHocDto>>>
+            AddListChuongTrinhHocFromCSV(List<ChuongTrinhHocDto> listChuongTrinhHoc)
+        {
+            // Kiểm tra nếu danh sách null hoặc trống
+            if (listChuongTrinhHoc == null || !listChuongTrinhHoc.Any())
+            {
+                return new ApiResponse<List<ChuongTrinhHocDto>>
+                {
+                    Status = false,
+                    Message = "File Không Được Để Trống!",
+                    Data = null,
+                };
+            }
+
+            List<ChuongTrinhHocDto> listChuongTrinhHocError = new List<ChuongTrinhHocDto>();
+            HashSet<string> processedIds = new HashSet<string>();
+
+            // Kiểm tra các bản ghi trùng lặp trong danh sách CSV
+            foreach (var cct in listChuongTrinhHoc)
+            {
+                if (processedIds.Contains(cct.IdChuongTrinhHoc))
+                {
+                    cct.TenChuongTrinhHoc = $"Chương Trình Học: {cct.TenChuongTrinhHoc} lỗi trùng ID {cct.IdChuongTrinhHoc} trong file CSV";
+                    listChuongTrinhHocError.Add(cct);
+                    continue;
+                }
+
+                processedIds.Add(cct.IdChuongTrinhHoc);
+            }
+
+            // Loại bỏ các bản ghi trùng lặp khỏi danh sách trước khi kiểm tra với CSDL
+            var uniquelistChuongTrinhHoc = listChuongTrinhHoc.Except(listChuongTrinhHocError).ToList();
+
+            // Kiểm tra với cơ sở dữ liệu và thêm vào danh sách lỗi nếu cần
+            foreach (var cch in uniquelistChuongTrinhHoc)
+            {
+                var cct_c = await _context.ChuongTrinhHocs
+                    .FirstOrDefaultAsync(x => x.IdChuongTrinhHoc == cch.IdChuongTrinhHoc);
+                if (cct_c != null)
+                {
+                    cch.TenChuongTrinhHoc = $"Chương Trình Học: {cch.TenChuongTrinhHoc} đã tồn tại trong CSDL";
+                    listChuongTrinhHocError.Add(cch);
+                    continue;
+                }
+                // Nếu không có lỗi, thêm vào CSDL
+                await _context.ChuongTrinhHocs.AddAsync(new ChuongTrinhHoc
+                {
+                    IdChuongTrinhHoc = cch.IdChuongTrinhHoc,
+                    TenChuongTrinhHoc = cch.TenChuongTrinhHoc
+                });
+            }
+
+            // Nếu có bất kỳ lỗi nào trong quá trình xử lý
+            if (listChuongTrinhHocError.Any())
+            {
+                return new ApiResponse<List<ChuongTrinhHocDto>>
+                {
+                    Status = false,
+                    Message = "Thêm Danh Sách Chương Trình Học Thất Bại! Có lỗi trong danh sách chương trình học.",
+                    Data = listChuongTrinhHocError,
+                };
+            }
+
+            // Lưu thay đổi nếu mọi thứ thành công
+            await _context.SaveChangesAsync();
+
+            return new ApiResponse<List<ChuongTrinhHocDto>>
+            {
+                Status = true,
+                Message = "Thêm Danh Sách Chương Trình Học Thành Công!",
+                Data = listChuongTrinhHoc,
+            };
+        }
+
+        /**
          * Xóa chương trình học theo ID
          */
         public async Task<ApiResponse<bool>> Delete(string id)
