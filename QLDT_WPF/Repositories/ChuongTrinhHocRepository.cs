@@ -182,16 +182,16 @@ namespace QLDT_WPF.Repositories
             HashSet<string> processedIds = new HashSet<string>();
 
             // Kiểm tra các bản ghi trùng lặp trong danh sách CSV
-            foreach (var monh in listChuongTrinhHoc)
+            foreach (var cct in listChuongTrinhHoc)
             {
-                if (processedIds.Contains(monh.IdMonHoc))
+                if (processedIds.Contains(cct.IdChuongTrinhHoc))
                 {
-                    monh.TenMonHoc = $"Chương Trình Học: {monh.TenMonHoc} lỗi trùng ID {monh.IdMonHoc} trong file CSV";
-                    listChuongTrinhHocError.Add(monh);
+                    cct.TenChuongTrinhHoc = $"Chương Trình Học: {cct.TenChuongTrinhHoc} lỗi trùng ID {cct.IdChuongTrinhHoc} trong file CSV";
+                    listChuongTrinhHocError.Add(cct);
                     continue;
                 }
 
-                processedIds.Add(monh.IdMonHoc);
+                processedIds.Add(cct.IdChuongTrinhHoc);
             }
 
             // Loại bỏ các bản ghi trùng lặp khỏi danh sách trước khi kiểm tra với CSDL
@@ -209,7 +209,7 @@ namespace QLDT_WPF.Repositories
                     continue;
                 }
                 // Nếu không có lỗi, thêm vào CSDL
-                await _context.ChuongTrinhHocs.AddAsync(new ChuongTrinhHocDto
+                await _context.ChuongTrinhHocs.AddAsync(new ChuongTrinhHoc
                 {
                     IdChuongTrinhHoc = cch.IdChuongTrinhHoc,
                     TenChuongTrinhHoc = cch.TenChuongTrinhHoc
