@@ -109,7 +109,7 @@ namespace QLDT_WPF.Views.Components
                 if (response.Status == true)
                 {
                     MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                    await load_nguyen_vong_sinh_vien();
+                    load_nguyen_vong_sinh_vien();
                 }
                 else
                 {
@@ -185,7 +185,7 @@ namespace QLDT_WPF.Views.Components
             {
                 // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
                 var response = Task.Run(async () =>
-                    await nguyenVongGiaoVienRepository.Accpet(nv.IdNguyenVong)
+                    await nguyenVongGiaoVienRepository.Accpet(nv.IdDangKyDoiLich)
                 ).Result;
 
                 // Kiểm tra kết quả trả về
@@ -227,7 +227,7 @@ namespace QLDT_WPF.Views.Components
             {
                 // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
                 var response = Task.Run(async () =>
-                    await nguyenVongGiaoVienRepository.Reject(nv.IdNguyenVong)
+                    await nguyenVongGiaoVienRepository.Reject(nv.IdDangKyDoiLich)
                 ).Result;
 
                 // Kiểm tra kết quả trả về
