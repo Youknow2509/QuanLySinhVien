@@ -258,13 +258,13 @@ namespace QLDT_WPF.Views.Components
                             }
                             else
                             {
-                                MessageBox.Show("Thêm danh sách môn học từ file CSV thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                // message box show list mon hoc dto
+                                MessageBox.Show("Thêm danh sách môn học từ file CSV: " + string.Join(", ", list_monHoc.Select(x => x.TenMonHoc)) + " thành công!");
+
                                 await InitAsync();
                             }
                         });
                     });
-                    // message box show list mon hoc dto
-                    MessageBox.Show("Thêm danh sách môn học từ file CSV: " + string.Join(", ", list_monHoc.Select(x => x.TenMonHoc)) + " thành công!");
                 }
                 catch (Exception ex)
                 {
