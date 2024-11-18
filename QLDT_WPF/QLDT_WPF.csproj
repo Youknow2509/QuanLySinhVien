@@ -37,6 +37,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
         <PackageReference Include="Syncfusion.DataGridExcelExport.Wpf" Version="27.2.2" />
         <PackageReference Include="Syncfusion.SfGrid.WPF" Version="27.2.2" />
+        <PackageReference Include="Syncfusion.SfInput.WPF" Version="27.2.2" />
         <PackageReference Include="Syncfusion.SfScheduler.WPF" Version="27.1.58" />
         <PackageReference Include="Syncfusion.XlsIO.Wpf" Version="27.2.2" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.10" />

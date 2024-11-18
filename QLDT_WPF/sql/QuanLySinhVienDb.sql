@@ -566,20 +566,52 @@ SELECT NEWID(),
 FROM MonHoc;
 
 
-INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa)
-VALUES
-    ('222631111', N'Hoàng Mạnh Khiêm', N'Công nghệ thông tin Việt Anh 1', '2004-10-01', N'Hà Nội', 
-        (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), 
-        (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Công nghệ thông tin')),
-    ('222631159', N'Lý Trần Vinh', N'Công nghệ thông tin Việt Anh 1', '2004-05-12', N'Nghệ An', 
-        (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), 
-        (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế')),
-    ('222631160', N'Le Van C', N'Công nghệ thông tin 1', '2002-02-15', N'Hải Phòng', 
-        (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'Công nghệ thông tin'), 
-        (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Công nghệ thông tin')),
-    ('222631161', N'Pham Thi J', N'Công nghệ thông tin 3', '2004-07-07', N'Hà Nội', 
-        (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'Công nghệ thông tin'), 
-        (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Công nghệ thông tin'));
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('221230724', N'LÊ XUÂN AN', N'Công nghệ thông tin Việt Anh 1', '2004-02-20', N'Gia Lai', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222601065', N'NGUYỄN MAI ANH', N'Công nghệ thông tin Việt Anh 1', '2004-03-20', N'Long An', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631066', N'LÊ NGỌC ÁNH', N'Công nghệ thông tin Việt Anh 1', '2004-03-17', N'Hà Nội', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222601068', N'PHAN QUỐC BẢO', N'Công nghệ thông tin Việt Anh 1', '2004-02-17', N'Đồng Nai', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631070', N'VŨ MẠNH BẢO', N'Công nghệ thông tin Việt Anh 1', '2004-04-01', N'Quảng Ngãi', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631071', N'NGUYỄN THỊ NGỌC BÍCH', N'Công nghệ thông tin Việt Anh 1', '2004-05-19', N'Hải Phòng', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222611075', N'NGUYỄN HÙNG CƯỜNG', N'Công nghệ thông tin Việt Anh 1', '2004-09-16', N'Kon Tum', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631076', N'VŨ MẠNH CƯỜNG', N'Công nghệ thông tin Việt Anh 1', '2004-11-21', N'Hà Tĩnh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631085', N'TRẦN XUÂN ĐẠT', N'Công nghệ thông tin Việt Anh 1', '2004-05-02', N'Đắk Nông', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631088', N'TRƯƠNG QUẢNG ĐÔNG', N'Công nghệ thông tin Việt Anh 1', '2004-02-17', N'Tây Ninh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631089', N'NGUYỄN MINH ĐỨC', N'Công nghệ thông tin Việt Anh 1', '2004-12-08', N'Quảng Nam', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631079', N'NGUYỄN ĐỨC DŨNG', N'Công nghệ thông tin Việt Anh 1', '2004-07-20', N'Đồng Tháp', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222601081', N'TRỊNH XUÂN DŨNG', N'Công nghệ thông tin Việt Anh 1', '2004-12-16', N'Đắk Lắk', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631082', N'NGUYỄN THÁI DƯƠNG', N'Công nghệ thông tin Việt Anh 1', '2004-01-29', N'Bình Thuận', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631083', N'PHÙNG VĂN DƯƠNG', N'Công nghệ thông tin Việt Anh 1', '2004-04-04', N'Nam Định', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631091', N'GIANG ĐỨC HẢI', N'Công nghệ thông tin Việt Anh 1', '2004-03-22', N'Đồng Tháp', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631095', N'TRẦN MINH HIẾU', N'Công nghệ thông tin Việt Anh 1', '2004-11-15', N'Cà Mau', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631096', N'VŨ MINH HIẾU', N'Công nghệ thông tin Việt Anh 1', '2004-11-23', N'Thái Bình', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631098', N'ĐỖ DUY HUÂN', N'Công nghệ thông tin Việt Anh 1', '2004-03-07', N'Quảng Ngãi', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631102', N'BÙI QUANG HUY', N'Công nghệ thông tin Việt Anh 1', '2004-08-31', N'Hà Nội', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631105', N'VŨ QUANG HUY', N'Công nghệ thông tin Việt Anh 1', '2004-05-22', N'Bến Tre', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631109', N'LÊ ĐỨC KHÁNH', N'Công nghệ thông tin Việt Anh 1', '2004-06-26', N'An Giang', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631110', N'NGUYỄN QUỐC KHÁNH', N'Công nghệ thông tin Việt Anh 1', '2004-11-05', N'Quảng Ngãi', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631111', N'HOÀNG MẠNH KHIÊM', N'Công nghệ thông tin Việt Anh 1', '2004-01-04', N'Trà Vinh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631112', N'LÊ TRUNG KIÊN', N'Công nghệ thông tin Việt Anh 1', '2004-04-05', N'An Giang', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631115', N'NGUYỄN VĂN HOÀNG LÂM', N'Công nghệ thông tin Việt Anh 1', '2004-10-24', N'Hồ Chí Minh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631119', N'TRƯƠNG XUÂN LỘC', N'Công nghệ thông tin Việt Anh 1', '2004-09-07', N'Đồng Tháp', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222601120', N'PHẠM DUY LỢI', N'Công nghệ thông tin Việt Anh 1', '2004-02-23', N'Bình Định', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631118', N'LÊ QUANG LONG', N'Công nghệ thông tin Việt Anh 1', '2004-12-26', N'Hồ Chí Minh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631122', N'NGUYỄN HỒNG MINH', N'Công nghệ thông tin Việt Anh 1', '2004-02-17', N'Quảng Ngãi', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222601125', N'NGUYỄN VĂN MINH', N'Công nghệ thông tin Việt Anh 1', '2004-06-27', N'Thái Bình', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631127', N'VŨ NHẬT MINH', N'Công nghệ thông tin Việt Anh 1', '2004-05-29', N'Tây Ninh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631128', N'VŨ HẢI NAM', N'Công nghệ thông tin Việt Anh 1', '2004-06-08', N'Nghệ An', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631129', N'TRẦN THẾ PHONG', N'Công nghệ thông tin Việt Anh 1', '2004-08-16', N'Sóc Trăng', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631132', N'NGUYỄN MINH QUÂN', N'Công nghệ thông tin Việt Anh 1', '2004-09-12', N'Nam Định', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631131', N'HÀ VIỆT QUANG', N'Công nghệ thông tin Việt Anh 1', '2004-08-22', N'Bình Định', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631138', N'NGUYỄN ANH TÂY', N'Công nghệ thông tin Việt Anh 1', '2004-09-14', N'Đắk Lắk', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631143', N'LA TRẦN THỊNH', N'Công nghệ thông tin Việt Anh 1', '2004-08-27', N'Hà Tĩnh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631145', N'LÊ VĂN THUẬN', N'Công nghệ thông tin Việt Anh 1', '2004-10-17', N'Kiên Giang', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631152', N'LÊ ANH TUÂN', N'Công nghệ thông tin Việt Anh 1', '2004-06-08', N'Bà Rịa - Vũng Tàu', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631153', N'CHU THIÊN TUẤN', N'Công nghệ thông tin Việt Anh 1', '2004-08-15', N'Nam Định', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631154', N'VŨ ANH TUẤN', N'Công nghệ thông tin Việt Anh 1', '2004-02-24', N'Hậu Giang', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631155', N'VŨ NGỌC TUẤN', N'Công nghệ thông tin Việt Anh 1', '2004-08-01', N'Nghệ An', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631156', N'BÙI QUANG TÙNG', N'Công nghệ thông tin Việt Anh 1', '2004-07-23', N'Kiên Giang', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631159', N'LÝ TRẦN VINH', N'Công nghệ thông tin Việt Anh 1', '2004-05-03', N'Hà Tĩnh', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
+INSERT INTO SinhVien (IdSinhVien, HoTen, Lop, NgaySinh, DiaChi, IdChuongTrinhHoc, IdKhoa) VALUES ('222631161', N'NGUYỄN ĐỨC VƯỢNG', N'Công nghệ thông tin Việt Anh 1', '2004-11-30', N'Tiền Giang', (SELECT IdChuongTrinhHoc FROM ChuongTrinhHoc WHERE TenChuongTrinhHoc = N'CLC Công nghệ thông tin'), (SELECT IdKhoa FROM Khoa WHERE TenKhoa = N'Đào tạo quốc tế'))
 
 
 -- Mon Hoc
@@ -621,12 +653,43 @@ VALUES
     (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Hoàng Mạnh Khiêm'), 'TTUD_QT01'),
     (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Hoàng Mạnh Khiêm'), 'XSTK_QT01'),
     (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Hoàng Mạnh Khiêm'), 'VLY_QT01'),
-    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'),'XSTK_QT01'),
-    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Le Van C'),'MMT_QT01'),
-    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Pham Thi J'), 'TTUD_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LTW_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LTTT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'MMT_QT01'),
     (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'PTTKYC_QT01'),
-    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Le Van C'), 'TTUD_QT01'),
-    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Pham Thi J'),'XSTK_QT01' );
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'TTUD_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'XSTK_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'VLY_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'LTW_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'LTTT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'MMT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'PTTKYC_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'TTUD_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'XSTK_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Nguyễn Mai Anh'), 'VLY_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'LTW_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'LTTT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'MMT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'PTTKYC_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'TTUD_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'XSTK_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Xuân An'), 'VLY_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'LTW_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'LTTT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'LSDCSVN_QT05'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'MMT_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'PTTKYC_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'TTUD_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'XSTK_QT01'),
+    (NEWID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'VLY_QT01');
+    
 
 
 -- Thêm điểm cho sinh viên vào các lớp học phần dựa trên dữ liệu có sẵn
