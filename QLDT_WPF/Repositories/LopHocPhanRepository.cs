@@ -247,6 +247,119 @@ public class LopHocPhanRepository
     }
 
     /**
+     * Add lop hoc phan with file 
+     */
+    public async Task<ApiResponse<List<LopHocPhanDto>>> AddListLopHocPhanFromCSV(List<LopHocPhanDto> listLopHocPhan)
+    {
+        // Kiểm tra nếu danh sách null hoặc trống
+        if (listLopHocPhan == null || !listLopHocPhan.Any())
+        {
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Status = false,
+                Message = "File Không Được Để Trống!",
+                Data = null,
+            };
+        }
+
+        List<LopHocPhanDto> listLopHocPhanError = new List<LopHocPhanDto>();
+        HashSet<string> processedIds = new HashSet<string>();
+
+        // Kiểm tra các bản ghi trùng lặp trong danh sách CSV
+        foreach (var lhp in listLopHocPhan)
+        {
+            if (processedIds.Contains(lhp.IdLopHocPhan))
+            {
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi trùng ID {lhp.IdLopHocPhan} trong file CSV";
+                listLopHocPhanError.Add(lhp);
+                continue;
+            }
+
+            processedIds.Add(lhp.IdLopHocPhan);
+        }
+
+        // Loại bỏ các bản ghi trùng lặp khỏi danh sách trước khi kiểm tra với CSDL
+        var uniquelistLopHocPhan = listLopHocPhan.Except(listLopHocPhanError).ToList();
+
+        // Kiểm tra với cơ sở dữ liệu và thêm vào danh sách lỗi nếu cần
+        foreach (var lhp in uniquelistLopHocPhan)
+        {
+            // Kiểm tra id lop hoc phan trong CSDL
+            var lhp_c = await _context.LopHocPhans
+                .FirstOrDefaultAsync(l => l.IdLopHocPhan == lhp.IdLopHocPhan);
+            if (lhp_c != null)
+            {
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi trùng ID {lhp.IdLopHocPhan} trong CSDL";
+                listLopHocPhanError.Add(lhp);
+                continue;
+            }
+
+            // Kiểm tra giáo viên, môn học trong CSDL
+            var gv = await _context.GiaoViens
+                .FirstOrDefaultAsync(g => g.IdGiaoVien == lhp.IdGiaoVien);
+            if (gv == null)
+            {
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi không tìm thấy giáo viên {lhp.IdGiaoVien}";
+                listLopHocPhanError.Add(lhp);
+                continue;
+            }
+
+            var mh = await _context.MonHocs
+                .FirstOrDefaultAsync(m => m.IdMonHoc == lhp.IdMonHoc);
+            if (mh == null)
+            {
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi không tìm thấy môn học {lhp.IdMonHoc}";
+                listLopHocPhanError.Add(lhp);
+                continue;
+            }
+
+            // Check thoi gian
+            if (lhp.ThoiGianBatDau <= DateTime.Now || lhp.ThoiGianKetThuc <= DateTime.Now)
+            {
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi thời gian lớp học phần đã diễn ra";
+                listLopHocPhanError.Add(lhp);
+                continue;
+            }
+            if (lhp.ThoiGianBatDau >= lhp.ThoiGianKetThuc)
+            {
+                lhp.TenLopHocPhan = $"Lớp Học Phần: {lhp.TenLopHocPhan} lỗi thời gian bắt đầu phải trước thời gian kết thúc";
+                listLopHocPhanError.Add(lhp);
+                continue;
+            }
+
+            await _context.LopHocPhans.AddAsync(new LopHocPhan{
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                IdMonHoc = lhp.IdMonHoc,
+                IdGiaoVien = lhp.IdGiaoVien,
+                TenHocPhan = lhp.TenLopHocPhan,
+                ThoiGianBatDau = lhp.ThoiGianBatDau,
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+            });
+        }
+
+        // Nếu có bất kỳ lỗi nào trong quá trình xử lý
+        if (listLopHocPhanError.Any())
+        {
+            return new ApiResponse<List<LopHocPhanDto>>
+            {
+                Status = false,
+                Message = "Thêm Danh Sách Lớp Học Phần Thất Bại! Có lỗi trong danh sách Lớp Học Phần.",
+                Data = listLopHocPhanError,
+            };
+        }
+
+        // Lưu thay đổi nếu mọi thứ thành công
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<List<LopHocPhanDto>>
+        {
+            Status = true,
+            Message = "Thêm Danh Sách Lớp Học Phần Thành Công!",
+            Data = listLopHocPhan,
+        };
+    }
+
+    /**
      * Xoa lop hoc phan By Id 
      */
     public async Task<ApiResponse<LopHocPhanDto>> Delete(string id)

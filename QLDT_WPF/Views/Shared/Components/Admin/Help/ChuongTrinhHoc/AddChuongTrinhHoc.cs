@@ -1,5 +1,6 @@
 ﻿using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
+using QLDT_WPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,30 +23,12 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
     public partial class AddChuongTrinhHoc : Window
     {
         // Variables
-        private KhoaRepository khoaRepository;
-        private List<KhoaDto> khoaDtoList;
-        private MonHocRepository monHocRepository;
-
+        private ChuongTrinhHocRepository chuongTrinhHocRepository;
         // Constructor
         public AddChuongTrinhHoc()
         {
             InitializeComponent();
-
-            khoaRepository = new KhoaRepository();
-            monHocRepository = new MonHocRepository();
-
-            khoaDtoList = new List<KhoaDto>();
-            // init select box khoa
-            Loaded += async (sender, e) =>
-            {
-                await InitAsync();
-            };
-        }
-
-        // Init window asynchronously
-        private async Task InitAsync()
-        {
-            
+            chuongTrinhHocRepository = new ChuongTrinhHocRepository();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -55,13 +38,42 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO 
-        }
+            string tenChuongTrinhHoc = txtTenChuongTrinhHoc.Text.Trim();
+            if (string.IsNullOrEmpty(tenChuongTrinhHoc)){
+                MessageBox.Show("Tên chương trình học không được để trống", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            // Create new chuong trinh hoc
+            ChuongTrinhHocDto newChuongTrinhHoc = new ChuongTrinhHocDto{
+                TenChuongTrinhHoc = tenChuongTrinhHoc,
+                IdChuongTrinhHoc = Guid.NewGuid().ToString()
+            };
 
-        // Only allow integer input in text box
-        private void handle_input_key_press_number(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !int.TryParse(e.Text, out _);
+            // Add new chuong trinh hoc to database
+            try
+            {
+                // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
+                var response = Task.Run(async () => await chuongTrinhHocRepository.Add(newChuongTrinhHoc)).Result;
+
+                // Kiểm tra kết quả trả về
+                if (response.Status == true)
+                {
+                    MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); // Đóng cửa sổ nếu thêm thành công
+                }
+                else
+                {
+                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (AggregateException ex)
+            {
+                // Xử lý ngoại lệ bất đồng bộ
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    MessageBox.Show($"Có lỗi xảy ra: {innerEx.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

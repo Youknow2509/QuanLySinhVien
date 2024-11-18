@@ -22,23 +22,21 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
     public partial class EditChuongTrinhHoc : Window
     {
         // Variable
+        private ChuongTrinhHocDto chuongTrinhHoc;
+        private ChuongTrinhHocRepository chuongTrinhHocRepository;
 
         // Constructor
-        public EditChuongTrinhHoc(ChuongTrinhHocDto chuongTrinhHoc)
+        public EditChuongTrinhHoc(ChuongTrinhHocDto chuongTrinhHocDto)
         {
             InitializeComponent();
 
-            // Handle loading asynchronously init
-            Loaded += async (sender, e) =>
-            {
-                await InitAsync();
-            };
-        }
+            // Set value
+            chuongTrinhHoc = chuongTrinhHocDto;
+            chuongTrinhHocRepository = new ChuongTrinhHocRepository();
 
-        // Async init view
-        private async Task InitAsync()
-        {
-            // TODO
+            // Set giá trị hiện tại 
+            txtEditTenChuongTrinhHoc.Text = chuongTrinhHoc.TenChuongTrinhHoc;
+            txtEditIdChuongTrinhHoc.Text = chuongTrinhHoc.IdChuongTrinhHoc;
         }
 
         // Handle close button click
@@ -50,14 +48,47 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         // Handle save button click
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Retrieve values from input fields
+            string id = txtEditIdChuongTrinhHoc.Text.Trim();
+            string tenChuongTrinhHoc = txtEditTenChuongTrinhHoc.Text.Trim();
+            if (id == "" || tenChuongTrinhHoc == "")
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+            ChuongTrinhHocDto editChuongTrinhHoc = new ChuongTrinhHocDto
+            {
+                IdChuongTrinhHoc = id,
+                TenChuongTrinhHoc = tenChuongTrinhHoc
+            };
 
-        }
+            // Update chuong trinh hoc
+            try
+            {
+                // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
+                var response = Task.Run(async () =>
+                    await chuongTrinhHocRepository.Update(editChuongTrinhHoc)
+                ).Result;
 
-        // Only allow integer input in text box
-        private void handle_input_key_press_number(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !int.TryParse(e.Text, out _);
+                // Kiểm tra kết quả trả về
+                if (response.Status == true)
+                {
+                    MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); // Đóng cửa sổ nếu thêm thành công
+                }
+                else
+                {
+                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (AggregateException ex)
+            {
+                // Xử lý ngoại lệ bất đồng bộ
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    MessageBox.Show($"Có lỗi xảy ra: {innerEx.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
