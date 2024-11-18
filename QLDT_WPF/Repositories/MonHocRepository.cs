@@ -189,56 +189,92 @@ public class MonHocRepository
      */
     public async Task<ApiResponse<List<MonHocDto>>> AddListMonHocFromCSV(List<MonHocDto> listMonHoc)
     {
-        if (listMonHoc == null || listMonHoc.Count() <= 0)
+        // Kiểm tra nếu danh sách null hoặc trống
+        if (listMonHoc == null || !listMonHoc.Any())
         {
-            return new ApiResponse<List<MonHocDto>>{
+            return new ApiResponse<List<MonHocDto>>
+            {
                 Status = false,
-                Message = "File Không Được Để Trống !",
+                Message = "File Không Được Để Trống!",
                 Data = null,
             };
         }
 
         List<MonHocDto> listMonHocError = new List<MonHocDto>();
+        HashSet<string> processedIds = new HashSet<string>();
 
+        // Kiểm tra các bản ghi trùng lặp trong danh sách CSV
         foreach (var monh in listMonHoc)
         {
-            // check id mon hoc
-            var monhoc = await _context.MonHocs
-                .FirstOrDefaultAsync(x => x.IdMonHoc == monh.IdMonHoc);
-            // check khoa exist
-            var khoa = await _context.Khoas
-                .FirstOrDefaultAsync(x => x.IdKhoa == monh.IdKhoa);
-            if (monhoc != null)
+            if (processedIds.Contains(monh.IdMonHoc))
             {
-                monh.TenMonHoc = $"Môn Học: {monh.TenMonHoc} lỗi trùng ID {monh.IdMonHoc}";
+                monh.TenMonHoc = $"Môn Học: {monh.TenMonHoc} lỗi trùng ID {monh.IdMonHoc} trong file CSV";
                 listMonHocError.Add(monh);
-            } else if (khoa == null)
+                continue;
+            }
+
+            processedIds.Add(monh.IdMonHoc);
+        }
+
+        // Loại bỏ các bản ghi trùng lặp khỏi danh sách trước khi kiểm tra với CSDL
+        var uniqueListMonHoc = listMonHoc.Except(listMonHocError).ToList();
+
+        // Kiểm tra với cơ sở dữ liệu và thêm vào danh sách lỗi nếu cần
+        foreach (var monh in uniqueListMonHoc)
+        {
+            // Kiểm tra IdMonHoc trong CSDL
+            var monhocInDb = await _context.MonHocs
+                .FirstOrDefaultAsync(x => x.IdMonHoc == monh.IdMonHoc);
+            if (monhocInDb != null)
+            {
+                monh.TenMonHoc = $"Môn Học: {monh.TenMonHoc} lỗi trùng ID {monh.IdMonHoc}L";
+                listMonHocError.Add(monh);
+                continue;
+            }
+
+            // Kiểm tra IdKhoa trong CSDL
+            var khoaInDb = await _context.Khoas
+                .FirstOrDefaultAsync(x => x.IdKhoa == monh.IdKhoa);
+            if (khoaInDb == null)
             {
                 monh.TenMonHoc = $"Môn Học: {monh.TenMonHoc} lỗi không tìm thấy khoa {monh.IdKhoa}";
                 listMonHocError.Add(monh);
+                continue;
             }
-            await _context.AddAsync(monh);
+
+            // Nếu không có lỗi, thêm vào CSDL
+            await _context.MonHocs.AddAsync(new MonHoc
+            {
+                IdMonHoc = monh.IdMonHoc,
+                TenMonHoc = monh.TenMonHoc,
+                SoTinChi = monh.SoTinChi,
+                SoTietHoc = monh.SoTietHoc,
+                IdKhoa = monh.IdKhoa
+            });
         }
 
-        if (listMonHocError.Count() > 0)
+        // Nếu có bất kỳ lỗi nào trong quá trình xử lý
+        if (listMonHocError.Any())
         {
             return new ApiResponse<List<MonHocDto>>
             {
                 Status = false,
-                Message = "Thêm Danh Sách Môn Học Thất Bại !",
+                Message = "Thêm Danh Sách Môn Học Thất Bại! Có lỗi trong danh sách môn học.",
                 Data = listMonHocError,
             };
         }
 
+        // Lưu thay đổi nếu mọi thứ thành công
         await _context.SaveChangesAsync();
 
         return new ApiResponse<List<MonHocDto>>
         {
             Status = true,
-            Message = "Thêm Danh Sách Môn Học Thành Công !",
+            Message = "Thêm Danh Sách Môn Học Thành Công!",
             Data = listMonHoc,
         };
     }
+
 
     /**
      * Xoa mon hoc By Id 
