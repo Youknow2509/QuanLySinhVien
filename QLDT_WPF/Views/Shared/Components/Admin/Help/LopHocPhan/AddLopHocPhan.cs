@@ -98,11 +98,11 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         {
             string tenLopHocPhan = txtTenLopHocPhan.Text.Trim();
             string idMonHoc = (cbbMonHoc.SelectedItem as ComboBoxItem)?.Tag.ToString();
-            string idGiaoVien = (cbbGiaoVien.SelectedItem as ComboBoxItem)?.Tag.ToString();
+            string idGiaoVien = (cbbGiangVien.SelectedItem as ComboBoxItem)?.Tag.ToString();
             DateTime? thoiGianBatDau = dpThoiGianBatDau.SelectedDate;
             DateTime? thoiGianKetThuc = dpThoiGianKetThuc.SelectedDate; 
             string tenMonHoc = (cbbMonHoc.SelectedItem as ComboBoxItem)?.Content.ToString();
-            string tenGiaoVien = (cbbGiaoVien.SelectedItem as ComboBoxItem)?.Content.ToString();
+            string tenGiaoVien = (cbbGiangVien.SelectedItem as ComboBoxItem)?.Content.ToString();
 
             if (tenLopHocPhan == "" || idMonHoc == "-1" || idGiaoVien == "-1" || thoiGianBatDau == null || thoiGianKetThuc == null)
             {
