@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="QLDT_WPF.Views.Shared.GiaoVienLeftNavbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border x:Name="sideBar"
+            Background="#3A82E5"
+            Width="300"
+            HorizontalAlignment="Left">
+        <StackPanel Margin="10,40,0,0"
+                    HorizontalAlignment="Center">
+
+            <!-- Logo -->
+            <StackPanel HorizontalAlignment="Center" Orientation="Vertical" Margin="0,0,0,30">
+                <Image Source="../../Images/logo.png" Width="80" Height="80" Stretch="Uniform" />
+                <TextBlock x:Name="txtRole" Text="GIÁO VIÊN" Foreground="White" FontSize="20" FontWeight="Bold" 
+                           HorizontalAlignment="Center" Margin="0,10,0,10" />
+            </StackPanel>
+            <Line X1="5"
+                  Y1="10"
+                  X2="250"
+                  Y2="10"
+                  Stroke="White"
+                  StrokeThickness="1"
+                  Margin="0,0,0,20"/>
+
+            <!-- Sidebar Buttons -->
+            <Button Click="Button_Click"
+                    x:Name="btnLichHoc"
+                    Foreground="White"
+                    Background="#3A82E5"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Center"
+                    Margin="0,5"
+                    Padding="10,5"
+                    Width="275"
+                    FontSize="16">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <Image Source="\Images\LeftNavBar\student.png"
+                           Width="24"
+                           Height="24"
+                           Margin="0,0,10,0"/>
+                    <TextBlock x:Name="txtLichHoc"
+                               Text="Lịch giảng dạy"
+                               Width="236"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="Button_Click"
+                    x:Name="btnDangKyNguyenVong"
+                    Foreground="White"
+                    Background="#3A82E5"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Center"
+                    Margin="0,5"
+                    Padding="10,5"
+                    Width="275"
+                    FontSize="16">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <Image Source="\Images\LeftNavBar\chalkboard-user.png"
+                           Width="24"
+                           Height="24"
+                           Margin="0,0,10,0"/>
+                    <TextBlock x:Name="txtDangKyNguyenVong"
+                               Text="Danh sách nguyện vọng"
+                               Width="236"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="Button_Click"
+                    x:Name="btnDanhSachLopHocPhan"
+                    Foreground="White"
+                    Background="#3A82E5"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Center"
+                    Margin="0,5"
+                    Padding="10,5"
+                    Width="275"
+                    FontSize="16">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <Image Source="\Images\LeftNavBar\book.png"
+                           Width="24"
+                           Height="24"
+                           Margin="0,0,10,0"/>
+                    <TextBlock x:Name="txtDanhSachLopHocPhan"
+                               Text="Danh sách lớp học phần"
+                               Width="236"/>
+                </StackPanel>
+            </Button>
+
+            <Button Click="Button_Click"
+                    x:Name="btnQuanLySinhVien"
+                    Foreground="White"
+                    Background="#3A82E5"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Center"
+                    Margin="0,5"
+                    Padding="10,5"
+                    Width="275"
+                    FontSize="16">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                    <Image Source="\Images\LeftNavBar\bank.png"
+                           Width="24"
+                           Height="24"
+                           Margin="0,0,10,0"/>
+                    <TextBlock x:Name="txtQuanLyDiem"
+                               Text="Danh sách sinh viên"
+                               Width="236"/>
+                </StackPanel>
+            </Button>
+
+            <Line X1="5"
+                  Y1="10"
+                  X2="250"
+                  Y2="10"
+                  Stroke="White"
+                  StrokeThickness="2"
+                  Margin="0,20,0,20"/>
+
+            <!-- Sidebar Collapse Button -->
+            <Button x:Name="btn_MenuAction"
+                    Foreground="White"
+                    Background="#3A82E5"
+                    BorderBrush="Transparent"
+                    Width="50"
+                    HorizontalAlignment="Center"
+                    FontSize="16">
+                <Image x:Name="img_MenuAction"
+                       Source="\Images\LeftNavBar\left-arrow.png"
+                       Width="24"
+                       Height="24"/>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>
