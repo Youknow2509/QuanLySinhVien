@@ -1,0 +1,213 @@
+﻿<UserControl x:Class="QLDT_WPF.Views.Shared.Components.GiaoVien.View.LopHocPhanDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             Background="#F8F9FA">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <StackPanel>
+            <!-- Title -->
+            <DockPanel Margin="20,0,20,10">
+                <Button Content="Back"
+                        Width="100"
+                        Height="30"
+                        HorizontalAlignment="Right"
+                        Background="#FF4C4C"
+                        Foreground="White"
+                        Margin="0,0,10,0"
+                        BorderBrush="Transparent"
+                        DockPanel.Dock="Right"
+                        Click="BackButton_Click" />
+                <TextBlock Text="Lớp Học Phần Lập trình Web-1-1-24(QT01)"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="#3A82E5"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="Thời gian bắt đầu: 12/08/2024 đến 17/11/2024."
+                           FontSize="14"
+                           Foreground="#666666"
+                           HorizontalAlignment="Left"
+                           Margin="0,5,0,0"/>
+                <TextBlock Text="Số tín chỉ: 3 và số tiết học: 45."
+                           FontSize="14"
+                           Foreground="#666666"
+                           HorizontalAlignment="Left"/>
+                <Button Content="Cập Nhật"
+                        Width="100"
+                        Height="30"
+                        HorizontalAlignment="Right"
+                        Background="#007BFF"
+                        Foreground="White"
+                        Margin="10,0,0,0"
+                        BorderBrush="Transparent"
+                        />
+            </DockPanel>
+
+            <!-- Điểm Sinh Viên Section -->
+            <Border CornerRadius="8"
+                    BorderBrush="#E5E5E5"
+                    BorderThickness="1"
+                    Background="White"
+                    Padding="20"
+                    Margin="20">
+                <StackPanel>
+                    <!-- Section Title -->
+                    <TextBlock Text="Điểm Sinh Viên Lớp Học Phần"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#3A82E5"
+                               HorizontalAlignment="Left"
+                               Margin="0,0,0,20"/>
+
+                    <!-- Dropdown, Search Bar -->
+                    <DockPanel Margin="0,0,0,20">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <TextBlock Text="Hiển thị:" 
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Foreground="#333333"
+                                       Margin="0,0,5,0"/>
+                            <ComboBox Width="60"
+                                      SelectedIndex="0"
+                                      Background="White"
+                                      Foreground="#333333"
+                                      FontSize="14"
+                                      >
+                                <ComboBoxItem Content="10"/>
+                                <ComboBoxItem Content="25"/>
+                                <ComboBoxItem Content="50"/>
+                            </ComboBox>
+                            <TextBlock Text="dữ liệu"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,20,0"
+                                       FontSize="14"
+                                       Foreground="#333333"/>
+                        </StackPanel>
+
+                        <DockPanel DockPanel.Dock="Right">
+                            <TextBox Width="200"
+                                     Height="30"
+                                     VerticalAlignment="Center"
+                                     FontSize="14"
+                                     Foreground="#333333"
+                                     Background="White"
+                                     BorderBrush="#DDDDDD"
+                                     Margin="10,0,0,0"
+                                     
+                                     />
+                        </DockPanel>
+                    </DockPanel>
+
+                    <!-- Data Table -->
+                    <syncfusion:SfDataGrid x:Name="DiemSinhVienDataGrid"
+                                           AutoGenerateColumns="False"
+                                           GridLinesVisibility="Horizontal"
+                                           RowHeight="40"
+                                           ColumnSizer="None"
+                                           ItemsSource="{Binding PagedDiemSinhVienData}"
+                                           AllowSorting="True"
+                                           BorderBrush="#E5E5E5"
+                                           BorderThickness="1"
+                                           MaxHeight="400">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn HeaderText="Sinh Viên" MappingName="SinhVien" Width="300"/>
+                            <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình" MappingName="DiemQuaTrinh" Width="250"/>
+                            <syncfusion:GridTextColumn HeaderText="Điểm Kết Thúc" MappingName="DiemKetThuc" Width="250"/>
+                            <syncfusion:GridTextColumn HeaderText="Điểm Tổng Kết" MappingName="DiemTongKet" Width="250"/>
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+
+                    <!-- Pagination -->
+                    <syncfusion:SfDataPager x:Name="DiemPager"
+                                            Source="{Binding AllDiemSinhVienData}"
+                                            PageSize="10"
+                                            HorizontalAlignment="Center"
+                                            Margin="0,20,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Chi Tiết Thời Gian Section -->
+            <Border CornerRadius="8"
+                    BorderBrush="#E5E5E5"
+                    BorderThickness="1"
+                    Background="White"
+                    Padding="20"
+                    Margin="20">
+                <StackPanel>
+                    <!-- Section Title -->
+                    <TextBlock Text="Chi Tiết Thời Gian Lớp Học Phần"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#3A82E5"
+                               HorizontalAlignment="Left"
+                               Margin="0,0,0,20"/>
+
+                    <!-- Dropdown, Search Bar -->
+                    <DockPanel Margin="0,0,0,20">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <TextBlock Text="Hiển thị:" 
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Foreground="#333333"
+                                       Margin="0,0,5,0"/>
+                            <ComboBox Width="60"
+                                      SelectedIndex="0"
+                                      Background="White"
+                                      Foreground="#333333"
+                                      FontSize="14"
+                                      >
+                                <ComboBoxItem Content="10"/>
+                                <ComboBoxItem Content="25"/>
+                                <ComboBoxItem Content="50"/>
+                            </ComboBox>
+                            <TextBlock Text="dữ liệu"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,20,0"
+                                       FontSize="14"
+                                       Foreground="#333333"/>
+                        </StackPanel>
+
+                        <DockPanel DockPanel.Dock="Right">
+                            <TextBox Width="200"
+                                     Height="30"
+                                     VerticalAlignment="Center"
+                                     FontSize="14"
+                                     Foreground="#333333"
+                                     Background="White"
+                                     BorderBrush="#DDDDDD"
+                                     Margin="10,0,0,0"
+                                     
+                                     />
+                        </DockPanel>
+                    </DockPanel>
+
+                    <!-- Data Table -->
+                    <syncfusion:SfDataGrid x:Name="ThoiGianDataGrid"
+                                           AutoGenerateColumns="False"
+                                           GridLinesVisibility="Horizontal"
+                                           RowHeight="40"
+                                           ColumnSizer="None"
+                                           ItemsSource="{Binding PagedThoiGianData}"
+                                           AllowSorting="True"
+                                           BorderBrush="#E5E5E5"
+                                           BorderThickness="1"
+                                           MaxHeight="400">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu" MappingName="ThoiGianBatDau" Width="300"/>
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc" MappingName="ThoiGianKetThuc" Width="300"/>
+                            <syncfusion:GridTextColumn HeaderText="Địa Điểm" MappingName="DiaDiem" Width="250"/>
+                            <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150"/>
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+
+                    <!-- Pagination -->
+                    <syncfusion:SfDataPager x:Name="ThoiGianPager"
+                                            Source="{Binding AllThoiGianData}"
+                                            PageSize="10"
+                                            HorizontalAlignment="Center"
+                                            Margin="0,20,0,0"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
