@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="QLDT_WPF.Views.Components.TeacherUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:local="clr-namespace:QLDT_WPF.Views.Components"
+             Background="White">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Thông tin cá nhân -->
+            <RowDefinition Height="Auto"/>
+            <!-- Danh sách lớp -->
+            <RowDefinition Height="*"/>
+            <!-- Lịch dạy -->
+        </Grid.RowDefinitions>
+
+        <!-- Thông tin cá nhân -->
+        <Border Grid.Row="0" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="2.5*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Avatar -->
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse Width="150" Height="150" Fill="#EEEEEE" Margin="0,0,0,10"/>
+                </StackPanel>
+
+                <!-- Thông tin -->
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Text="Thông Tin" FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                    <TextBlock Text="Họ Tên: Bùi Ngọc Dũng" FontSize="14" Foreground="#666666" Margin="0,5,0,5"/>
+                    <TextBlock Text="Khoa: Công nghệ thông tin" FontSize="14" Foreground="#666666" Margin="0,5,0,5"/>
+                    <TextBlock Text="Email: dungbn@utc.edu.vn" FontSize="14" Foreground="#666666" Margin="0,5,0,5"/>
+                    <TextBlock Text="Số Điện Thoại: 0915473821" FontSize="14" Foreground="#666666" Margin="0,5,0,5"/>
+                    <Button Content="Sửa" Width="100" Height="35" Background="#3A82E5" Foreground="White" BorderBrush="Transparent" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Danh sách các lớp học phần -->
+        <Border Grid.Row="1" Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
+            <StackPanel>
+                <TextBlock Text="Danh Sách Các Lớp Học Phần Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20"/>
+                <syncfusion:SfDataGrid x:Name="DataGrid" AutoGenerateColumns="False" RowHeight="35" AllowSorting="True"
+                                       BorderBrush="#DDDDDD" BorderThickness="1">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="200" />
+                        <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="GiangVien" Width="200" />
+                        <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="MonHoc" Width="200" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </StackPanel>
+        </Border>
+
+        <!-- Lịch dạy -->
+        <Border Grid.Row="2" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Lịch Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                <local:CalendarComponent />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
