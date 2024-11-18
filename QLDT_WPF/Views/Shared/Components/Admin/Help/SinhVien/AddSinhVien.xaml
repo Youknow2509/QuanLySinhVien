@@ -11,6 +11,78 @@
         WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
-        <!-- TODO -->
+        <!-- Modal Header -->
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Thêm Sinh Viên"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"
+                       HorizontalAlignment="Center"/>
+
+            <!-- Modal Body/Form -->
+            <StackPanel Orientation="Vertical"
+                        Margin="0,10">
+                <!-- Mã Sinh Viên -->
+                <TextBlock Text="Mã Sinh Viên"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtMaSinhVien"
+                         Margin="0,0,0,10"/>
+
+                <!-- Tên Sinh Viên -->
+                <TextBlock Text="Tên Sinh Viên"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtTenSinhVien"
+                         Margin="0,0,0,10"/>
+
+                <!-- Lop -->
+                <TextBlock Text="Lớp"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtLop"
+                         Margin="0,0,0,10"/>
+
+                <!-- Ngày Sinh -->
+                <TextBlock Text="Ngày Sinh"
+                           Margin="0,5"/>
+                <DatePicker x:Name="dpNgaySinh"
+                            Margin="0,0,0,10"/>
+
+                <!-- Khoa -->
+                <TextBlock Text="Khoa"
+                           Margin="0,5"/>
+                <ComboBox x:Name="cbbKhoa"
+                          Margin="0,0,0,10">
+                    <ComboBoxItem Content="Chọn Khoa"
+                                  Tag="-1"
+                                  IsSelected="True"/>
+                    <!-- Add other options dynamically -->
+                </ComboBox>
+
+                <!-- Chuong Trinh Hoc -->
+                <TextBlock Text="Chương Trình Học"
+                           Margin="0,5"/>
+                <ComboBox x:Name="cbbChuongTrinhHoc"
+                          Margin="0,0,0,10">
+                    <ComboBoxItem Content="Chọn Chương Trình Học"
+                                  Tag="-1"
+                                  IsSelected="True"/>
+                    <!-- Add other options dynamically -->
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Modal Footer -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0">
+                <Button Content="Đóng"
+                        Width="75"
+                        Margin="0,0,10,0"
+                        Click="CloseButton_Click"/>
+                <Button Content="Thêm"
+                        Width="75"
+                        Background="#007BFF"
+                        Foreground="White"
+                        Click="CreateButton_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
