@@ -35,6 +35,15 @@ namespace QLDT_WPF.Views.Components
         private LopHocPhanRepository lopHocPhanRepository;
         public ObservableCollection<LopHocPhanDto> ObservableLopHocPhan { get; private set; }
 
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(LopHocPhanTableView), new PropertyMetadata(null));
+
         // Constructor
         public LopHocPhanTableView()
         {
@@ -42,7 +51,22 @@ namespace QLDT_WPF.Views.Components
             lopHocPhanRepository = new LopHocPhanRepository();
             ObservableLopHocPhan = new ObservableCollection<LopHocPhanDto>();
             // Load asynchronously
-            Loaded += async (s, e) => await InitAsync();
+            Loaded += async (sender, e) =>
+            {
+                if (TargetContentArea == null)
+                {
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
+                    {
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                    }
+                }
+                await InitAsync();
+            };
         }
 
         // Init window asynchronously
@@ -285,6 +309,28 @@ namespace QLDT_WPF.Views.Components
                     });
                 }
             }
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+
+
+
+
+        private void dataGridLHP_CellTapped(object sender, GridCellTappedEventArgs e)
+        {
+            var teacherDetails = new LopHocPhanDetails(TargetContentArea);
+
+            TargetContentArea.Content = teacherDetails;
         }
 
     }
