@@ -107,8 +107,57 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         // Handle save button click
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            string tenLopHocPhan = txtTenLopHocPhan.Text.Trim();
+            string idMonHoc = (cbbMonHoc.SelectedValue as ComboBoxItem).Tag.ToString();
+            string idGiaoVien = (cbbGiangVien.SelectedValue as ComboBoxItem).Tag.ToString();
+            DateTime? thoiGianBatDau = dpThoiGianBatDau.SelectedDate;
+            DateTime? thoiGianKetThuc = dpThoiGianKetThuc.SelectedDate;
+            string idLopHocPhan = txtIdLopHocPhan.Text.Trim();
+            
+            if (tenLopHocPhan == "" || idMonHoc == "-1" || idGiaoVien == "-1"
+                || thoiGianBatDau == null || thoiGianKetThuc == null || idLopHocPhan == "")
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+          
 
+            LopHocPhanDto editLopHocPhan = new LopHocPhanDto
+            {
+                IdLopHocPhan = idLopHocPhan,
+                TenLopHocPhan = tenLopHocPhan,
+                IdMonHoc = idMonHoc,
+                IdGiaoVien = idGiaoVien,
+                ThoiGianBatDau = thoiGianBatDau,
+                ThoiGianKetThuc = thoiGianKetThuc
+            };
+
+            try
+            {
+                // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
+                var response = Task.Run(async () => 
+                    await lopHocPhanRepository.Edit(editLopHocPhan)
+                ).Result;
+
+                // Kiểm tra kết quả trả về
+                if (response.Status == true)
+                {
+                    MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); // Đóng cửa sổ nếu thêm thành công
+                }
+                else
+                {
+                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (AggregateException ex)
+            {
+                // Xử lý ngoại lệ bất đồng bộ
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    MessageBox.Show($"Có lỗi xảy ra: {innerEx.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
