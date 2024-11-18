@@ -10,6 +10,42 @@
         Width="350"
         WindowStartupLocation="CenterScreen">
     <Grid Margin="10">
+        <!-- Header -->
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Sửa Thông Tin Khoa"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"
+                       HorizontalAlignment="Center"/>
+
+            <!-- Body/Form -->
+            <StackPanel Orientation="Vertical"
+                        Margin="0,10">
+                <!-- Tên Khoa -->
+                <TextBlock Text="Tên Khoa"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtEditTenKhoa"/>
+
+                <!-- Hidden Field for ID -->
+                <TextBox x:Name="txtEditIdKhoa"
+                         Visibility="Collapsed"/>
+            </StackPanel>
+
+            <!-- Footer -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0">
+                <Button Content="Đóng"
+                        Width="75"
+                        Margin="0,0,10,0"
+                        Click="CloseButton_Click"/>
+                <Button Content="Lưu"
+                        Width="75"
+                        Background="#007BFF"
+                        Foreground="White"
+                        Click="SaveButton_Click"/>
+            </StackPanel>
+        </StackPanel>
 
     </Grid>
 </Window>
