@@ -65,7 +65,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             list_mon_hoc = request_lis_mon_hoc.Data;
             foreach (var item in list_mon_hoc)
             {
-                cbMonHoc.Items.Add(new ComboBoxItem
+                cbbMonHoc.Items.Add(new ComboBoxItem
                 {
                     Content = item.TenMonHoc,
                     Tag = item.IdMonHoc
@@ -81,7 +81,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             list_giao_vien = request_list_giao_vien.Data;
             foreach (var item in list_giao_vien)
             {
-                cbGiaoVien.Items.Add(new ComboBoxItem
+                cbbGiangVien.Items.Add(new ComboBoxItem
                 {
                     Content = item.TenGiaoVien,
                     Tag = item.IdGiaoVien
@@ -96,8 +96,57 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO 
-        }
+            string tenLopHocPhan = txtTenLopHocPhan.Text.Trim();
+            string idMonHoc = (cbbMonHoc.SelectedItem as ComboBoxItem)?.Tag.ToString();
+            string idGiaoVien = (cbbGiaoVien.SelectedItem as ComboBoxItem)?.Tag.ToString();
+            DateTime? thoiGianBatDau = dpThoiGianBatDau.SelectedDate;
+            DateTime? thoiGianKetThuc = dpThoiGianKetThuc.SelectedDate; 
+            string tenMonHoc = (cbbMonHoc.SelectedItem as ComboBoxItem)?.Content.ToString();
+            string tenGiaoVien = (cbbGiaoVien.SelectedItem as ComboBoxItem)?.Content.ToString();
 
+            if (tenLopHocPhan == "" || idMonHoc == "-1" || idGiaoVien == "-1" || thoiGianBatDau == null || thoiGianKetThuc == null)
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+
+            LopHocPhanDto newLopHocPhanDto = new LopHocPhanDto
+            {
+                TenLopHocPhan = tenLopHocPhan,
+                IdMonHoc = idMonHoc,
+                IdGiaoVien = idGiaoVien,
+                ThoiGianBatDau = thoiGianBatDau,
+                ThoiGianKetThuc = thoiGianKetThuc,
+                TenMonHoc = tenMonHoc,
+                TenGiaoVien = tenGiaoVien
+            };
+
+            try
+            {
+                // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
+                var response = Task.Run(async () => 
+                    await lopHocPhanRepository.Add(newLopHocPhanDto)
+                ).Result;
+
+                // Kiểm tra kết quả trả về
+                if (response.Status == true)
+                {
+                    MessageBox.Show(response.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close(); // Đóng cửa sổ nếu thêm thành công
+                }
+                else
+                {
+                    MessageBox.Show(response.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (AggregateException ex)
+            {
+                // Xử lý ngoại lệ bất đồng bộ
+                foreach (var innerEx in ex.InnerExceptions)
+                {
+                    MessageBox.Show($"Có lỗi xảy ra: {innerEx.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
     }
 }
