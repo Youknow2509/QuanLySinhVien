@@ -90,7 +90,8 @@
                                        RowHeight="40"
                                        MaxHeight="600"
                                        HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Top">
+                                       VerticalAlignment="Top"
+                                       CellTapped="dataGridGiaoVien_CellTapped">
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTextColumn HeaderText="Tên Giáo Viên"
                                                    MappingName="TenGiaoVien"

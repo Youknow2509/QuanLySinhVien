@@ -6,12 +6,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:QLDT_WPF.Views.Components"
     mc:Ignorable="d"
-    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-    d:DesignHeight="510"
-    d:DesignWidth="980">
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
     <Grid>
+        <!-- Define two rows: one for the ComboBox and one for the SfScheduler -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- For ComboBox -->
+            <RowDefinition Height="*"/>
+            <!-- For SfScheduler -->
+        </Grid.RowDefinitions>
+
         <!-- ComboBox to switch view types -->
         <ComboBox x:Name="viewTypeComboBox"
+                  Grid.Row="0"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top"
                   Width="100"
@@ -27,10 +34,13 @@
 
         <!-- SfScheduler component -->
         <syncfusion:SfScheduler x:Name="scheduler"
-                                Margin="10,40,10,10"
+                                Grid.Row="1"
+                                Margin="10"
                                 ViewType="Week"
                                 EnableReminder="False"
-                                AppointmentEditorOpening="Scheduler_AppointmentEditorOpening">
+                                AppointmentEditorOpening="Scheduler_AppointmentEditorOpening"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
         </syncfusion:SfScheduler>
     </Grid>
 </UserControl>

@@ -55,6 +55,10 @@
 
         <!-- Thông tin người dùng + Avatar -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+            <TextBlock 
+                Text="{Binding FullName, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                VerticalAlignment="Center" 
+                Margin="0,0,10,0" />
             <!-- Avatar -->
             <Border Width="40" Height="40" CornerRadius="20" BorderBrush="#CCCCCC" BorderThickness="1" ClipToBounds="True" Margin="0,0,10,0"
                     MouseLeftButtonDown="Avatar_MouseLeftButtonDown">
