@@ -20,6 +20,10 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using QLDT_WPF.Models;
+using Microsoft.Win32;
+using System.IO;
+using System;
+
 
 namespace QLDT_WPF.Views.Components
 {
@@ -200,6 +204,76 @@ namespace QLDT_WPF.Views.Components
             }
 
             MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        
+        // hande add subject with file 
+        private void AddSubjectWithFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<MonHocDto> list_monHoc = new List<MonHocDto>();
+
+                    foreach (string line in lines)
+                    {
+                        // Giả sử mỗi dòng là một môn học với định dạng "Mã Môn Học, Tên Môn Học, So Tin Chi, So Tiet Hoc, Id Khoa"
+                        string[] data = line.Split(',');
+                        if (data.Count() >= 5)
+                        {
+                            list_monHoc.Add(new MonHocDto
+                            {
+                                IdMonHoc = data[0],
+                                TenMonHoc = data[1],
+                                SoTinChi = int.Parse(data[2]),
+                                SoTietHoc = int.Parse(data[3]),
+                                IdKhoa = data[4]
+                            });
+                        }  
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm thêm danh sách môn học từ file CSV trong repository
+                        var response = await monHocRepository.AddListMonHocFromCSV(list_monHoc);
+
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(monh => monh.TenMonHoc));
+
+                                // Hiển thị thông báo lỗi
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Thêm danh sách môn học từ file CSV thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                await InitAsync();
+                            }
+                        });
+                    });
+                    // message box show list mon hoc dto
+                    MessageBox.Show("Thêm danh sách môn học từ file CSV: " + string.Join(", ", list_monHoc.Select(x => x.TenMonHoc)) + " thành công!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            } else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
+            }
         }
     }
 }
