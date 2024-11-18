@@ -11,6 +11,43 @@
         WindowStartupLocation="CenterScreen">
 
     <Grid Margin="10">
-        <!-- TODO -->
+        <!-- Modal Header -->
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Thêm Khoa"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"
+                       HorizontalAlignment="Center"/>
+
+            <!-- Modal Body/Form -->
+            <StackPanel Orientation="Vertical"
+                        Margin="0,10">
+                <!-- Mã Khoa -->
+                <TextBlock Text="Mã Khoa"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtMaKhoa"
+                         Margin="0,0,0,10"/>
+                <!-- Tên Khoa -->
+                <TextBlock Text="Tên Khoa"
+                           Margin="0,5"/>
+                <TextBox x:Name="txtTenKhoa"
+                         Margin="0,0,0,10"/>
+            </StackPanel>
+
+            <!-- Modal Footer -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,20,0,0">
+                <Button Content="Đóng"
+                        Width="75"
+                        Margin="0,0,10,0"
+                        Click="CloseButton_Click"/>
+                <Button Content="Thêm"
+                        Width="75"
+                        Background="#007BFF"
+                        Foreground="White"
+                        Click="CreateButton_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
