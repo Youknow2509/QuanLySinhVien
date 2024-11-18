@@ -65,7 +65,9 @@
                 </DockPanel>
 
                 <!-- Scrollable SfDataGrid for Student Requests -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="600">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              MaxHeight="600">
                     <syncfusion:SfDataGrid x:Name="sfDataGridSinhVien"
                                            AutoGenerateColumns="False"
                                            ShowRowHeader="True"
@@ -75,7 +77,7 @@
                                            VerticalAlignment="Top">
                         <syncfusion:SfDataGrid.Columns>
                             <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên"
-                                                       MappingName="MaSinhVien"
+                                                       MappingName="IdSinhVien"
                                                        Width="150"/>
                             <syncfusion:GridTextColumn HeaderText="Tên Sinh Viên"
                                                        MappingName="TenSinhVien"
@@ -83,9 +85,145 @@
                             <syncfusion:GridTextColumn HeaderText="Tên Môn Học"
                                                        MappingName="TenMonHoc"
                                                        Width="250"/>
-                            <syncfusion:GridTextColumn HeaderText="Trạng Thái"
-                                                       MappingName="TrangThai"
-                                                       Width="190"/>
+                            <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
+                                                           Width="120">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontSize="14"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text"
+                                                            Value="Chờ"/>
+                                                    <Setter Property="Foreground"
+                                                            Value="Yellow"/>
+
+                                                    <Style.Triggers>
+                                                        <!-- Trigger for Accepted (Chấp Nhận) -->
+                                                        <DataTrigger Binding="{Binding TrangThai}"
+                                                                     Value="1">
+                                                            <Setter Property="Text"
+                                                                    Value="Chấp Nhận"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Green"/>
+                                                        </DataTrigger>
+
+                                                        <!-- Trigger for Rejected (Từ Chối) -->
+                                                        <DataTrigger Binding="{Binding TrangThai}"
+                                                                     Value="0">
+                                                            <Setter Property="Text"
+                                                                    Value="Từ Chối"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Red"/>
+                                                        </DataTrigger>
+
+                                                        <!-- Trigger for Pending (Chờ) -->
+                                                        <DataTrigger Binding="{Binding TrangThai}"
+                                                                     Value="-1">
+                                                            <Setter Property="Text"
+                                                                    Value="Chờ"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Yellow"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
+                            <syncfusion:GridTemplateColumn HeaderText="Hành Động"
+                                                           Width="260">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                            <!-- Button for "Chấp Nhận" -->
+                                            <Button Content="Chấp Nhận"
+                                                    Padding="10,3"
+                                                    Margin="5,0,0,0"
+                                                    Background="Green"
+                                                    Foreground="White"
+                                                    FontSize="14"
+                                                    BorderBrush="Transparent"
+                                                    FontWeight="Bold"
+                                                    Tag="{Binding}"
+                                                    Click="ApproveRequest_Student">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Visibility"
+                                                                Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <!-- Show this button when TrangThai is -1 (Pending) or 0 (Rejected) -->
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="-1">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="0">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+
+                                            <!-- Button for "Từ Chối" -->
+                                            <Button Content="Từ Chối"
+                                                    Padding="10,3"
+                                                    Margin="5,0,0,0"
+                                                    Background="Red"
+                                                    Foreground="White"
+                                                    FontSize="14"
+                                                    BorderBrush="Transparent"
+                                                    FontWeight="Bold"
+                                                    Tag="{Binding}"
+                                                    Click="RejectRequest_Student">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Visibility"
+                                                                Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <!-- Show this button when TrangThai is -1 (Pending) or 1 (Accepted) -->
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="-1">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="1">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                            <syncfusion:GridTemplateColumn
+                                Width="80">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Xóa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="Gray"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"
+                                                Tag="{Binding}"
+                                                Click="DeleteRequest_Student"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </ScrollViewer>
@@ -154,7 +292,9 @@
                 </DockPanel>
 
                 <!-- Scrollable SfDataGrid for Teacher Requests -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" MaxHeight="600">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              MaxHeight="600">
                     <syncfusion:SfDataGrid x:Name="sfDataGridGiaoVien"
                                            AutoGenerateColumns="False"
                                            ShowRowHeader="True"
@@ -178,29 +318,147 @@
                             <syncfusion:GridTextColumn HeaderText="Thời Gian KT Mới"
                                                        MappingName="ThoiGianKetThucMoi"
                                                        Width="150"/>
-                            <syncfusion:GridTextColumn HeaderText="Trạng Thái"
-                                                       MappingName="TrangThai"
-                                                       Width="150"/>
+                            <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
+                                                           Width="120">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontSize="14"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text"
+                                                            Value="Chờ"/>
+                                                    <Setter Property="Foreground"
+                                                            Value="Yellow"/>
+
+                                                    <Style.Triggers>
+                                                        <!-- Trigger for Accepted (Chấp Nhận) -->
+                                                        <DataTrigger Binding="{Binding TrangThai}"
+                                                                     Value="1">
+                                                            <Setter Property="Text"
+                                                                    Value="Chấp Nhận"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Green"/>
+                                                        </DataTrigger>
+
+                                                        <!-- Trigger for Rejected (Từ Chối) -->
+                                                        <DataTrigger Binding="{Binding TrangThai}"
+                                                                     Value="0">
+                                                            <Setter Property="Text"
+                                                                    Value="Từ Chối"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Red"/>
+                                                        </DataTrigger>
+
+                                                        <!-- Trigger for Pending (Chờ) -->
+                                                        <DataTrigger Binding="{Binding TrangThai}"
+                                                                     Value="-1">
+                                                            <Setter Property="Text"
+                                                                    Value="Chờ"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Yellow"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
                             <syncfusion:GridTemplateColumn HeaderText="Hành Động"
-                                                           Width="150">
+                                                           Width="200">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal"
                                                     HorizontalAlignment="Center">
-                                            <Button Content="Duyệt"
+                                            <!-- Button for "Chấp Nhận" -->
+                                            <Button Content="Chấp Nhận"
                                                     Padding="10,3"
                                                     Margin="5,0,0,0"
-                                                    Background="#007BFF"
+                                                    Background="Green"
                                                     Foreground="White"
                                                     FontSize="14"
                                                     BorderBrush="Transparent"
                                                     FontWeight="Bold"
-                                                    Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}"/>
+                                                    Tag="{Binding}"
+                                                    Click="ApproveRequest_Teacher">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Visibility"
+                                                                Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <!-- Show this button when TrangThai is -1 (Pending) or 0 (Rejected) -->
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="-1">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="0">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+
+                                            <!-- Button for "Từ Chối" -->
+                                            <Button Content="Từ Chối"
+                                                    Padding="10,3"
+                                                    Margin="5,0,0,0"
+                                                    Background="Red"
+                                                    Foreground="White"
+                                                    FontSize="14"
+                                                    BorderBrush="Transparent"
+                                                    FontWeight="Bold"
+                                                    Tag="{Binding}"
+                                                    Click="RejectRequest_Teacher">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Visibility"
+                                                                Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <!-- Show this button when TrangThai is -1 (Pending) or 1 (Accepted) -->
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="-1">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding TrangThai}"
+                                                                         Value="1">
+                                                                <Setter Property="Visibility"
+                                                                        Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
                                         </StackPanel>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
+
+                            <syncfusion:GridTemplateColumn
+                                Width="80">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Xóa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="Gray"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"
+                                                Tag="{Binding}"
+                                                Click="DeleteRequest_Teacher"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </ScrollViewer>
