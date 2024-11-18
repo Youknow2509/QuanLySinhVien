@@ -23,6 +23,7 @@ using QLDT_WPF.Models;
 using Microsoft.Win32;
 using System.IO;
 using System;
+using System.DirectoryServices;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -34,7 +35,14 @@ namespace QLDT_WPF.Views.Components
         // Variables
         private KhoaRepository khoaRepository;
         public ObservableCollection<KhoaDto> ObservableKhoa { get; private set; }
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
 
+        public static readonly DependencyProperty TargetContentAreaProperty =
+             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(DepartmentTableView), new PropertyMetadata(null));
 
         // Constructor
         public DepartmentTableView()
@@ -45,7 +53,22 @@ namespace QLDT_WPF.Views.Components
             // 
 
             // Hook up Loaded event to call async initialization after control loads
-            Loaded += async (s, e) => await InitAsync();
+            Loaded += async (sender, e) =>
+            {
+                if (TargetContentArea == null)
+                {
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
+                    {
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                    }
+                }
+                await InitAsync();
+            };
         }
 
         // Init window asynchronously
@@ -269,6 +292,25 @@ namespace QLDT_WPF.Views.Components
                     });
                 }
             }
+        }
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+
+
+        private void dataGridKhoa_CellTapped(object sender, GridCellTappedEventArgs e)
+        {
+            var teacherDetails = new KhoaDetails(TargetContentArea);
+
+            TargetContentArea.Content = teacherDetails;
         }
     }
 }

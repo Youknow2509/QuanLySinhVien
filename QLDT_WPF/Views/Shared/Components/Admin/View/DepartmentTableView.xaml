@@ -89,8 +89,9 @@
                                        GridLinesVisibility="Both"
                                        RowHeight="40"
                                        MaxHeight="600"
-                    HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Top">
+                                        HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top"
+                                       CellTapped="dataGridKhoa_CellTapped">
                     <syncfusion:SfDataGrid.Columns>
                         <!-- Department Name Column -->
                         <syncfusion:GridTextColumn HeaderText="Tên Khoa"
