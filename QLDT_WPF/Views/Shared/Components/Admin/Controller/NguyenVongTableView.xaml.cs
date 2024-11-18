@@ -86,7 +86,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // Xu li chap nhan yeu cau tu sinh vien
-        private ApproveRequest_Student(object sender, RoutedEventArgs e)
+        private void ApproveRequest_Student(object sender, RoutedEventArgs e)
         {
             // Get data in tag
             var btn = sender as Button;
