@@ -185,6 +185,60 @@ public class MonHocRepository
     }
 
     /**
+     * Them List Mon Hoc From File CSV
+     */
+    public async Task<ApiResponse<List<MonHocDto>>> AddListMonHocFromCSV(List<MonHocDto> listMonHoc)
+    {
+        if (listMonHoc == null || listMonHoc.Count() <= 0)
+        {
+            return new ApiResponse<List<MonHocDto>>{
+                Status = false,
+                Message = "File Không Được Để Trống !",
+                Data = null,
+            };
+        }
+
+        List<MonHocDto> listMonHocError = new List<MonHocDto>();
+
+        foreach (var monh in listMonHoc)
+        {
+            // check id mon hoc
+            var monhoc = await _context.MonHocs
+                .FirstOrDefaultAsync(x => x.IdMonHoc == monh.IdMonHoc);
+            // check khoa exist
+            var khoa = await _context.Khoas
+                .FirstOrDefaultAsync(x => x.IdKhoa == monh.IdKhoa);
+            if (monhoc != null)
+            {
+                listMonHocError.Add(monh);
+            } else if (khoa == null)
+            {
+                listMonHocError.Add(monh);
+            }
+            await _context.AddAsync(monh);
+        }
+
+        if (listMonHocError.Count() > 0)
+        {
+            return new ApiResponse<List<MonHocDto>>
+            {
+                Status = false,
+                Message = "Thêm Danh Sách Môn Học Thất Bại !",
+                Data = listMonHocError,
+            };
+        }
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<List<MonHocDto>>
+        {
+            Status = true,
+            Message = "Thêm Danh Sách Môn Học Thành Công !",
+            Data = listMonHoc,
+        };
+    }
+
+    /**
      * Xoa mon hoc By Id 
      */
     public async Task<ApiResponse<MonHocDto>> Delete(string id)
