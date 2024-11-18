@@ -55,7 +55,7 @@ namespace QLDT_WPF.Views.Components
             await load_nguyen_vong_giao_vien();
         }
 
-        private async void load_nguyen_vong_sinh_vien()
+        private async load_nguyen_vong_sinh_vien()
         {
             var list_nv_sv = await nguyenVongSinhVienRepository.GetAll();
             if (list_nv_sv.Status == false)
@@ -70,7 +70,7 @@ namespace QLDT_WPF.Views.Components
             sfDataGridSinhVien.ItemsSource = observable_sinhvien;
         }
 
-        private async void load_nguyen_vong_giao_vien()
+        private async load_nguyen_vong_giao_vien()
         {
             var list_nv_gv = await nguyenVongGiaoVienRepository.GetAll();
             if (list_nv_gv.Status == false)
@@ -86,7 +86,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // Xu li chap nhan yeu cau tu sinh vien
-        private async void ApproveRequest_Student(object sender, RoutedEventArgs e)
+        private async ApproveRequest_Student(object sender, RoutedEventArgs e)
         {
             // Get data in tag
             var btn = sender as Button;
