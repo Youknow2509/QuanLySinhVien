@@ -44,8 +44,7 @@
                 <TextBlock Text="Số Điện Thoại"
                            Margin="0,5"/>
                 <TextBox x:Name="txtSoDienThoai"
-                         Margin="0,0,0,10"
-                         PreviewTextInput="HandleInputKeyPressNumber"/>
+                         Margin="0,0,0,10"/>
 
                 <!-- Khoa -->
                 <TextBlock Text="Khoa"

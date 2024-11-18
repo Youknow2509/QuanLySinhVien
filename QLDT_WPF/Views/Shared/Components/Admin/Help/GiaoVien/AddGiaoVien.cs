@@ -46,7 +46,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         private async Task InitAsync()
         {
             var req = await khoaRepository.GetAll();
-            if (req.Status == False)
+            if (req.Status == false)
             {
                 MessageBox.Show(req.Message);
                 return;
