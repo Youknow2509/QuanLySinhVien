@@ -3,35 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              Background="White">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <!-- Grid Definitions -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Title -->
+                <RowDefinition Height="*"/>
+                <!-- Học Phần Data -->
+                <RowDefinition Height="Auto"/>
+                <!-- Pagination -->
+                <RowDefinition Height="*"/>
+                <!-- Nguyện Vọng Data -->
+                <RowDefinition Height="Auto"/>
+                <!-- Pagination -->
+            </Grid.RowDefinitions>
 
-        <!-- Title -->
-        <TextBlock Grid.Row="0"
-                   Text="Các Học Phần Có Thể Đăng Ký Học "
-                   FontSize="20"
-                   FontWeight="Bold"
-                   Foreground="#333333"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,20"/>
+            <!-- Title -->
+            <TextBlock Grid.Row="0"
+                       Text="Đăng Ký Nguyện Vọng - Các Học Phần"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#3A82E5"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
 
-        <!-- Học Phần Data Table -->
-        <Border Grid.Row="1" Padding="10" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,20">
-            <StackPanel>
-                <TextBlock Text="Danh Sách Học Phần" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="300">
+            <!-- Học Phần Data Table -->
+            <Border Grid.Row="1"
+                    BorderThickness="1"
+                    BorderBrush="#CCCCCC"
+                    CornerRadius="8"
+                    Padding="10"
+                    Background="White">
+                <StackPanel>
+                    <TextBlock Text="Danh Sách Học Phần Có Thể Đăng Ký"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="HocPhanDataGrid"
                                            AutoGenerateColumns="False"
-                                           RowHeight="35"
+                                           RowHeight="40"
+                                           GridLinesVisibility="Both"
+                                           ItemsSource="{Binding PagedHocPhanData}"
                                            AllowSorting="True"
+                                           EnableDataVirtualization="True"
+                                           MaxHeight="600"
                                            BorderBrush="#DDDDDD"
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="300" />
+                            <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="200" />
                             <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình" MappingName="DiemQuaTrinh" Width="150" />
                             <syncfusion:GridTextColumn HeaderText="Điểm Kết Thúc" MappingName="DiemKetThuc" Width="150" />
                             <syncfusion:GridTextColumn HeaderText="Điểm Tổng Kết" MappingName="DiemTongKet" Width="150" />
@@ -46,26 +67,44 @@
                                                 Width="100"
                                                 Height="30"
                                                 HorizontalAlignment="Center"
-                                                BorderBrush="Transparent"
-                                                />
+                                                BorderBrush="Transparent"/>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
-                </ScrollViewer>
-            </StackPanel>
-        </Border>
+                </StackPanel>
+            </Border>
 
-        <!-- Nguyện Vọng Data Table -->
-        <Border Grid.Row="2" Padding="10" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Nguyện Vọng Đăng Ký" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="300">
+            <!-- Pagination for Học Phần -->
+            <syncfusion:SfDataPager Grid.Row="2"
+                                    x:Name="HocPhanDataPager"
+                                    Source="{Binding HocPhanData}"
+                                    PageSize="10"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,10,0,20"/>
+
+            <!-- Nguyện Vọng Data Table -->
+            <Border Grid.Row="3"
+                    BorderThickness="1"
+                    BorderBrush="#CCCCCC"
+                    CornerRadius="8"
+                    Padding="10"
+                    Background="#F8F9FA">
+                <StackPanel>
+                    <TextBlock Text="Nguyện Vọng Đăng Ký"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="NguyenVongDataGrid"
                                            AutoGenerateColumns="False"
-                                           RowHeight="35"
+                                           RowHeight="40"
+                                           GridLinesVisibility="Both"
+                                           ItemsSource="{Binding PagedNguyenVongData}"
                                            AllowSorting="True"
+                                           EnableDataVirtualization="True"
+                                           MaxHeight="600"
                                            BorderBrush="#DDDDDD"
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
@@ -75,8 +114,16 @@
                             <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150" />
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
-                </ScrollViewer>
-            </StackPanel>
-        </Border>
-    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Pagination for Nguyện Vọng -->
+            <syncfusion:SfDataPager Grid.Row="4"
+                                    x:Name="NguyenVongDataPager"
+                                    Source="{Binding NguyenVongData}"
+                                    PageSize="10"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,10,0,20"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
