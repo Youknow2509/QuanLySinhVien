@@ -86,7 +86,6 @@
             <syncfusion:SfDataPager x:Name="DataPager"
                                     PageSize="5"
                                     Source="{Binding Classes}"
-                                    Loaded="DataPager_Loaded"
                                     HorizontalAlignment="Center"
                                     Margin="0,10,0,0"/>
         </StackPanel>
