@@ -79,7 +79,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             }
             cbbMonHoc.SelectedValue = lopHocPhan.IdMonHoc;
 
-            // Load list giao vien and set value for cbbGiaoVien
+            // Load list giao vien and set value for cbbGiangVien
             var request_list_giao_vien = await giaoVienRepository.GetAll();
             if (request_list_giao_vien.Status == false)
             {
@@ -89,13 +89,13 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             list_giao_vien = request_list_giao_vien.Data;
             foreach (var item in list_giao_vien)
             {
-                cbbGiaoVien.Items.Add(new ComboBoxItem
+                cbbGiangVien.Items.Add(new ComboBoxItem
                 {
                     Content = item.TenGiaoVien,
                     Tag = item.IdGiaoVien
                 });
             }
-            cbbGiaoVien.SelectedValue = lopHocPhan.IdGiaoVien;
+            cbbGiangVien.SelectedValue = lopHocPhan.IdGiaoVien;
         }
 
         // Handle close button click
@@ -109,12 +109,6 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         {
             // TODO
 
-        }
-
-        // Only allow integer input in text box
-        private void handle_input_key_press_number(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !int.TryParse(e.Text, out _);
         }
     }
 }

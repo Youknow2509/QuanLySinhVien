@@ -78,7 +78,7 @@
                         Width="75"
                         Background="#007BFF"
                         Foreground="White"
-                        Click="CreateButton_Click"/>
+                        Click="SaveButton_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>
