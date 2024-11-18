@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left Navbar with TargetContentArea binding -->
-        <shared:AdminLeftNavbar x:Name="sideBar"
+        <shared:SinhvienLeftNavbar x:Name="sideBar"
                                 Grid.Column="0"
                                 TargetContentArea="{Binding ElementName=ContentArea}"/>
 
