@@ -1,0 +1,71 @@
+﻿<Window x:Class="QLDT_WPF.Views.SinhVien.SinhVienDashboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shared="clr-namespace:QLDT_WPF.Views.Shared"
+        Title="SinhVienDashboard"
+        Height="720"
+        Width="1280"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        MinHeight="720" MinWidth="1280">
+
+    <Grid>
+        <!-- Define two columns: one for the sidebar and one for the main content -->
+        <Grid.ColumnDefinitions>
+            <!-- Sidebar with auto width -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- Main content column with dynamic width -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Navbar with TargetContentArea binding -->
+        <shared:AdminLeftNavbar x:Name="sideBar"
+                                Grid.Column="0"
+                                TargetContentArea="{Binding ElementName=ContentArea}"/>
+
+        <!-- Header and Main Content Area -->
+        <Grid Grid.Column="1"
+              x:Name="mainContentGrid"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Header -->
+                <RowDefinition Height="*"/>
+                <!-- Main content area -->
+                <RowDefinition Height="Auto"
+                               MinHeight="54"/>
+                <!-- Footer -->
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <shared:Header
+                FullName="{Binding FullName}"
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"/>
+
+            <!-- Main Content Area -->
+            <ScrollViewer Grid.Row="1"
+                          Margin="0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto">
+                <ContentControl x:Name="ContentArea"
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"/>
+            </ScrollViewer>
+
+            <!-- Footer -->
+            <shared:Footer Grid.Row="2"
+                           Margin="0,7,0,7"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Bottom"/>
+        </Grid>
+    </Grid>
+</Window>
