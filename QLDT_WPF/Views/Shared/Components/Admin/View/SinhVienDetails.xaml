@@ -70,7 +70,7 @@
         <!-- Calendar -->
         <Border Grid.Row="2" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
             <StackPanel>
-                <TextBlock Text="Lịch Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                <TextBlock Text="Lịch Học" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
                 <local:CalendarComponent Width="800"/>
             </StackPanel>
         </Border>

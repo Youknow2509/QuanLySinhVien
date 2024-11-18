@@ -89,7 +89,8 @@
                                        RowHeight="40"
                                        MaxHeight="600"
                                        HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Top">
+                                       VerticalAlignment="Top"
+                                       CellTapped="dataGridSinhVien_CellTapped">
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTemplateColumn HeaderText="Mã Sinh Viên"
                                                        Width="100"
