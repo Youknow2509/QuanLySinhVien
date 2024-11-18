@@ -23,6 +23,8 @@ using QLDT_WPF.Models;
 using Microsoft.Win32;
 using System.IO;
 using System;
+using QLDT_WPF.Views.Components;
+using QLDT_WPF.Views.Shared;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -35,6 +37,15 @@ namespace QLDT_WPF.Views.Components
         private GiaoVienRepository giaoVienRepository;
         private IdentityRepository identityRepository;
         public ObservableCollection<GiaoVienDto> ObservableGiaoVien { get; private set; }
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherTableView), new PropertyMetadata(null));
+
 
         // Constructor
         public TeacherTableView()
@@ -46,8 +57,20 @@ namespace QLDT_WPF.Views.Components
             // Handle loading asynchronously
             Loaded += async (sender, e) =>
             {
+                if (TargetContentArea == null)
+                {
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
+                    {
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                    }
+                }
                 await InitAsync();
-            };
+            };  
         }
 
         // Init window asynchronously
@@ -222,6 +245,29 @@ namespace QLDT_WPF.Views.Components
             {
                 MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
             }
+        }
+
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+
+
+
+
+        private void dataGridGiaoVien_CellTapped(object sender, GridCellTappedEventArgs e)
+        {
+            var teacherDetails = new TeacherDetails(TargetContentArea);
+
+            TargetContentArea.Content = teacherDetails;
         }
 
     }
