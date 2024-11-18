@@ -1,4 +1,7 @@
-﻿using QLDT_WPF.Dto;
+﻿using Syncfusion.UI.Xaml.Grid.Converter;
+using Syncfusion.UI.Xaml.Grid;
+using Syncfusion.XlsIO;
+using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
 using System;
 using System.Collections.Generic;
@@ -146,6 +149,57 @@ namespace QLDT_WPF.Views.Components
                     });
                 }
             }
+        }
+
+        // Handle export to excel button click
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            // Kiểm tra nếu ObservableMonHoc không có dữ liệu
+            if (ObservableMonHoc == null || ObservableMonHoc.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Môn Học";
+                worksheet[1, 2].Text = "Tên Môn Học";
+                worksheet[1, 3].Text = "Số Tín Chỉ";
+                worksheet[1, 4].Text = "Số Tiết Học";
+                worksheet[1, 5].Text = "ID Khoa";
+                worksheet[1, 6].Text = "Tên Khoa";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var monHoc in ObservableMonHoc)
+                {
+                    worksheet[row, 1].Text = monHoc.IdMonHoc ?? "N/A";
+                    worksheet[row, 2].Text = monHoc.TenMonHoc ?? "N/A";
+                    worksheet[row, 3].Text = monHoc.SoTinChi.ToString() ?? "N/A";
+                    worksheet[row, 4].Text = monHoc.SoTietHoc.ToString() ?? "N/A";
+                    worksheet[row, 5].Text = monHoc.IdKhoa ?? "N/A";
+                    worksheet[row, 6].Text = monHoc.TenKhoa ?? "N/A";
+                    row++;
+                }
+
+                // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachMonHoc.xlsx");
+            }
+
+            MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
