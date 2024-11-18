@@ -10,6 +10,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Back Button -->
@@ -75,11 +76,11 @@
             </StackPanel>
         </Border>
 
-        <!-- Score Table -->
-        <Border Grid.Row="3" Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
-            <StackPanel>
-                <TextBlock Text="Bảng Dữ Liệu Điểm Của Sinh Viên" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="300">
+        <!-- Score Table with Pagination -->
+        <StackPanel Grid.Row="3" Margin="0,10,0,0">
+            <Border Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Bảng Dữ Liệu Điểm Của Sinh Viên" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="DataGrid"
                                            AutoGenerateColumns="False"
                                            RowHeight="35"
@@ -96,8 +97,13 @@
                             <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150" />
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
-                </ScrollViewer>
-            </StackPanel>
-        </Border>
+                </StackPanel>
+            </Border>
+            <syncfusion:SfDataPager x:Name="ScorePager"
+                                    PageSize="10"
+                                    Source="{Binding Scores}"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,10,0,0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

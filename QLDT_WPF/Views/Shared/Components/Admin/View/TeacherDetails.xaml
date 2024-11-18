@@ -9,6 +9,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Back Button -->
@@ -62,29 +63,36 @@
             </Grid>
         </Border>
 
-        <!-- Class List with Scroll -->
-        <Border Grid.Row="2" Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
-            <StackPanel>
-                <TextBlock Text="Danh Sách Các Lớp Học Phần Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="300">
+        <!-- Class List with Pagination -->
+        <StackPanel Grid.Row="2" Margin="0,10,0,0">
+            <Border Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Danh Sách Các Lớp Học Phần Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="DataGrid"
                                            AutoGenerateColumns="False"
                                            RowHeight="35"
                                            AllowSorting="True"
                                            BorderBrush="#DDDDDD"
-                                           BorderThickness="1">
+                                           BorderThickness="1"
+                                           ItemsSource="{Binding PagedClasses}">
                         <syncfusion:SfDataGrid.Columns>
                             <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="300" />
                             <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="GiangVien" Width="300" />
                             <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="MonHoc" Width="200" />
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
-                </ScrollViewer>
-            </StackPanel>
-        </Border>
+                </StackPanel>
+            </Border>
+            <syncfusion:SfDataPager x:Name="DataPager"
+                                    PageSize="5"
+                                    Source="{Binding Classes}"
+                                    Loaded="DataPager_Loaded"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,10,0,0"/>
+        </StackPanel>
 
         <!-- Teaching Schedule -->
-        <Border Grid.Row="2" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,373,0,0">
+        <Border Grid.Row="3" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
             <StackPanel>
                 <TextBlock Text="Lịch Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
                 <local:CalendarComponent Width="800" />
