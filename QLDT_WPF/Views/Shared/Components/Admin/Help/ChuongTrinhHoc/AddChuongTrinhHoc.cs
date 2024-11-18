@@ -39,7 +39,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             string tenChuongTrinhHoc = txtTenChuongTrinhHoc.Text.Trim();
-            if (string.IsNullOrEmpty(tenChuongTrinhH)){
+            if (string.IsNullOrEmpty(tenChuongTrinhHoc)){
                 MessageBox.Show("Tên chương trình học không được để trống", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
