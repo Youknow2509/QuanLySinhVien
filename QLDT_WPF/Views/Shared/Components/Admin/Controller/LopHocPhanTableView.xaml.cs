@@ -141,5 +141,30 @@ namespace QLDT_WPF.Views.Components
 
             MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        // Add new LopHocPhan
+        private void AddLopHocPhan(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // Add new Lop Hoc Phan With File
+        private void AddLopHocPhanWithFile(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Edit LopHocPhan
+        private void Click_Edit_LopHocPhan(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Delete LopHocPhan
+        private void Click_Delete_LopHocPhan(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
     }
 }

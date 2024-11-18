@@ -16,8 +16,9 @@
                            HorizontalAlignment="Left" 
                            Margin="0,0,0,20"/>
 
-                <!-- Dropdown for number of items and Search bar -->
+                <!-- Dropdown, Save to Excel, and Search Bar -->
                 <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,10">
+                    <!-- Dropdown on the left -->
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                         <TextBlock Text="Hiển thị:" VerticalAlignment="Center" Foreground="#333333" FontSize="14" Margin="0,0,5,0"/>
                         <ComboBox x:Name="cbbPageSize" Width="60" SelectedIndex="0" Background="White" Foreground="#333333" FontSize="14">
@@ -26,12 +27,21 @@
                             <ComboBoxItem Content="50"/>
                         </ComboBox>
                         <TextBlock Text="dữ liệu" VerticalAlignment="Center" Margin="5,0,20,0" Foreground="#333333" FontSize="14"/>
+
+                        <!-- Button Save To Excel -->
+                        <Button Content="Lưu Excel" Width="100" Height="30" Margin="10,0,0,0" FontSize="14" Background="#4CAF50" Foreground="White"
+                                HorizontalAlignment="Left" BorderBrush="Transparent" 
+                                Click="ExportToExcel"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+
+                    <!-- Search box on the right -->
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="20,0,0,0">
+                        <!-- Thêm margin để tạo khoảng cách -->
                         <TextBlock Text="Tìm Kiếm" VerticalAlignment="Center" Foreground="#333333" FontSize="14" Margin="0,0,5,0"/>
                         <TextBox x:Name="txtTimKiem" Width="200" Height="30" VerticalAlignment="Center" 
                                  FontSize="14" Foreground="#333333"
-                                 BorderBrush="#DDDDDD" Background="White"/>
+                                 BorderBrush="#DDDDDD" Background="White"
+                                 TextChanged="txtTimKiem_TextChanged"/>
                     </StackPanel>
                 </DockPanel>
 
@@ -78,18 +88,33 @@
                                         VerticalAlignment="Top"
                                         Margin="0,10,0,0"/>
 
-                <!-- Add New Program Button -->
-                <Button x:Name="btnAddCTHoc" Content="Thêm Chương Trình Học" Width="200" Height="40" FontSize="14" Background="#007BFF" Foreground="White" 
-                        HorizontalAlignment="Left" Margin="0,20,0,0" BorderBrush="#007BFF">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="1" CornerRadius="5" Padding="10">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
+                    <!-- Add Subject Button -->
+                    <Button x:Name="btnAddChuongTrinhHoc" Content="Thêm Chương Trình Học" Width="200" Height="40" FontSize="14" Background="#007BFF" Foreground="White" 
+            BorderBrush="#007BFF" Margin="10,0,10,0" Click="AddChuongTrinhHoc">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1" CornerRadius="5" Padding="10">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Add Subject with Upload File Button -->
+                    <Button x:Name="btnAddChuongTrinhHocWithFile" Content="Thêm Thêm Chương Trình Học Từ File (.csv)" Width="307" Height="40" FontSize="14" Background="#007BFF" Foreground="White" 
+            BorderBrush="#007BFF" Margin="10,0,10,0" Click="AddChuongTrinhHocWithFile">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1" CornerRadius="5" Padding="10">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

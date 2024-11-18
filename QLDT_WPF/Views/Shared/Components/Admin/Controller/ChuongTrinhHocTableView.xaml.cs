@@ -51,5 +51,42 @@ namespace QLDT_WPF.Views.Components
             // Bind to DataGrid or other UI components as needed
             sfDataGridPrograms.ItemsSource = ObservableChuongTrinhHoc;
         }
+
+        // Export ChuongTrinhHoc to Excel
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Handle Search
+        private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+
+        // Add new ChuongTrinhHoc
+        private void AddChuongTrinhHoc(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // Add new Lop Hoc Phan With File
+        private void AddChuongTrinhHocWithFile(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Edit ChuongTrinhHoc
+        private void Click_Edit_ChuongTrinhHoc(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Delete ChuongTrinhHoc
+        private void Click_Delete_ChuongTrinhHoc(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }

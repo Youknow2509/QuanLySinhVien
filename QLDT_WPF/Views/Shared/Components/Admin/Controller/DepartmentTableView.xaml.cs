@@ -60,5 +60,43 @@ namespace QLDT_WPF.Views.Components
             // Bind to DataGrid or other UI components as needed
             sfDataGridDepartments.ItemsSource = ObservableKhoa;
         }
+
+
+        // Export Khoa to Excel
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Handle Search
+        private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+
+        // Add new Khoa
+        private void AddKhoa(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // Add new Lop Hoc Phan With File
+        private void AddKhoaWithFile(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Edit Khoa
+        private void Click_Edit_Khoa(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Delete Khoa
+        private void Click_Delete_Khoa(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }
