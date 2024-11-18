@@ -55,7 +55,7 @@ namespace QLDT_WPF.Views.Components
             await load_nguyen_vong_giao_vien();
         }
 
-        private async load_nguyen_vong_sinh_vien()
+        private async Task load_nguyen_vong_sinh_vien()
         {
             var list_nv_sv = await nguyenVongSinhVienRepository.GetAll();
             if (list_nv_sv.Status == false)
@@ -70,7 +70,7 @@ namespace QLDT_WPF.Views.Components
             sfDataGridSinhVien.ItemsSource = observable_sinhvien;
         }
 
-        private async load_nguyen_vong_giao_vien()
+        private async Task load_nguyen_vong_giao_vien()
         {
             var list_nv_gv = await nguyenVongGiaoVienRepository.GetAll();
             if (list_nv_gv.Status == false)
