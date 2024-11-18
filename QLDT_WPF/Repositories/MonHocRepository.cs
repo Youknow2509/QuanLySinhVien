@@ -210,9 +210,11 @@ public class MonHocRepository
                 .FirstOrDefaultAsync(x => x.IdKhoa == monh.IdKhoa);
             if (monhoc != null)
             {
+                monh.TenMonHoc = $"Môn Học: {monh.TenMonHoc} lỗi trùng ID {monh.IdMonHoc}";
                 listMonHocError.Add(monh);
             } else if (khoa == null)
             {
+                monh.TenMonHoc = $"Môn Học: {monh.TenMonHoc} lỗi không tìm thấy khoa {monh.IdKhoa}";
                 listMonHocError.Add(monh);
             }
             await _context.AddAsync(monh);
