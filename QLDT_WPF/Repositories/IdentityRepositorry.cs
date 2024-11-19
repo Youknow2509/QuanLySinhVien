@@ -888,5 +888,62 @@ namespace QLDT_WPF.Repositories
             // Giả lập việc gửi dữ liệu lên server (thay bằng logic thực tế)
             return true;
         }
+
+        // Get Avatar User
+        public async Task<ApiResponse<byte[]>> GetAvatar(string id)
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.IdClaim == id);
+            if (user == null){
+                return new ApiResponse<byte[]>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy người dùng.",
+                    Data = null
+                };
+            }
+
+            return new ApiResponse<byte[]>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Lấy ảnh đại diện thành công.",
+                Data = user.ProfilePicture
+            };
+        }
+
+        // Set Avatar User
+        public async Task<ApiResponse<UserDto>> SetAvatar(string id, byte[] image)
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.IdClaim == id);
+            if (user == null)
+            {
+                return new ApiResponse<UserDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy người dùng.",
+                    Data = null
+                };
+            }
+
+            user.ProfilePicture = image;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+
+            return new ApiResponse<UserDto>
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Cập nhật ảnh đại diện thành công.",
+                Data = new UserDto
+                {
+                    UserName = user.UserName,
+                    ProfilePicture = user.ProfilePicture
+                }
+            };
+        }
     }
 }
