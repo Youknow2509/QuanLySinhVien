@@ -49,14 +49,13 @@ namespace QLDT_WPF.Views.Components
         // Init async data
         private async Task InitAsyncData()
         {
-            observable_sinhvien.Clear();
-            observable_giaovien.Clear();
             await load_nguyen_vong_sinh_vien();
             await load_nguyen_vong_giao_vien();
         }
 
         private async Task load_nguyen_vong_sinh_vien()
         {
+            observable_sinhvien.Clear();
             var list_nv_sv = await nguyenVongSinhVienRepository.GetAll();
             if (list_nv_sv.Status == false)
             {
@@ -72,6 +71,7 @@ namespace QLDT_WPF.Views.Components
 
         private async Task load_nguyen_vong_giao_vien()
         {
+            observable_giaovien.Clear();
             var list_nv_gv = await nguyenVongGiaoVienRepository.GetAll();
             if (list_nv_gv.Status == false)
             {
