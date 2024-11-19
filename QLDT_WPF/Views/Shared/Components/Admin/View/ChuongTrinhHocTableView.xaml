@@ -92,10 +92,22 @@
                     HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <!-- Program Name Column -->
-                        <syncfusion:GridTextColumn HeaderText="Tên Chương Trình Học"
-                                                   MappingName="TenChuongTrinhHoc"
-                                                   Width="700"/>
+                        <!-- Tên chương trình học -->
+                        <syncfusion:GridTemplateColumn HeaderText="Tên Chương Trình Học" Width="700">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenChuongTrinhHoc}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietChuongTrinhHoc_Click"
+                                               Tag="{Binding IdChuongTrinhHoc}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
 
                         <!-- Action Buttons Column -->
                         <syncfusion:GridTemplateColumn HeaderText="Hành Động"

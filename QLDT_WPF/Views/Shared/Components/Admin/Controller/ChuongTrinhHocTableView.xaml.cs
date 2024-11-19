@@ -35,6 +35,15 @@ namespace QLDT_WPF.Views.Components
         private ChuongTrinhHocRepository chuongTrinhHocRepository;
         public ObservableCollection<ChuongTrinhHocDto> ObservableChuongTrinhHoc { get; private set; }
 
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(ChuongTrinhHocTableView), new PropertyMetadata(null));
+
         // Constructor
         public ChuongTrinhHocTableView()
         {
@@ -43,7 +52,22 @@ namespace QLDT_WPF.Views.Components
             ObservableChuongTrinhHoc = new ObservableCollection<ChuongTrinhHocDto>();
 
             // Hook up Loaded event to call async initialization after control loads
-            Loaded += async (s, e) => await InitAsync();
+            Loaded += async (s, e) =>
+            {
+                if (TargetContentArea == null)
+                {
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
+                    {
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                    }
+                }
+                await InitAsync();
+            };
         }
 
         // Init window asynchronously
@@ -98,7 +122,7 @@ namespace QLDT_WPF.Views.Components
                 {
                     worksheet[row, 1].Text = cch.IdChuongTrinhHoc ?? "N/A";
                     worksheet[row, 2].Text = cch.TenChuongTrinhHoc ?? "N/A";
-                    
+
                     row++;
                 }
 
@@ -122,7 +146,7 @@ namespace QLDT_WPF.Views.Components
             }
             else
             {
-                sfDataGridPrograms.ItemsSource = ObservableChuongTrinhHoc.Where(x => 
+                sfDataGridPrograms.ItemsSource = ObservableChuongTrinhHoc.Where(x =>
                     x.IdChuongTrinhHoc.ToLower().Contains(txt_search) ||
                     x.TenChuongTrinhHoc.ToLower().Contains(txt_search)
                 );
@@ -165,7 +189,7 @@ namespace QLDT_WPF.Views.Components
                                 IdChuongTrinhHoc = data[0],
                                 TenChuongTrinhHoc = data[1],
                             });
-                        }  
+                        }
                     }
 
                     Task.Run(async () =>
@@ -200,7 +224,8 @@ namespace QLDT_WPF.Views.Components
                 {
                     MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
             }
@@ -266,6 +291,12 @@ namespace QLDT_WPF.Views.Components
                     });
                 }
             }
+        }
+
+        // handle show detail chuong trinh hoc
+        private void ChiTietChuongTrinhHoc_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
     }
 }
