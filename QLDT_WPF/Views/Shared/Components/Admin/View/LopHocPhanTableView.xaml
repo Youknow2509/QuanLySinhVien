@@ -90,12 +90,25 @@
                                        RowHeight="40"
                                        MaxHeight="600"
                                        HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Top"
-                                       CellTapped="dataGridLHP_CellTapped">
+                                       VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần"
-                                                   MappingName="TenLopHocPhan"
-                                                   Width="200"/>
+                        <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần" Width="200">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenLopHocPhan}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="detail_LopHocPhan"
+                                               Tag="{Binding IdLopHocPhan}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+
                         <syncfusion:GridTextColumn HeaderText="Giảng Viên"
                                                    MappingName="TenGiaoVien"
                                                    Width="150"/>

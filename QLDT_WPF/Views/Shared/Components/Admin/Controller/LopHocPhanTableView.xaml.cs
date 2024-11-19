@@ -324,13 +324,22 @@ namespace QLDT_WPF.Views.Components
         }
 
 
-
-
         private void dataGridLHP_CellTapped(object sender, GridCellTappedEventArgs e)
         {
-            var teacherDetails = new LopHocPhanDetails(TargetContentArea);
+            var teacherDetails = new LopHocPhanDetails(TargetContentArea, null);
 
             TargetContentArea.Content = teacherDetails;
+        }
+
+        // Show details of LopHocPhan
+        private void detail_LopHocPhan(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is LopHocPhanDto lopHocPhan)
+            {
+                var lopHocPhanDetails = new LopHocPhanDetails(TargetContentArea, lopHocPhan);
+
+                TargetContentArea.Content = lopHocPhanDetails;
+            }
         }
 
     }

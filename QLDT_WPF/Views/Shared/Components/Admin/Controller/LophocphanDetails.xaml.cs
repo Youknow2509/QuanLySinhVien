@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using QLDT_WPF.Dto;
 using Syncfusion.UI.Xaml.Grid;
 
 namespace QLDT_WPF.Views.Components
@@ -8,7 +9,7 @@ namespace QLDT_WPF.Views.Components
     {
         public ContentControl TargetContentArea { get; set; }
 
-        public LopHocPhanDetails(ContentControl targetContentArea)
+        public LopHocPhanDetails(ContentControl targetContentArea, LopHocPhanDto? lophocphan)
         {
             InitializeComponent();
             TargetContentArea = targetContentArea;

@@ -23,6 +23,7 @@ using QLDT_WPF.Models;
 using Microsoft.Win32;
 using System.IO;
 using System;
+using QLDT_WPF.Views.Shared;
 
 
 namespace QLDT_WPF.Views.Components
@@ -36,6 +37,15 @@ namespace QLDT_WPF.Views.Components
         private MonHocRepository monHocRepository;
         public ObservableCollection<MonHocDto> ObservableMonHoc { get; private set; }
 
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
+
         // Constructor
         public SubjectsTableView()
         {
@@ -45,8 +55,31 @@ namespace QLDT_WPF.Views.Components
             // Handle loading asynchronously
             Loaded += async (sender, e) =>
             {
+                if (TargetContentArea == null)
+                {
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
+                    {
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                    }
+                }
                 await InitAsync();
             };
+        }
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
         }
 
         // Init window asynchronously
@@ -287,8 +320,10 @@ namespace QLDT_WPF.Views.Components
                 string subjectId = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
                 string subjectName = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
-                // Gọi hàm hoặc mở cửa sổ chi tiết môn học, truyền vào ID và tên môn học
-                MessageBox.Show($"Hiển thị chi tiết môn học với ID: {subjectId}, Tên Môn Học: {subjectName}");
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail_subject = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(subjectId);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail_subject;
             }
         }
 
