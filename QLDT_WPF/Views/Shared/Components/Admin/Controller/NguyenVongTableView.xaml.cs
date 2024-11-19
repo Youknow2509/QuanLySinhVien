@@ -78,5 +78,41 @@ namespace QLDT_WPF.Views.Components
             sfDataGridSinhVien.ItemsSource = observable_sinhvien;
             sfDataGridGiaoVien.ItemsSource = observable_giaovien;
         }
+
+        // Xu li chap nhan yeu cau tu sinh vien
+        private void ApproveRequest_Student(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Xu li khong chap nhan yeu cau tu sinh vien
+        private void RejectRequest_Student(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Xu li chap nhan yeu cau tu giao vien
+        private void ApproveRequest_Teacher(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Xu li khong chap nhan yeu cau tu giao vien
+        private void RejectRequest_Teacher(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Xoa yeu cau tu sinh vien
+        private void DeleteRequest_Student(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Xoa yeu cau tu giao vien
+        private void DeleteRequest_Teacher(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }

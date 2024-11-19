@@ -149,8 +149,8 @@
                                                     FontSize="14"
                                                     BorderBrush="Transparent"
                                                     FontWeight="Bold"
-                                                    Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}">
+                                                    Tag="{Binding}"
+                                                    Click="ApproveRequest_Student">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Visibility"
@@ -181,8 +181,8 @@
                                                     FontSize="14"
                                                     BorderBrush="Transparent"
                                                     FontWeight="Bold"
-                                                    Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}">
+                                                    Tag="{Binding}"
+                                                    Click="RejectRequest_Student">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Visibility"
@@ -207,7 +207,23 @@
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
-
+                            <syncfusion:GridTemplateColumn
+                                Width="80">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Xóa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="Gray"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"
+                                                Tag="{Binding}"
+                                                Click="DeleteRequest_Student"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </ScrollViewer>
@@ -366,8 +382,8 @@
                                                     FontSize="14"
                                                     BorderBrush="Transparent"
                                                     FontWeight="Bold"
-                                                    Command="{Binding DataContext.ApproveCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}">
+                                                    Tag="{Binding}"
+                                                    Click="ApproveRequest_Teacher">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Visibility"
@@ -398,8 +414,8 @@
                                                     FontSize="14"
                                                     BorderBrush="Transparent"
                                                     FontWeight="Bold"
-                                                    Command="{Binding DataContext.RejectCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}">
+                                                    Tag="{Binding}"
+                                                    Click="RejectRequest_Teacher">
                                                 <Button.Style>
                                                     <Style TargetType="Button">
                                                         <Setter Property="Visibility"
@@ -421,6 +437,24 @@
                                                 </Button.Style>
                                             </Button>
                                         </StackPanel>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
+                            <syncfusion:GridTemplateColumn
+                                Width="80">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Xóa"
+                                                Padding="10,3"
+                                                Margin="5,0,0,0"
+                                                Background="Gray"
+                                                Foreground="White"
+                                                FontSize="14"
+                                                BorderBrush="Transparent"
+                                                FontWeight="Bold"
+                                                Tag="{Binding}"
+                                                Click="DeleteRequest_Teacher"/>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
