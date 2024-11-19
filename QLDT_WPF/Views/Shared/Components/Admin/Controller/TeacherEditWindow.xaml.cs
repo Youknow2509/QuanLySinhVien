@@ -48,6 +48,19 @@ namespace QLDT_WPF.Views.Components
                 }
             }
         }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+        
         private async void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Add your code here
