@@ -7,13 +7,49 @@ namespace QLDT_WPF.Views.Components
 {
     public partial class LopHocPhanDetails : UserControl
     {
-        public ContentControl TargetContentArea { get; set; }
+        private string idLopHocPhan;
 
-        public LopHocPhanDetails(ContentControl targetContentArea, LopHocPhanDto? lophocphan)
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
+
+        public LopHocPhanDetails(string id)
         {
             InitializeComponent();
-            TargetContentArea = targetContentArea;
+
+            idLopHocPhan = id;
+
             LoadSampleData();
+
+            if (TargetContentArea == null)
+            {
+                var parentWindow = FindParent<Window>(this); // Tìm parent window
+                if (parentWindow != null)
+                {
+                    var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                    if (contentArea != null)
+                    {
+                        TargetContentArea = contentArea;
+                    }
+                }
+            }
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
         }
 
         private void LoadSampleData()
@@ -33,17 +69,17 @@ namespace QLDT_WPF.Views.Components
             };
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (TargetContentArea != null)
-            {
-                // Navigate back to LopHocPhanTableView or the parent view
-                TargetContentArea.Content = new LopHocPhanTableView();
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        // private void BackButton_Click(object sender, RoutedEventArgs e)
+        // {
+        //     if (TargetContentArea != null)
+        //     {
+        //         // Navigate back to LopHocPhanTableView or the parent view
+        //         TargetContentArea.Content = new LopHocPhanTableView();
+        //     }
+        //     else
+        //     {
+        //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+        //     }
+        // }
     }
 }

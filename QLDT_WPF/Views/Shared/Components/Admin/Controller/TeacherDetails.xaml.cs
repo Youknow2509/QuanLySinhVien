@@ -9,14 +9,39 @@ namespace QLDT_WPF.Views.Components
     public partial class TeacherDetails : UserControl
     {
 
-        public ContentControl TargetContentArea { get; set; }
+        private string idGiaoVien;
 
-
-        public TeacherDetails(ContentControl targetContentArea)
+        public TeacherDetails(string id)
         {
             InitializeComponent();
+            idGiaoVien = id;
             LoadSampleData();
-            TargetContentArea = targetContentArea;
+
+            if (TargetContentArea == null)
+            {
+                var parentWindow = FindParent<Window>(this); // Tìm parent window
+                if (parentWindow != null)
+                {
+                    var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                    if (contentArea != null)
+                    {
+                        TargetContentArea = contentArea;
+                    }
+                }
+            }
+        
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
         }
 
         private void LoadSampleData()
@@ -46,26 +71,26 @@ namespace QLDT_WPF.Views.Components
             }
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (TargetContentArea != null)
-            {
-                TargetContentArea.Content = new TeacherTableView
-                {
-                    TargetContentArea = TargetContentArea
-                };
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        // private void BackButton_Click(object sender, RoutedEventArgs e)
+        // {
+        //     if (TargetContentArea != null)
+        //     {
+        //         TargetContentArea.Content = new TeacherTableView
+        //         {
+        //             TargetContentArea = TargetContentArea
+        //         };
+        //     }
+        //     else
+        //     {
+        //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+        //     }
+        // }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Mở cửa sổ TeacherEditWindow
-            var userProfileWindow = new TeacherEditWindow();
-            userProfileWindow.ShowDialog();
-        }
+        // private void EditButton_Click(object sender, RoutedEventArgs e)
+        // {
+        //     // Mở cửa sổ TeacherEditWindow
+        //     var userProfileWindow = new TeacherEditWindow();
+        //     userProfileWindow.ShowDialog();
+        // }
     }
 }
