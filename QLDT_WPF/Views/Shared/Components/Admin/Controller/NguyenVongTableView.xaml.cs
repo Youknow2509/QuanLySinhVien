@@ -298,7 +298,7 @@ namespace QLDT_WPF.Views.Components
         {
             // get data from tag
             var btn = sender as Button;
-            var nv = btn.Tag as NguyenVongSinhVienDto;
+            var nv = btn.Tag as NguyenVongThayDoiLichDto;
             if (nv == null)
             {
                 MessageBox.Show("Không thể lấy dữ liệu từ phần tử");
@@ -309,7 +309,7 @@ namespace QLDT_WPF.Views.Components
             {
                 // Sử dụng Task.Run để chạy hàm bất đồng bộ và đợi kết quả
                 var response = Task.Run(async () =>
-                    await nguyenVongGiaoVienRepository.Delete(nv.IdNguyenVong)
+                    await nguyenVongGiaoVienRepository.Delete(nv.IdDangKyDoiLich)
                 ).Result;
 
                 // Kiểm tra kết quả trả về
