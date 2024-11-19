@@ -181,7 +181,7 @@
                                                            Width="200">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding HoVaTen}"
+                                        <TextBlock Text="{Binding HoTen}"
                                                    Foreground="Blue"
                                                    TextDecorations="Underline"
                                                    Cursor="Hand"
