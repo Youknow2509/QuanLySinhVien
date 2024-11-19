@@ -275,15 +275,29 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
+        // private void dataGridSinhVien_CellTapped(object sender, GridCellTappedEventArgs e)
+        // {
+        //     var teacherDetails = new SinhVienDetails(TargetContentArea);
 
+        //     TargetContentArea.Content = teacherDetails;
+        // }
 
-
-        private void dataGridSinhVien_CellTapped(object sender, GridCellTappedEventArgs e)
+        // Show detailes Sinh vien
+        private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
         {
-            var teacherDetails = new SinhVienDetails(TargetContentArea);
-
-            TargetContentArea.Content = teacherDetails;
+            // TODO
         }
 
+        // Show detailes ChuongTrinhHoc
+        private void ChiTietChuongTrinhHoc_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Show detailes Khoa
+        private void ChiTietKhoa_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }

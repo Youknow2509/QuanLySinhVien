@@ -82,7 +82,7 @@
                 </DockPanel>
 
                 <!-- SfDataGrid -->
-                <syncfusion:SfDataGrid x:Name="sfDataGrid"
+                <!-- <syncfusion:SfDataGrid x:Name="sfDataGrid"
                                        AutoGenerateColumns="False"
                                        ShowRowHeader="True"
                                        GridLinesVisibility="Both"
@@ -90,8 +90,17 @@
                                        MaxHeight="600"
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top"
-                                       CellTapped="dataGridSinhVien_CellTapped">
+                                       CellTapped="dataGridSinhVien_CellTapped"> -->
+                <syncfusion:SfDataGrid x:Name="sfDataGrid"
+                                       AutoGenerateColumns="False"
+                                       ShowRowHeader="True"
+                                       GridLinesVisibility="Both"
+                                       RowHeight="40"
+                                       MaxHeight="600"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
+                        <!-- Ma Sinh Vien -->
                         <syncfusion:GridTemplateColumn HeaderText="Mã Sinh Viên"
                                                        Width="100"
                                                        MappingName="IdSinhVien">
@@ -105,6 +114,7 @@
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
+                        <!-- Ho Va Ten -->
                         <syncfusion:GridTemplateColumn HeaderText="Họ Và Tên"
                                                        Width="200"
                                                        MappingName="HoTen">
@@ -113,7 +123,8 @@
                                     <TextBlock Text="{Binding HoTen}"
                                                TextAlignment="Center"
                                                TextWrapping="Wrap"
-                                               VerticalAlignment="Center"/>
+                                               VerticalAlignment="Center"
+                                               />
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
@@ -157,6 +168,7 @@
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
+                        <!-- Chuong Trinh Hoc -->
                         <syncfusion:GridTemplateColumn HeaderText="Chương Trình Học"
                                                        Width="200"
                                                        MappingName="TenChuongTrinhHoc">
@@ -165,11 +177,14 @@
                                     <TextBlock Text="{Binding TenChuongTrinhHoc}"
                                                TextAlignment="Center"
                                                TextWrapping="Wrap"
-                                               VerticalAlignment="Center"/>
+                                               VerticalAlignment="Center"
+                                               MouseLeftButtonUp="ChiTietChuongTrinhHoc_Click"
+                                               Tag="{Binding IdChuongTrinhHoc}"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
+                        <!-- Khoa -->
                         <syncfusion:GridTemplateColumn HeaderText="Khoa"
                                                        Width="150"
                                                        MappingName="TenKhoa">
@@ -178,7 +193,9 @@
                                     <TextBlock Text="{Binding TenKhoa}"
                                                TextAlignment="Center"
                                                TextWrapping="Wrap"
-                                               VerticalAlignment="Center"/>
+                                               VerticalAlignment="Center"
+                                               MouseLeftButtonUp="ChiTietKhoa_Click"
+                                               Tag="{Binding IdKhoa}"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
