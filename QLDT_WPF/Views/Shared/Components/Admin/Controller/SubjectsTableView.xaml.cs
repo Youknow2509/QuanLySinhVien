@@ -276,5 +276,35 @@ namespace QLDT_WPF.Views.Components
                 MessageBox.Show("Vui lòng chọn file CSV để thêm môn học!");
             }
         }
+
+        // Show detail mon hoc
+        private void ChiTietMonHoc_Click(object sender, MouseButtonEventArgs e)
+        {
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string subjectId = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string subjectName = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Gọi hàm hoặc mở cửa sổ chi tiết môn học, truyền vào ID và tên môn học
+                MessageBox.Show($"Hiển thị chi tiết môn học với ID: {subjectId}, Tên Môn Học: {subjectName}");
+            }
+        }
+
+        // Show detail khoa
+        private void ChiTietKhoa_Click(object sender, MouseButtonEventArgs e)
+        {
+            // Lấy ID khoa từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string facultyId = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string facultyName = textBlock.Text; // Lấy tên khoa từ thuộc tính Text của TextBlock
+
+                // Gọi hàm hoặc mở cửa sổ chi tiết khoa, truyền vào ID và tên khoa
+                MessageBox.Show($"Hiển thị chi tiết khoa với ID: {facultyId}, Tên Khoa: {facultyName}");
+            }
+        }
     }
 }
