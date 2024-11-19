@@ -45,7 +45,13 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
                         if (contentArea != null)
                         {
                             TargetContentArea = contentArea;
+                        } else
+                        {
+                            TargetContentArea = new ContentControl();
                         }
+                    } else
+                    {
+                        TargetContentArea = new ContentControl();
                     }
                 }
             };

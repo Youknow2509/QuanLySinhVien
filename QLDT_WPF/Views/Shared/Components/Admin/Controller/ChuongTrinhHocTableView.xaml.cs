@@ -63,7 +63,13 @@ namespace QLDT_WPF.Views.Components
                         if (contentArea != null)
                         {
                             TargetContentArea = contentArea;
+                        } else
+                        {
+                            TargetContentArea = new ContentControl();
                         }
+                    } else
+                    {
+                        TargetContentArea = new ContentControl();
                     }
                 }
                 await InitAsync();

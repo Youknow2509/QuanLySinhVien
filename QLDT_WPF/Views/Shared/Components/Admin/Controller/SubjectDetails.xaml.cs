@@ -60,7 +60,13 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                         if (contentArea != null)
                         {
                             TargetContentArea = contentArea;
+                        } else
+                        {
+                            TargetContentArea = new ContentControl();
                         }
+                    } else
+                    {
+                        TargetContentArea = new ContentControl();
                     }
                 }
 
