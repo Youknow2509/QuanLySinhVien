@@ -13,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLDT_WPF.Dto;
+using QLDT_WPF.Migrations;
+using QLDT_WPF.Repositories;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -21,8 +24,6 @@ namespace QLDT_WPF.Views.Components
     /// </summary>
     public partial class KhoaDetails : UserControl
     {
-        private string idKhoa;
-
         public ContentControl TargetContentArea
         {
             get { return (ContentControl)GetValue(TargetContentAreaProperty); }
@@ -32,11 +33,29 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
 
+        // Variables
+        private string idKhoa;
+        private KhoaDto khoa;
+
+        private KhoaRepository khoaRepository;
+        private SinhVienRepository sinhVienRepository;
+        private GiaoVienRepository giaoVienRepository;
+
+        private ObservableCollection<SinhVienDto> sinhviens_collection;
+        private ObservableCollection<GiaoVienDto> giaoviens_collection;
+
         public KhoaDetails(string id)
         {
             InitializeComponent();
+
             idKhoa = id;
-            LoadSampleData();
+
+            khoaRepository = new KhoaRepository();
+            sinhVienRepository = new SinhVienRepository();
+            giaoVienRepository = new GiaoVienRepository();
+
+            sinhviens_collection = new ObservableCollection<SinhVienDto>();
+            giaoviens_collection = new ObservableCollection<GiaoVienDto>();
 
             if (TargetContentArea == null)
             {
@@ -50,6 +69,53 @@ namespace QLDT_WPF.Views.Components
                     }
                 }
             }
+
+            // Loaded asyn data
+            Loaded += async (s, e) =>
+            {
+                await InintAsync();
+            };
+        }
+
+        private async Task InintAsync(){
+            var req_khoa = await khoaRepository.GetById(idKhoa);
+            if (req_khoa.Status == false){
+                MessageBox.Show(req_khoa.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            khoa = req_khoa.Data;
+
+            txtTitle.Text = $"Chi tiết khoa {khoa.TenKhoa}";
+
+            await load_data_giao_vien();
+            await load_data_sinh_vien();
+        
+        }
+
+        private async Task load_data_sinh_vien(){
+            sinhviens_collection.Clear();
+            var req_sinhviens = await khoaRepository.GetSinhVien(idKhoa);
+            if (req_sinhviens.Status == false){
+                MessageBox.Show(req_sinhviens.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            foreach (var sv in req_sinhviens.Data){
+                sinhviens_collection.Add(sv);
+            }
+            StudentDataGrid.ItemsSource = sinhviens_collection;
+        }
+
+        private async Task load_data_giao_vien(){
+            giaoviens_collection.Clear();
+            var req_giaoviens = await khoaRepository.GetGiaoVien(idKhoa);
+            if (req_giaoviens.Status == false){
+                MessageBox.Show(req_giaoviens.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            foreach (var gv in req_giaoviens.Data){
+                giaoviens_collection.Add(gv);
+            }
+            TeacherDataGrid.ItemsSource = giaoviens_collection;
         }
 
         private T FindParent<T>(DependencyObject child) where T : DependencyObject
@@ -64,27 +130,6 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        private void LoadSampleData()
-        {
-            // Sample data for teachers
-            TeacherDataGrid.ItemsSource = new ObservableCollection<object>
-            {
-                new { TenGiaoVien = "Bùi Ngọc Dũng", Email = "dungbn@utc.edu.vn", SoDienThoai = "0915473821" },
-                new { TenGiaoVien = "Cao Thị Luyến", Email = "caoluyen@utc.edu.vn", SoDienThoai = "0123456789" },
-                new { TenGiaoVien = "Lại Mạnh Dũng", Email = "dunglm@utc.edu.vn", SoDienThoai = "0987654321" }
-                // Add more sample data
-            };
-
-            // Sample data for students
-            StudentDataGrid.ItemsSource = new ObservableCollection<object>
-            {
-                new { HoVaTen = "Nguyễn Văn A", Lop = "CNTT1", NgaySinh = "01/01/2000", DiaChi = "Hà Nội" },
-                new { HoVaTen = "Trần Thị B", Lop = "CNTT2", NgaySinh = "05/02/2001", DiaChi = "Hải Phòng" },
-                new { HoVaTen = "Phạm Văn C", Lop = "CNTT3", NgaySinh = "10/03/2002", DiaChi = "Đà Nẵng" }
-                // Add more sample data
-            };
-        }
-
         // private void BackButton_Click(object sender, RoutedEventArgs e)
         // {
         //     if (TargetContentArea != null)
@@ -96,5 +141,39 @@ namespace QLDT_WPF.Views.Components
         //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
         //     }
         // }
+
+        // Show details giaovien
+        private void ChiTietGiaoVien_Click(object sender, RoutedEventArgs e)
+        {
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
+        }
+
+        // Show details SinhVien
+        private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
+        {
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
+        }
     }
 }

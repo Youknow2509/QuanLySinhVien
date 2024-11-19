@@ -25,7 +25,8 @@
                 Click="BackButton_Click" /> -->
 
         <!-- Title -->
-        <TextBlock Grid.Row="0"
+        <TextBlock x:Name="txtTitle"
+                   Grid.Row="0"
                    Text="Thông Tin Khoa"
                    FontSize="20"
                    FontWeight="Bold"
@@ -34,10 +35,20 @@
                    HorizontalAlignment="Center"/>
 
         <!-- Teacher Table with Pagination -->
-        <StackPanel Grid.Row="1" Margin="0,10,0,10">
-            <Border Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
+        <StackPanel Grid.Row="1"
+                    Margin="0,10,0,10">
+            <Border Padding="20"
+                    Background="#F8F9FA"
+                    CornerRadius="8"
+                    BorderBrush="#DDDDDD"
+                    BorderThickness="1"
+                    Margin="0,0,0,10">
                 <StackPanel>
-                    <TextBlock Text="Bảng Dữ Liệu Giảng Viên Thuộc Khoa" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                    <TextBlock Text="Bảng Dữ Liệu Giảng Viên Thuộc Khoa"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="TeacherDataGrid"
                                            AutoGenerateColumns="False"
                                            RowHeight="35"
@@ -45,9 +56,31 @@
                                            BorderBrush="#DDDDDD"
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn HeaderText="Tên Giáo Viên" MappingName="TenGiaoVien" Width="250" />
-                            <syncfusion:GridTextColumn HeaderText="Email" MappingName="Email" Width="250" />
-                            <syncfusion:GridTextColumn HeaderText="Số Điện Thoại" MappingName="SoDienThoai" Width="250" />
+                            <!-- Ten giao vien -->
+                            <syncfusion:GridTemplateColumn HeaderText="Tên Giáo Viên"
+                                                           Width="250">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TenGiaoVien}"
+                                                   Foreground="Blue"
+                                                   TextDecorations="Underline"
+                                                   Cursor="Hand"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   MouseLeftButtonUp="ChiTietGiaoVien_Click"
+                                                   Tag="{Binding IdGiaoVien}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                            <!-- Email -->
+                            <syncfusion:GridTextColumn HeaderText="Email"
+                                                       MappingName="Email"
+                                                       Width="250"/>
+                            <!-- So dien thoai -->
+                            <syncfusion:GridTextColumn HeaderText="Số Điện Thoại"
+                                                       MappingName="SoDienThoai"
+                                                       Width="250"/>
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </StackPanel>
@@ -56,14 +89,23 @@
                                     PageSize="10"
                                     Source="{Binding FilteredTeachers}"
                                     HorizontalAlignment="Center"
-                                    Margin="0,10,0,0" />
+                                    Margin="0,10,0,0"/>
         </StackPanel>
 
         <!-- Student Table with Pagination -->
-        <StackPanel Grid.Row="2" Margin="0,10,0,10">
-            <Border Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
+        <StackPanel Grid.Row="2"
+                    Margin="0,10,0,10">
+            <Border Padding="20"
+                    Background="#FFFFFF"
+                    CornerRadius="8"
+                    BorderBrush="#DDDDDD"
+                    BorderThickness="1">
                 <StackPanel>
-                    <TextBlock Text="Bảng Dữ Liệu Sinh Viên Thuộc Khoa" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                    <TextBlock Text="Bảng Dữ Liệu Sinh Viên Thuộc Khoa"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="StudentDataGrid"
                                            AutoGenerateColumns="False"
                                            RowHeight="35"
@@ -71,10 +113,35 @@
                                            BorderBrush="#DDDDDD"
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn HeaderText="Họ Và Tên" MappingName="HoVaTen" Width="200" />
-                            <syncfusion:GridTextColumn HeaderText="Lớp" MappingName="Lop" Width="150" />
-                            <syncfusion:GridTextColumn HeaderText="Ngày Sinh" MappingName="NgaySinh" Width="150" />
-                            <syncfusion:GridTextColumn HeaderText="Địa Chỉ" MappingName="DiaChi" Width="250" />
+                            <!-- Ten sinh vien -->
+                            <syncfusion:GridTemplateColumn HeaderText="Họ Và Tên"
+                                                           Width="200">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding HoVaTen}"
+                                                   Foreground="Blue"
+                                                   TextDecorations="Underline"
+                                                   Cursor="Hand"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   MouseLeftButtonUp="ChiTietSinhVien_Click"
+                                                   Tag="{Binding IdSinhVien}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                            <!-- Lop -->
+                            <syncfusion:GridTextColumn HeaderText="Lớp"
+                                                       MappingName="Lop"
+                                                       Width="150"/>
+                            <!-- Ngay sinh -->
+                            <syncfusion:GridTextColumn HeaderText="Ngày Sinh"
+                                                       MappingName="NgaySinh"
+                                                       Width="150"/>
+                            <!-- Dia chi -->
+                            <syncfusion:GridTextColumn HeaderText="Địa Chỉ"
+                                                       MappingName="DiaChi"
+                                                       Width="250"/>
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </StackPanel>
@@ -83,7 +150,7 @@
                                     PageSize="10"
                                     Source="{Binding FilteredStudents}"
                                     HorizontalAlignment="Center"
-                                    Margin="0,10,0,0" />
+                                    Margin="0,10,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>
