@@ -19,7 +19,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         public static readonly DependencyProperty TargetContentAreaProperty =
-            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(LopHocPhanDetails), new PropertyMetadata(null));
 
         public LopHocPhanDetails(string id)
         {

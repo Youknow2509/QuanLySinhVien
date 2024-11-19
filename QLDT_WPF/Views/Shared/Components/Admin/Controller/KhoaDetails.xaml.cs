@@ -31,7 +31,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         public static readonly DependencyProperty TargetContentAreaProperty =
-            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(KhoaDetails), new PropertyMetadata(null));
 
         // Variables
         private string idKhoa;

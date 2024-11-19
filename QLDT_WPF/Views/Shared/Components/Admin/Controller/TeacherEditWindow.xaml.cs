@@ -22,9 +22,31 @@ namespace QLDT_WPF.Views.Components
     /// </summary>
     public partial class TeacherEditWindow : Window
     {
+        public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherEditWindow), new PropertyMetadata(null));
+
         public TeacherEditWindow()
         {
             InitializeComponent();
+
+            if (TargetContentArea == null)
+            {
+                var parentWindow = FindParent<Window>(this); // Tìm parent window
+                if (parentWindow != null)
+                {
+                    var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                    if (contentArea != null)
+                    {
+                        TargetContentArea = contentArea;
+                    }
+                }
+            }
         }
         private async void SaveChanges_Click(object sender, RoutedEventArgs e)
         {

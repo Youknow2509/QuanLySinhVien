@@ -12,14 +12,14 @@ namespace QLDT_WPF.Views.Components
 
         private string idGiaoVien;
 
-          public ContentControl TargetContentArea
+        public ContentControl TargetContentArea
         {
             get { return (ContentControl)GetValue(TargetContentAreaProperty); }
             set { SetValue(TargetContentAreaProperty, value); }
         }
 
         public static readonly DependencyProperty TargetContentAreaProperty =
-            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherDetails), new PropertyMetadata(null));
 
 
         public TeacherDetails(string id)
@@ -40,7 +40,7 @@ namespace QLDT_WPF.Views.Components
                     }
                 }
             }
-        
+
         }
 
         private T FindParent<T>(DependencyObject child) where T : DependencyObject
