@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
+using System.Windows.Media;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -65,21 +66,21 @@ namespace QLDT_WPF.Views.Components
             // };
         }
 
-        private void DataGrid_CellTapped(object sender, GridCellTappedEventArgs e)
-        {
-            // Kiểm tra nếu cột được click là "Giảng Viên"
-            if (e.Record != null && e.Column.MappingName == "GiangVien")
-            {
-                // Lấy dữ liệu của hàng được chọn
-                dynamic selectedRow = e.Record;
+        // private void DataGrid_CellTapped(object sender, GridCellTappedEventArgs e)
+        // {
+        //     // Kiểm tra nếu cột được click là "Giảng Viên"
+        //     if (e.Record != null && e.Column.MappingName == "GiangVien")
+        //     {
+        //         // Lấy dữ liệu của hàng được chọn
+        //         dynamic selectedRow = e.Record;
 
-                // Hiển thị thông tin chi tiết trong các TextBox
-                txtFullName.Text = selectedRow.GiangVien;
-                txtEmail.Text = $"{selectedRow.GiangVien.ToLower().Replace(" ", "")}@school.edu.vn";
-                txtPhoneNumber.Text = "0123456789"; // Dữ liệu giả lập
-                txtAddress.Text = "Khoa Công Nghệ Thông Tin"; // Dữ liệu giả lập
-            }
-        }
+        //         // Hiển thị thông tin chi tiết trong các TextBox
+        //         txtFullName.Text = selectedRow.GiangVien;
+        //         txtEmail.Text = $"{selectedRow.GiangVien.ToLower().Replace(" ", "")}@school.edu.vn";
+        //         txtPhoneNumber.Text = "0123456789"; // Dữ liệu giả lập
+        //         txtAddress.Text = "Khoa Công Nghệ Thông Tin"; // Dữ liệu giả lập
+        //     }
+        // }
 
         // private void BackButton_Click(object sender, RoutedEventArgs e)
         // {
@@ -96,11 +97,11 @@ namespace QLDT_WPF.Views.Components
         //     }
         // }
 
-        // private void EditButton_Click(object sender, RoutedEventArgs e)
-        // {
-        //     // Mở cửa sổ TeacherEditWindow
-        //     var userProfileWindow = new TeacherEditWindow();
-        //     userProfileWindow.ShowDialog();
-        // }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Mở cửa sổ TeacherEditWindow
+            var userProfileWindow = new TeacherEditWindow();
+            userProfileWindow.ShowDialog();
+        }
     }
 }

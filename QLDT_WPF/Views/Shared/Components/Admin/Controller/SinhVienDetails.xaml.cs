@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
+using System.Windows.Media;
+
 
 namespace QLDT_WPF.Views.Components
 {
