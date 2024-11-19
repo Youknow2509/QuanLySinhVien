@@ -175,5 +175,29 @@ namespace QLDT_WPF.Views.Components
                 TargetContentArea.Content = detail;
             }
         }
+
+        // Export data giao  vien
+        private void ExportToExcel_gv(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Export data sinh vien
+        private void ExportToExcel_sv(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // handle search in data giao vien
+        private void txtTimKiem_TextChanged_gv(object sender, TextChangedEventArgs e)
+        {
+            // TODO
+        }
+
+        // handle search in data sinh vien
+        private void txtTimKiem_TextChanged_sv(object sender, TextChangedEventArgs e)
+        {
+            // TODO
+        }
     }
 }
