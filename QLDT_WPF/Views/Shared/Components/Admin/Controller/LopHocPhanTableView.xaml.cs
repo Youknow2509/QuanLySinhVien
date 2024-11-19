@@ -334,19 +334,52 @@ namespace QLDT_WPF.Views.Components
         // Show details of LopHocPhan
         private void detail_LopHocPhan(object sender, RoutedEventArgs e)
         {
-            // TODO Auto
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Components.LopHocPhanDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
         }
 
         // Show details of GiaoVien
         private void detail_GiaoVien(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
         }
 
         // Show details of MonHoc
         private void detail_MonHoc(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
         }
     }
 }

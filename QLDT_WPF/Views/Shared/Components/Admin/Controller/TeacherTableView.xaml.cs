@@ -272,13 +272,35 @@ namespace QLDT_WPF.Views.Components
         // Show details of GiaoVien
         private void ChiTietGiaoVien_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
         }
 
          // Show details of Khoa
         private void ChiTietKhoa_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
+            }
         }
 
     }

@@ -338,7 +338,10 @@ namespace QLDT_WPF.Views.Components
                 string facultyName = textBlock.Text; // Lấy tên khoa từ thuộc tính Text của TextBlock
 
                 // Gọi hàm hoặc mở cửa sổ chi tiết khoa, truyền vào ID và tên khoa
-                MessageBox.Show($"Hiển thị chi tiết khoa với ID: {facultyId}, Tên Khoa: {facultyName}");
+                // MessageBox.Show($"Hiển thị chi tiết khoa với ID: {facultyId}, Tên Khoa: {facultyName}");
+                var detail = new QLDT_WPF.Views.Components.KhoaDetails(facultyId);
+                if (TargetContentArea == null) return;
+                TargetContentArea.Content = detail;
             }
         }
     }
