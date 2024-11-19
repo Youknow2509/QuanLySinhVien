@@ -92,7 +92,9 @@
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần" Width="200">
+                        <!-- Lop Hoc Phan -->
+                        <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần"
+                                                       Width="200">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding TenLopHocPhan}"
@@ -108,16 +110,47 @@
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
-
-                        <syncfusion:GridTextColumn HeaderText="Giảng Viên"
-                                                   MappingName="TenGiaoVien"
-                                                   Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Môn Học"
-                                                   MappingName="TenMonHoc"
-                                                   Width="150"/>
+                        <!-- Giang Vien -->
+                        <syncfusion:GridTemplateColumn HeaderText="Giảng Viên"
+                                                       Width="150">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenGiaoVien}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="detail_GiaoVien"
+                                               Tag="{Binding IdGiaoVien}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+                        <!-- Môn Học -->
+                        <syncfusion:GridTemplateColumn HeaderText="Môn Học"
+                                                       Width="150">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenMonHoc}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="detail_MonHoc"
+                                               Tag="{Binding IdMonHoc}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+                        
+                        <!-- Thời Gian Bắt Đầu -->
                         <syncfusion:GridTextColumn HeaderText="Thời gian bắt đầu"
                                                    MappingName="ThoiGianBatDau"
                                                    Width="180"/>
+
+                        <!-- Thời Gian Kết Thúc -->
                         <syncfusion:GridTextColumn HeaderText="Thời gian kết thúc"
                                                    MappingName="ThoiGianKetThuc"
                                                    Width="180"/>

@@ -342,5 +342,16 @@ namespace QLDT_WPF.Views.Components
             }
         }
 
+        // Show details of GiaoVien
+        private void detail_GiaoVien(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Show details of MonHoc
+        private void detail_MonHoc(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }
