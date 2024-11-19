@@ -306,11 +306,17 @@ namespace QLDT_WPF.Views.Components
         }
 
 
-        private void dataGridKhoa_CellTapped(object sender, GridCellTappedEventArgs e)
-        {
-            var teacherDetails = new KhoaDetails(TargetContentArea);
+        // private void dataGridKhoa_CellTapped(object sender, GridCellTappedEventArgs e)
+        // {
+        //     var teacherDetails = new KhoaDetails(TargetContentArea);
 
-            TargetContentArea.Content = teacherDetails;
+        //     TargetContentArea.Content = teacherDetails;
+        // }
+
+        // Show detail khoa
+        private void ChiTietKhoa_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
     }
 }

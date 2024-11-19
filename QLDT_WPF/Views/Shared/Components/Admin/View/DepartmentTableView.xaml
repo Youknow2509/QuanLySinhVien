@@ -83,7 +83,7 @@
                 </DockPanel>
 
                 <!-- SfDataGrid for Department Data -->
-                <syncfusion:SfDataGrid x:Name="sfDataGridDepartments"
+                <!-- <syncfusion:SfDataGrid x:Name="sfDataGridDepartments"
                                        AutoGenerateColumns="False"
                                        ShowRowHeader="True"
                                        GridLinesVisibility="Both"
@@ -91,12 +91,32 @@
                                        MaxHeight="600"
                                         HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top"
-                                       CellTapped="dataGridKhoa_CellTapped">
+                                       CellTapped="dataGridKhoa_CellTapped"> -->
+                <syncfusion:SfDataGrid x:Name="sfDataGridDepartments"
+                                       AutoGenerateColumns="False"
+                                       ShowRowHeader="True"
+                                       GridLinesVisibility="Both"
+                                       RowHeight="40"
+                                       MaxHeight="600"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <!-- Department Name Column -->
-                        <syncfusion:GridTextColumn HeaderText="Tên Khoa"
-                                                   MappingName="TenKhoa"
-                                                   Width="700"/>
+                        <!-- Department Name Column - Tên Khoa -->
+                        <syncfusion:GridTemplateColumn HeaderText="Tên Khoa" Width="700">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenKhoa}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietKhoa_Click"
+                                               Tag="{Binding IdKhoa}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
 
                         <!-- Action Buttons Column -->
                         <syncfusion:GridTemplateColumn HeaderText="Hành Động"
