@@ -4,6 +4,7 @@
 
 # TODO:
 - Auth ...  
+- Admin lop hoc phan detail
 - ....
 
 # How to run:
