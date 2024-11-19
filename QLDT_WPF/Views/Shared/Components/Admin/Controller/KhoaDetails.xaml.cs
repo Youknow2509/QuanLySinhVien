@@ -23,6 +23,7 @@ namespace QLDT_WPF.Views.Components
     {
 
         public ContentControl TargetContentArea { get; set; }
+
         public KhoaDetails(ContentControl targetContentArea)
         {
             InitializeComponent();

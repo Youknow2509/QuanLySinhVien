@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <!-- Back Button -->
-        <Button Grid.Row="0"
+        <!-- <Button Grid.Row="0"
                 Content="← Back"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -24,7 +24,7 @@
                 Background="#3A82E5"
                 Foreground="White"
                 BorderBrush="Transparent"
-                Click="BackButton_Click" />
+                Click="BackButton_Click" /> -->
 
         <!-- Student Information -->
         <Border Grid.Row="1" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
