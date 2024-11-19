@@ -83,7 +83,7 @@
                 </DockPanel>
 
                 <!-- SfDataGrid for Teacher Data -->
-                <syncfusion:SfDataGrid x:Name="dataGridGiaoVien"
+                <!-- <syncfusion:SfDataGrid x:Name="dataGridGiaoVien"
                                        AutoGenerateColumns="False"
                                        ShowRowHeader="True"
                                        GridLinesVisibility="Both"
@@ -91,20 +91,60 @@
                                        MaxHeight="600"
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top"
-                                       CellTapped="dataGridGiaoVien_CellTapped">
+                                       CellTapped="dataGridGiaoVien_CellTapped"> -->
+                <syncfusion:SfDataGrid x:Name="dataGridGiaoVien"
+                                       AutoGenerateColumns="False"
+                                       ShowRowHeader="True"
+                                       GridLinesVisibility="Both"
+                                       RowHeight="40"
+                                       MaxHeight="600"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Tên Giáo Viên"
-                                                   MappingName="TenGiaoVien"
-                                                   Width="200"/>
+                        <!-- Ten Giao Vien -->
+                        <syncfusion:GridTemplateColumn HeaderText="Tên Giáo Viên"
+                                                       Width="200">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenGiaoVien}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietGiaoVien_Click"
+                                               Tag="{Binding IdGiaoVien}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <!-- Email -->
                         <syncfusion:GridTextColumn HeaderText="Email"
                                                    MappingName="Email"
                                                    Width="200"/>
+                        <!-- So dien thoai -->
                         <syncfusion:GridTextColumn HeaderText="Số Điện Thoại"
                                                    MappingName="SoDienThoai"
                                                    Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Khoa"
-                                                   MappingName="TenKhoa"
-                                                   Width="150"/>
+                        <!-- Khoa -->
+                        <syncfusion:GridTemplateColumn HeaderText="Khoa"
+                                                       Width="150">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenKhoa}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietKhoa_Click"
+                                               Tag="{Binding IdKhoa}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+                        
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
 
