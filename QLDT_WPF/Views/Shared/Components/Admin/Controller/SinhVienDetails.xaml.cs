@@ -54,7 +54,8 @@ namespace QLDT_WPF.Views.Components
         private async Task InitAsync()
         {
             var req_sv = await sinhVienRepository.GetById(idSinhVien);
-            if (req_sv.Status == false){
+            if (req_sv.Status == false)
+            {
                 MessageBox.Show("Không tìm thấy sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -82,7 +83,7 @@ namespace QLDT_WPF.Views.Components
             txtStudentID.Text = sinhVienDto.IdSinhVien;
             txtFullName.Text = sinhVienDto.HoTen;
             txtClass.Text = sinhVienDto.Lop;
-            txtBirthDate.Text = sinhVienDto.NgaySinh.ToString("dd/MM/yyyy");
+            txtBirthDate.Text = sinhVienDto.NgaySinh?.ToString("dd/MM/yyyy") ?? string.Empty;
             txtAddress.Text = sinhVienDto.DiaChi;
             txtChuongTrinhHoc.Text = sinhVienDto.TenChuongTrinhHoc;
             txtKhoa.Text = sinhVienDto.TenKhoa;
