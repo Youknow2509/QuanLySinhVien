@@ -4,14 +4,13 @@ using System.Windows.Controls;
 using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
 using System.Windows.Media;
+using QLDT_WPF.Repositories;
 
 
 namespace QLDT_WPF.Views.Components
 {
     public partial class SinhVienDetails : UserControl
     {
-        private string idSinhVien;
-
         public ContentControl TargetContentArea
         {
             get { return (ContentControl)GetValue(TargetContentAreaProperty); }
@@ -21,14 +20,16 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
 
+        private SinhVienRepository sinhVienRepository;
+        private string idSinhVien;
+        private SinhVienDto sinhVienDto;
 
         public SinhVienDetails(string id)
         {
             InitializeComponent();
 
             idSinhVien = id;
-
-            LoadSampleData();
+            sinhVienRepository = new SinhVienRepository();
 
             if (TargetContentArea == null)
             {
@@ -42,8 +43,64 @@ namespace QLDT_WPF.Views.Components
                     }
                 }
             }
+
+            // Load data asynchron
+            Loaded += async (s, e) =>
+            {
+                await InitAsync();
+            };
         }
 
+        private async Task InitAsync()
+        {
+            var req_sv = await sinhVienRepository.GetById(idSinhVien);
+            if (req_sv.Status == false){
+                MessageBox.Show("Không tìm thấy sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            sinhVienDto = req_sv.Data;
+
+            // Set avatar
+            Set_Avatar();
+            // Set data in4 sinh vien
+            Set_Data_In4_SV();
+            // Load Calendar
+            Load_Calendar();
+            // Load Point
+            Load_Point();
+        }
+
+        // Set avatar
+        private void Set_Avatar()
+        {
+            // TODO
+        }
+
+        // Set data in4 sinh vien
+        private void Set_Data_In4_SV()
+        {
+            txtStudentID.Text = sinhVienDto.IdSinhVien;
+            txtFullName.Text = sinhVienDto.HoTen;
+            txtClass.Text = sinhVienDto.Lop;
+            txtBirthDate.Text = sinhVienDto.NgaySinh.ToString("dd/MM/yyyy");
+            txtAddress.Text = sinhVienDto.DiaChi;
+            txtChuongTrinhHoc.Text = sinhVienDto.TenChuongTrinhHoc;
+            txtKhoa.Text = sinhVienDto.TenKhoa;
+        }
+
+        // Load Calendar
+        private void Load_Calendar()
+        {
+            // TODO
+        }
+
+        // Load Point
+        private void Load_Point()
+        {
+            // TODO
+        }
+
+        // Find parent window
         private T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             DependencyObject parentObject = VisualTreeHelper.GetParent(child);
@@ -55,18 +112,6 @@ namespace QLDT_WPF.Views.Components
 
             return FindParent<T>(parentObject);
         }
-
-        private void LoadSampleData()
-        {
-            // Giả lập dữ liệu
-            DataGrid.ItemsSource = new[]
-             {
-                new { LopHocPhan = "Lớp 1", GiangVien = "Nguyễn Văn A", MonHoc = "Toán" },
-                new { LopHocPhan = "Lớp 2", GiangVien = "Trần Thị B", MonHoc = "Lý" },
-                new { LopHocPhan = "Lớp 3", GiangVien = "Phạm Văn C", MonHoc = "Hóa" }
-            };
-        }
-
 
         // private void BackButton_Click(object sender, RoutedEventArgs e)
         // {
@@ -80,11 +125,30 @@ namespace QLDT_WPF.Views.Components
         //     }
         // }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        // handle edit profile button
+        private void Edit_SV_Button_Click(object sender, RoutedEventArgs e)
         {
             // Open the SinhVienEditWindow
             var editWindow = new SinhVienEditWindow();
             editWindow.ShowDialog();
+        }
+
+        // handle edit point button
+        private void Edit_Point_Student(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // export point sinh vien 
+        private void ExportToExcel(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // handle search ponint 
+        private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // TODO
         }
 
     }
