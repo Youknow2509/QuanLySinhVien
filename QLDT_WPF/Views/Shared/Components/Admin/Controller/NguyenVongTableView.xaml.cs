@@ -42,7 +42,7 @@ namespace QLDT_WPF.Views.Components
             //  Loaded asyn data
             Loaded += async (sender, e) =>
             {
-
+                await InitAsyncData();
             };
         }
 
