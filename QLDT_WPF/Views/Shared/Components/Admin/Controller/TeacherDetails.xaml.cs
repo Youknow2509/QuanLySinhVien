@@ -11,6 +11,16 @@ namespace QLDT_WPF.Views.Components
 
         private string idGiaoVien;
 
+          public ContentControl TargetContentArea
+        {
+            get { return (ContentControl)GetValue(TargetContentAreaProperty); }
+            set { SetValue(TargetContentAreaProperty, value); }
+        }
+
+        public static readonly DependencyProperty TargetContentAreaProperty =
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
+
+
         public TeacherDetails(string id)
         {
             InitializeComponent();
@@ -46,13 +56,13 @@ namespace QLDT_WPF.Views.Components
 
         private void LoadSampleData()
         {
-            // Giả lập dữ liệu
-            DataGrid.ItemsSource = new[]
-            {
-                new { LopHocPhan = "Lớp 1", GiangVien = "Nguyễn Văn A", MonHoc = "Toán" },
-                new { LopHocPhan = "Lớp 2", GiangVien = "Trần Thị B", MonHoc = "Lý" },
-                new { LopHocPhan = "Lớp 3", GiangVien = "Phạm Văn C", MonHoc = "Hóa" }
-            };
+            // // Giả lập dữ liệu
+            // DataGrid.ItemsSource = new[]
+            // {
+            //     new { LopHocPhan = "Lớp 1", GiangVien = "Nguyễn Văn A", MonHoc = "Toán" },
+            //     new { LopHocPhan = "Lớp 2", GiangVien = "Trần Thị B", MonHoc = "Lý" },
+            //     new { LopHocPhan = "Lớp 3", GiangVien = "Phạm Văn C", MonHoc = "Hóa" }
+            // };
         }
 
         private void DataGrid_CellTapped(object sender, GridCellTappedEventArgs e)

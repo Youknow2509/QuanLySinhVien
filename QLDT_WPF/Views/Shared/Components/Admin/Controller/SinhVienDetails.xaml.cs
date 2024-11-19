@@ -78,12 +78,12 @@ namespace QLDT_WPF.Views.Components
         //     }
         // }
 
-        // private void EditButton_Click(object sender, RoutedEventArgs e)
-        // {
-        //     // Open the SinhVienEditWindow
-        //     var editWindow = new SinhVienEditWindow();
-        //     editWindow.ShowDialog();
-        // }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Open the SinhVienEditWindow
+            var editWindow = new SinhVienEditWindow();
+            editWindow.ShowDialog();
+        }
 
     }
 }
