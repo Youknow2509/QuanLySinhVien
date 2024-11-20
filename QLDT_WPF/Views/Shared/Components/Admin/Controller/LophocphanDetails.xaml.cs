@@ -291,7 +291,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
             // Open window SuaThoiGian
-            var window = new QLDT_WPF.Views.Shared.Components.Admin.View.EditThoiGianLopHocPhan(tg);
+            var window = new QLDT_WPF.Views.Shared.Components.Admin.View.EditThoiGianLopHocPhan(tg, idLopHocPhan);
             window.ShowDialog();
 
             // refresh data
