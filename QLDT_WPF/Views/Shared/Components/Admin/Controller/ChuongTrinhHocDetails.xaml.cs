@@ -146,7 +146,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         private void EditCth(object s, RoutedEventArgs e)
         {
             // Lấy ID môn học từ Tag của TextBlock
-            TextBlock textBlock = sender as TextBlock;
+            TextBlock textBlock = s as TextBlock;
             if (textBlock != null && textBlock.Tag != null)
             {
                 string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
@@ -163,7 +163,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         private void ChiTietMonHoc_Click(object s, RoutedEventArgs e)
         {
             // Lấy ID môn học từ Tag của TextBlock
-            TextBlock textBlock = sender as TextBlock;
+            TextBlock textBlock = s as TextBlock;
             if (textBlock != null && textBlock.Tag != null)
             {
                 string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
@@ -181,7 +181,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         private void ChiTietKhoa_Click(object s, RoutedEventArgs e)
         {
             // Lấy ID môn học từ Tag của TextBlock
-            TextBlock textBlock = sender as TextBlock;
+            TextBlock textBlock = s as TextBlock;
             if (textBlock != null && textBlock.Tag != null)
             {
                 string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag

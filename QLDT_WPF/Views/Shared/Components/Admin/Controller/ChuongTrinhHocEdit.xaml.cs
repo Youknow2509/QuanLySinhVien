@@ -31,7 +31,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(ChuongTrinhHocEdit), new PropertyMetadata(null));
 
 
-        public ChuongTrinhHocEdit()
+        public ChuongTrinhHocEdit(string id)
         {
             InitializeComponent();
 
