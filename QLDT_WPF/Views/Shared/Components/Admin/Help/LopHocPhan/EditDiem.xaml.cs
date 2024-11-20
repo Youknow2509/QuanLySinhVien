@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLDT_WPF.Dto;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.View
 {
@@ -21,7 +22,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
     /// </summary>
     public partial class EditDiem : Window
     {
-        public EditDiem()
+        public EditDiem(DiemDto diem)
         {
             InitializeComponent();
         }

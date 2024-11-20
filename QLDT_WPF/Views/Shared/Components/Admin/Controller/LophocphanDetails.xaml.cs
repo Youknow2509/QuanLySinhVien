@@ -262,9 +262,11 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            // Open dialog edit Diem Sinh Vien
-            MessageBox.Show("Chức năng đang phát triển!", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Information);
-            //TODO
+            // Open window SuaDiem
+            var window = new QLDT_WPF.Views.Shared.Components.Admin.View.EditDiem(diem);
+            window.ShowDialog();
+            // refresh data
+            Load_ScoreDataGrid();
         }
 
         // handle click ExportToExcel_Point_SinhVien_LopHocPhan
@@ -282,8 +284,18 @@ namespace QLDT_WPF.Views.Components
         // handle click Edit_ThoiGian_LopHocPhan
         private void Edit_ThoiGian_LopHocPhan(object sender, RoutedEventArgs e)
         {
-            //TODO
-            MessageBox.Show("Chức năng đang phát triển!", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            var tg = (sender as Button)?.Tag as CalendarDto;
+            if (tg == null)
+            {
+                MessageBox.Show("Không tìm thấy thông tin thời gian!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            // Open window SuaThoiGian
+            var window = new QLDT_WPF.Views.Shared.Components.Admin.View.EditThoiGianLopHocPhan(tg);
+            window.ShowDialog();
+
+            // refresh data
+            Load_Calendar();
         }
 
         // handle click ExportToExcel_ThoiGian_LopHocPhan
