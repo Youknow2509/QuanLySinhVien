@@ -94,18 +94,52 @@
                                        Margin="0,0,0,10">
                     <syncfusion:SfDataGrid.Columns>
                         <!-- Tên Môn Học -->
-                        <syncfusion:GridTextColumn MappingName="TenMonHoc" HeaderText="Tên Môn Học" Width="200" />
+                        <syncfusion:GridTemplateColumn HeaderText="Tên Môn Học"
+                                                       Width="200">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenMonHoc}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietMonHoc_Click"
+                                               Tag="{Binding IdMonHoc}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
 
                         <!-- Số Tín Chỉ -->
-                        <syncfusion:GridTextColumn MappingName="SoTinChi" HeaderText="Số Tín Chỉ" Width="100" />
+                        <syncfusion:GridTextColumn MappingName="SoTinChi"
+                                                   HeaderText="Số Tín Chỉ"
+                                                   Width="100"/>
 
                         <!-- Số Tiết -->
-                        <syncfusion:GridTextColumn MappingName="SoTietHoc" HeaderText="Số Tiết" Width="100" />
+                        <syncfusion:GridTextColumn MappingName="SoTietHoc"
+                                                   HeaderText="Số Tiết"
+                                                   Width="100"/>
 
                         <!-- Khoa -->
-                        <syncfusion:GridTextColumn MappingName="Khoas.TenKhoa" HeaderText="Khoa" Width="200" />
+                        <syncfusion:GridTemplateColumn HeaderText="Khoa"
+                                                       Width="200">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenKhoa}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietKhoa_Click"
+                                               Tag="{Binding IdKhoa}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
 
-                        
+
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
 
