@@ -157,9 +157,61 @@
                                                    HeaderText="Địa Điểm"/>
 
                         <!-- Trang Thai -->
+                        <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <!-- Giá trị mặc định -->
+                                                <Setter Property="Text"
+                                                        Value="Sắp Diễn Ra"/>
+                                                <Setter Property="Foreground"
+                                                        Value="Orange"/>
+
+                                                <!-- Các điều kiện trạng thái -->
+                                                <Style.Triggers>
+                                                    <!-- Đã Kết Thúc -->
+                                                    <DataTrigger Binding="{Binding End}"
+                                                            Value="{x:Static sys:DateTime.Now}">
+                                                        <Setter Property="Text"
+                                                                Value="Đã Kết Thúc"/>
+                                                        <Setter Property="Foreground"
+                                                                Value="Red"/>
+                                                    </DataTrigger>
+
+                                                    <!-- Đang Diễn Ra -->
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Start}"
+                                                                    Value="{x:Static sys:DateTime.Now}"/>
+                                                            <Condition Binding="{Binding End}"
+                                                                    Value="{x:Static sys:DateTime.Now}"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Text"
+                                                                Value="Đang Diễn Ra"/>
+                                                        <Setter Property="Foreground"
+                                                                Value="Green"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
 
                         <!-- Hanh Dong -->
-
+                        <syncfusion:GridTemplateColumn HeaderText="Hành Động">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Sửa"
+                                            Visibility="{Binding Start, Converter={StaticResource FutureDateToVisibilityConverter}}"
+                                            Tag="{Binding}"
+                                            Click="Edit_ThoiGian_LopHocPhan"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
             </StackPanel>

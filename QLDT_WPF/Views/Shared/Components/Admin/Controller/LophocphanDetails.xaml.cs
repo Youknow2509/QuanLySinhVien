@@ -175,18 +175,56 @@ namespace QLDT_WPF.Views.Components
         // Show detail of sinh vien click - tag : id sinh vien
         private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var id = (sender as Button)?.Tag.ToString() ?? "";
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Không tìm thấy id sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var detail = new SinhVienDetails(id);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = detail;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // Show detail of chuong trinh hoc click - tag : id chuong trinh hoc
         private void ChiTietChuongTrinhHoc_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            var id = (sender as Button)?.Tag.ToString() ?? "";
+            if (string.IsNullOrEmpty(id))
+            {
+                MessageBox.Show("Không tìm thấy id chương trình học!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var detail = new ChuongTrinhHocDetails(id);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = detail;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // btn lick sua diem - tag : binding diemDto
         private void SuaDiem_Click(object sender, RoutedEventArgs e)
         {
+            var diem = (sender as Button)?.Tag as DiemDto;
+            if (diem == null)
+            {
+                MessageBox.Show("Không tìm thấy thông tin điểm!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Open dialog edit Diem Sinh Vien
             //TODO
         }
 
