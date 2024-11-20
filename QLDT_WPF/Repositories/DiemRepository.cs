@@ -168,6 +168,38 @@ public class DiemRepository
             };
         }
 
+        // Check diem qua trinh, diem ket thuc, diem tong ket
+        if (diem.DiemQuaTrinh < 0 || diem.DiemQuaTrinh > 10)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Data = null,
+                Message = "Điểm quá trình không hợp lệ",
+                StatusCode = 400
+            };
+        }
+        if (diem.DiemKetThuc < 0 || diem.DiemKetThuc > 10)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Data = null,
+                Message = "Điểm kết thúc không hợp lệ",
+                StatusCode = 400
+            };
+        }
+        if (diem.DiemTongKet < 0 || diem.DiemTongKet > 10)
+        {
+            return new ApiResponse<DiemDto>
+            {
+                Status = false,
+                Data = null,
+                Message = "Điểm tổng kết không hợp lệ",
+                StatusCode = 400
+            };
+        }
+
         // Check id lop hoc phan, id sinh vien
         var checkLopHocPhan = await _context.LopHocPhans
             .FirstOrDefaultAsync(x => x.IdLopHocPhan == diem.IdLopHocPhan);

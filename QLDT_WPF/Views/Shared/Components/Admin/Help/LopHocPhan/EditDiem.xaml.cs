@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QLDT_WPF.Dto;
+using QLDT_WPF.Repositories;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.View
 {
@@ -22,14 +23,43 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
     /// </summary>
     public partial class EditDiem : Window
     {
-        public EditDiem(DiemDto diem)
+        // variables
+        private DiemDto diem;
+
+        private DiemRepository diemRepository;
+
+        // constructor
+        public EditDiem(DiemDto d)
         {
             InitializeComponent();
+
+            // Khởi tạo repository
+            diemRepository = new DiemRepository();
+
+            //
+            diem = d;
+
+            Loaed += async () =>
+            {
+                await InitAsync();
+            };
+        }
+
+        private async Task InitAsync()
+        {
+            // Load dữ liệu từ database
+            if (diem != null)
+            {
+                txtIdDiem.Text = diem.IdDiem.ToString();
+                txtDiemQuaTrinh.Text = diem.DiemQuaTrinh.ToString();
+                txtDiemKetThuc.Text = diem.DiemKetThuc.ToString();
+                txtDiemTongKet.Text = diem.DiemTongKet.ToString();
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO 
+            this.Close();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -47,8 +77,42 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 return;
             }
 
-            // Xử lý logic lưu dữ liệu
-            MessageBox.Show($"Điểm Quá Trình: {diemQuaTrinh}\nĐiểm Kết Thúc: {diemKetThuc}\nĐiểm Tổng Kết: {diemTongKet}\nID Điểm: {idDiem}");
+            // handle api
+            try
+            {
+                DiemDto diemEdit = new DiemDto
+                {
+                    IdDiem = idDiem,
+                    DiemQuaTrinh = decimal.Parse(diemQuaTrinh),
+                    DiemKetThuc = decimal.Parse(diemKetThuc),
+                    DiemTongKet = decimal.Parse(diemTongKet)
+                };
+
+                Task.Run(
+                    async () =>
+                    {
+                        var result = await diemRepository.Edit(diemEdit);
+
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            if (result.Status == true)
+                            {
+                                MessageBox.Show("Cập nhật điểm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Có lỗi xảy ra. Vui lòng thử lại sau!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        });
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra. Vui lòng thử lại sau!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         private void txtInputScore_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -89,7 +153,5 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 }
             }
         }
-
-
     }
 }
