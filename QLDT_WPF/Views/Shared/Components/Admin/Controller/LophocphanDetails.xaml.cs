@@ -140,7 +140,32 @@ namespace QLDT_WPF.Views.Components
             // Convert to ScheduleAppointment
             foreach (var dto in dtoList)
             {   
-                calendar_collections.Add(dto);
+                // Đã Kết Thúc, Đang Diễn Ra, Sắp Diễn Ra - So Với Thời Gian Hiện Tại
+                string StatusMessage = "";
+                if (dto.End < DateTime.Now)
+                {
+                    StatusMessage = "Đã Kết Thúc";
+                }
+                else if (dto.Start < DateTime.Now && dto.End > DateTime.Now)
+                {
+                    StatusMessage = "Đang Diễn Ra";
+                }
+                else if (dto.Start > DateTime.Now)
+                {
+                    StatusMessage = "Sắp Diễn Ra";
+                }
+
+                calendar_collections.Add(new CalendarDto{
+                    Id = dto.Id,
+                    Title = dto.Title,
+                    Description = dto.Description,
+                    GroupId = dto.GroupId,
+                    Start = dto.Start,
+                    End = dto.End,
+                    DisplayEventTime = dto.DisplayEventTime,
+                    Location = dto.Location,
+                    StatusMessage = StatusMessage,
+                });
 
                 Appointments.Add(new ScheduleAppointment{
                     Subject = dto.Title,
@@ -167,7 +192,20 @@ namespace QLDT_WPF.Views.Components
             diem_collections.Clear();
             foreach (var dto in req_diem.Data)
             {
-                diem_collections.Add(dto);
+                diem_collections.Add(new DiemDto{
+                    IdDiem = dto.IdDiem,
+                    IdLopHocPhan = dto.IdLopHocPhan,
+                    IdSinhVien = dto.IdSinhVien,
+                    IdMon = dto.IdMon,
+                    DiemQuaTrinh = dto.DiemQuaTrinh,
+                    DiemKetThuc = dto.DiemKetThuc,
+                    DiemTongKet = dto.DiemTongKet,
+                    LanHoc = dto.LanHoc,
+                    TenMonHoc = dto.TenMonHoc,
+                    TenLopHocPhan = dto.TenLopHocPhan,
+                    TenSinhVien = dto.TenSinhVien,
+                    TrangThai = dto.DiemTongKet >= 4 ? "Qua Môn" : "Học Lại"
+                });
             }
             ScoreDataGrid.ItemsSource = diem_collections;
         }

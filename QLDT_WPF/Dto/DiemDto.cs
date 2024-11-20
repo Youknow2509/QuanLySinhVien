@@ -14,5 +14,6 @@ namespace QLDT_WPF.Dto
         public string? TenMonHoc { get; set; }
         public string? TenLopHocPhan { get; set; }
         public string? TenSinhVien { get; set; }
+        public string? TrangThai { get; set; }
     }
 }

@@ -12,5 +12,6 @@ namespace QLDT_WPF.Dto
         public DateTime? End { get; set; }
         public Boolean? DisplayEventTime { get; set; }
         public string? Location { get; set; }
+        public string? StatusMessage { get; set; }
     }
 }

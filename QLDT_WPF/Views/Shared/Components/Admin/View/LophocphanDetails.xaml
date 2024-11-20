@@ -158,48 +158,9 @@
                                                    HeaderText="Địa Điểm"/>
 
                         <!-- Trang Thai -->
-                        <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
-                            <syncfusion:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock>
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <!-- Giá trị mặc định -->
-                                                <Setter Property="Text"
-                                                        Value="Sắp Diễn Ra"/>
-                                                <Setter Property="Foreground"
-                                                        Value="Orange"/>
-
-                                                <!-- Các điều kiện trạng thái -->
-                                                <Style.Triggers>
-                                                    <!-- Đã Kết Thúc -->
-                                                    <DataTrigger Binding="{Binding End}"
-                                                                 Value="{x:Static sys:DateTime.Now}">
-                                                        <Setter Property="Text"
-                                                                Value="Đã Kết Thúc"/>
-                                                        <Setter Property="Foreground"
-                                                                Value="Red"/>
-                                                    </DataTrigger>
-
-                                                    <!-- Đang Diễn Ra -->
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding Start}"
-                                                                       Value="{x:Static sys:DateTime.Now}"/>
-                                                            <Condition Binding="{Binding End}"
-                                                                       Value="{x:Static sys:DateTime.Now}"/>
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter Property="Text"
-                                                                Value="Đang Diễn Ra"/>
-                                                        <Setter Property="Foreground"
-                                                                Value="Green"/>
-                                                    </MultiDataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
+                                                       Width="150"
+                                                       MappingName="StatusMessage">
                         </syncfusion:GridTemplateColumn>
 
                         <!-- Hanh Dong -->
@@ -341,61 +302,10 @@
                                                        MappingName="DiemTongKet"
                                                        Width="150"/>
 
-                            <!-- Trạng Thái -->
                             <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
-                                                           Width="150">
-                                <syncfusion:GridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock FontSize="14"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Center">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <!-- Giá trị mặc định -->
-                                                    <Setter Property="Text"
-                                                            Value="Học lại"/>
-                                                    <Setter Property="Foreground"
-                                                            Value="Red"/>
-
-                                                    <Style.Triggers>
-                                                        <!-- DiemTongKet >= 4 (Qua môn) -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet}"
-                                                                     Value="4">
-                                                            <Setter Property="Text"
-                                                                    Value="Qua môn"/>
-                                                            <Setter Property="Foreground"
-                                                                    Value="Green"/>
-                                                        </DataTrigger>
-
-                                                        <!-- DiemTongKet > 4 -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet}">
-                                                            <DataTrigger.Value>
-                                                                <sys:Double>4.01</sys:Double>
-                                                            </DataTrigger.Value>
-                                                            <Setter Property="Text"
-                                                                    Value="Qua môn"/>
-                                                            <Setter Property="Foreground"
-                                                                    Value="Green"/>
-                                                        </DataTrigger>
-
-                                                        <!-- DiemTongKet < 4 -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet}">
-                                                            <DataTrigger.Value>
-                                                                <sys:Double>3.99</sys:Double>
-                                                            </DataTrigger.Value>
-                                                            <Setter Property="Text"
-                                                                    Value="Học lại"/>
-                                                            <Setter Property="Foreground"
-                                                                    Value="Red"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </syncfusion:GridTemplateColumn.CellTemplate>
+                                                           Width="150"
+                                                           MappingName="TrangThai">
                             </syncfusion:GridTemplateColumn>
-
 
                             <!-- btn Sua -->
                             <syncfusion:GridTemplateColumn HeaderText="Hành Động"
