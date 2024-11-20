@@ -35,7 +35,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
         // Variables
         private string idChuongTrinhHoc;
-        private KhoaRepository monHocRepository;
+        private MonHocRepository monHocRepository;
         private ChuongTrinhHocRepository chuongTrinhHocRepository;
         private ChuongTrinhHocDto chuongTrinhHoc;
         private ObservableCollection<MonHocDto> monHoc_collection;
