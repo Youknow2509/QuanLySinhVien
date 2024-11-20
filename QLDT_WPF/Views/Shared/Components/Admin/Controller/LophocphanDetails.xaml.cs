@@ -213,7 +213,7 @@ namespace QLDT_WPF.Views.Components
         // Show detail of sinh vien click - tag : id sinh vien
         private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
         {
-            var id = (sender as Button)?.Tag.ToString() ?? "";
+            var id = (sender as TextBlock)?.Tag.ToString() ?? "";
             if (string.IsNullOrEmpty(id))
             {
                 MessageBox.Show("Không tìm thấy id sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -263,6 +263,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             // Open dialog edit Diem Sinh Vien
+            MessageBox.Show("Chức năng đang phát triển!", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Information);
             //TODO
         }
 
@@ -282,6 +283,7 @@ namespace QLDT_WPF.Views.Components
         private void Edit_ThoiGian_LopHocPhan(object sender, RoutedEventArgs e)
         {
             //TODO
+            MessageBox.Show("Chức năng đang phát triển!", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // handle click ExportToExcel_ThoiGian_LopHocPhan

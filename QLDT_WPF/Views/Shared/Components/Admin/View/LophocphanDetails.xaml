@@ -158,10 +158,10 @@
                                                    HeaderText="Địa Điểm"/>
 
                         <!-- Trang Thai -->
-                        <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
+                        <syncfusion:GridTextColumn HeaderText="Trạng Thái"
                                                        Width="150"
                                                        MappingName="StatusMessage">
-                        </syncfusion:GridTemplateColumn>
+                        </syncfusion:GridTextColumn>
 
                         <!-- Hanh Dong -->
                         <syncfusion:GridTemplateColumn HeaderText="Hành Động">
@@ -302,10 +302,10 @@
                                                        MappingName="DiemTongKet"
                                                        Width="150"/>
 
-                            <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
+                            <syncfusion:GridTextColumn HeaderText="Trạng Thái"
                                                            Width="150"
                                                            MappingName="TrangThai">
-                            </syncfusion:GridTemplateColumn>
+                            </syncfusion:GridTextColumn>
 
                             <!-- btn Sua -->
                             <syncfusion:GridTemplateColumn HeaderText="Hành Động"
