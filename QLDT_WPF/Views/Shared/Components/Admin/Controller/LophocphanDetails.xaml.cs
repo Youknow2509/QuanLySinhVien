@@ -136,8 +136,8 @@ namespace QLDT_WPF.Views.Components
             {
                 Appointments.Add(new ScheduleAppointment{
                     Subject = dto.Title,
-                    StartTime = dto.Start,
-                    EndTime = dto.End,
+                    StartTime = dto.Start ?? null,
+                    EndTime = dto.End ?? null,
                     Location = dto.Location,
                     Notes = dto.Description
                 });
