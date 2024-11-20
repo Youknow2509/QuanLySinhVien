@@ -75,7 +75,7 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        private async InitAysnc(){
+        private async Task InitAysnc(){
             // Set title - title_lop_hoc_phan
 
             // Set - description_lop_hoc_phan
