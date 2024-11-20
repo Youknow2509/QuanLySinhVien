@@ -156,9 +156,9 @@
                         <syncfusion:GridTextColumn MappingName="DiaDiem"
                                                    HeaderText="Địa Điểm"/>
 
-                        <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
+                        <!-- <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
                             <syncfusion:GridTemplateColumn.CellTemplate>
-                                <!-- <DataTemplate>
+                                <DataTemplate>
                                     <TextBlock>
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -185,9 +185,9 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                </DataTemplate> -->
+                                </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
-                        </syncfusion:GridTemplateColumn>
+                        </syncfusion:GridTemplateColumn> -->
 
                         <syncfusion:GridTemplateColumn HeaderText="Actions">
                             <syncfusion:GridTemplateColumn.CellTemplate>
