@@ -39,7 +39,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
             //
             diem = d;
 
-            Loaded += async () =>
+            Loaded += async (s, e) =>
             {
                 await InitAsync();
             };
