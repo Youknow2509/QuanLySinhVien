@@ -26,11 +26,15 @@ namespace QLDT_WPF.Views.Components
         private string idLopHocPhan;
         private LopHocPhanDto lopHocPhanDto;
         private MonHocDto monHocDto;
+
         private LopHocPhanRepository lopHocPhanRepository;
         private MonHocRepository monHocRepository;
         private CalendarRepository calendarRepository;
+        private DiemRepository diemRepository;
+
         public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
         public ObservableCollection<CalendarDto> calendar_collections;
+        public ObservableCollection<DiemDto> diem_collections;
 
         // Constructor
         public LopHocPhanDetails(string id)
@@ -41,10 +45,12 @@ namespace QLDT_WPF.Views.Components
             lopHocPhanRepository = new LopHocPhanRepository();
             monHocRepository = new MonHocRepository();
             calendarRepository = new CalendarRepository();
+            diemRepository = new DiemRepository();
 
             //
             Appointments = new ObservableCollection<ScheduleAppointment>();
             calendar_collections = new ObservableCollection<CalendarDto>();
+            diem_collections = new ObservableCollection<DiemDto>();
 
             // set variables in constructor
             idLopHocPhan = id;
@@ -115,7 +121,7 @@ namespace QLDT_WPF.Views.Components
             await Load_Calendar();
             
             // Load diem sinh vien lop hoc phan - ScoreDataGrid
-            Load_ScoreDataGrid();
+            await Load_ScoreDataGrid();
         }
 
         private async Task Load_Calendar()
@@ -148,9 +154,22 @@ namespace QLDT_WPF.Views.Components
             DataGrid_ThoiGian_LopHocPhan.ItemsSource = calendar_collections;
         }
 
-        private void Load_ScoreDataGrid()
+        private async Task Load_ScoreDataGrid()
         {
-            //TODO
+            var req_diem = await diemRepository
+                .GetDiemByIdLopHocPhan(idLopHocPhan);
+            if (req_diem.Status == false)
+            {
+                MessageBox.Show(req_diem.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            diem_collections.Clear();
+            foreach (var dto in req_diem.Data)
+            {
+                diem_collections.Add(dto);
+            }
+            ScoreDataGrid.ItemsSource = diem_collections;
         }
 
         // Show detail of sinh vien click - tag : id sinh vien
