@@ -4,14 +4,13 @@ using QLDT_WPF.Dto;
 using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
 using System.Windows.Media;
+using QLDT_WPF.Repositories;
 
 
 namespace QLDT_WPF.Views.Components
 {
     public partial class LopHocPhanDetails : UserControl
     {
-        private string idLopHocPhan;
-
         public ContentControl TargetContentArea
         {
             get { return (ContentControl)GetValue(TargetContentAreaProperty); }
@@ -21,13 +20,21 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(LopHocPhanDetails), new PropertyMetadata(null));
 
+        // Variables
+        private string idLopHocPhan;
+        private LopHocPhanDto lopHocPhanDto;
+        private LopHocPhanRepository lopHocPhanRepository;
+
+        // Constructor
         public LopHocPhanDetails(string id)
         {
             InitializeComponent();
 
-            idLopHocPhan = id;
+            // inir repository
+            lopHocPhanRepository = new LopHocPhanRepository();
 
-            LoadSampleData();
+            // set variables in constructor
+            idLopHocPhan = id;
 
             Loaded += async (s, e) =>
             {
@@ -51,6 +58,8 @@ namespace QLDT_WPF.Views.Components
                         TargetContentArea = new ContentControl();
                     }
                 }
+
+                await InitAysnc();
             };
         }
 
@@ -66,21 +75,34 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        private void LoadSampleData()
-        {
-            // Sample data for Student Grid
-            StudentDataGrid.ItemsSource = new[]
-            {
-                new { HoVaTen = "Nguyễn Văn A", Lop = "Lớp 1", NgaySinh = "01/01/2000", DiaChi = "Hà Nội", ChuongTrinhHoc = "Công Nghệ Thông Tin" },
-                new { HoVaTen = "Trần Thị B", Lop = "Lớp 2", NgaySinh = "02/02/2001", DiaChi = "Hồ Chí Minh", ChuongTrinhHoc = "Kinh Tế" },
-            };
+        private async InitAysnc(){
+            // Set title - title_lop_hoc_phan
 
-            // Sample data for Score Grid
-            ScoreDataGrid.ItemsSource = new[]
-            {
-                new { SinhVien = "Nguyễn Văn A", DiemQuaTrinh = 7, DiemKetThuc = 8, DiemTongKet = 7.5, TrangThai = "Đạt" },
-                new { SinhVien = "Trần Thị B", DiemQuaTrinh = 6, DiemKetThuc = 7, DiemTongKet = 6.5, TrangThai = "Học Lại" },
-            };
+            // Set - description_lop_hoc_phan
+
+            // Load Calendar - calendar_lop_hoc_phan
+
+            // Load sinh vien thuoc danh sach lop hoc phan - StudentDataGrid
+
+            // Load diem sinh vien lop hoc phan - ScoreDataGrid
+        }
+
+        // Show detail of sinh vien click - tag : id sinh vien
+        private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // Show detail of chuong trinh hoc click - tag : id chuong trinh hoc
+        private void ChiTietChuongTrinhHoc_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // btn lick sua diem - tag : binding diemDto
+        private void SuaDiem_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
         }
 
         // private void BackButton_Click(object sender, RoutedEventArgs e)
