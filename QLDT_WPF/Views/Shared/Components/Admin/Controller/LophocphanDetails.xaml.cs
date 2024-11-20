@@ -106,7 +106,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // handle click ExportToExcel_SinhVien_LopHocPhan
-        private void ExportToExcel_SinhVien_LopHocPhan_Click(object sender, RoutedEventArgs e)
+        private void ExportToExcel_SinhVien_LopHocPhan(object sender, RoutedEventArgs e)
         {
             //TODO
         }
@@ -118,7 +118,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // handle click ExportToExcel_Point_SinhVien_LopHocPhan
-        private void ExportToExcel_Point_SinhVien_LopHocPhan_Click(object sender, RoutedEventArgs e)
+        private void ExportToExcel_Point_SinhVien_LopHocPhan(object sender, RoutedEventArgs e)
         {
             //TODO
         }

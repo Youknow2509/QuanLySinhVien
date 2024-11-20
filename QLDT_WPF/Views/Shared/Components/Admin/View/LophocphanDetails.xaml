@@ -320,7 +320,7 @@
                                                    FontSize="14"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Left"
-                                                   MouseLeftButtonUp="ChiTietTenSinhVien_Click"
+                                                   MouseLeftButtonUp="ChiTietSinhVien_Click"
                                                    Tag="{Binding IdTenSinhVien}"/>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
