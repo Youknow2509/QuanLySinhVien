@@ -203,7 +203,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            var detail = new ChuongTrinhHocDetails(id);
+            var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(id);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = detail;
