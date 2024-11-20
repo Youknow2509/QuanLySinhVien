@@ -5,6 +5,7 @@ using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
 using System.Windows.Media;
 using QLDT_WPF.Repositories;
+using Syncfusion.UI.Xaml.Scheduler;
 
 
 namespace QLDT_WPF.Views.Components
@@ -23,6 +24,7 @@ namespace QLDT_WPF.Views.Components
         private SinhVienRepository sinhVienRepository;
         private string idSinhVien;
         private SinhVienDto sinhVienDto;
+        public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
 
         public SinhVienDetails(string id)
         {
@@ -93,6 +95,29 @@ namespace QLDT_WPF.Views.Components
         private void Load_Calendar()
         {
             // TODO
+            // Create sample data
+            Appointments = new ObservableCollection<ScheduleAppointment>
+            {
+                new ScheduleAppointment
+                {
+                    Subject = "Team Meeting 1",
+                    StartTime = DateTime.Now.AddHours(2),
+                    EndTime = DateTime.Now.AddHours(3),
+                    Location = "Room A",
+                    AppointmentBackground = new SolidColorBrush(Colors.LightBlue)
+                },
+                new ScheduleAppointment
+                {
+                    Subject = "Team Meeting 2",
+                    StartTime = DateTime.Now.AddHours(3),
+                    EndTime = DateTime.Now.AddHours(4),
+                    Location = "Room B",
+                    AppointmentBackground = new SolidColorBrush(Colors.LightGreen)
+                }
+            };
+
+            // Set the Appointments property of the CalendarComponent
+            calendar_comonent.Appointments = Appointments;
         }
 
         // Load Point
