@@ -45,6 +45,14 @@ namespace QLDT_WPF.Views.Components
                     {
                         TargetContentArea = contentArea;
                     }
+                    else
+                    {
+                        TargetContentArea = new ContentControl();
+                    }
+                }
+                else
+                {
+                    TargetContentArea = new ContentControl();
                 }
             }
         }
@@ -60,7 +68,7 @@ namespace QLDT_WPF.Views.Components
 
             return FindParent<T>(parentObject);
         }
-        
+
         private async void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Add your code here

@@ -67,6 +67,14 @@ namespace QLDT_WPF.Views.Components
                     {
                         TargetContentArea = contentArea;
                     }
+                    else
+                    {
+                        TargetContentArea = new ContentControl();
+                    }
+                }
+                else
+                {
+                    TargetContentArea = new ContentControl();
                 }
             }
 
@@ -77,9 +85,11 @@ namespace QLDT_WPF.Views.Components
             };
         }
 
-        private async Task InintAsync(){
+        private async Task InintAsync()
+        {
             var req_khoa = await khoaRepository.GetById(idKhoa);
-            if (req_khoa.Status == false){
+            if (req_khoa.Status == false)
+            {
                 MessageBox.Show(req_khoa.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -89,30 +99,36 @@ namespace QLDT_WPF.Views.Components
 
             await load_data_giao_vien();
             await load_data_sinh_vien();
-        
+
         }
 
-        private async Task load_data_sinh_vien(){
+        private async Task load_data_sinh_vien()
+        {
             sinhviens_collection.Clear();
             var req_sinhviens = await khoaRepository.GetSinhVien(idKhoa);
-            if (req_sinhviens.Status == false){
+            if (req_sinhviens.Status == false)
+            {
                 MessageBox.Show(req_sinhviens.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            foreach (var sv in req_sinhviens.Data){
+            foreach (var sv in req_sinhviens.Data)
+            {
                 sinhviens_collection.Add(sv);
             }
             StudentDataGrid.ItemsSource = sinhviens_collection;
         }
 
-        private async Task load_data_giao_vien(){
+        private async Task load_data_giao_vien()
+        {
             giaoviens_collection.Clear();
             var req_giaoviens = await khoaRepository.GetGiaoVien(idKhoa);
-            if (req_giaoviens.Status == false){
+            if (req_giaoviens.Status == false)
+            {
                 MessageBox.Show(req_giaoviens.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            foreach (var gv in req_giaoviens.Data){
+            foreach (var gv in req_giaoviens.Data)
+            {
                 giaoviens_collection.Add(gv);
             }
             TeacherDataGrid.ItemsSource = giaoviens_collection;
