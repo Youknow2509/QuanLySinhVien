@@ -152,74 +152,73 @@
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
                             <!-- Start Date Column -->
-                            <syncfusion:SfDataGrid.Columns>
-                                <syncfusion:GridTemplateColumn HeaderText="Thời Gian Bắt Đầu">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Start, StringFormat=MM/dd/yyyy HH:mm}"/>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                </syncfusion:GridTemplateColumn>
+                            <syncfusion:GridTemplateColumn HeaderText="Thời Gian Bắt Đầu">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Start, StringFormat=MM/dd/yyyy HH:mm}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
 
-                                <!-- End Date Column -->
-                                <syncfusion:GridTemplateColumn HeaderText="Thời Gian Kết Thúc">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding End, StringFormat=MM/dd/yyyy HH:mm}"/>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                </syncfusion:GridTemplateColumn>
+                            <!-- End Date Column -->
+                            <syncfusion:GridTemplateColumn HeaderText="Thời Gian Kết Thúc">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding End, StringFormat=MM/dd/yyyy HH:mm}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
 
-                                <!-- Location Column -->
-                                <syncfusion:GridTextColumn MappingName="Địa Điểm"
-                                                           HeaderText="Location"/>
+                            <!-- Location Column -->
+                            <syncfusion:GridTextColumn MappingName="Địa Điểm"
+                                                       HeaderText="Location"/>
 
-                                <!-- Status Column -->
-                                <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock>
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Text"
-                                                                Value="Upcoming"/>
-                                                        <Setter Property="Foreground"
-                                                                Value="Orange"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding End}"
-                                                                         Value="{x:Static sys:DateTime.Now}">
-                                                                <Setter Property="Text"
-                                                                        Value="Ended"/>
-                                                                <Setter Property="Foreground"
-                                                                        Value="Red"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Start}"
-                                                                         Value="{x:Static sys:DateTime.Now}">
-                                                                <Setter Property="Text"
-                                                                        Value="Ongoing"/>
-                                                                <Setter Property="Foreground"
-                                                                        Value="Green"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                </syncfusion:GridTemplateColumn>
+                            <!-- Status Column -->
+                            <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text"
+                                                            Value="Upcoming"/>
+                                                    <Setter Property="Foreground"
+                                                            Value="Orange"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding End}"
+                                                                     Value="{x:Static sys:DateTime.Now}">
+                                                            <Setter Property="Text"
+                                                                    Value="Ended"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Red"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Start}"
+                                                                     Value="{x:Static sys:DateTime.Now}">
+                                                            <Setter Property="Text"
+                                                                    Value="Ongoing"/>
+                                                            <Setter Property="Foreground"
+                                                                    Value="Green"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
 
-                                <!-- Edit Button Column -->
-                                <syncfusion:GridTemplateColumn HeaderText="Actions">
-                                    <syncfusion:GridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Content="Edit"
-                                                    Visibility="{Binding Start, Converter={StaticResource FutureDateToVisibilityConverter}}"
-                                                    Click="Edit_ThoiGian_LopHocPhan"
-                                                    Tag="{Binding}"/>
-                                        </DataTemplate>
-                                    </syncfusion:GridTemplateColumn.CellTemplate>
-                                </syncfusion:GridTemplateColumn>
-                            </syncfusion:SfDataGrid.Columns>
+                            <!-- Edit Button Column -->
+                            <syncfusion:GridTemplateColumn HeaderText="Actions">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Edit"
+                                                Visibility="{Binding Start, Converter={StaticResource FutureDateToVisibilityConverter}}"
+                                                Click="Edit_ThoiGian_LopHocPhan"
+                                                Tag="{Binding}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                        </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </StackPanel>
             </Border>
