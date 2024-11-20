@@ -90,7 +90,30 @@ namespace QLDT_WPF.Views.Components
             // Add items to ObservableCollection
             foreach (var item in list_lopHocPhan.Data)
             {
-                ObservableLopHocPhan.Add(item);
+                // Status message: Đang Diễn Ra, Đã Kết Thúc, Sắp Diễn Ra
+                if (item.ThoiGianBatDau <= DateTime.Now && item.ThoiGianKetThuc >= DateTime.Now)
+                {
+                    item.StatusMessage = "Đang Diễn Ra";
+                }
+                else if (item.ThoiGianKetThuc < DateTime.Now)
+                {
+                    item.StatusMessage = "Đã Kết Thúc";
+                }
+                else
+                {
+                    item.StatusMessage = "Sắp Diễn Ra";
+                }
+                ObservableLopHocPhan.Add(new LopHocPhanDto{
+                    IdLopHocPhan = item.IdLopHocPhan,
+                    TenLopHocPhan = item.TenLopHocPhan,
+                    IdGiaoVien = item.IdGiaoVien,
+                    TenGiaoVien = item.TenGiaoVien,
+                    IdMonHoc = item.IdMonHoc,
+                    TenMonHoc = item.TenMonHoc,
+                    ThoiGianBatDau = item.ThoiGianBatDau,
+                    ThoiGianKetThuc = item.ThoiGianKetThuc,
+                    StatusMessage = item.StatusMessage
+                });
             }
 
             // Bind to DataGrid or other UI components as needed

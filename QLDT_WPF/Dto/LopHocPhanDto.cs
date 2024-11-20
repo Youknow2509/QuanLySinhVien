@@ -11,5 +11,6 @@ namespace QLDT_WPF.Dto
 
         public string? TenGiaoVien { get; set; }
         public string? TenMonHoc { get; set; }
+        public string? StatusMessage { get; set; }
     }
 }

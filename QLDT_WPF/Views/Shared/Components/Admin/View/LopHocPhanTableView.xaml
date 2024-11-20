@@ -155,6 +155,11 @@
                                                    MappingName="ThoiGianKetThuc"
                                                    Width="180"/>
 
+                        <!-- Trang thai -->
+                        <syncfusion:GridTextColumn HeaderText="Trạng thái"
+                                                   MappingName="StatusMessage"
+                                                   Width="150"/>
+
                         <!-- Hành Động Column -->
                         <syncfusion:GridTemplateColumn HeaderText="Hành Động"
                                                        Width="150">
