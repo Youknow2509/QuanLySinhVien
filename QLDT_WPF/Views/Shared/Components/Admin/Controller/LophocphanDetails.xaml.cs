@@ -105,6 +105,31 @@ namespace QLDT_WPF.Views.Components
             //TODO
         }
 
+        // handle click ExportToExcel_SinhVien_LopHocPhan
+        private void ExportToExcel_SinhVien_LopHocPhan_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // handle text change txtTimKiem_TextChanged_SinhVien_LopHocPhan
+        private void txtTimKiem_TextChanged_SinhVien_LopHocPhan(object sender, TextChangedEventArgs e)
+        {
+            //TODO
+        }
+
+        // handle click ExportToExcel_Point_SinhVien_LopHocPhan
+        private void ExportToExcel_Point_SinhVien_LopHocPhan_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // handle text change txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan
+        private void txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan(object sender, TextChangedEventArgs e)
+        {
+            //TODO
+        }
+
+
         // private void BackButton_Click(object sender, RoutedEventArgs e)
         // {
         //     if (TargetContentArea != null)
