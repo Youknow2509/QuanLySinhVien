@@ -82,7 +82,7 @@ namespace QLDT_WPF.Views.Components
 
             // Load Calendar - calendar_lop_hoc_phan
 
-            // Load sinh vien thuoc danh sach lop hoc phan - StudentDataGrid
+            // Load DataGrid_ThoiGian_LopHocPhan
 
             // Load diem sinh vien lop hoc phan - ScoreDataGrid
         }
@@ -105,18 +105,6 @@ namespace QLDT_WPF.Views.Components
             //TODO
         }
 
-        // handle click ExportToExcel_SinhVien_LopHocPhan
-        private void ExportToExcel_SinhVien_LopHocPhan(object sender, RoutedEventArgs e)
-        {
-            //TODO
-        }
-
-        // handle text change txtTimKiem_TextChanged_SinhVien_LopHocPhan
-        private void txtTimKiem_TextChanged_SinhVien_LopHocPhan(object sender, TextChangedEventArgs e)
-        {
-            //TODO
-        }
-
         // handle click ExportToExcel_Point_SinhVien_LopHocPhan
         private void ExportToExcel_Point_SinhVien_LopHocPhan(object sender, RoutedEventArgs e)
         {
@@ -125,6 +113,24 @@ namespace QLDT_WPF.Views.Components
 
         // handle text change txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan
         private void txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan(object sender, TextChangedEventArgs e)
+        {
+            //TODO
+        }
+
+        // handle click Edit_ThoiGian_LopHocPhan
+        private void Edit_ThoiGian_LopHocPhan(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // handle click ExportToExcel_ThoiGian_LopHocPhan
+        private void ExportToExcel_ThoiGian_LopHocPhan(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        // handle text change txtTimKiem_TextChanged_ThoiGian_LopHocPhan
+        private void txtTimKiem_TextChanged_ThoiGian_LopHocPhan(object sender, TextChangedEventArgs e)
         {
             //TODO
         }
