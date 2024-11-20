@@ -5,7 +5,9 @@ using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
 using System.Windows.Media;
 using QLDT_WPF.Repositories;
-
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Syncfusion.UI.Xaml.Scheduler;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -23,7 +25,11 @@ namespace QLDT_WPF.Views.Components
         // Variables
         private string idLopHocPhan;
         private LopHocPhanDto lopHocPhanDto;
+        private MonHocDto monHocDto;
         private LopHocPhanRepository lopHocPhanRepository;
+        private MonHocRepository monHocRepository;
+        private CalendarRepository calendarRepository;
+        public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
 
         // Constructor
         public LopHocPhanDetails(string id)
@@ -32,6 +38,11 @@ namespace QLDT_WPF.Views.Components
 
             // inir repository
             lopHocPhanRepository = new LopHocPhanRepository();
+            monHocRepository = new MonHocRepository();
+            calendarRepository = new CalendarRepository();
+
+            //
+            Appointments = new ObservableCollection<ScheduleAppointment>();
 
             // set variables in constructor
             idLopHocPhan = id;
@@ -76,15 +87,72 @@ namespace QLDT_WPF.Views.Components
         }
 
         private async Task InitAysnc(){
-            // Set title - title_lop_hoc_phan
+            var req_lhp = await lopHocPhanRepository.GetById(idLopHocPhan);
+            if (req_lhp.Status == false)
+            {
+                MessageBox.Show(req_lhp.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            lopHocPhanDto = req_lhp.Data;
 
+            var req_mh = await monHocRepository.GetById(lopHocPhanDto.MonHocId);
+            if (req_mh.Status == false)
+            {
+                MessageBox.Show(req_mh.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            monHocDto = req_mh.Data;
+
+            // Set title - title_lop_hoc_phan
+            title_lop_hoc_phan.Text = $"Chi tiết lớp học phần {lopHocPhanDto.TenLopHocPhan}";
+            
             // Set - description_lop_hoc_phan
+            description_lop_hoc_phan.Text = $"Môn học: {monHocDto.TenMonHoc} - Số tín chỉ: {monHocDto.SoTinChi} - Số tiết: {monHocDto.SoTietHoc} - Bắt Đầu: {lopHocPhanDto.ThoiGianBatDau} - Kết thúc: {lopHocPhanDto.ThoiGianKetThuc}";
 
             // Load Calendar - calendar_lop_hoc_phan
+            Load_Calendar();
 
             // Load DataGrid_ThoiGian_LopHocPhan
-
+            Load_DataGrid_ThoiGian_LopHocPhan();
+            
             // Load diem sinh vien lop hoc phan - ScoreDataGrid
+            Load_ScoreDataGrid();
+        }
+
+        private async Task Load_Calendar()
+        {
+            var req_calendar = 
+                await calendarRepository.GetCalendarLopHocPhan(idLopHocPhan);
+            if (req_calendar.Status == false)
+            {
+                MessageBox.Show(req_calendar.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            List<CalendarDto> dtoList = req_calendar.Data;
+            Appointments.Clear();
+            // Convert to ScheduleAppointment
+            foreach (var dto in dtoList)
+            {
+                Appointments.Add(new ScheduleAppointment{
+                    Subject = dto.Title,
+                    StartTime = dto.Start,
+                    EndTime = dto.End,
+                    Location = dto.Location,
+                    Notes = dto.Description
+                });
+            }
+            calendar_lop_hoc_phan.Appointments = Appointments;
+        }
+
+        private void Load_DataGrid_ThoiGian_LopHocPhan()
+        {
+            //TODO
+        }
+
+        private void Load_ScoreDataGrid()
+        {
+            //TODO
         }
 
         // Show detail of sinh vien click - tag : id sinh vien
