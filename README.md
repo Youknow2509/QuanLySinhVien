@@ -4,7 +4,7 @@
 
 # TODO:
 - Auth ...  
-- Admin lop hoc phan detail
+- Sua diem windows
 - ....
 
 # How to run:
