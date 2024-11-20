@@ -124,11 +124,13 @@
                                                TextAlignment="Center"
                                                TextWrapping="Wrap"
                                                VerticalAlignment="Center"
-                                               />
+                                               Tag="{Binding IdSinhVien}"
+                                               MouseLeftButtonUp="ChiTietSinhVien_Click"/>
                                 </DataTemplate>
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
+                        <!-- Lop -->
                         <syncfusion:GridTemplateColumn HeaderText="Lớp"
                                                        Width="150"
                                                        MappingName="Lop">
@@ -142,6 +144,7 @@
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
+                        <!-- Ngay Sinh -->
                         <syncfusion:GridTemplateColumn HeaderText="Ngày Sinh"
                                                        Width="120"
                                                        MappingName="NgaySinh">
@@ -155,6 +158,7 @@
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
+                        <!-- Dia chi -->
                         <syncfusion:GridTemplateColumn HeaderText="Địa Chỉ"
                                                        Width="200"
                                                        MappingName="DiaChi">
