@@ -30,6 +30,7 @@ namespace QLDT_WPF.Views.Components
         private MonHocRepository monHocRepository;
         private CalendarRepository calendarRepository;
         public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
+        public ObservableCollection<CalendarDto> calendar_collections;
 
         // Constructor
         public LopHocPhanDetails(string id)
@@ -43,6 +44,7 @@ namespace QLDT_WPF.Views.Components
 
             //
             Appointments = new ObservableCollection<ScheduleAppointment>();
+            calendar_collections = new ObservableCollection<CalendarDto>();
 
             // set variables in constructor
             idLopHocPhan = id;
@@ -131,9 +133,11 @@ namespace QLDT_WPF.Views.Components
 
             List<CalendarDto> dtoList = req_calendar.Data;
             Appointments.Clear();
+            calendar_collections.Clear();
             // Convert to ScheduleAppointment
             foreach (var dto in dtoList)
-            {
+            {   
+                calendar_collections.Add(dto);
                 Appointments.Add(new ScheduleAppointment{
                     Subject = dto.Title,
                     StartTime = dto.Start ?? DateTime.MinValue,
@@ -147,7 +151,7 @@ namespace QLDT_WPF.Views.Components
 
         private void Load_DataGrid_ThoiGian_LopHocPhan()
         {
-            //TODO
+            DataGrid_ThoiGian_LopHocPhan.ItemsSource = calendar_collections;
         }
 
         private void Load_ScoreDataGrid()
