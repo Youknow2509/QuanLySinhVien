@@ -154,7 +154,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
         }
 
         // Event Handler for Adding a MonHoc
-        private async void AddMonHoc_Click(object sender, RoutedEventArgs e)
+        private void AddMonHoc_Click(object sender, RoutedEventArgs e)
         {
             // Get the MonHoc object from the button's Tag property
             var monHoc = (sender as Button)?.Tag as MonHocDto;
@@ -166,19 +166,30 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
             }
             string IdMonHoc = monHoc.IdMonHoc;
             string IdChuongTrinhHoc = chuongTrinhHocDto.IdChuongTrinhHoc;
-
+            string tenMonHoc = monHoc.TenMonHoc;
             try
             {
-                var req = await chuongTrinhHocRepository
-                    .AddMonHocToChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
-                if (req.Status == false)
+                Task.Run(async () =>
                 {
-                    MessageBox.Show($"Thêm môn học {mocHoc.TenMonHoc} vào chương trình học không thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                MessageBox.Show($"Thêm môn học {mocHoc.TenMonHoc} vào chương trình học thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
-                Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+                    var req = await chuongTrinhHocRepository
+                    .AddMonHocToChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
+
+                    // Hiển thị thông báo kết quả trên luồng UI
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        if (req.Status == false)
+                        {
+                            MessageBox.Show($"Thêm môn học {tenMonHoc} vào chương trình học không thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Thêm môn học {tenMonHoc} vào chương trình học thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                            Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
+                            Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+                        }
+                    });
+                });
             }
             catch (Exception e)
             {
@@ -199,19 +210,31 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
             }
             string IdMonHoc = monHoc.IdMonHoc;
             string IdChuongTrinhHoc = chuongTrinhHocDto.IdChuongTrinhHoc;
+            string tenMonHoc = monHoc.TenMonHoc;
 
             try
             {
-                var req = await chuongTrinhHocRepository
-                    .DeleteMonHocFromChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
-                if (req.Status == false)
+                Task.Run(async () =>
                 {
-                    MessageBox.Show($"Xoá môn học {mocHoc.TenMonHoc} vào chương trình học không thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                MessageBox.Show($"Xoá môn học {mocHoc.TenMonHoc} vào chương trình học thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
-                Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+                    var req = await chuongTrinhHocRepository
+                    .RemoveMonHocFromChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
+
+                    // Hiển thị thông báo kết quả trên luồng UI
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        if (req.Status == false)
+                        {
+                            MessageBox.Show($"Xóa môn học {tenMonHoc} khỏi chương trình học không thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Xóa môn học {tenMonHoc} khỏi chương trình học thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                            Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
+                            Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+                        }
+                    });
+                });
             }
             catch (Exception e)
             {
