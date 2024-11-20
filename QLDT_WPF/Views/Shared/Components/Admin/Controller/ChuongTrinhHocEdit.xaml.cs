@@ -133,7 +133,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
         // init data sfDataGrid_MonHocNgoaiChuongTrinh
         private async Task Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh(){
             var req_mh = await chuongTrinhHocRepository
-                .GetMonHocNotInChuongTrinhHoc(IdChuongTrinhHoc);
+                .GetMonHocByIdChuongTrinhHoc(IdChuongTrinhHoc);
             if(req_mh.Status == false){
                 MessageBox.Show("Không tìm thấy môn học ngoài chương trình học", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
