@@ -6,6 +6,7 @@ using QLDT_WPF.Views.Shared;
 using System.Windows.Media;
 using QLDT_WPF.Repositories;
 using Syncfusion.UI.Xaml.Scheduler;
+using System.Collections.ObjectModel;
 
 
 namespace QLDT_WPF.Views.Components
@@ -32,6 +33,7 @@ namespace QLDT_WPF.Views.Components
 
             idSinhVien = id;
             sinhVienRepository = new SinhVienRepository();
+            Appointments = new ObservableCollection<ScheduleAppointment>();
 
             if (TargetContentArea == null)
             {
@@ -117,7 +119,7 @@ namespace QLDT_WPF.Views.Components
             };
 
             // Set the Appointments property of the CalendarComponent
-            calendar_comonent.Appointments = Appointments;
+            calendar.Appointments = Appointments;
         }
 
         // Load Point
