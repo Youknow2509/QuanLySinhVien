@@ -68,9 +68,9 @@ public class LopHocPhanRepository
     /**
      * Lay lop hoc phan by id
      */
-    public async Task<ApiResponse<List<LopHocPhanDto>>> GetById(string id)
+    public async Task<ApiResponse<LopHocPhanDto>> GetById(string id)
     {
-        var list_lhp = await (
+        var LopHocPhan = await (
             from lhp in _context.LopHocPhans
             where lhp.IdLopHocPhan == id
             join gv in _context.GiaoViens
@@ -89,11 +89,11 @@ public class LopHocPhanRepository
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
             }
-        ).ToListAsync();
+        ).FirstOrDefaultAsync();
 
-        return new ApiResponse<List<LopHocPhanDto>>
+        return new ApiResponse<LopHocPhanDto>
         {
-            Data = list_lhp,
+            Data = LopHocPhan,
             Status = true,
             Message = "Lấy dữ liệu thành công"
         };
