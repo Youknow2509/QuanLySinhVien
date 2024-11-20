@@ -95,7 +95,7 @@ namespace QLDT_WPF.Views.Components
             }
             lopHocPhanDto = req_lhp.Data;
 
-            var req_mh = await monHocRepository.GetById(lopHocPhanDto.MonHocId);
+            var req_mh = await monHocRepository.GetById(lopHocPhanDto.IdMonHoc);
             if (req_mh.Status == false)
             {
                 MessageBox.Show(req_mh.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
