@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLDT_WPF.Dto;
+using QLDT_WPF.Models;
+using QLDT_WPF.Repositories;
 using QLDT_WPF.Views.Components;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
@@ -29,11 +33,28 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
 
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(ChuongTrinhHocEdit), new PropertyMetadata(null));
+        
+        // Variable
+        private string IdChuongTrinhHoc;
+        private ChuongTrinhHocDto chuongTrinhHocDto;
+        private ChuongTrinhHocRepository chuongTrinhHocRepository;
+        private ObservableCollection<MonHocDto> MonHocTrongChuongTrinh_Collection;
+        private ObservableCollection<MonHocDto> MonHocNgoaiChuongTrinh_Collection;
 
-
+        // Constructor  
         public ChuongTrinhHocEdit(string id)
         {
             InitializeComponent();
+
+            // Set var constructor
+            IdChuongTrinhHoc = id;
+
+            // Init repository
+            chuongTrinhHocRepository = new ChuongTrinhHocRepository();
+
+            //
+            MonHocNgoaiChuongTrinh_Collection = new ObservableCollection<MonHocDto>();
+            MonHocTrongChuongTrinh_Collection = new ObservableCollection<MonHocDto>();
 
             Loaded += async (s, e) =>
             {
@@ -57,6 +78,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
                         TargetContentArea = new ContentControl();
                     }
                 }
+                await InitAsync();
             };
         }
 
@@ -72,6 +94,57 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
             return FindParent<T>(parentObject);
         }
 
+        private async Task InitAsync()
+        {
+            // init title_edit_cth
+            var req_cth = await chuongTrinhHocRepository.GetById(IdChuongTrinhHoc);
+            if(req_cth.Status == false){
+                MessageBox.Show("Không tìm thấy chương trình học", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            chuongTrinhHocDto = req_cth.Data;
+            title_edit_cth.Text = $"Chỉnh sửa chương trình học: {chuongTrinhHocDto.TenChuongTrinhHoc}";
+
+            // init sfDataGrid_MonHocTrongChuongTrinh
+            await Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
+
+            // init sfDataGrid_MonHocNgoaiChuongTrinh
+            await Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+
+        }
+
+        // init data sfDataGrid_MonHocTrongChuongTrinh
+        private async Task Init_Data_sfDataGrid_MonHocTrongChuongTrinh(){
+            var req_mh = await chuongTrinhHocRepository
+                .GetMonHocByIdChuongTrinhHoc(IdChuongTrinhHoc);
+            if(req_mh.Status == false){
+                MessageBox.Show("Không tìm thấy môn học trong chương trình học", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            MonHocTrongChuongTrinh_Collection.Clear();
+            (List<MonHocDto> mh_t, List<MonHocDto> mh_kt) = req_mh.Data;
+            foreach(MonHocDto mh in mh_t){
+                MonHocTrongChuongTrinh_Collection.Add(mh);
+            }
+            sfDataGrid_MonHocTrongChuongTrinh.ItemsSource = MonHocTrongChuongTrinh_Collection;
+        }
+
+        // init data sfDataGrid_MonHocNgoaiChuongTrinh
+        private async Task Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh(){
+            var req_mh = await chuongTrinhHocRepository
+                .GetMonHocNotInChuongTrinhHoc(IdChuongTrinhHoc);
+            if(req_mh.Status == false){
+                MessageBox.Show("Không tìm thấy môn học ngoài chương trình học", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            MonHocNgoaiChuongTrinh_Collection.Clear();
+            (List<MonHocDto> mh_t, List<MonHocDto> mh_kt) = req_mh.Data;
+            foreach(MonHocDto mh in mh_kt){
+                MonHocNgoaiChuongTrinh_Collection.Add(mh);
+            }
+            sfDataGrid_MonHocNgoaiChuongTrinh.ItemsSource = MonHocNgoaiChuongTrinh_Collection;
+        }
 
         // Event Handler for Adding a MonHoc
         private void AddMonHoc_Click(object sender, RoutedEventArgs e)
