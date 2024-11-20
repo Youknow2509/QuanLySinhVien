@@ -45,13 +45,13 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         {
             // Set 
             idThoiGian.Text = calendarDto.Id;
-            datePicker.SelectedDate = DateTime.Parse(calendarDto.ThoiGianBatDau);
-            diaDiemTextBox.Text = calendarDto.DiaDiem;
+            datePicker.SelectedDate = DateTime.Parse(calendarDto.Start);
+            diaDiemTextBox.Text = calendarDto.Location;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Clock();
+            this.Close();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -82,7 +82,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 Task.Run(
                     async () =>
                     {
-                        var rq = await lopHocPhanRepository.ChangeTime(thayDoiThoiGianLopHocPhanDto);
+                        var response = await lopHocPhanRepository.ChangeTime(thayDoiThoiGianLopHocPhanDto);
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
