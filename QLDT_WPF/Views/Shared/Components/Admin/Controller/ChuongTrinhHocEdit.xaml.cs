@@ -191,9 +191,9 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
                     });
                 });
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                MessageBox.Show("Lỗi: " + e.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Lỗi: " + exception.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
         }
@@ -217,7 +217,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
                 Task.Run(async () =>
                 {
                     var req = await chuongTrinhHocRepository
-                    .RemoveMonHocFromChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
+                    .DeleteMonHocFromChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
 
                     // Hiển thị thông báo kết quả trên luồng UI
                     Application.Current.Dispatcher.Invoke(async () =>
@@ -236,9 +236,9 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
                     });
                 });
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                MessageBox.Show("Lỗi: " + e.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Lỗi: " + exception.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
         }
