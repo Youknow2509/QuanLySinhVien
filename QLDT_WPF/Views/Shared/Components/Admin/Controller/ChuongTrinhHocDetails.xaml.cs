@@ -31,7 +31,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         }
 
         public static readonly DependencyProperty TargetContentAreaProperty =
-            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(ChuongTrinhHocTableView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(ChuongTrinhHocDetails), new PropertyMetadata(null));
 
         // Variables
         private string idChuongTrinhHoc;
