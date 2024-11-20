@@ -147,16 +147,32 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
         }
 
         // Event Handler for Adding a MonHoc
-        private void AddMonHoc_Click(object sender, RoutedEventArgs e)
+        private async void AddMonHoc_Click(object sender, RoutedEventArgs e)
         {
             // Get the MonHoc object from the button's Tag property
             var monHoc = (sender as Button)?.Tag;
-            if (monHoc != null)
+            if (monHoc == null)
             {
-                MessageBox.Show($"Thêm môn học: {monHoc}", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-                // Add your logic here to handle adding the MonHoc to the Chương Trình Học
-                // TODO
+                MessageBox.Show("Không tìm thấy môn học", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            string IdMonHoc = monHoc.IdMonHoc;
+            string IdChuongTrinhHoc = chuongTrinhHocDto.IdChuongTrinhHoc;
 
+            try {
+                var req = await chuongTrinhHocRepository
+                    .AddMonHocToChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
+                if(req.Status == false){
+                    MessageBox.Show($"Thêm môn học {mocHoc.TenMonHoc} vào chương trình học không thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                MessageBox.Show($"Thêm môn học {mocHoc.TenMonHoc} vào chương trình học thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
+                Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+            } catch (Exception e)
+            {
+                MessageBox.Show("Lỗi: " + e.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
         }
 
@@ -165,12 +181,28 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Controller
         {
             // Get the MonHoc object from the button's Tag property
             var monHoc = (sender as Button)?.Tag;
-            if (monHoc != null)
+            if (monHoc == null)
             {
-                MessageBox.Show($"Xóa môn học: {monHoc}", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                // Add your logic here to handle removing the MonHoc from the Chương Trình Học
-                // TODO
+                MessageBox.Show("Không tìm thấy môn học", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            string IdMonHoc = monHoc.IdMonHoc;
+            string IdChuongTrinhHoc = chuongTrinhHocDto.IdChuongTrinhHoc;
 
+            try {
+                var req = await chuongTrinhHocRepository
+                    .DeleteMonHocFromChuongTrinhHoc(IdChuongTrinhHoc, IdMonHoc);
+                if(req.Status == false){
+                    MessageBox.Show($"Xoá môn học {mocHoc.TenMonHoc} vào chương trình học không thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                MessageBox.Show($"Xoá môn học {mocHoc.TenMonHoc} vào chương trình học thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                Init_Data_sfDataGrid_MonHocTrongChuongTrinh();
+                Init_Data_sfDataGrid_MonHocNgoaiChuongTrinh();
+            } catch (Exception e)
+            {
+                MessageBox.Show("Lỗi: " + e.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
         }
 
