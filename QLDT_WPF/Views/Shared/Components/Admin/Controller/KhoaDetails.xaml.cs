@@ -57,30 +57,29 @@ namespace QLDT_WPF.Views.Components
             sinhviens_collection = new ObservableCollection<SinhVienDto>();
             giaoviens_collection = new ObservableCollection<GiaoVienDto>();
 
-            if (TargetContentArea == null)
+            // Loaded asyn data
+            Loaded += async (s, e) =>
             {
-                var parentWindow = FindParent<Window>(this); // Tìm parent window
-                if (parentWindow != null)
+                if (TargetContentArea == null)
                 {
-                    var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
-                    if (contentArea != null)
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
                     {
-                        TargetContentArea = contentArea;
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                        else
+                        {
+                            TargetContentArea = new ContentControl();
+                        }
                     }
                     else
                     {
                         TargetContentArea = new ContentControl();
                     }
                 }
-                else
-                {
-                    TargetContentArea = new ContentControl();
-                }
-            }
-
-            // Loaded asyn data
-            Loaded += async (s, e) =>
-            {
                 await InintAsync();
             };
         }

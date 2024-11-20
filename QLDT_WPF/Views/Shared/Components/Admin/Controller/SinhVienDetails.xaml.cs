@@ -35,30 +35,29 @@ namespace QLDT_WPF.Views.Components
             sinhVienRepository = new SinhVienRepository();
             Appointments = new ObservableCollection<ScheduleAppointment>();
 
-            if (TargetContentArea == null)
+            // Load data asynchron
+            Loaded += async (s, e) =>
             {
-                var parentWindow = FindParent<Window>(this); // Tìm parent window
-                if (parentWindow != null)
+                if (TargetContentArea == null)
                 {
-                    var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
-                    if (contentArea != null)
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
                     {
-                        TargetContentArea = contentArea;
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                        else
+                        {
+                            TargetContentArea = new ContentControl();
+                        }
                     }
                     else
                     {
                         TargetContentArea = new ContentControl();
                     }
                 }
-                else
-                {
-                    TargetContentArea = new ContentControl();
-                }
-            }
-
-            // Load data asynchron
-            Loaded += async (s, e) =>
-            {
                 await InitAsync();
             };
         }
