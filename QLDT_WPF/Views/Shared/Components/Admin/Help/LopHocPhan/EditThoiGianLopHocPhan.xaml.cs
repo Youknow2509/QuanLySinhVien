@@ -45,7 +45,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         {
             // Set 
             idThoiGian.Text = calendarDto.Id;
-            datePicker.SelectedDate = DateTime.Parse(calendarDto.Start);
+            datePicker.SelectedDate = calendarDto.Start ?? DateTime.Now;
             diaDiemTextBox.Text = calendarDto.Location;
         }
 
@@ -123,22 +123,22 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 case "1":
                     ThoiGianBatDau = thoiGian.Date.AddHours(7).AddMinutes(0); // 7:00 AM
                     ThoiGianKetThuc = thoiGian.Date.AddHours(9).AddMinutes(30); // 9:30 AM
-                    break;
+                    return (ThoiGianBatDau, ThoiGianKetThuc);
 
                 case "2":
                     ThoiGianBatDau = thoiGian.Date.AddHours(9).AddMinutes(35); // 9:35 AM
                     ThoiGianKetThuc = thoiGian.Date.AddHours(12).AddMinutes(0); // 12:00 PM
-                    break;
+                    return (ThoiGianBatDau, ThoiGianKetThuc);
 
                 case "3":
                     ThoiGianBatDau = thoiGian.Date.AddHours(13).AddMinutes(0); // 1:00 PM
                     ThoiGianKetThuc = thoiGian.Date.AddHours(15).AddMinutes(30); // 3:30 PM
-                    break;
+                    return (ThoiGianBatDau, ThoiGianKetThuc);
 
                 case "4":
                     ThoiGianBatDau = thoiGian.Date.AddHours(15).AddMinutes(35); // 3:35 PM
                     ThoiGianKetThuc = thoiGian.Date.AddHours(18).AddMinutes(0); // 6:00 PM
-                    break;
+                    return (ThoiGianBatDau, ThoiGianKetThuc);
 
                 default:
                     throw new ArgumentException("Invalid shift (ca).");
