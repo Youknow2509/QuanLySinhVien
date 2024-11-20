@@ -114,7 +114,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
             {
                 monHoc_collection.Add(item);
             }
-            sfDataGridMonHoc.ItemSource = monHoc_collection;
+            sfDataGridMonHoc.ItemsSource = monHoc_collection;
         }
 
 
