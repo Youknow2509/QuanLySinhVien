@@ -1,14 +1,16 @@
 ﻿<UserControl x:Class="QLDT_WPF.Views.Shared.Components.Admin.Controller.ChuongTrinhHocEdit"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:local="clr-namespace:QLDT_WPF.Views.Shared.Components.Admin.Controller"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              Background="White"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Auto">
         <StackPanel Margin="20">
             <!-- Title -->
             <TextBlock x:Name="title_edit_cth"
@@ -20,13 +22,22 @@
                        HorizontalAlignment="Center"/>
 
             <!-- First Table: Bảng Các Môn Đang Có Trong Chương Trình Học -->
-            <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,0,0,20">
+            <Border BorderBrush="#CCCCCC"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="10"
+                    Margin="0,0,0,20">
                 <StackPanel>
                     <!-- Card Header -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
                         <TextBlock Text="Bảng Các Môn Đang Có Trong Chương Trình Học"
-                                   FontSize="16" FontWeight="Bold" Foreground="#3A82E5" Margin="0,0,10,0" VerticalAlignment="Center"/>
-                        
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#3A82E5"
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center"/>
+
                     </StackPanel>
 
                     <!-- Table (SfDataGrid) -->
@@ -37,13 +48,24 @@
                                            RowHeight="40"
                                            HorizontalAlignment="Stretch">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn MappingName="TenMonHoc" HeaderText="Tên Môn Học"/>
-                            <syncfusion:GridTextColumn MappingName="SoTinChi" HeaderText="Số Tín Chỉ" Width="100"/>
-                            <syncfusion:GridTextColumn MappingName="SoTiet" HeaderText="Số Tiết" Width="100"/>
-                            <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                            <syncfusion:GridTextColumn MappingName="TenMonHoc"
+                                                       HeaderText="Tên Môn Học"/>
+                            <syncfusion:GridTextColumn MappingName="SoTinChi"
+                                                       HeaderText="Số Tín Chỉ"
+                                                       Width="100"/>
+                            <syncfusion:GridTextColumn MappingName="SoTiet"
+                                                       HeaderText="Số Tiết"
+                                                       Width="100"/>
+                            <syncfusion:GridTemplateColumn HeaderText="Hành Động"
+                                                           Width="150">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Xóa" Background="#F44336" Foreground="White" BorderBrush="Transparent" Click="RemoveMonHoc_Click"/>
+                                        <Button Content="Xóa"
+                                                Background="#F44336"
+                                                Foreground="White"
+                                                BorderBrush="Transparent"
+                                                Tag="{Binding}"
+                                                Click="RemoveMonHoc_Click"/>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
@@ -53,12 +75,20 @@
             </Border>
 
             <!-- Second Table: Bảng Các Môn Không Có Trong Chương Trình Học -->
-            <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="8" Padding="10">
+            <Border BorderBrush="#CCCCCC"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="10">
                 <StackPanel>
                     <!-- Card Header -->
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
                         <TextBlock Text="Bảng Các Môn Không Có Trong Chương Trình Học"
-                                   FontSize="16" FontWeight="Bold" Foreground="#3A82E5" Margin="0,0,10,0" VerticalAlignment="Center" />
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#3A82E5"
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center"/>
 
                     </StackPanel>
 
@@ -70,13 +100,25 @@
                                            RowHeight="40"
                                            HorizontalAlignment="Stretch">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn MappingName="TenMonHoc" HeaderText="Tên Môn Học" Width="120"/>
-                           <syncfusion:GridTextColumn MappingName="SoTinChi" HeaderText="Số Tín Chỉ" Width="100"/>
-                            <syncfusion:GridTextColumn MappingName="SoTiet" HeaderText="Số Tiết" Width="100"/>
-                            <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                            <syncfusion:GridTextColumn MappingName="TenMonHoc"
+                                                       HeaderText="Tên Môn Học"
+                                                       Width="120"/>
+                            <syncfusion:GridTextColumn MappingName="SoTinChi"
+                                                       HeaderText="Số Tín Chỉ"
+                                                       Width="100"/>
+                            <syncfusion:GridTextColumn MappingName="SoTiet"
+                                                       HeaderText="Số Tiết"
+                                                       Width="100"/>
+                            <syncfusion:GridTemplateColumn HeaderText="Hành Động"
+                                                           Width="150">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Thêm" Background="#4CAF50" Foreground="White" BorderBrush="Transparent" Click="AddMonHoc_Click"/>
+                                        <Button Content="Thêm"
+                                                Background="#4CAF50"
+                                                Foreground="White"
+                                                BorderBrush="Transparent"
+                                                Tag="{Binding}"
+                                                Click="AddMonHoc_Click"/>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
