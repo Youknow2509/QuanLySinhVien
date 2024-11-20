@@ -158,7 +158,7 @@
 
                         <syncfusion:GridTemplateColumn HeaderText="Trạng Thái">
                             <syncfusion:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
+                                <!-- <DataTemplate>
                                     <TextBlock>
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -185,7 +185,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                </DataTemplate>
+                                </DataTemplate> -->
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
 
