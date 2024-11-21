@@ -255,12 +255,15 @@ namespace QLDT_WPF.Views.Components
             }
 
             // Update sinh vien
-            sinhVien.HoTen = hoTen;
-            sinhVien.Email = email;
-            sinhVien.SoDienThoai = phoneNumber;
-            sinhVien.DiaChi = address;
+            SinhVienDto sinhVienEdit = new SinhVienDto{
+                IdSinhVien = sinhVien.IdSinhVien,
+                HoTen = hoTen,
+                Email = email,
+                SoDienThoai = phoneNumber,
+                DiaChi = address
+            };
 
-            var req = await identityRepository.UpgradeSinhVien(sinhVien);
+            var req = await identityRepository.UpgradeSinhVien(sinhVienEdit);
             if (req.Status == false)
             {
                 MessageBox.Show("Lưu thông tin thất bại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -268,6 +271,7 @@ namespace QLDT_WPF.Views.Components
             }
             MessageBox.Show("Lưu thông tin thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
             // Reload information
+            sinhVien = sinhVienEdit;
             SetInfomationUser();
         }
 
