@@ -9,6 +9,7 @@ using Syncfusion.UI.Xaml.Scheduler;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Drawing;
 
 
 namespace QLDT_WPF.Views.Components
@@ -239,9 +240,17 @@ namespace QLDT_WPF.Views.Components
         // handle edit profile button
         private void Edit_SV_Button_Click(object sender, RoutedEventArgs e)
         {
-            // Open the SinhVienEditWindow
-            var editWindow = new SinhVienEditWindow();
-            editWindow.ShowDialog();
+            // Redirect 
+            // Redirect to MonHocDetails
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content =
+                    new QLDT_WPF.Views.Components.SinhVienEditWindow(sinhVienDto);
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // handle edit point button - Button tag binding DiemDto
