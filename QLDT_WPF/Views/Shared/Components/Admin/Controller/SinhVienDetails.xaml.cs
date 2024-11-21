@@ -244,10 +244,23 @@ namespace QLDT_WPF.Views.Components
             editWindow.ShowDialog();
         }
 
-        // handle edit point button
+        // handle edit point button - Button tag binding DiemDto
         private void Edit_Point_Student(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // get data in tag
+            var diem = (sender as Button)?.Tag as DiemDto;
+            if (diem == null)
+            {
+                MessageBox.Show("Không tìm thấy điểm!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Open the DiemEditWindow
+            var editWindow = new QLDT_WPF.Views.Shared.Components.Admin.View.EditDiem(diem);
+            editWindow.ShowDialog();
+
+            // Refresh data
+            Load_Point();
         }
 
         // export point sinh vien 
@@ -265,13 +278,48 @@ namespace QLDT_WPF.Views.Components
         // show detail mon hoc - TextBlock tag binding IdMon
         private void ChiTietMonHoc_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // get data id mon hoc in tag
+            var idMon = (sender as TextBlock)?.Tag as string;
+            if (idMon == null)
+            {
+                MessageBox.Show("Không tìm thấy mã môn học!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Redirect to MonHocDetails
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content =
+                    new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(idMon);
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         // show detail LopHocPhan - TextBlock tag binding IdLopHocPhan
         private void ChiTietLopHocPhan_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // get data id lop hoc phan in tag
+            var idLopHocPhan = (sender as TextBlock)?.Tag as string;
+            if (idLopHocPhan == null)
+            {
+                MessageBox.Show("Không tìm thấy mã lớp học phần!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Redirect to LopHocPhanDetails
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content =
+                    new QLDT_WPF.Views.Components.LopHocPhanDetails(idLopHocPhan);
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
     }
