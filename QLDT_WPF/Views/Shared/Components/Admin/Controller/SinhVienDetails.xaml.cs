@@ -7,6 +7,8 @@ using System.Windows.Media;
 using QLDT_WPF.Repositories;
 using Syncfusion.UI.Xaml.Scheduler;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 
 namespace QLDT_WPF.Views.Components
@@ -109,7 +111,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            byte[] image = req_avt.Data;
+            byte[] imageBytes = req_avt.Data;
             if (imageBytes == null || imageBytes.Length == 0)
             {
                 MessageBox.Show("Dữ liệu ảnh không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
