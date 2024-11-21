@@ -35,8 +35,6 @@ namespace QLDT_WPF.Views.Components
         public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
         public ObservableCollection<DiemDto> diem_collection { get; set; }
 
-
-
         public SinhVienDetails(string id)
         {
             InitializeComponent();
@@ -118,17 +116,25 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            // Chuyển đổi byte array thành hình ảnh
+            // Convert byte array to an image
             using (var stream = new System.IO.MemoryStream(imageBytes))
             {
                 var bitmap = new BitmapImage();
                 bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad; // Tải ảnh vào bộ nhớ
+                bitmap.CacheOption = BitmapCacheOption.OnLoad; // Load image into memory
                 bitmap.StreamSource = stream;
                 bitmap.EndInit();
 
-                // Gán hình ảnh vào giao diện, ví dụ một Image control
-                AvatarImageControl.Source = bitmap;
+                // Assign the bitmap to the ImageBrush
+                if (AvatarImageControl.Fill is ImageBrush imageBrush)
+                {
+                    imageBrush.ImageSource = bitmap;
+                }
+                else
+                {
+                    // If the Fill is not already an ImageBrush, create one
+                    AvatarImageControl.Fill = new ImageBrush(bitmap) { Stretch = Stretch.UniformToFill };
+                }
             }
         }
 
@@ -196,6 +202,7 @@ namespace QLDT_WPF.Views.Components
                     TenSinhVien = it.TenSinhVien,
                     TenMonHoc = it.TenMonHoc,
                     TenLopHocPhan = it.TenLopHocPhan,
+                    LanHoc = it.LanHoc,
 
                     TrangThai = it.DiemTongKet >= 4 ? "Qua Môn" : "Học Lại",
                 });

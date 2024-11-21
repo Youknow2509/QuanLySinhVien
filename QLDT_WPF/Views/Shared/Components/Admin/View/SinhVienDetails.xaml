@@ -44,17 +44,13 @@
                 <StackPanel Grid.Column="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Ellipse Width="150"
+                    <Ellipse x:Name="AvatarImageControl"
+                             Width="150"
                              Height="150"
                              Margin="0,0,0,10">
+                        <!-- Placeholder Fill -->
                         <Ellipse.Fill>
-                            <Image x:Name="AvatarImageControl"
-                                   Width="150"
-                                   Height="150"
-                                   Stretch="UniformToFill"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-
+                            <ImageBrush Stretch="UniformToFill"/>
                         </Ellipse.Fill>
                     </Ellipse>
                 </StackPanel>
@@ -234,7 +230,7 @@
                         <syncfusion:SfDataGrid.Columns>
                             <!-- Mon -->
                             <syncfusion:GridTemplateColumn HeaderText="Môn Học"
-                                                           Width="150">
+                                                           Width="220">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding TenMonHoc}"
@@ -252,7 +248,7 @@
 
                             <!-- Lop Hoc Phan -->
                             <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần"
-                                                           Width="150">
+                                                           Width="220">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding TenLopHocPhan}"
@@ -271,19 +267,19 @@
                             <!-- Diem Qua Trinh -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình"
                                                        MappingName="DiemQuaTrinh"
-                                                       Width="150"/>
+                                                       Width="120"/>
                             <!-- Diem Ket Thuc -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Kết Thúc"
                                                        MappingName="DiemKetThuc"
-                                                       Width="150"/>
+                                                       Width="120"/>
                             <!-- Diem Tong Ket -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Tổng Kết"
                                                        MappingName="DiemTongKet"
-                                                       Width="150"/>
+                                                       Width="120"/>
                             <!-- Lan Hoc -->
                             <syncfusion:GridTextColumn HeaderText="Lần Học"
                                                        MappingName="LanHoc"
-                                                       Width="150"/>
+                                                       Width="120"/>
                             <!-- Trang Thai -->
                             <syncfusion:GridTextColumn HeaderText="Trạng Thái"
                                                        MappingName="TrangThai"
@@ -291,7 +287,7 @@
 
                             <!-- Hanh dong -->
                             <syncfusion:GridTemplateColumn HeaderText="Hành Động"
-                                                           Width="260">
+                                                           Width="100">
                                 <syncfusion:GridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal"
