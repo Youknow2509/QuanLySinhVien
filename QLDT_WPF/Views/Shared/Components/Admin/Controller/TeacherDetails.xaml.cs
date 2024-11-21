@@ -178,15 +178,15 @@ namespace QLDT_WPF.Views.Components
             {
                 // Đã Kết Thúc, Đang Diễn Ra, Sắp Diễn Ra - So Với Thời Gian Hiện Tại
                 string StatusMessage = "";
-                if (dto.End < DateTime.Now)
+                if (lhp.End < DateTime.Now)
                 {
                     StatusMessage = "Đã Kết Thúc";
                 }
-                else if (dto.Start < DateTime.Now && dto.End > DateTime.Now)
+                else if (lhp.Start < DateTime.Now && lhp.End > DateTime.Now)
                 {
                     StatusMessage = "Đang Diễn Ra";
                 }
-                else if (dto.Start > DateTime.Now)
+                else if (lhp.Start > DateTime.Now)
                 {
                     StatusMessage = "Sắp Diễn Ra";
                 }
@@ -197,9 +197,9 @@ namespace QLDT_WPF.Views.Components
                     IdMonHoc = lhp.IdMonHoc,
                     IdGiaoVien = lhp.IdGiaoVien,
 
-                    TenLopHocPhan = lhp.TenHocPhan,
-                    TenGiaoVien = gv.TenGiaoVien,
-                    TenMonHoc = mh.TenMonHoc,
+                    TenLopHocPhan = lhp.TenLopHocPhan,
+                    TenGiaoVien = lhp.TenGiaoVien,
+                    TenMonHoc = lhp.TenMonHoc,
                     ThoiGianBatDau = lhp.ThoiGianBatDau,
                     ThoiGianKetThuc = lhp.ThoiGianKetThuc,
                     StatusMessage = StatusMessage
@@ -220,7 +220,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             lichGiaoVien_collection.Clear();
-            foreach (var dto in req_calendar.Data)
+            foreach (var it in req_calendar.Data)
             {
                 lichGiaoVien_collection.Add(new ScheduleAppointment
                 {
