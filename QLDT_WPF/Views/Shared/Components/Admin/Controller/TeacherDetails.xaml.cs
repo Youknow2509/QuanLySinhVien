@@ -4,14 +4,17 @@ using System.Windows.Controls;
 using Syncfusion.UI.Xaml.Grid;
 using QLDT_WPF.Views.Shared;
 using System.Windows.Media;
+using QLDT_WPF.Repositories;
+using Syncfusion.UI.Xaml.Scheduler;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
+using System.IO;
+using System.Drawing;
 
 namespace QLDT_WPF.Views.Components
 {
     public partial class TeacherDetails : UserControl
     {
-
-        private string idGiaoVien;
-
         public ContentControl TargetContentArea
         {
             get { return (ContentControl)GetValue(TargetContentAreaProperty); }
@@ -21,12 +24,44 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherDetails), new PropertyMetadata(null));
 
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
 
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+
+        // Variables
+        private string idGiaoVien;
+        private GiaoVienDto giaoVienDto;
+
+        private GiaoVienRepository giaoVienRepository;
+        private IdentityRepository identityRepository;
+        private LopHocPhanRepository lopHocPhanRepository;
+        private CalendarRepository calendarRepository;
+
+        private ObservableCollection<LopHocPhanDto> lopHocPhan_collection;
+        private ObservableCollection<ScheduleAppointment> lichGiaoVien_collection;
+
+        // Constructor
         public TeacherDetails(string id)
         {
             InitializeComponent();
+
             idGiaoVien = id;
-            LoadSampleData();
+
+            giaoVienRepository = new GiaoVienRepository();
+            identityRepository = new IdentityRepository();
+            lopHocPhanRepository = new LopHocPhanRepository();
+            calendarRepository = new CalendarRepository();
+
+            lopHocPhan_collection = new ObservableCollection<LopHocPhanDto>();
+            lichGiaoVien_collection = new ObservableCollection<ScheduleAppointment>();
 
             Loaded += async (s, e) =>
             {
@@ -50,31 +85,174 @@ namespace QLDT_WPF.Views.Components
                         TargetContentArea = new ContentControl();
                     }
                 }
+
+                await InitAsync();
             };
 
         }
 
-        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        private async Task InitAsync()
         {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            // Load thong tin giao vien
+            await Load_Infomation_GiaoVien();
 
-            if (parentObject == null) return null;
+            // Load anh
+            await Load_Anh();
 
-            if (parentObject is T parent)
-                return parent;
+            // Load Lop hoc phan
+            await Load_LopHocPhan();
 
-            return FindParent<T>(parentObject);
+            // Load lich giao vien
+            await Load_LichGiaoVien();
+
         }
 
-        private void LoadSampleData()
+        private async Task Load_Infomation_GiaoVien()
         {
-            // // Giả lập dữ liệu
-            // DataGrid.ItemsSource = new[]
-            // {
-            //     new { LopHocPhan = "Lớp 1", GiangVien = "Nguyễn Văn A", MonHoc = "Toán" },
-            //     new { LopHocPhan = "Lớp 2", GiangVien = "Trần Thị B", MonHoc = "Lý" },
-            //     new { LopHocPhan = "Lớp 3", GiangVien = "Phạm Văn C", MonHoc = "Hóa" }
-            // };
+            var req_gv = await giaoVienRepository.GetById(idGiaoVien);
+            if (req_gv.Status == false)
+            {
+                MessageBox.Show(req_gv.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            giaoVienDto = req_gv.Data;
+
+            // Hiển thị thông tin giáo viên
+            txtFullName.Text = giaoVienDto.TenGiaoVien;
+            txtEmail.Text = giaoVienDto.Email;
+            txtPhoneNumber.Text = giaoVienDto.SoDienThoai;
+            txtKhoa.Text = giaoVienDto.TenKhoa;
+
+        }
+
+        private async Task Load_Anh()
+        {
+            var req_avt = await identityRepository.GetAvatar(idGiaoVien);
+            if (req_avt.Status == false)
+            {
+                MessageBox.Show("Không tìm thấy ảnh đại diện của giáo viên", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            byte[] imageBytes = req_avt.Data;
+            if (imageBytes == null || imageBytes.Length == 0)
+            {
+                MessageBox.Show("Dữ liệu ảnh không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Convert byte array to an image
+            using (var stream = new System.IO.MemoryStream(imageBytes))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad; // Load image into memory
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+
+                // Assign the bitmap to the ImageBrush
+                if (AvatarImageControl.Fill is ImageBrush imageBrush)
+                {
+                    imageBrush.ImageSource = bitmap;
+                }
+                else
+                {
+                    // If the Fill is not already an ImageBrush, create one
+                    AvatarImageControl.Fill = new ImageBrush(bitmap) { Stretch = Stretch.UniformToFill };
+                }
+            }
+        }
+
+        private async Task Load_LopHocPhan()
+        {
+            var req_lhp = await lopHocPhanRepository.GetLopHocPhansFromGiaoVien(idGiaoVien);
+            if (req_lhp.Status == false)
+            {
+                MessageBox.Show(req_lhp.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            lopHocPhan_collection.Clear();
+            foreach (var lhp in req_lhp.Data)
+            {
+                // Đã Kết Thúc, Đang Diễn Ra, Sắp Diễn Ra - So Với Thời Gian Hiện Tại
+                string StatusMessage = "";
+                if (dto.End < DateTime.Now)
+                {
+                    StatusMessage = "Đã Kết Thúc";
+                }
+                else if (dto.Start < DateTime.Now && dto.End > DateTime.Now)
+                {
+                    StatusMessage = "Đang Diễn Ra";
+                }
+                else if (dto.Start > DateTime.Now)
+                {
+                    StatusMessage = "Sắp Diễn Ra";
+                }
+
+                lopHocPhan_collection.Add(new LopHocPhanDto
+                {
+                    IdLopHocPhan = lhp.IdLopHocPhan,
+                    IdMonHoc = lhp.IdMonHoc,
+                    IdGiaoVien = lhp.IdGiaoVien,
+
+                    TenLopHocPhan = lhp.TenHocPhan,
+                    TenGiaoVien = gv.TenGiaoVien,
+                    TenMonHoc = mh.TenMonHoc,
+                    ThoiGianBatDau = lhp.ThoiGianBatDau,
+                    ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                    StatusMessage = StatusMessage
+                });
+            }
+
+            // Hiển thị danh sách lớp học phần
+            DataGrid.ItemsSource = lopHocPhan_collection;
+        }
+
+        private async Task Load_LichGiaoVien()
+        {
+            var req_calendar = await calendarRepository.GetCalendarFromGiaoVien(idGiaoVien);
+            if (req_calendar.Status == false)
+            {
+                MessageBox.Show(req_calendar.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            lichGiaoVien_collection.Clear();
+            foreach (var dto in req_calendar.Data)
+            {
+                lichGiaoVien_collection.Add(new ScheduleAppointment
+                {
+                    Subject = it.Title,
+                    StartTime = it.Start ?? DateTime.MinValue,
+                    EndTime = it.End ?? DateTime.MinValue,
+                    Location = it.Location,
+                    Notes = it.Description
+                });
+            }
+
+            // Hiển thị lịch giáo viên
+            calendar_giangvien.Appointments = lichGiaoVien_collection;
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Mở cửa sổ TeacherEditWindow
+            var userProfileWindow = new TeacherEditWindow();
+            userProfileWindow.ShowDialog();
+        }
+
+        // handle click text block ChiTietLopHocPhan_Click - redirect to detail lop hoc phan
+        private void ChiTietLopHocPhan_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // handle click text block ChiTietMonHoc_Click - redirect to detail mon hoc
+        private void ChiTietMonHoc_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
 
         // private void DataGrid_CellTapped(object sender, GridCellTappedEventArgs e)
@@ -107,12 +285,5 @@ namespace QLDT_WPF.Views.Components
         //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
         //     }
         // }
-
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Mở cửa sổ TeacherEditWindow
-            var userProfileWindow = new TeacherEditWindow();
-            userProfileWindow.ShowDialog();
-        }
     }
 }

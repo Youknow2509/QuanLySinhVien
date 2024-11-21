@@ -26,7 +26,13 @@
                 Click="BackButton_Click" /> -->
 
         <!-- Teacher Information -->
-        <Border Grid.Row="1" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
+        <Border Grid.Row="1"
+                Padding="20"
+                Background="#F8F9FA"
+                CornerRadius="8"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                Margin="0,0,0,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*"/>
@@ -34,20 +40,56 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Avatar -->
-                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Ellipse Width="150" Height="150" Fill="#EEEEEE" Margin="0,0,0,10"/>
+                <StackPanel Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Ellipse x:Name="AvatarImageControl"
+                             Width="150"
+                             Height="150"
+                             Margin="0,0,0,10">
+                        <!-- Placeholder Fill -->
+                        <Ellipse.Fill>
+                            <ImageBrush Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
                 </StackPanel>
 
                 <!-- Teacher Info -->
-                <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-                    <TextBlock Text="Họ Tên:" FontWeight="Bold" Margin="0,5"/>
-                    <TextBox x:Name="txtFullName" IsReadOnly="True" Margin="0,5"/>
-                    <TextBlock Text="Email:" FontWeight="Bold" Margin="0,5"/>
-                    <TextBox x:Name="txtEmail" IsReadOnly="True" Margin="0,5"/>
-                    <TextBlock Text="Số Điện Thoại:" FontWeight="Bold" Margin="0,5"/>
-                    <TextBox x:Name="txtPhoneNumber" IsReadOnly="True" Margin="0,5"/>
-                    <TextBlock Text="Khoa:" FontWeight="Bold" Margin="0,5"/>
-                    <TextBox x:Name="txtAddress" IsReadOnly="True" Margin="0,5"/>
+                <StackPanel Grid.Column="1"
+                            Orientation="Vertical"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Stretch">
+                    <!-- Ho ten -->
+                    <TextBlock Text="Họ Tên:"
+                               FontWeight="Bold"
+                               Margin="0,5"/>
+                    <TextBox x:Name="txtFullName"
+                             IsReadOnly="True"
+                             Margin="0,5"/>
+
+                    <!-- Email -->
+                    <TextBlock Text="Email:"
+                               FontWeight="Bold"
+                               Margin="0,5"/>
+                    <TextBox x:Name="txtEmail"
+                             IsReadOnly="True"
+                             Margin="0,5"/>
+
+                    <!-- Phone Number -->
+                    <TextBlock Text="Số Điện Thoại:"
+                               FontWeight="Bold"
+                               Margin="0,5"/>
+                    <TextBox x:Name="txtPhoneNumber"
+                             IsReadOnly="True"
+                             Margin="0,5"/>
+
+                    <!-- Khoa -->
+                    <TextBlock Text="Khoa:"
+                               FontWeight="Bold"
+                               Margin="0,5"/>
+                    <TextBox x:Name="txtKhoa"
+                             IsReadOnly="True"
+                             Margin="0,5"/>
 
                     <!-- Edit Button -->
                     <Button Content="Sửa"
@@ -58,16 +100,25 @@
                             Background="#007BFF"
                             Foreground="White"
                             BorderBrush="Transparent"
-                            Click="EditButton_Click" />
+                            Click="EditButton_Click"/>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Class List with Pagination -->
-        <StackPanel Grid.Row="2" Margin="0,10,0,0">
-            <Border Padding="20" Background="#FFFFFF" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1">
+        <!-- Danh Sách Các Lớp Học Phần Dạy -->
+        <StackPanel Grid.Row="2"
+                    Margin="0,10,0,0">
+            <Border Padding="20"
+                    Background="#FFFFFF"
+                    CornerRadius="8"
+                    BorderBrush="#DDDDDD"
+                    BorderThickness="1">
                 <StackPanel>
-                    <TextBlock Text="Danh Sách Các Lớp Học Phần Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                    <TextBlock Text="Danh Sách Các Lớp Học Phần Dạy"
+                               FontSize="16"
+                               FontWeight="Bold"
+                               Foreground="#333333"
+                               Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="DataGrid"
                                            AutoGenerateColumns="False"
                                            RowHeight="35"
@@ -76,9 +127,58 @@
                                            BorderThickness="1"
                                            ItemsSource="{Binding PagedClasses}">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="300" />
-                            <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="GiangVien" Width="300" />
-                            <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="MonHoc" Width="200" />
+                            <!-- Lop Hoc Phan -->
+                            <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần"
+                                                           Width="300">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TenLopHocPhan}"
+                                                   Foreground="Blue"
+                                                   TextDecorations="Underline"
+                                                   Cursor="Hand"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   MouseLeftButtonUp="ChiTietLopHocPhan_Click"
+                                                   Tag="{Binding IdLopHocPhan}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
+                            <!-- Mon Hoc -->
+                            <syncfusion:GridTemplateColumn HeaderText="Môn Học"
+                                                           Width="200">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TenMonHoc}"
+                                                   Foreground="Blue"
+                                                   TextDecorations="Underline"
+                                                   Cursor="Hand"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   MouseLeftButtonUp="ChiTietMonHoc_Click"
+                                                   Tag="{Binding IdMonHoc}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
+
+                            <!-- Thoi Gian Bat Dau -->
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu"
+                                                       MappingName="ThoiGianBatDau"
+                                                       Width="200"/>
+
+                            <!-- Thoi Gian Ket Thuc -->
+                            <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc"
+                                                       MappingName="ThoiGianKetThuc"
+                                                       Width="200"/>
+
+                            <!-- Trang Thai -->
+                            <syncfusion:GridTextColumn HeaderText="Trạng Thái"
+                                                       MappingName="TrangThai"
+                                                       Width="200"/>
+
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </StackPanel>
@@ -91,10 +191,21 @@
         </StackPanel>
 
         <!-- Teaching Schedule -->
-        <Border Grid.Row="3" Padding="20" Background="#F8F9FA" CornerRadius="8" BorderBrush="#DDDDDD" BorderThickness="1" Margin="0,0,0,10">
+        <Border Grid.Row="3"
+                Padding="20"
+                Background="#F8F9FA"
+                CornerRadius="8"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1"
+                Margin="0,0,0,10">
             <StackPanel>
-                <TextBlock Text="Lịch Dạy" FontSize="16" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
-                <local:CalendarComponent Width="800" />
+                <TextBlock Text="Lịch Dạy"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#333333"
+                           Margin="0,0,0,10"/>
+                <local:CalendarComponent x:Name="calendar_giangvien"
+                                         Width="800"/>
             </StackPanel>
         </Border>
     </Grid>
