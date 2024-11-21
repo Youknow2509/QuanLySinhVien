@@ -46,8 +46,17 @@
                             VerticalAlignment="Center">
                     <Ellipse Width="150"
                              Height="150"
-                             Fill="#EEEEEE"
-                             Margin="0,0,0,10"/>
+                             Margin="0,0,0,10">
+                        <Ellipse.Fill>
+                            <Image x:Name="AvatarImageControl"
+                                   Width="150"
+                                   Height="150"
+                                   Stretch="UniformToFill"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                        </Ellipse.Fill>
+                    </Ellipse>
                 </StackPanel>
 
                 <!-- Student Info -->

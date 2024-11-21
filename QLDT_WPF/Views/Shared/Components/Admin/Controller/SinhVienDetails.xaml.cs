@@ -24,7 +24,7 @@ namespace QLDT_WPF.Views.Components
 
         private string idSinhVien;
         private SinhVienDto sinhVienDto;
-        
+
         private SinhVienRepository sinhVienRepository;
         private DiemRepository diemRepository;
         private CalendarRepository calendarRepository;
@@ -110,7 +110,24 @@ namespace QLDT_WPF.Views.Components
             }
 
             byte[] image = req_avt.Data;
+            if (imageBytes == null || imageBytes.Length == 0)
+            {
+                MessageBox.Show("Dữ liệu ảnh không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            // Chuyển đổi byte array thành hình ảnh
+            using (var stream = new System.IO.MemoryStream(imageBytes))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad; // Tải ảnh vào bộ nhớ
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+
+                // Gán hình ảnh vào giao diện, ví dụ một Image control
+                AvatarImageControl.Source = bitmap;
+            }
         }
 
         // Set data in4 sinh vien
@@ -137,7 +154,7 @@ namespace QLDT_WPF.Views.Components
             Appointments.Clear();
             foreach (var it in req_calendar.Data)
             {
-                Appointments.add(new ScheduleAppointment
+                Appointments.Add(new ScheduleAppointment
                 {
                     Subject = it.Title,
                     StartTime = it.Start ?? DateTime.MinValue,
@@ -155,15 +172,17 @@ namespace QLDT_WPF.Views.Components
         private async Task Load_Point()
         {
             var req_point = await diemRepository.GetByIdSinhVien(idSinhVien);
-            if(req_point.Status == false) {
+            if (req_point.Status == false)
+            {
                 MessageBox.Show("Không tìm thấy điểm của sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             diem_collection.Clear();
             foreach (var it in req_point.Data)
-            {   
-                diem_collection.Add(new DiemDto{
+            {
+                diem_collection.Add(new DiemDto
+                {
                     IdDiem = it.IdDiem,
                     IdSinhVien = it.IdSinhVien,
                     IdMon = it.IdMon,
@@ -175,7 +194,7 @@ namespace QLDT_WPF.Views.Components
                     TenSinhVien = it.TenSinhVien,
                     TenMonHoc = it.TenMonHoc,
                     TenLopHocPhan = it.TenLopHocPhan,
-                    
+
                     TrangThai = it.DiemTongKet >= 4 ? "Qua Môn" : "Học Lại",
                 });
             }
