@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:local="clr-namespace:QLDT_WPF.Views.Components"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              Background="White">
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -15,7 +16,7 @@
 
         <!-- Lop Hoc Phan Title -->
         <TextBlock x:Name="title_lop_hoc_phan"
-                   Grid.Row="1"
+                   Grid.Row="0"
                    Text="Chi tiết lớp học phần"
                    FontSize="20"
                    FontWeight="Bold"
@@ -25,7 +26,7 @@
 
         <!-- Lop Hoc Phan Description -->
         <TextBlock x:Name="description_lop_hoc_phan"
-                   Grid.Row="2"
+                   Grid.Row="1"
                    Text="Đây là lớp học phần về [Tên lớp học phần], cung cấp các kiến thức quan trọng cho sinh viên."
                    FontSize="14"
                    Foreground="#666666"
@@ -34,7 +35,7 @@
                    HorizontalAlignment="Center"/>
 
         <!-- Calendar for Lop Hoc Phan -->
-        <Border Grid.Row="3"
+        <Border Grid.Row="2"
                 Padding="20"
                 Background="#F8F9FA"
                 CornerRadius="8"
@@ -53,7 +54,7 @@
         </Border>
 
         <!-- Thoi Gian Lop Hoc Phan -->
-        <Border Grid.Row="4"
+        <Border Grid.Row="3"
                 Padding="20"
                 Background="#FFFFFF"
                 CornerRadius="8"
@@ -173,7 +174,7 @@
                                                 <Style.Triggers>
                                                     <!-- Đã Kết Thúc -->
                                                     <DataTrigger Binding="{Binding End}"
-                                                            Value="{x:Static sys:DateTime.Now}">
+                                                                 Value="{x:Static sys:DateTime.Now}">
                                                         <Setter Property="Text"
                                                                 Value="Đã Kết Thúc"/>
                                                         <Setter Property="Foreground"
@@ -184,9 +185,9 @@
                                                     <MultiDataTrigger>
                                                         <MultiDataTrigger.Conditions>
                                                             <Condition Binding="{Binding Start}"
-                                                                    Value="{x:Static sys:DateTime.Now}"/>
+                                                                       Value="{x:Static sys:DateTime.Now}"/>
                                                             <Condition Binding="{Binding End}"
-                                                                    Value="{x:Static sys:DateTime.Now}"/>
+                                                                       Value="{x:Static sys:DateTime.Now}"/>
                                                         </MultiDataTrigger.Conditions>
                                                         <Setter Property="Text"
                                                                 Value="Đang Diễn Ra"/>
@@ -206,7 +207,6 @@
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Sửa"
-                                            Visibility="{Binding Start, Converter={StaticResource FutureDateToVisibilityConverter}}"
                                             Tag="{Binding}"
                                             Click="Edit_ThoiGian_LopHocPhan"/>
                                 </DataTemplate>
@@ -351,14 +351,14 @@
                                                    HorizontalAlignment="Center">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
-                                                    <!-- Default Values -->
+                                                    <!-- Giá trị mặc định -->
                                                     <Setter Property="Text"
                                                             Value="Học lại"/>
                                                     <Setter Property="Foreground"
                                                             Value="Red"/>
 
                                                     <Style.Triggers>
-                                                        <!-- Trigger for Passing (Qua môn) -->
+                                                        <!-- DiemTongKet >= 4 (Qua môn) -->
                                                         <DataTrigger Binding="{Binding DiemTongKet}"
                                                                      Value="4">
                                                             <Setter Property="Text"
@@ -367,18 +367,22 @@
                                                                     Value="Green"/>
                                                         </DataTrigger>
 
-                                                        <!-- Trigger for DiemTongKet > 4 -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet, Converter={StaticResource GreaterThan4Converter}}"
-                                                                     Value="True">
+                                                        <!-- DiemTongKet > 4 -->
+                                                        <DataTrigger Binding="{Binding DiemTongKet}">
+                                                            <DataTrigger.Value>
+                                                                <sys:Double>4.01</sys:Double>
+                                                            </DataTrigger.Value>
                                                             <Setter Property="Text"
                                                                     Value="Qua môn"/>
                                                             <Setter Property="Foreground"
                                                                     Value="Green"/>
                                                         </DataTrigger>
 
-                                                        <!-- Trigger for DiemTongKet < 4 -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet, Converter={StaticResource LessThan4Converter}}"
-                                                                     Value="True">
+                                                        <!-- DiemTongKet < 4 -->
+                                                        <DataTrigger Binding="{Binding DiemTongKet}">
+                                                            <DataTrigger.Value>
+                                                                <sys:Double>3.99</sys:Double>
+                                                            </DataTrigger.Value>
                                                             <Setter Property="Text"
                                                                     Value="Học lại"/>
                                                             <Setter Property="Foreground"
@@ -391,6 +395,7 @@
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
+
 
                             <!-- btn Sua -->
                             <syncfusion:GridTemplateColumn HeaderText="Hành Động"
@@ -412,11 +417,6 @@
                     </syncfusion:SfDataGrid>
                 </StackPanel>
             </Border>
-            <syncfusion:SfDataPager x:Name="ScorePager"
-                                    PageSize="10"
-                                    Source="{Binding FilteredScores}"
-                                    HorizontalAlignment="Center"
-                                    Margin="0,10,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>
