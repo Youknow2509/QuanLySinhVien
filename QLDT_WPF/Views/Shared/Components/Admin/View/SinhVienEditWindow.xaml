@@ -79,7 +79,7 @@
                         <TextBox x:Name="txtAddress" FontSize="14" Height="35" Margin="0,5,0,15" BorderBrush="#CCCCCC" />
                     </StackPanel>
 
-                    <!-- Save and Cancel Buttons -->
+                    <!-- Save Buttons -->
                     <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
                         <Button Content="Lưu" Width="150" Height="40" Background="#3A82E5" Foreground="White" BorderBrush="Transparent" Click="Save_In4" />
                     </StackPanel>

@@ -1,8 +1,6 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using QLDT_WPF.Models;
-using QLDT_WPF.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +11,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QLDT_WPF.Dto;
+using QLDT_WPF.Repositories;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -32,9 +31,35 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherEditWindow), new PropertyMetadata(null));
 
-        public TeacherEditWindow()
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+        // Variables
+        private GiaoVienDto giaoVien;
+        private byte[] avatar_save_temp;
+
+        private GiaoVienRepository giaoVienRepository;
+        private IdentityRepository identityRepository;
+
+        // Constructor
+        public TeacherEditWindow(GiaoVienDto gv)
         {
             InitializeComponent();
+
+            // Set var constructor
+            giaoVien = gv;
+
+            // Init repository
+            giaoVienRepository = new GiaoVienRepository();
+            identityRepository = new IdentityRepository();
 
             Loaded += async (s, e) =>
             {
@@ -58,73 +83,54 @@ namespace QLDT_WPF.Views.Components
                         TargetContentArea = new ContentControl();
                     }
                 }
+
+                await InitAsync();
             };
         }
 
-        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        private async Task InitAsync()
         {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            // Set value
+            SetInfomationUser();
 
-            if (parentObject == null) return null;
+            // Get avatar
+            await GetAvatar_Set();
 
-            if (parentObject is T parent)
-                return parent;
-
-            return FindParent<T>(parentObject);
         }
-
-        private async void SaveChanges_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: Add your code here
-        }
-
-        // Sự kiện khi bấm nút "Cancel"
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            // todo
-        }
-
-        // Sự kiện thay đổi mật khẩu
-        private void ChangePassword_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: Add your code here
-        }
-
 
         // Set value
         private void SetInfomationUser()
         {
-            
+
         }
 
         // Set avatar 
         private async Task GetAvatar_Set()
         {
-            
+
         }
 
         // handle click Click_Choose_File - upload temp and show in avarta
         private void Click_Choose_File(object sender, RoutedEventArgs e)
         {
-                    }
+        }
 
         // handle click SaveImage - save image to database
         private async void SaveImage(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         // hadnle click Save_In4 - save information
         private async void Save_In4(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         // handle click Save_Password - save password with root
         private async void Save_Password(object sender, RoutedEventArgs e)
         {
-            
-        }
 
+        }
     }
 }
