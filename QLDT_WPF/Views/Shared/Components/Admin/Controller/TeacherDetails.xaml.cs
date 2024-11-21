@@ -178,15 +178,15 @@ namespace QLDT_WPF.Views.Components
             {
                 // Đã Kết Thúc, Đang Diễn Ra, Sắp Diễn Ra - So Với Thời Gian Hiện Tại
                 string StatusMessage = "";
-                if (lhp.End < DateTime.Now)
+                if (lhp.ThoiGianKetThuc < DateTime.Now)
                 {
                     StatusMessage = "Đã Kết Thúc";
                 }
-                else if (lhp.Start < DateTime.Now && lhp.End > DateTime.Now)
+                else if (lhp.ThoiGianBatDau < DateTime.Now && lhp.ThoiGianKetThuc > DateTime.Now)
                 {
                     StatusMessage = "Đang Diễn Ra";
                 }
-                else if (lhp.Start > DateTime.Now)
+                else if (lhp.ThoiGianBatDau > DateTime.Now)
                 {
                     StatusMessage = "Sắp Diễn Ra";
                 }
