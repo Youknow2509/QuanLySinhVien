@@ -124,14 +124,37 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
         private void detail_LopHocPhan(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // get data text block in tag
+            var idLopHocPhan = (sender as TextBlock)?.Tag.ToString();
+            if (idLopHocPhan == null)
+            {
+                MessageBox.Show("Không thể xem chi tiết lớp học phần");
+                return;
+            }
+            // Redirect to LopHocPhanDetails
+            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = lopHocPhanDetails;
+            }
 
         }
 
         private void detail_GiaoVien(object sender, RoutedEventArgs e)
         {
-            // TODO
-
+            // get data text block in tag
+            var idGiaoVien = (sender as TextBlock)?.Tag.ToString();
+            if (idGiaoVien == null)
+            {
+                MessageBox.Show("Không thể xem chi tiết lớp học phần");
+                return;
+            }
+            // Redirect to LopHocPhanDetails
+            var lopHocPhanDetails = new LopHocPhanDetails(idGiaoVien);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = lopHocPhanDetails;
+            }
         }
 
     }
