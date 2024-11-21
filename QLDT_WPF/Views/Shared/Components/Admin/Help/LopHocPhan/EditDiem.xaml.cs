@@ -19,7 +19,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
     /// <summary>
     /// Interaction logic for EditDiem.xaml
     /// </summary>
-    public partial class EditDiem : UserControl
+    public partial class EditDiem : Window
     {
         public EditDiem()
         {

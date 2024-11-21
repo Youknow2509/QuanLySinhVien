@@ -18,7 +18,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
     /// <summary>
     /// Interaction logic for EditThoiGianLopHocPhan.xaml
     /// </summary>
-    public partial class EditThoiGianLopHocPhan : UserControl
+    public partial class EditThoiGianLopHocPhan : Window
     {
         public EditThoiGianLopHocPhan()
         {
