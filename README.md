@@ -4,7 +4,7 @@
 
 # TODO:
 - Auth ...  
-- Sua diem windows
+- Handle add thoi gian lop phan checker
 - ....
 
 # How to run:
