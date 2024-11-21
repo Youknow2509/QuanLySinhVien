@@ -764,4 +764,37 @@ public class LopHocPhanRepository
             Message = "Thêm thời gian lớp học phần thành công"
         };
     }
+
+    /**
+     * Kiểm Tra Xem Tồn Tại Lớp Học Phần Của Giáo Viên Hiện Tại Và Tương Lai Không 
+     */
+    public async Task<ApiResponse<bool>> CheckLopHocPhanGiaoVien(string idGiaoVien)
+    {   
+        // Check Giao Vien Ton Tai Khong
+        var giaovien = await _context.GiaoViens
+            .FirstOrDefaultAsync(g => g.IdGiaoVien == idGiaoVien);
+        if (giaovien == null)
+        {
+            return new ApiResponse<bool>
+            {
+                Data = false,
+                Status = false,
+                Message = "Không tìm thấy giáo viên"
+            };
+        }
+
+        var lopHocPhan = await (
+            from lhp in _context.LopHocPhans
+            where lhp.IdGiaoVien == idGiaoVien && 
+                (lhp.ThoiGianBatDau >= DateTime.Now || lhp.ThoiGianKetThuc >= DateTime.Now)
+            select lhp
+        ).AnyAsync();
+
+        return new ApiResponse<bool>
+        {
+            Data = lopHocPhan,
+            Status = true,
+            Message = "Kiểm tra thành công"
+        };
+    }
 }
