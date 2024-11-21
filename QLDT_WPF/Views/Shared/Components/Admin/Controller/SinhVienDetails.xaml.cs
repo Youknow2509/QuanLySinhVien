@@ -144,7 +144,33 @@ namespace QLDT_WPF.Views.Components
         // Load Point
         private async Task Load_Point()
         {
-            // TODO
+            var req_point = await diemRepository.GetByIdSinhVien(idSinhVien);
+            if(req_point.Status == false) {
+                MessageBox.Show("Không tìm thấy điểm của sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            diem_collection.Clear();
+            foreach (var it in req_point.Data)
+            {   
+                diem_collection.Add(new DiemDto{
+                    IdDiem = it.IdDiem,
+                    IdSinhVien = it.IdSinhVien,
+                    IdMon = it.IdMon,
+                    IdLopHocPhan = it.IdLopHocPhan,
+
+                    DiemKetThuc = it.DiemKetThuc,
+                    DiemQuaTrinh = it.DiemQuaTrinh,
+                    DiemTongKet = it.DiemTongKet,
+                    TenSinhVien = it.TenSinhVien,
+                    TenMonHoc = it.TenMonHoc,
+                    TenLopHocPhan = it.TenLopHocPhan,
+                    
+                    TrangThai = it.DiemTongKet >= 4 ? "Qua Môn" : "Học Lại",
+                });
+            }
+
+            DataGrid.ItemsSource = diem_collection;
         }
 
         // Find parent window
