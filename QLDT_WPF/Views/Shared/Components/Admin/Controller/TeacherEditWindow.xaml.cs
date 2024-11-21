@@ -149,7 +149,7 @@ namespace QLDT_WPF.Views.Components
         // Set avatar 
         private async Task GetAvatar_Set()
         {
-            var req_avt = await identityRepository.GetAvatar(sinhVien.IdSinhVien);
+            var req_avt = await identityRepository.GetAvatar(giaoVien.IdGiaoVien);
             if (req_avt.Status == false)
             {
                 MessageBox.Show("Không tìm thấy ảnh đại diện của giáo viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -254,7 +254,7 @@ namespace QLDT_WPF.Views.Components
                 MessageBox.Show("Vui lòng chọn ảnh trước khi lưu!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            var req = await identityRepository.SetAvatar(sinhVien.IdSinhVien, avatar_save_temp);
+            var req = await identityRepository.SetAvatar(giaoVien.IdGiaoVien, avatar_save_temp);
             if (req.Status == false)
             {
                 MessageBox.Show("Lưu ảnh thất bại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
