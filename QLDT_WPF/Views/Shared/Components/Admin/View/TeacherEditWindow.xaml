@@ -117,15 +117,6 @@
                                  Margin="0,5,0,15"
                                  BorderBrush="#CCCCCC"/>
 
-                        <TextBlock Text="Địa Chỉ"
-                                   FontSize="14"
-                                   Foreground="#666666"/>
-                        <TextBox x:Name="txtAddress"
-                                 FontSize="14"
-                                 Height="35"
-                                 Margin="0,5,0,15"
-                                 BorderBrush="#CCCCCC"/>
-
                         <!-- Khoa -->
                         <TextBlock Text="Khoa"
                                    Margin="0,5"/>
