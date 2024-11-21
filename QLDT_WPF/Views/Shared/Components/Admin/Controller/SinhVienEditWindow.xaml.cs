@@ -226,5 +226,77 @@ namespace QLDT_WPF.Views.Components
             // Reload avatar
             await GetAvatar_Set();
         }
+
+        // hadnle click Save_In4 - save information
+        private async void Save_In4(object sender, RoutedEventArgs e)
+        {
+            string hoTen = txtFullName.Text;
+            string email = txtEmail.Text;
+            string phoneNumber = txtPhoneNumber.Text;
+            string address = txtAddress.Text;
+
+            if (string.IsNullOrEmpty(hoTen) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber) || string.IsNullOrEmpty(address))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Check regex email
+            if (!System.Text.RegularExpressions.Regex.IsMatch(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+            {
+                MessageBox.Show("Email không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            // Check regex phone number
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNumber, @"^0[0-9]{9}$"))
+            {
+                MessageBox.Show("Số điện thoại không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Update sinh vien
+            sinhVien.HoTen = hoTen;
+            sinhVien.Email = email;
+            sinhVien.SoDienThoai = phoneNumber;
+            sinhVien.DiaChi = address;
+
+            var req = await identityRepository.UpgradeSinhVien(sinhVien);
+            if (req.Status == false)
+            {
+                MessageBox.Show("Lưu thông tin thất bại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MessageBox.Show("Lưu thông tin thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+            // Reload information
+            SetInfomationUser();
+        }
+
+        // handle click Save_Password - save password with root
+        private async void Save_Password(object sender, RoutedEventArgs e)
+        {
+            string password = txtNewPassword.Password;
+            string confirmPassword = txtConfirmPassword.Password;
+            if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (password != confirmPassword)
+            {
+                MessageBox.Show("Mật khẩu không khớp!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var req = await identityRepository.AdminEditPasswordAdmin(sinhVien.IdSinhVien, password);
+            if (req.Status == false)
+            {
+                MessageBox.Show("Lưu mật khẩu thất bại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            MessageBox.Show("Lưu mật khẩu thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            // Clear password
+            txtNewPassword.Password = "";
+            txtConfirmPassword.Password = "";
+        }
     }
 }

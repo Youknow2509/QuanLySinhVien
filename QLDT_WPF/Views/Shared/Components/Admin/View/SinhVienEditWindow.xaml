@@ -81,7 +81,7 @@
 
                     <!-- Save and Cancel Buttons -->
                     <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Center">
-                        <Button Content="Lưu" Width="150" Height="40" Background="#3A82E5" Foreground="White" BorderBrush="Transparent" />
+                        <Button Content="Lưu" Width="150" Height="40" Background="#3A82E5" Foreground="White" BorderBrush="Transparent" Click="Save_In4" />
                     </StackPanel>
 
                     <!-- Change Password Section -->
@@ -97,7 +97,7 @@
                     </StackPanel>
 
                     <!-- Change Password Button -->
-                    <Button Content="Thay Đổi Mật Khẩu" Width="150" Height="40" Background="#3A82E5" Foreground="White" BorderBrush="Transparent" Margin="0,20,0,0" />
+                    <Button Content="Thay Đổi Mật Khẩu" Click="Save_Password" Width="150" Height="40" Background="#3A82E5" Foreground="White" BorderBrush="Transparent" Margin="0,20,0,0" />
                 </StackPanel>
             </ScrollViewer>
         </Border>
