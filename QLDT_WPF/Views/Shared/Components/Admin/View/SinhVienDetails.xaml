@@ -243,20 +243,20 @@
 
                             <!-- Lop Hoc Phan -->
                             <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần"
-                                                           Width="150"/>
-                            <syncfusion:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding TenLopHocPhan}"
-                                               Foreground="Blue"
-                                               TextDecorations="Underline"
-                                               Cursor="Hand"
-                                               FontSize="14"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               MouseLeftButtonUp="ChiTietLopHocPhan_Click"
-                                               Tag="{Binding IdLopHocPhan}"/>
-                                </DataTemplate>
-                            </syncfusion:GridTemplateColumn.CellTemplate>
+                                                           Width="150">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TenLopHocPhan}"
+                                                   Foreground="Blue"
+                                                   TextDecorations="Underline"
+                                                   Cursor="Hand"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   MouseLeftButtonUp="ChiTietLopHocPhan_Click"
+                                                   Tag="{Binding IdLopHocPhan}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
 
                             <!-- Diem Qua Trinh -->
