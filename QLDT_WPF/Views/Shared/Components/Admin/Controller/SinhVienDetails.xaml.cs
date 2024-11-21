@@ -24,10 +24,11 @@ namespace QLDT_WPF.Views.Components
 
         private string idSinhVien;
         private SinhVienDto sinhVienDto;
-
+        
         private SinhVienRepository sinhVienRepository;
         private DiemRepository diemRepository;
         private CalendarRepository calendarRepository;
+        private IdentityRepository identityRepository;
 
         public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
         public ObservableCollection<DiemDto> diem_collection { get; set; }
@@ -43,6 +44,7 @@ namespace QLDT_WPF.Views.Components
             sinhVienRepository = new SinhVienRepository();
             diemRepository = new DiemRepository();
             calendarRepository = new CalendarRepository();
+            identityRepository = new IdentityRepository();
 
             Appointments = new ObservableCollection<ScheduleAppointment>();
             diem_collection = new ObservableCollection<DiemDto>();
@@ -100,7 +102,15 @@ namespace QLDT_WPF.Views.Components
         // Set avatar
         private async Task Set_Avatar()
         {
-            // TODO
+            var req_avt = await identityRepository.GetAvatar(idSinhVien);
+            if (req_avt.Status == false)
+            {
+                MessageBox.Show("Không tìm thấy ảnh đại diện của sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            byte[] image = req_avt.Data;
+
         }
 
         // Set data in4 sinh vien
@@ -127,13 +137,13 @@ namespace QLDT_WPF.Views.Components
             Appointments.Clear();
             foreach (var it in req_calendar.Data)
             {
-                Administrator.add(new ScheduleAppointment
+                Appointments.add(new ScheduleAppointment
                 {
-                    Subject = dto.Title,
-                    StartTime = dto.Start ?? DateTime.MinValue,
-                    EndTime = dto.End ?? DateTime.MinValue,
-                    Location = dto.Location,
-                    Notes = dto.Description
+                    Subject = it.Title,
+                    StartTime = it.Start ?? DateTime.MinValue,
+                    EndTime = it.End ?? DateTime.MinValue,
+                    Location = it.Location,
+                    Notes = it.Description
                 });
             }
 
