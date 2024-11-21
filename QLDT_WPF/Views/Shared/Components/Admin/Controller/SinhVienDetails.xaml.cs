@@ -22,18 +22,30 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SinhVienDetails), new PropertyMetadata(null));
 
-        private SinhVienRepository sinhVienRepository;
         private string idSinhVien;
         private SinhVienDto sinhVienDto;
+
+        private SinhVienRepository sinhVienRepository;
+        private DiemRepository diemRepository;
+        private CalendarRepository calendarRepository;
+
         public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
+        public ObservableCollection<DiemDto> diem_collection { get; set; }
+
+
 
         public SinhVienDetails(string id)
         {
             InitializeComponent();
 
             idSinhVien = id;
+
             sinhVienRepository = new SinhVienRepository();
+            diemRepository = new DiemRepository();
+            calendarRepository = new CalendarRepository();
+
             Appointments = new ObservableCollection<ScheduleAppointment>();
+            diem_collection = new ObservableCollection<DiemDto>();
 
             // Load data asynchron
             Loaded += async (s, e) =>
@@ -73,23 +85,26 @@ namespace QLDT_WPF.Views.Components
             sinhVienDto = req_sv.Data;
 
             // Set avatar
-            Set_Avatar();
+            await Set_Avatar();
+
             // Set data in4 sinh vien
-            Set_Data_In4_SV();
+            await Set_Data_In4_SV();
+
             // Load Calendar
-            Load_Calendar();
+            await Load_Calendar();
+
             // Load Point
-            Load_Point();
+            await Load_Point();
         }
 
         // Set avatar
-        private void Set_Avatar()
+        private async Task Set_Avatar()
         {
             // TODO
         }
 
         // Set data in4 sinh vien
-        private void Set_Data_In4_SV()
+        private async Task Set_Data_In4_SV()
         {
             txtStudentID.Text = sinhVienDto.IdSinhVien;
             txtFullName.Text = sinhVienDto.HoTen;
@@ -101,36 +116,33 @@ namespace QLDT_WPF.Views.Components
         }
 
         // Load Calendar
-        private void Load_Calendar()
+        private async Task Load_Calendar()
         {
-            // TODO
-            // Create sample data
-            Appointments = new ObservableCollection<ScheduleAppointment>
+            var req_calendar = await calendarRepository.GetCalendarSinhVien(idSinhVien);
+            if (req_calendar.Status == false)
             {
-                new ScheduleAppointment
+                MessageBox.Show("Không tìm thấy lịch học của sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            Appointments.Clear();
+            foreach (var it in req_calendar.Data)
+            {
+                Administrator.add(new ScheduleAppointment
                 {
-                    Subject = "Team Meeting 1",
-                    StartTime = DateTime.Now.AddHours(2),
-                    EndTime = DateTime.Now.AddHours(3),
-                    Location = "Room A",
-                    AppointmentBackground = new SolidColorBrush(Colors.LightBlue)
-                },
-                new ScheduleAppointment
-                {
-                    Subject = "Team Meeting 2",
-                    StartTime = DateTime.Now.AddHours(3),
-                    EndTime = DateTime.Now.AddHours(4),
-                    Location = "Room B",
-                    AppointmentBackground = new SolidColorBrush(Colors.LightGreen)
-                }
-            };
+                    Subject = dto.Title,
+                    StartTime = dto.Start ?? DateTime.MinValue,
+                    EndTime = dto.End ?? DateTime.MinValue,
+                    Location = dto.Location,
+                    Notes = dto.Description
+                });
+            }
 
             // Set the Appointments property of the CalendarComponent
             calendar.Appointments = Appointments;
         }
 
         // Load Point
-        private void Load_Point()
+        private async Task Load_Point()
         {
             // TODO
         }
@@ -182,6 +194,18 @@ namespace QLDT_WPF.Views.Components
 
         // handle search ponint 
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // TODO
+        }
+
+        // show detail mon hoc - TextBlock tag binding IdMon
+        private void ChiTietMonHoc_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // show detail LopHocPhan - TextBlock tag binding IdLopHocPhan
+        private void ChiTietLopHocPhan_Click(object sender, RoutedEventArgs e)
         {
             // TODO
         }

@@ -60,8 +60,8 @@
                                FontWeight="Bold"
                                Margin="0,5"/>
                     <TextBox x:Name="txtStudentID"
-                                IsReadOnly="True"
-                                Margin="0,5"/>
+                             IsReadOnly="True"
+                             Margin="0,5"/>
                     <!-- Ho Ten -->
                     <TextBlock Text="Họ Tên:"
                                FontWeight="Bold"
@@ -224,13 +224,41 @@
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
                             <!-- Mon -->
-                            <syncfusion:GridTextColumn HeaderText="Môn"
-                                                       MappingName="MonHoc"
-                                                       Width="150"/>
+                            <syncfusion:GridTemplateColumn HeaderText="Môn Học"
+                                                           Width="150">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TenMonHoc}"
+                                                   Foreground="Blue"
+                                                   TextDecorations="Underline"
+                                                   Cursor="Hand"
+                                                   FontSize="14"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Left"
+                                                   MouseLeftButtonUp="ChiTietMonHoc_Click"
+                                                   Tag="{Binding IdMon}"/>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
                             <!-- Lop Hoc Phan -->
-                            <syncfusion:GridTextColumn HeaderText="Lớp Học Phần"
-                                                       MappingName="LopHocPhan"
-                                                       Width="150"/>
+                            <syncfusion:GridTemplateColumn HeaderText="Lớp Học Phần"
+                                                           Width="150"/>
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenLopHocPhan}"
+                                               Foreground="Blue"
+                                               TextDecorations="Underline"
+                                               Cursor="Hand"
+                                               FontSize="14"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               MouseLeftButtonUp="ChiTietLopHocPhan_Click"
+                                               Tag="{Binding IdLopHocPhan}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+
                             <!-- Diem Qua Trinh -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình"
                                                        MappingName="DiemQuaTrinh"
@@ -248,55 +276,9 @@
                                                        MappingName="LanHoc"
                                                        Width="150"/>
                             <!-- Trang Thai -->
-                            <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
-                                                           Width="150">
-                                <syncfusion:GridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock FontSize="14"
-                                                   FontWeight="Bold"
-                                                   HorizontalAlignment="Center">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <!-- Default Values -->
-                                                    <Setter Property="Text"
-                                                            Value="Học lại"/>
-                                                    <Setter Property="Foreground"
-                                                            Value="Red"/>
-
-                                                    <Style.Triggers>
-                                                        <!-- Trigger for Passing (Qua môn) -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet}"
-                                                                     Value="4">
-                                                            <Setter Property="Text"
-                                                                    Value="Qua môn"/>
-                                                            <Setter Property="Foreground"
-                                                                    Value="Green"/>
-                                                        </DataTrigger>
-
-                                                        <!-- Trigger for DiemTongKet > 4 -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet, Converter={StaticResource GreaterThan4Converter}}"
-                                                                     Value="True">
-                                                            <Setter Property="Text"
-                                                                    Value="Qua môn"/>
-                                                            <Setter Property="Foreground"
-                                                                    Value="Green"/>
-                                                        </DataTrigger>
-
-                                                        <!-- Trigger for DiemTongKet < 4 -->
-                                                        <DataTrigger Binding="{Binding DiemTongKet, Converter={StaticResource LessThan4Converter}}"
-                                                                     Value="True">
-                                                            <Setter Property="Text"
-                                                                    Value="Học lại"/>
-                                                            <Setter Property="Foreground"
-                                                                    Value="Red"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </syncfusion:GridTemplateColumn.CellTemplate>
-                            </syncfusion:GridTemplateColumn>
+                            <syncfusion:GridTextColumn HeaderText="Trạng Thái"
+                                                       MappingName="TrangThai"
+                                                       Width="150"/>
 
                             <!-- Hanh dong -->
                             <syncfusion:GridTemplateColumn HeaderText="Hành Động"
