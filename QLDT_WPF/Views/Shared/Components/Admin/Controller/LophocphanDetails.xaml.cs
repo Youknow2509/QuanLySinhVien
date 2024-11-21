@@ -112,10 +112,7 @@ namespace QLDT_WPF.Views.Components
             description_lop_hoc_phan.Text = $"Môn học: {monHocDto.TenMonHoc} - Số tín chỉ: {monHocDto.SoTinChi} - Số tiết: {monHocDto.SoTietHoc} - Bắt Đầu: {lopHocPhanDto.ThoiGianBatDau} - Kết thúc: {lopHocPhanDto.ThoiGianKetThuc}";
 
             // Load Calendar - calendar_lop_hoc_phan
-            Load_Calendar();
-
-            // Load DataGrid_ThoiGian_LopHocPhan
-            Load_DataGrid_ThoiGian_LopHocPhan();
+            await Load_Calendar();
             
             // Load diem sinh vien lop hoc phan - ScoreDataGrid
             Load_ScoreDataGrid();
@@ -138,6 +135,7 @@ namespace QLDT_WPF.Views.Components
             foreach (var dto in dtoList)
             {   
                 calendar_collections.Add(dto);
+
                 Appointments.Add(new ScheduleAppointment{
                     Subject = dto.Title,
                     StartTime = dto.Start ?? DateTime.MinValue,
@@ -147,10 +145,6 @@ namespace QLDT_WPF.Views.Components
                 });
             }
             calendar_lop_hoc_phan.Appointments = Appointments;
-        }
-
-        private void Load_DataGrid_ThoiGian_LopHocPhan()
-        {
             DataGrid_ThoiGian_LopHocPhan.ItemsSource = calendar_collections;
         }
 
