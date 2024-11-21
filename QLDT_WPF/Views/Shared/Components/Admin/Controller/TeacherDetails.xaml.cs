@@ -246,13 +246,45 @@ namespace QLDT_WPF.Views.Components
         // handle click text block ChiTietLopHocPhan_Click - redirect to detail lop hoc phan
         private void ChiTietLopHocPhan_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            var idLopHocPhan = (sender as TextBlock)?.Tag.ToString();
+            if (idLopHocPhan == null)
+            {
+                MessageBox.Show("Không tìm thấy ID của lớp học phần", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // redirect to detail lop hoc phan
+            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = lopHocPhanDetails;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // handle click text block ChiTietMonHoc_Click - redirect to detail mon hoc
         private void ChiTietMonHoc_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            var idMonHoc = (sender as TextBlock)?.Tag.ToString();
+            if (idMonHoc == null)
+            {
+                MessageBox.Show("Không tìm thấy ID của môn học", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // redirect to detail mon hoc
+            var monHocDetails = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(idMonHoc);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = monHocDetails;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // private void DataGrid_CellTapped(object sender, GridCellTappedEventArgs e)
