@@ -238,7 +238,16 @@ namespace QLDT_WPF.Views.Components
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-           // TODO
+            // redirect to edit teacher
+            var teacherEditWindow = new TeacherEditWindow(giaoVienDto);
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = teacherEditWindow;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // handle click text block ChiTietLopHocPhan_Click - redirect to detail lop hoc phan
