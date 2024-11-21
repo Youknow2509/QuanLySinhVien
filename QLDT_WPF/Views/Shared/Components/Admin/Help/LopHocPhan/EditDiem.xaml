@@ -4,17 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QLDT_WPF.Views.Shared.Components.Admin.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             mc:Ignorable="d" Height="316" Width="268">
+    <Grid Margin="0,0,10,-6">
         <!-- Modal Container -->
         <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5"
-                HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10" Height="272" Width="254">
+                HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10" Height="268" Width="212">
             <StackPanel>
                 <!-- Modal Header -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                     <TextBlock Text="Sửa Điểm" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" />
-                 
+
                 </StackPanel>
                 <Separator Margin="0,5,0,5"/>
 

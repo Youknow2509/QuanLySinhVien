@@ -80,7 +80,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
             // handle api
             try
             {
-                DiemDto diemEdit = new DiemDto
+                NhapDiemDto diemEdit = new NhapDiemDto
                 {
                     IdDiem = idDiem,
                     DiemQuaTrinh = decimal.Parse(diemQuaTrinh),
@@ -91,7 +91,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 Task.Run(
                     async () =>
                     {
-                        var result = await diemRepository.Edit(diemEdit);
+                        var result = await diemRepository.NhapDiemSinhVien(diemEdit);
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {
