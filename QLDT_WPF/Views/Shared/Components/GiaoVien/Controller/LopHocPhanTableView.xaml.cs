@@ -58,6 +58,26 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
 
             Loaded += async (s, e) =>
             {
+                if (TargetContentArea == null)
+                {
+                    var parentWindow = FindParent<Window>(this); // Tìm parent window
+                    if (parentWindow != null)
+                    {
+                        var contentArea = parentWindow.FindName("ContentArea") as ContentControl; // Tìm ContentArea
+                        if (contentArea != null)
+                        {
+                            TargetContentArea = contentArea;
+                        }
+                        else
+                        {
+                            TargetContentArea = new ContentControl();
+                        }
+                    }
+                    else
+                    {
+                        TargetContentArea = new ContentControl();
+                    }
+                }
                 await InitAsync();
             };
         }
@@ -98,6 +118,41 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
             }
 
             LopHocPhanDataGrid.ItemsSource = lhp_collection;
+        }
+
+        private void ChiTietGiaoVien_Click(object sender, RoutedEventArgs e)
+        {
+            // Lấy ID môn học từ Tag của TextBlock
+            TextBlock textBlock = sender as TextBlock;
+            if (textBlock != null && textBlock.Tag != null)
+            {
+                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
+                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
+
+                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+                var detail = new LopHocPhanDetailsView(Id);
+                if (TargetContentArea != null)
+                {
+                    TargetContentArea.Content = detail;
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+           
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
         }
     }
 }

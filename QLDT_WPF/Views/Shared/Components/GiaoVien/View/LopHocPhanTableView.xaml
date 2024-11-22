@@ -31,8 +31,7 @@
                               SelectedIndex="0"
                               Background="White"
                               Foreground="#333333"
-                              FontSize="14"
-                              >
+                              FontSize="14">
                         <ComboBoxItem Content="10"/>
                         <ComboBoxItem Content="25"/>
                         <ComboBoxItem Content="50"/>
@@ -68,14 +67,48 @@
                                        ItemsSource="{Binding PagedData}"
                                        AllowSorting="True"
                                        BorderBrush="#E5E5E5"
-                                       BorderThickness="1"
-                                       >
+                                       BorderThickness="1">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="TenLopHocPhan" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="TenGiaoVien" Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="TenMonHoc" Width="150"/>
+                        <!-- Lớp Học Phần -->
+                        <syncfusion:GridTemplateColumn HeaderText="Lớp học phần" Width="350">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenLopHocPhan}"
+                                       Foreground="Blue"
+                                       TextDecorations="Underline"
+                                       Cursor="Hand"
+                                       FontSize="14"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       MouseLeftButtonUp="ChiTietGiaoVien_Click"
+                                       Tag="{Binding IdLopHocPhan}"
+                                       />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <!-- Môn Học -->
+                        <syncfusion:GridTemplateColumn HeaderText="Môn Học" Width="200">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TenMonHoc}"
+                                   Foreground="Blue"
+                                   TextDecorations="Underline"
+                                   Cursor="Hand"
+                                   FontSize="14"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Tag="{Binding IdMonHoc}"/>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <!-- Thời Gian Bắt Đầu -->
                         <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu" MappingName="ThoiGianBatDau" Width="150"/>
+
+                        <!-- Thời Gian Kết Thúc -->
                         <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc" MappingName="ThoiGianKetThuc" Width="150"/>
+
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
             </ScrollViewer>
