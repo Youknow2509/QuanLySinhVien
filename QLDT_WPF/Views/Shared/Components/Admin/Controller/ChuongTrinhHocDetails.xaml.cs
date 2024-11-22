@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
+using Syncfusion.XlsIO;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.View
 {
@@ -139,13 +140,70 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         // handle search
         private void txtTimKiem_TextChanged(object s, TextChangedEventArgs e)
         {
-            // TODO
+            var txt = txtTimKiem.Text;
+            if (txt == "")
+            {
+                sfDataGridMonHoc.ItemsSource = monHoc_collection;
+            }
+            else
+            {
+                sfDataGridMonHoc.ItemsSource = monHoc_collection.Where(x => x.TenMonHoc.ToLower().Contains(txt.ToLower()));
+            }
+
         }
 
         // Exprot to ex
         private void ExportToExcel(object s, RoutedEventArgs e)
         {
-            // TODO
+            if (monHoc_collection == null || monHoc_collection.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Môn Học";
+                worksheet[1, 2].Text = "Tên Môn Học";
+                worksheet[1, 3].Text = "Số Tín Chỉ";
+                worksheet[1, 4].Text = "Học Kỳ";
+                worksheet[1, 5].Text = "Số Tiết Lý Thuyết";
+                worksheet[1, 6].Text = "Số Tiết Thực Hành";
+                worksheet[1, 7].Text = "Số Tiết Tự Học";
+                worksheet[1, 8].Text = "Mô Tả";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var mh in monHoc_collection)
+                {
+                    worksheet[row, 1].Text = mh.IdMonHoc ?? "N/A";
+                    worksheet[row, 2].Text = mh.TenMonHoc ?? "N/A";
+                    worksheet[row, 3].Text = mh.SoTinChi.ToString() ?? "N/A";
+                    worksheet[row,4].Text = mh.TenKhoa.ToString() ?? "N/A";
+
+                    row++;
+                }
+
+                // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachMonHoc.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
+
+            
         }
 
         // Handlee them mon hoc 
