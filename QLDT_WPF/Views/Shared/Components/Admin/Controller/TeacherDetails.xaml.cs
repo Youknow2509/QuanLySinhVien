@@ -280,7 +280,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             // redirect to detail lop hoc phan
-            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan, constMH,idGiaoVien);
+            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = lopHocPhanDetails;

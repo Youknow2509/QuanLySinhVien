@@ -226,7 +226,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 return;
             }
             // Redirect to LopHocPhanDetails
-            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan, constMH,idMonHoc);
+            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = lopHocPhanDetails;
@@ -244,7 +244,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 return;
             }
             // Redirect to LopHocPhanDetails
-            var lopHocPhanDetails = new LopHocPhanDetails(idGiaoVien, constMH,idMonHoc);
+            var lopHocPhanDetails = new LopHocPhanDetails(idGiaoVien);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = lopHocPhanDetails;

@@ -413,7 +413,7 @@ namespace QLDT_WPF.Views.Components
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content =
-                    new QLDT_WPF.Views.Components.LopHocPhanDetails(idLopHocPhan,constSVD,null);
+                    new QLDT_WPF.Views.Components.LopHocPhanDetails(idLopHocPhan);
             }
             else
             {

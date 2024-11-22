@@ -44,7 +44,7 @@ namespace QLDT_WPF.Views.Components
         private string idparent;
 
         // Constructor
-        public LopHocPhanDetails(string id, string par, string idparent)
+        public LopHocPhanDetails(string id)
         {
             InitializeComponent();
 
@@ -61,7 +61,6 @@ namespace QLDT_WPF.Views.Components
 
             // set variables in constructor
             idLopHocPhan = id;
-            parent = par;
             this.idparent = idparent;
 
             Loaded += async (s, e) =>
@@ -89,7 +88,6 @@ namespace QLDT_WPF.Views.Components
 
                 await InitAysnc();
             };
-            this.idparent = idparent;
         }
 
         private T FindParent<T>(DependencyObject child) where T : DependencyObject

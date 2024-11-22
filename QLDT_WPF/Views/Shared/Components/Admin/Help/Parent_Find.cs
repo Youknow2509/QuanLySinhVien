@@ -57,7 +57,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.Help
             }
             if (name =="LophocphanDetails")
             {
-                var lophocphanDetails = new LopHocPhanDetails(id, parent, id);
+                var lophocphanDetails = new LopHocPhanDetails(id);
                 return lophocphanDetails;
             }
             if(name == "SubjectDetails")
