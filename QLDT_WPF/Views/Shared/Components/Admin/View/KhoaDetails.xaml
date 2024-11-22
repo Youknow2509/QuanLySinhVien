@@ -11,8 +11,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Back Button -->
-        <!-- Nút Back -->
+        <!-- Nút Back
         <Button Content="Back"
             Width="80"
             Height="30"
@@ -23,7 +22,7 @@
             Background="#3A82E5"
             Foreground="White"
             BorderBrush="Transparent"
-            Click="BackButton_Click"/>
+            Click="BackButton_Click"/> -->
 
         <!-- Title -->
         <TextBlock x:Name="txtTitle"

@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Nút Back -->
+        <!-- Nút Back
         <Button Content="Back"
         Width="80"
         Height="30"
@@ -23,7 +23,7 @@
         Background="#3A82E5"
         Foreground="White"
         BorderBrush="Transparent"
-        />
+        /> -->
 
         <!-- Lop Hoc Phan Title -->
         <TextBlock x:Name="title_lop_hoc_phan"

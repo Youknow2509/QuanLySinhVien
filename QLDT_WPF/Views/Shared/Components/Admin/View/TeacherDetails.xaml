@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Nút Back -->
+        <!-- Nút Back
         <Button Content="Back"
             Width="80"
             Height="30"
@@ -23,7 +23,7 @@
             Background="#3A82E5"
             Foreground="White"
             BorderBrush="Transparent"
-            Click="BackButton_Click"/>
+            Click="BackButton_Click"/> -->
 
         <!-- Teacher Information -->
         <Border Grid.Row="1"
