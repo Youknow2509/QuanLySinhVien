@@ -104,7 +104,8 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        private async Task InitAysnc(){
+        private async Task InitAysnc()
+        {
             var req_lhp = await lopHocPhanRepository.GetById(idLopHocPhan);
             if (req_lhp.Status == false)
             {
@@ -123,20 +124,20 @@ namespace QLDT_WPF.Views.Components
 
             // Set title - title_lop_hoc_phan
             title_lop_hoc_phan.Text = $"Chi tiết lớp học phần {lopHocPhanDto.TenLopHocPhan}";
-            
+
             // Set - description_lop_hoc_phan
             description_lop_hoc_phan.Text = $"Môn học: {monHocDto.TenMonHoc} - Số tín chỉ: {monHocDto.SoTinChi} - Số tiết: {monHocDto.SoTietHoc} - Bắt Đầu: {lopHocPhanDto.ThoiGianBatDau} - Kết thúc: {lopHocPhanDto.ThoiGianKetThuc}";
 
             // Load Calendar - calendar_lop_hoc_phan
             await Load_Calendar();
-            
+
             // Load diem sinh vien lop hoc phan - ScoreDataGrid
             await Load_ScoreDataGrid();
         }
 
         private async Task Load_Calendar()
         {
-            var req_calendar = 
+            var req_calendar =
                 await calendarRepository.GetCalendarLopHocPhan(idLopHocPhan);
             if (req_calendar.Status == false)
             {
@@ -149,7 +150,7 @@ namespace QLDT_WPF.Views.Components
             calendar_collections.Clear();
             // Convert to ScheduleAppointment
             foreach (var dto in dtoList)
-            {   
+            {
                 // Đã Kết Thúc, Đang Diễn Ra, Sắp Diễn Ra - So Với Thời Gian Hiện Tại
                 string StatusMessage = "";
                 if (dto.End < DateTime.Now)
@@ -165,7 +166,8 @@ namespace QLDT_WPF.Views.Components
                     StatusMessage = "Sắp Diễn Ra";
                 }
 
-                calendar_collections.Add(new CalendarDto{
+                calendar_collections.Add(new CalendarDto
+                {
                     Id = dto.Id,
                     Title = dto.Title,
                     Description = dto.Description,
@@ -177,7 +179,8 @@ namespace QLDT_WPF.Views.Components
                     StatusMessage = StatusMessage,
                 });
 
-                Appointments.Add(new ScheduleAppointment{
+                Appointments.Add(new ScheduleAppointment
+                {
                     Subject = dto.Title,
                     StartTime = dto.Start ?? DateTime.MinValue,
                     EndTime = dto.End ?? DateTime.MinValue,
@@ -191,6 +194,10 @@ namespace QLDT_WPF.Views.Components
 
         private async Task Load_ScoreDataGrid()
         {
+            // init trang thai nhap diem lop hoc phan 
+            InitTrangThaiNhapDiem();
+
+            // Init data table diem sinh vien lop hoc phan
             var req_diem = await diemRepository
                 .GetDiemByIdLopHocPhan(idLopHocPhan);
             if (req_diem.Status == false)
@@ -202,7 +209,8 @@ namespace QLDT_WPF.Views.Components
             diem_collections.Clear();
             foreach (var dto in req_diem.Data)
             {
-                diem_collections.Add(new DiemDto{
+                diem_collections.Add(new DiemDto
+                {
                     IdDiem = dto.IdDiem,
                     IdLopHocPhan = dto.IdLopHocPhan,
                     IdSinhVien = dto.IdSinhVien,
@@ -220,6 +228,23 @@ namespace QLDT_WPF.Views.Components
             ScoreDataGrid.ItemsSource = diem_collections;
         }
 
+        // init trang thai nhap diem
+        private void InitTrangThaiNhapDiem()
+        {
+            if (lopHocPhanDto.TrangThaiNhapDiem == true)
+            {
+                NhapDiemBangFile.IsEnabled = true;
+                TrangThaiNhapDiem.Text = "Đã Mở";
+                TrangThaiNhapDiem.Foreground = Brushes.Green;
+            }
+            else
+            {
+                NhapDiemBangFile.IsEnabled = false;
+                TrangThaiNhapDiem.Text = "Chưa Mở";
+                TrangThaiNhapDiem.Foreground = Brushes.Red;
+            }
+        }
+
         // Show detail of sinh vien click - tag : id sinh vien
         private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
         {
@@ -230,7 +255,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            var detail = new SinhVienDetails(id,constLHPD);
+            var detail = new SinhVienDetails(id, constLHPD);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = detail;
@@ -251,7 +276,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(id,constLHPD);
+            var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(id, constLHPD);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = detail;
@@ -288,7 +313,8 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            using (ExcelEngine excelEngine = new ExcelEngine()){
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
                 IApplication application = excelEngine.Excel;
                 application.DefaultVersion = ExcelVersion.Excel2016;
 
@@ -305,7 +331,8 @@ namespace QLDT_WPF.Views.Components
 
                 int row = 2;
 
-                foreach(var sv in diem_collections){
+                foreach (var sv in diem_collections)
+                {
                     worksheet[row, 1].Number = row - 1;
                     worksheet[row, 2].Text = sv.TenSinhVien;
                     worksheet[row, 3].Text = sv.DiemQuaTrinh.ToString() ?? "0";
@@ -335,7 +362,8 @@ namespace QLDT_WPF.Views.Components
             {
                 ScoreDataGrid.ItemsSource = diem_collections;
             }
-            else{
+            else
+            {
                 var filter = txtTimKiem_Point.Text.ToLower();
                 var result = diem_collections.Where(x => x.TenSinhVien.ToLower().Contains(filter)).ToList();
                 ScoreDataGrid.ItemsSource = result;
@@ -368,7 +396,8 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            using (ExcelEngine excelEngine = new ExcelEngine()){
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
                 IApplication application = excelEngine.Excel;
                 application.DefaultVersion = ExcelVersion.Excel2016;
 
@@ -385,7 +414,8 @@ namespace QLDT_WPF.Views.Components
 
                 int row = 2;
 
-                foreach(var tg in calendar_collections){
+                foreach (var tg in calendar_collections)
+                {
                     worksheet[row, 1].Number = row - 1;
                     worksheet[row, 2].Text = tg.Title;
                     worksheet[row, 3].Text = tg.Description;
@@ -414,7 +444,8 @@ namespace QLDT_WPF.Views.Components
             {
                 DataGrid_ThoiGian_LopHocPhan.ItemsSource = calendar_collections;
             }
-            else{
+            else
+            {
                 var filter = txtTimKiem_ThoiGian_LopHocPhan.Text.ToLower();
                 var result = calendar_collections.Where(x => x.StatusMessage.ToLower().Contains(filter)).ToList();
                 DataGrid_ThoiGian_LopHocPhan.ItemsSource = result;
@@ -424,27 +455,55 @@ namespace QLDT_WPF.Views.Components
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-             if (TargetContentArea != null)
-             {
-                Object _parent = Parent_Find.Get_Template(constLHPD,parent,idparent);
+            if (TargetContentArea != null)
+            {
+                Object _parent = Parent_Find.Get_Template(constLHPD, parent, idparent);
                 TargetContentArea.Content = _parent;
             }
-             else
-             {
-                 MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-             }
-         }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         // handle click button ChangeTrangThaiNhapDiem_Click
         private void ChangeTrangThaiNhapDiem_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // handle async api change trang thai nhap diem
+            try
+            {
+                Task.Run(async () =>
+                {
+                    var req = await lopHocPhanRepository.TriggerTrangThaiNhapDiem(lopHocPhanDto.IdLopHocPhan);
+
+                    // Hiển thị thông báo kết quả trên luồng UI
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        if (req.Status == false)
+                        {
+                            MessageBox.Show($"Thay Đổi Trạng Thái Lớp Nhập Điểm Không Thành Công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Thay Đổi Trạng Thái Lớp Nhập Điểm Thành Công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                            // refresh data
+                            InitTrangThaiNhapDiem();
+                        }
+                    });
+                });
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // Handle click upload Upload_TGLHP
         private void Upload_TGLHP(object sender, RoutedEventArgs e)
         {
-            // TODO
+            // Read file and handle 
         }
 
         // handle click UploadDiemBangFile
