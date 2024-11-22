@@ -149,7 +149,7 @@
 
                         <!-- Ngay Sinh -->
                         <syncfusion:GridTemplateColumn HeaderText="Ngày Sinh"
-                                                       Width="120"
+                                                       Width="160"
                                                        MappingName="NgaySinh">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -163,7 +163,7 @@
 
                         <!-- Dia chi -->
                         <syncfusion:GridTemplateColumn HeaderText="Địa Chỉ"
-                                                       Width="200"
+                                                       Width="160"
                                                        MappingName="DiaChi">
                             <syncfusion:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>

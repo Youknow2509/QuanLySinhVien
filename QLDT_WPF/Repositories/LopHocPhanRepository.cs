@@ -7,6 +7,7 @@ using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
 using Azure.Identity;
 using QLDT_WPF.Models;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 namespace QLDT_WPF.Repositories;
 
@@ -54,6 +55,7 @@ public class LopHocPhanRepository
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = l.ThoiGianBatDau,
                 ThoiGianKetThuc = l.ThoiGianKetThuc,
+                TrangThaiNhapDiem = l.TrangThaiNhapDiem,
             }
         ).ToListAsync();
 
@@ -88,6 +90,7 @@ public class LopHocPhanRepository
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                TrangThaiNhapDiem = lhp.TrangThaiNhapDiem,
             }
         ).FirstOrDefaultAsync();
 
@@ -188,6 +191,7 @@ public class LopHocPhanRepository
             TenHocPhan = lopHocPhan.TenLopHocPhan,
             ThoiGianBatDau = lopHocPhan.ThoiGianBatDau,
             ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc,
+            TrangThaiNhapDiem = lopHocPhan.TrangThaiNhapDiem
         };
 
         // check giao vien, mon hoc ton tai
@@ -333,7 +337,8 @@ public class LopHocPhanRepository
                 IdGiaoVien = lhp.IdGiaoVien,
                 TenHocPhan = lhp.TenLopHocPhan,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
-                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                TrangThaiNhapDiem = lhp.TrangThaiNhapDiem
             });
         }
 
@@ -424,6 +429,7 @@ public class LopHocPhanRepository
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                TrangThaiNhapDiem = lhp.TrangThaiNhapDiem
             }
         ).ToListAsync();
 
@@ -471,6 +477,7 @@ public class LopHocPhanRepository
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                TrangThaiNhapDiem = lhp.TrangThaiNhapDiem,
             }
         ).ToListAsync();
 
@@ -518,6 +525,7 @@ public class LopHocPhanRepository
                 TenMonHoc = mh.TenMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                TrangThaiNhapDiem = lhp.TrangThaiNhapDiem,
             }
         ).ToListAsync();
 
@@ -795,6 +803,94 @@ public class LopHocPhanRepository
             Data = lopHocPhan,
             Status = true,
             Message = "Kiểm tra thành công"
+        };
+    }
+
+    /**
+     * Tat Nhap Diem Lop Hoc Phan
+     */
+    public async Task<ApiResponse<bool>> TatNhapDiem(string id)
+    {
+        // Check Lop Hoc Phan Ton Tai Khong
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == id);
+        if (lhp == null)
+        {
+            return new ApiResponse<bool>
+            {
+                Data = false,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        lhp.TrangThaiNhapDiem = false;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<bool>
+        {
+            Data = true,
+            Status = true,
+            Message = "Tắt nhập điểm thành công"
+        };
+    }
+
+    /**
+     * Bat Trang Thai Nhap Diem Lop Hoc Phan
+     */
+    public async Task<ApiResponse<bool>> BatNhapDiem(string id)
+    {
+        // Check Lop Hoc Phan Ton Tai Khong
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == id);
+        if (lhp == null)
+        {
+            return new ApiResponse<bool>
+            {
+                Data = false,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        lhp.TrangThaiNhapDiem = true;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<bool>
+        {
+            Data = true,
+            Status = true,
+            Message = "Bật nhập điểm thành công"
+        };
+    }
+
+    // Trigger trang thai nhap diem lop hoc phan
+    public async Task<ApiResponse<bool>> TriggerTrangThaiNhapDiem(string id)
+    {
+        // Check Lop Hoc Phan Ton Tai Khong
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == id);
+        if (lhp == null)
+        {
+            return new ApiResponse<bool>
+            {
+                Data = false,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        lhp.TrangThaiNhapDiem = (lhp.TrangThaiNhapDiem == true) ? false : true;
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<bool>
+        {
+            Data = true,
+            Status = true,
+            Message = "Thay đổi trạng thái nhập điểm thành công"
         };
     }
 }

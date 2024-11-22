@@ -188,7 +188,18 @@
                         </syncfusion:GridTemplateColumn>
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
+                
+                <!-- Button Add -->
+                <StackPanel x:Name="AddThoiGianopHocPhan" Margin="10" VerticalAlignment="Top">
+                    <!-- File Upload Section -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                        <!-- Upload Button -->
+                        <Button Content="Thêm Thời Gian Lớp Học Phần Bằng File .CSV" Width="294" Margin="10,0,0,0" Click="Upload_TGLHP" />
+                    </StackPanel>
+                </StackPanel>
+
             </StackPanel>
+            
         </Border>
 
         <!-- Diem sinh vien lop hoc phan -->
@@ -207,6 +218,32 @@
                                FontWeight="Bold"
                                Foreground="#333333"
                                Margin="0,0,0,10"/>
+                    
+                    <!-- Trang Thai Lop Hoc Phan Xem Co Duoc Nhap Diem Lop Hoc Phan Khong -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="Trạng Thái Nhập Điểm: "
+                                   FontSize="14"
+                                   Foreground="#333333"
+                                   Margin="0,0,5,0"/>
+                        <TextBlock x:Name="TrangThaiNhapDiem"
+                                   FontSize="14"
+                                   Foreground="#333333"
+                                   Margin="0,0,5,0"/>
+
+                        <!-- Button trigger đổi trạng thái -->
+                        <Button x:Name="btnChangeTrangThaiNhapDiem"
+                                Content="Đổi Trạng Thái"
+                                Width="100"
+                                Height="30"
+                                Margin="10,0,0,0"
+                                FontSize="14"
+                                Background="#4CAF50"
+                                Foreground="White"
+                                HorizontalAlignment="Left"
+                                BorderBrush="Transparent"
+                                Click="ChangeTrangThaiNhapDiem_Click"/>
+                    </StackPanel>
+
 
                     <!-- Dropdown, Save to Excel, and Search Bar -->
                     <DockPanel HorizontalAlignment="Stretch"
@@ -338,6 +375,16 @@
 
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
+                    
+                    <!-- button nhap diem bang file -->
+                    <StackPanel x:Name="NhapDiemBangFile" Margin="10" VerticalAlignment="Top">
+                        <!-- File Upload Section -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                            <!-- Upload Button -->
+                            <Button Content="Nhập Điểm Bằng File .CSV" Width="294" Margin="10,0,0,0" Click="UploadDiemBangFile" />
+                        </StackPanel>
+                    </StackPanel>
+
                 </StackPanel>
             </Border>
         </StackPanel>
