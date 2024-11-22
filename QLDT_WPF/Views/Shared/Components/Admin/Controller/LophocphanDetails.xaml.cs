@@ -582,7 +582,68 @@ namespace QLDT_WPF.Views.Components
         // handle click UploadDiemBangFile
         private void UploadDiemBangFile(object sender, RoutedEventArgs e)
         {
-            // TODO
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<NhapDiemDto> listDiemDto = new List<NhapDiemDto>(); 
+
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+
+                        if (data.Count() >= 4)
+                        {
+                            listDiemDto.Add(new NhapDiemDto
+                            {
+                                IdSinhVien = data[0],
+                                DiemQuaTrinh = double.Parse(data[1]),
+                                DiemKetThuc = double.Parse(data[2]),
+                                DiemTongKet = double.Parse(data[3]),
+                            });
+                        }
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm nhập điểm sinh viên từ file CSV trong repository
+                        var req = await diemRepository
+                            .NhapDiemSinhVienList(lopHocPhanDto.IdLopHocPhan, listDiemDto);
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi lớp học phần bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(d => d.IdDiem));
+
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Thêm điểm sinh viên từ file CSV thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                // Refresh data
+                                Load_Calendar();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm điểm cho sinh viên!");
+            }
         }
     }
 }

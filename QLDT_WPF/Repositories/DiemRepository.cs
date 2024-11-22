@@ -36,7 +36,7 @@ public class DiemRepository
     public async Task<ApiResponse<List<DiemDto>>> GetAll()
     {
         // Query
-        var query = await(
+        var query = await (
             from d in _context.Diems
             join lhp in _context.LopHocPhans
                 on d.IdLopHocPhan equals lhp.IdLopHocPhan
@@ -112,7 +112,7 @@ public class DiemRepository
     public async Task<ApiResponse<List<DiemDto>>> GetByIdSinhVien(string id)
     {
         // Query
-        var query = await(
+        var query = await (
             from d in _context.Diems
             where d.IdSinhVien == id
             join lhp in _context.LopHocPhans
@@ -485,39 +485,52 @@ public class DiemRepository
     }
 
     /**
-     * Nhap 'List' Diem Sinh Vien
+     * Nhap 'List' Diem Sinh Vien - Loi Luu O id diem
      */
-    public async Task<ApiResponse<List<NhapDiemDto>>> NhapDiemSinhVienList(List<NhapDiemDto> listDiem)
+    public async Task<ApiResponse<List<NhapDiemDto>>>
+        NhapDiemSinhVienList(string idLopHocPhan, List<NhapDiemDto> listDiem)
     {
+        List<NhapDiemDto> listDiemError = new List<NhapDiemDto>();
         foreach (NhapDiemDto diem in listDiem)
         {
-            if (diem.IdDiem == null)
+            if (diem.IdSinhVien == null)
             {
                 return new ApiResponse<List<NhapDiemDto>>
                 {
                     Status = false,
-                    Message = "Id Diem is required",
+                    Message = "Không Tìm Thấy ID Sinh Viên Hoặc ID Sinh Viên Không Được Để Trống",
                     StatusCode = 400,
                     Data = null
                 };
             }
             // Query
-            var qr = _context.Diems.Where(x => x.IdDiem == diem.IdDiem).FirstOrDefault();
+            var qr = _context.Diems
+                .Where(
+                    x => x.IdSinhVien == diem.IdSinhVien
+                        && x.IdLopHocPhan == idLopHocPhan)
+                .FirstOrDefault();
             if (qr == null)
             {
-                return new ApiResponse<List<NhapDiemDto>>
-                {
-                    Status = false,
-                    Message = "Id Diem Not Found",
-                    StatusCode = 404,
-                    Data = null
-                };
+                diem.IdDiem = "Không Tìm Thấy ID Sinh Viên Hoặc ID Lớp Học Phần";
+                listDiemError.Add(diem);
             }
             qr.DiemQuaTrinh = diem.DiemQuaTrinh;
             qr.DiemKetThuc = diem.DiemKetThuc;
             qr.DiemTongKet = diem.DiemTongKet;
             _context.Diems.Update(qr);
         }
+
+        if (listDiemError.Count > 0)
+        {
+            return new ApiResponse<List<NhapDiemDto>>
+            {
+                Status = false,
+                Message = "Nhập điểm thất bại",
+                StatusCode = 400,
+                Data = listDiemError
+            };
+        }
+
         await _context.SaveChangesAsync();
 
         return new ApiResponse<List<NhapDiemDto>>
