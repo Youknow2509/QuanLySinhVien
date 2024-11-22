@@ -17,6 +17,7 @@ using QLDT_WPF.Dto;
 using QLDT_WPF.Migrations;
 using QLDT_WPF.Repositories;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
+using Syncfusion.XlsIO;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -202,13 +203,90 @@ namespace QLDT_WPF.Views.Components
         // Export data giao  vien
         private void ExportToExcel_gv(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if(giaoviens_collection.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất file", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            using (ExcelEngine excelEngine = new ExcelEngine()){
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2016;
+
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                worksheet[1,1].Text = "STT";
+                worksheet[1,2].Text = "Họ tên";
+                worksheet[1,3].Text = "Số điện thoại";
+                worksheet[1,4].Text = "Email";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var mh in giaoviens_collection)
+                {
+                    worksheet[row, 1].Text = row - 1 + "";
+                    worksheet[row, 2].Text = mh.TenGiaoVien.ToString() ?? "N/A";
+                    worksheet[row, 3].Text = mh.SoDienThoai.ToString() ?? "N/A";
+                    worksheet[row,4].Text = mh.Email.ToString() ?? "N/A";
+
+                    row++;
+                }
+                 // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachMonHoc.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+
+
+
+            }
         }
 
         // Export data sinh vien
         private void ExportToExcel_sv(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if(sinhviens_collection.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất file", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            using (ExcelEngine excelEngine = new ExcelEngine()){
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2016;
+
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                worksheet[1,1].Text = "STT";
+                worksheet[1,2].Text = "Họ tên";
+                worksheet[1,3].Text = "Ngày sinh";
+                worksheet[1,4].Text = "Lớp";
+                worksheet[1,5].Text = "Địa chỉ";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var mh in sinhviens_collection)
+                {
+                    worksheet[row, 1].Text = row - 1 + "";
+                    worksheet[row, 2].Text = mh.HoTen.ToString() ?? "N/A";
+                    worksheet[row, 3].Text = mh.NgaySinh.ToString() ?? "N/A";
+                    worksheet[row,4].Text = mh.Lop.ToString() ?? "N/A";
+                    worksheet[row,5].Text = mh.DiaChi.ToString() ?? "N/A";
+                    row++;
+                }
+                 // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachMonHoc.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // handle search in data giao vien
