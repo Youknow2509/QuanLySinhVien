@@ -1,4 +1,5 @@
-﻿using QLDT_WPF.Views.Shared.Components.GiaoVien.View;
+﻿using QLDT_WPF.ViewModels;
+using QLDT_WPF.Views.Shared.Components.GiaoVien.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,16 @@ namespace QLDT_WPF.Views.Shared
     /// </summary>
     public partial class GiaoVienLeftNavbar : UserControl
     {
+        public UserInformation UserInformation { get; }
         public GiaoVienLeftNavbar()
         {
             InitializeComponent();
+        }
+
+        public GiaoVienLeftNavbar(UserInformation userInformation)
+        {
+            InitializeComponent();
+            UserInformation = userInformation;
         }
 
         public ContentControl TargetContentArea
@@ -43,16 +51,16 @@ namespace QLDT_WPF.Views.Shared
             switch (button.Name)
             {
                 case "btnLichHoc":
-                    TargetContentArea.Content = new LichDayView();
+                    TargetContentArea.Content = new LichDayView(UserInformation);
                     break;
                 case "btnDangKyNguyenVong":
                     TargetContentArea.Content = new NguyenVongTableView();
                     break;
                 case "btnDanhSachLopHocPhan":
-                    TargetContentArea.Content = new LopHocPhanTableView();
+                    TargetContentArea.Content = new LopHocPhanTableView(UserInformation);
                     break;
                 case "btnQuanLySinhVien":
-                    TargetContentArea.Content = new SinhVienTableView();
+                    TargetContentArea.Content = new SinhVienTableView(UserInformation);
                     break;
                 default:
                     break;

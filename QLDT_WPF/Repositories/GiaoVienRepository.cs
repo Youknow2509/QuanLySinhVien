@@ -8,6 +8,8 @@ using QLDT_WPF.Data;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Models;
 using QLDT_WPF.Services;
+using System.Windows;
+using Syncfusion.Data.Extensions;
 
 namespace QLDT_WPF.Repositories;
 
@@ -209,6 +211,40 @@ public class GiaoVienRepository
             Data = null,
             Status = true,
             Message = "Xóa giáo viên thành công"
+        };
+    }
+
+
+    /**
+     *     * Lay toan bo sinh vien thuoc cac lop cua giao vien
+     * */
+
+    public async Task<ApiResponse<List<SinhVienDto>>> GetSinhVienByGiaoVienId(string id){
+        var query = await (
+            from gv in _context.GiaoViens
+            join lop in _context.LopHocPhans on gv.IdGiaoVien equals lop.IdGiaoVien
+            join lophocphan in _context.SinhVienLopHocPhans on lop.IdLopHocPhan equals lophocphan.IdLopHocPhan
+            join sv in _context.SinhViens on lophocphan.IdSinhVien equals sv.IdSinhVien
+            join k in _context.Khoas on sv.IdKhoa equals k.IdKhoa
+            join cth in _context.ChuongTrinhHocs on sv.IdChuongTrinhHoc equals cth.IdChuongTrinhHoc
+            where gv.IdGiaoVien == id
+            select new SinhVienDto
+            {
+                IdSinhVien = sv.IdSinhVien,
+                HoTen = sv.HoTen,
+                NgaySinh = sv.NgaySinh,
+                Lop = lop.TenHocPhan,
+                TenChuongTrinhHoc = cth.TenChuongTrinhHoc,
+                TenKhoa = k.TenKhoa,
+                DiaChi = sv.DiaChi,
+            }
+        ).ToListAsync();
+
+        return new ApiResponse<List<SinhVienDto>>
+        {
+            Data = query,
+            Status = true,
+            Message = "Lấy dữ liệu thành công"
         };
     }
 }

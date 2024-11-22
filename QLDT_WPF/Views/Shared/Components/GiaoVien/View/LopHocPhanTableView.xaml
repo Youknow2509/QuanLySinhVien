@@ -62,18 +62,18 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="400">
                 <syncfusion:SfDataGrid x:Name="LopHocPhanDataGrid"
                                        AutoGenerateColumns="False"
-                                       GridLinesVisibility="Horizontal"
+                                       GridLinesVisibility="Both"
                                        RowHeight="40"
                                        ColumnSizer="Star"
                                        ItemsSource="{Binding PagedData}"
                                        AllowSorting="True"
                                        BorderBrush="#E5E5E5"
                                        BorderThickness="1"
-                                       CellTapped="dataGridGiaoVien_CellTapped">
+                                       >
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="GiangVien" Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="MonHoc" Width="150"/>
+                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="TenLopHocPhan" Width="200"/>
+                        <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="TenGiaoVien" Width="150"/>
+                        <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="TenMonHoc" Width="150"/>
                         <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu" MappingName="ThoiGianBatDau" Width="150"/>
                         <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc" MappingName="ThoiGianKetThuc" Width="150"/>
                     </syncfusion:SfDataGrid.Columns>

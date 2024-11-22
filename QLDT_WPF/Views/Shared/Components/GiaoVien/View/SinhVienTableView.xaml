@@ -11,7 +11,7 @@
             Margin="20">
         <StackPanel>
             <!-- Title -->
-            <TextBlock Text="Bảng dữ liệu Sinh Viên"
+            <TextBlock Text="Bảng Dữ Liệu Sinh Viên"
                        FontSize="20"
                        FontWeight="Bold"
                        Foreground="#3A82E5"
@@ -33,9 +33,9 @@
                               Foreground="#333333"
                               FontSize="14"
                               >
-                        <ComboBoxItem Content="10"/>
-                        <ComboBoxItem Content="25"/>
-                        <ComboBoxItem Content="50"/>
+                        <ComboBoxItem Content="10" Tag="10"/>
+                        <ComboBoxItem Content="25" Tag="25"/>
+                        <ComboBoxItem Content="50" Tag="50"/>
                     </ComboBox>
                     <TextBlock Text="dữ liệu"
                                VerticalAlignment="Center"
@@ -54,7 +54,7 @@
                              Background="White"
                              BorderBrush="#DDDDDD"
                              Margin="10,0,0,0"
-                             />
+                             TextChanged="SearchBox_TextChanged"/>
                 </DockPanel>
             </DockPanel>
 
@@ -63,19 +63,32 @@
                 <syncfusion:SfDataGrid x:Name="SinhVienDataGrid"
                                        AutoGenerateColumns="False"
                                        GridLinesVisibility="Horizontal"
-                                       RowHeight="40"
-                                       ColumnSizer="None"
+                                       ColumnSizer="Star"
                                        ItemsSource="{Binding PagedData}"
                                        AllowSorting="True"
+                                       RowHeight="40"
+                                       MaxHeight="600"
                                        BorderBrush="#E5E5E5"
                                        BorderThickness="1">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Họ Và Tên" MappingName="HoVaTen" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Lớp" MappingName="Lop" Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Ngày Sinh" MappingName="NgaySinh" Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Địa Chỉ" MappingName="DiaChi" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Chương Trình Học" MappingName="ChuongTrinhHoc" Width="250"/>
-                        <syncfusion:GridTextColumn HeaderText="Khoa" MappingName="Khoa" Width="150"/>
+                        <syncfusion:GridTextColumn HeaderText="Họ Và Tên"
+                                                   MappingName="HoTen"
+                                                   TextWrapping="Wrap"/>
+                        <syncfusion:GridTextColumn HeaderText="Lớp"
+                                                   MappingName="Lop"
+                                                   TextWrapping="Wrap"/>
+                        <syncfusion:GridTextColumn HeaderText="Ngày Sinh"
+                                                   MappingName="NgaySinh"
+                                                   TextWrapping="Wrap"/>
+                        <syncfusion:GridTextColumn HeaderText="Địa Chỉ"
+                                                   MappingName="DiaChi"
+                                                   TextWrapping="Wrap"/>
+                        <syncfusion:GridTextColumn HeaderText="Chương Trình Học"
+                                                   MappingName="TenChuongTrinhHoc"
+                                                   TextWrapping="Wrap"/>
+                        <syncfusion:GridTextColumn HeaderText="Khoa"
+                                                   MappingName="TenKhoa"
+                                                   TextWrapping="Wrap"/>
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
             </ScrollViewer>

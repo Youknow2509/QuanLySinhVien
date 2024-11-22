@@ -41,7 +41,7 @@ namespace QLDT_WPF.Views.Login
                     dashboard = new AdminDashboard(userInformation);  // Giao diện chính cho Admin
                     break;
                 case "GIAOVIEN":
-                    dashboard = new GiaoVienWindow();  // Giao diện chính cho Giáo viên
+                    dashboard = new GiaoVienWindow(userInformation);  // Giao diện chính cho Giáo viên
                     break;
                 case "SINHVIEN":
                     dashboard = new SinhVienDashboard(userInformation);  // Giao diện chính cho Sinh viên
