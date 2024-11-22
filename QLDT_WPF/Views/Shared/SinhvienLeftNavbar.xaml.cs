@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+using QLDT_WPF.ViewModels;
 using QLDT_WPF.Views.Shared.Components.SinhVien.View;
 
 namespace QLDT_WPF.Views.Shared
@@ -26,6 +15,13 @@ namespace QLDT_WPF.Views.Shared
         {
             InitializeComponent();
         }
+        public SinhvienLeftNavbar(UserInformation userInformation)
+        {
+            InitializeComponent();
+            UserInformation = userInformation;
+        }
+
+        public UserInformation UserInformation { get; }
 
         public ContentControl TargetContentArea
         {
@@ -44,20 +40,21 @@ namespace QLDT_WPF.Views.Shared
             switch (button.Name)
             {
                 case "btnQuanLyDiem":
-                    TargetContentArea.Content = new DiemView();
+                    var Target = new DiemView(UserInformation); // Truyền UserInformation vào DiemView
+                    TargetContentArea.Content = Target; // Truyền UserInformation vào DiemView
                     break;
                 case "btnDangKyNguyenVong":
-                    TargetContentArea.Content = new DangKyNguyenVongView();
+                    TargetContentArea.Content = new DangKyNguyenVongView(); // Truyền UserInformation vào DangKyNguyenVongView
                     break;
                 case "btnDanhSachLopHocPhan":
-                    TargetContentArea.Content = new LopHocPhanComponent();
+                    TargetContentArea.Content = new LopHocPhanComponent(UserInformation); // Truyền UserInformation vào LopHocPhanComponent
                     break;
                 case "btnLichHoc":
-                    TargetContentArea.Content = new LichhocView();
+                    var Target1 = new LichhocView(UserInformation); // Truyền UserInformation vào LichhocView
+                    TargetContentArea.Content = Target1; // Truyền UserInformation vào LichhocView
                     break;
                 default:
                     break;
-
             }
         }
     }

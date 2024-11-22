@@ -119,12 +119,15 @@ public class DiemRepository
                 on d.IdLopHocPhan equals lhp.IdLopHocPhan
             join mon in _context.MonHocs
                 on lhp.IdMonHoc equals mon.IdMonHoc
+            join sv in _context.SinhViens
+                on d.IdSinhVien equals sv.IdSinhVien
             select new DiemDto
             {
                 IdDiem = d.IdDiem,
                 IdSinhVien = d.IdSinhVien,
                 IdLopHocPhan = d.IdLopHocPhan,
                 IdMon = mon.IdMonHoc,
+                TenSinhVien = sv.HoTen,
 
                 DiemQuaTrinh = d.DiemQuaTrinh,
                 DiemKetThuc = d.DiemKetThuc,

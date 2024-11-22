@@ -21,6 +21,7 @@
         <!-- Data Grid with Pagination -->
         <StackPanel Grid.Row="1" Margin="0,10,0,0">
             <syncfusion:SfDataGrid x:Name="ChuongTrinhHocDataGrid"
+
                                    AutoGenerateColumns="False"
                                    AllowSorting="True"
                                    RowHeight="40"
@@ -32,8 +33,9 @@
                                    VerticalAlignment="Top">
                 <syncfusion:SfDataGrid.Columns>
                     <!-- Columns -->
-                    <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="250" />
-                    <syncfusion:GridTextColumn HeaderText="Sinh Viên" MappingName="SinhVien" Width="150" />
+                    <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="TenLopHocPhan" Width="250" />
+                    <syncfusion:GridTextColumn HeaderText="Môn học" MappingName="TenMonHoc" Width="150" />
+                    <syncfusion:GridTextColumn HeaderText="Tên Sinh viên" MappingName="TenSinhVien" Width="250" />
                     <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình" MappingName="DiemQuaTrinh" Width="150" />
                     <syncfusion:GridTextColumn HeaderText="Điểm Kết Thúc" MappingName="DiemKetThuc" Width="150" />
                     <syncfusion:GridTextColumn HeaderText="Điểm Tổng Kết" MappingName="DiemTongKet" Width="150" />

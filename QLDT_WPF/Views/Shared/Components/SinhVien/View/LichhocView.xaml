@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <local:CalendarComponent Width="800" Height="1000"/>
+        <local:CalendarComponent x:Name="CalendarView" Width="800" Height="1000"/>
 
     </Grid>
 </UserControl>

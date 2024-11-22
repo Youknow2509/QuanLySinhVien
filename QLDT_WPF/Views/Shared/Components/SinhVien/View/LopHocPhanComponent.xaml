@@ -32,9 +32,9 @@
                                    VerticalAlignment="Top">
                 <syncfusion:SfDataGrid.Columns>
                     <!-- Class Columns -->
-                    <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="350" />
-                    <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="GiangVien" Width="300" />
-                    <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="MonHoc" Width="300" />
+                    <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="TenLopHocPhan" Width="350" />
+                    <syncfusion:GridTextColumn HeaderText="Giảng Viên" MappingName="TenGiaoVien" Width="300" />
+                    <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="TenMonHoc" Width="300" />
                 </syncfusion:SfDataGrid.Columns>
             </syncfusion:SfDataGrid>
 
