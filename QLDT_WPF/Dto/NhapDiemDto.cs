@@ -6,5 +6,6 @@ namespace QLDT_WPF.Dto
         public decimal DiemQuaTrinh { get; set; }
         public decimal DiemKetThuc { get; set; }
         public decimal DiemTongKet { get; set; }
+        public string? IdSinhVien { get; set; }
     }
 }
