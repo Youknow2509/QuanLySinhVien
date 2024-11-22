@@ -547,7 +547,7 @@ namespace QLDT_WPF.Views.Components
                     Task.Run(async () =>
                     {
                         // Gọi hàm thời gian lớp học phần từ file CSV trong repository
-                        var req = await lopHocPhanRepository.AddListThoiGianLopHocPhan(list_thoi_gian_lop_hoc_phan);
+                        var response = await lopHocPhanRepository.AddListThoiGianLopHocPhan(list_thoi_gian_lop_hoc_phan);
                         // Hiển thị thông báo kết quả trên luồng UI
                         Application.Current.Dispatcher.Invoke(async () =>
                         {
@@ -613,7 +613,7 @@ namespace QLDT_WPF.Views.Components
                     Task.Run(async () =>
                     {
                         // Gọi hàm nhập điểm sinh viên từ file CSV trong repository
-                        var req = await diemRepository
+                        var response = await diemRepository
                             .NhapDiemSinhVienList(lopHocPhanDto.IdLopHocPhan, listDiemDto);
                         // Hiển thị thông báo kết quả trên luồng UI
                         Application.Current.Dispatcher.Invoke(async () =>
