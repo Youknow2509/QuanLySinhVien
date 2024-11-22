@@ -524,8 +524,8 @@ namespace QLDT_WPF.Views.Components
                 {
                     // Đọc file CSV và xử lý từng dòng
                     string[] lines = File.ReadAllLines(filePath);
-                    List<TaoThoiGianLopHocPhanDto> list_thoi_gian_lop_hoc_phan =
-                        new List<TaoThoiGianLopHocPhanDto>();
+                    List<ThayDoiThoiGianLopHocPhanDto> list_thoi_gian_lop_hoc_phan =
+                        new List<ThayDoiThoiGianLopHocPhanDto>();
 
                     foreach (string line in lines)
                     {
@@ -533,7 +533,7 @@ namespace QLDT_WPF.Views.Components
 
                         if (data.Count() >= 3)
                         {
-                            list_thoi_gian_lop_hoc_phan.Add(new TaoThoiGianLopHocPhanDto
+                            list_thoi_gian_lop_hoc_phan.Add(new ThayDoiThoiGianLopHocPhanDto
                             {
                                 IdThoiGian = Guid.NewGuid().ToString(),
                                 IdLopHocPhan = lopHocPhanDto.IdLopHocPhan,

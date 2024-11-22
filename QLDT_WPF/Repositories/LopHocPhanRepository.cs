@@ -783,7 +783,7 @@ public class LopHocPhanRepository
         // check xem lop hoc phan du tiet chua
         List<ThayDoiThoiGianLopHocPhanDto> listThoiGianLopHocPhanError = new List<ThayDoiThoiGianLopHocPhanDto>();
         
-        foreach (var item in listThoiGianLopHocPhan){
+        foreach (var item in listThoiGianLopHocPhanDto){
             var req_add = await AddThoiGian(item);
             if (req_add.Status == false){
                 item.DiaDiem = $"Thời Gian: {item.DiaDiem} lỗi {req_add.Message}";
