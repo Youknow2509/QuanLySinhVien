@@ -603,9 +603,9 @@ namespace QLDT_WPF.Views.Components
                             listDiemDto.Add(new NhapDiemDto
                             {
                                 IdSinhVien = data[0],
-                                DiemQuaTrinh = double.Parse(data[1]),
-                                DiemKetThuc = double.Parse(data[2]),
-                                DiemTongKet = double.Parse(data[3]),
+                                DiemQuaTrinh = Convert.ToDecimal(double.Parse(data[1])),
+                                DiemKetThuc = Convert.ToDecimal(double.Parse(data[2])),
+                                DiemTongKet = Convert.ToDecimal(double.Parse(data[3])),
                             });
                         }
                     }
