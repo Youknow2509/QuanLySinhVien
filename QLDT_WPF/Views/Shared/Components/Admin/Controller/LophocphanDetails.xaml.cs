@@ -331,7 +331,15 @@ namespace QLDT_WPF.Views.Components
         // handle text change txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan
         private void txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan(object sender, TextChangedEventArgs e)
         {
-            //TODO
+            if (txtTimKiem_Point == null)
+            {
+                ScoreDataGrid.ItemsSource = diem_collections;
+            }
+            else{
+                var filter = txtTimKiem_Point.Text.ToLower();
+                var result = diem_collections.Where(x => x.TenSinhVien.ToLower().Contains(filter)).ToList();
+                ScoreDataGrid.ItemsSource = result;
+            }
         }
 
         // handle click Edit_ThoiGian_LopHocPhan
@@ -354,13 +362,63 @@ namespace QLDT_WPF.Views.Components
         // handle click ExportToExcel_ThoiGian_LopHocPhan
         private void ExportToExcel_ThoiGian_LopHocPhan(object sender, RoutedEventArgs e)
         {
-            //TODO
+            if (calendar_collections.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất file!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine()){
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2016;
+
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                worksheet[1, 1].Text = "STT";
+                worksheet[1, 2].Text = "Tiêu Đề";
+                worksheet[1, 3].Text = "Mô Tả";
+                worksheet[1, 4].Text = "Thời Gian Bắt Đầu";
+                worksheet[1, 5].Text = "Thời Gian Kết Thúc";
+                worksheet[1, 6].Text = "Địa Điểm";
+                worksheet[1, 7].Text = "Trạng Thái";
+
+                int row = 2;
+
+                foreach(var tg in calendar_collections){
+                    worksheet[row, 1].Number = row - 1;
+                    worksheet[row, 2].Text = tg.Title;
+                    worksheet[row, 3].Text = tg.Description;
+                    worksheet[row, 4].DateTime = tg.Start ?? DateTime.MinValue;
+                    worksheet[row, 5].DateTime = tg.End ?? DateTime.MinValue;
+                    worksheet[row, 6].Text = tg.Location;
+                    worksheet[row, 7].Text = tg.StatusMessage;
+
+                    row++;
+                }
+
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachThoiGian.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
         }
 
         // handle text change txtTimKiem_TextChanged_ThoiGian_LopHocPhan
         private void txtTimKiem_TextChanged_ThoiGian_LopHocPhan(object sender, TextChangedEventArgs e)
         {
-            //TODO
+            if (txtTimKiem_ThoiGian_LopHocPhan == null)
+            {
+                DataGrid_ThoiGian_LopHocPhan.ItemsSource = calendar_collections;
+            }
+            else{
+                var filter = txtTimKiem_ThoiGian_LopHocPhan.Text.ToLower();
+                var result = calendar_collections.Where(x => x.StatusMessage.ToLower().Contains(filter)).ToList();
+                DataGrid_ThoiGian_LopHocPhan.ItemsSource = result;
+            }
         }
 
 
