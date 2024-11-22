@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using Syncfusion.UI.Xaml.Scheduler;
 using System.Windows.Markup;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
+using Syncfusion.XlsIO;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -281,7 +282,50 @@ namespace QLDT_WPF.Views.Components
         // handle click ExportToExcel_Point_SinhVien_LopHocPhan
         private void ExportToExcel_Point_SinhVien_LopHocPhan(object sender, RoutedEventArgs e)
         {
-            //TODO
+            if (diem_collections.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất file!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine()){
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2016;
+
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                worksheet[1, 1].Text = "STT";
+                worksheet[1, 2].Text = "Tên Sinh Viên";
+                worksheet[1, 3].Text = "Điểm Quá Trình";
+                worksheet[1, 4].Text = "Điểm Kết Thúc";
+                worksheet[1, 5].Text = "Điểm Tổng Kết";
+                worksheet[1, 6].Text = "Lần Học";
+                worksheet[1, 7].Text = "Trạng Thái";
+
+                int row = 2;
+
+                foreach(var sv in diem_collections){
+                    worksheet[row, 1].Number = row - 1;
+                    worksheet[row, 2].Text = sv.TenSinhVien;
+                    worksheet[row, 3].Text = sv.DiemQuaTrinh.ToString() ?? "0";
+                    worksheet[row, 4].Text = sv.DiemKetThuc.ToString() ?? "0";
+                    worksheet[row, 5].Text = sv.DiemTongKet.ToString() ?? "0";
+                    worksheet[row, 6].Text = sv.LanHoc.ToString() ?? "0";
+                    worksheet[row, 7].Text = sv.TrangThai ?? "";
+
+                    row++;
+                }
+
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachMonHoc.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            }
+
         }
 
         // handle text change txtTimKiem_TextChanged_Point_SinhVien_LopHocPhan
