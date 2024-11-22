@@ -775,6 +775,41 @@ public class LopHocPhanRepository
     }
 
     /**
+     * Handle Add List Thoi Gian Lop Hoc Phan - Loi Hien Thi O Dia Diem
+     */
+    public async Task<ApiResponse<List<ThayDoiThoiGianLopHocPhanDto>>> 
+        AddListThoiGianLopHocPhan(List<ThayDoiThoiGianLopHocPhanDto> listThoiGianLopHocPhan)
+    {
+        // check xem lop hoc phan du tiet chua
+        List<ThayDoiThoiGianLopHocPhanDto> listThoiGianLopHocPhanError = new List<ThayDoiThoiGianLopHocPhanDto>();
+        
+        foreach (var item in listThoiGianLopHocPhanDto){
+            var req_add = await AddThoiGian(item);
+            if (req_add.Status == false){
+                item.DiaDiem = $"Thời Gian: {item.DiaDiem} lỗi {req_add.Message}";
+                listThoiGianLopHocPhanError.Add(item);
+            }
+        }
+        
+        // Nếu có bất kỳ lỗi nào trong quá trình xử lý
+        if (listThoiGianLopHocPhanError.Any())
+        {
+            return new ApiResponse<List<ThayDoiThoiGianLopHocPhanDto>>
+            {
+                Status = false,
+                Message = "Thêm Danh Sách Thời Gian Lớp Học Phần Thất Bại! Có lỗi trong danh sách Thời Gian Lớp Học Phần.",
+                Data = listThoiGianLopHocPhanError,
+            };
+        }
+        return new ApiResponse<List<ThayDoiThoiGianLopHocPhanDto>>
+        {
+            Status = true,
+            Message = "Thêm Danh Sách Thời Gian Lớp Học Phần Thành Công!",
+            Data = listThoiGianLopHocPhanDto,
+        };
+    }
+
+    /**
      * Kiểm Tra Xem Tồn Tại Lớp Học Phần Của Giáo Viên Hiện Tại Và Tương Lai Không 
      */
     public async Task<ApiResponse<bool>> CheckLopHocPhanGiaoVien(string idGiaoVien)
