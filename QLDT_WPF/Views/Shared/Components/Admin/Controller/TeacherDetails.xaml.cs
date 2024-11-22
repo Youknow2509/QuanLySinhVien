@@ -238,9 +238,7 @@ namespace QLDT_WPF.Views.Components
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            // Mở cửa sổ TeacherEditWindow
-            var userProfileWindow = new TeacherEditWindow();
-            userProfileWindow.ShowDialog();
+           // TODO
         }
 
         // handle click text block ChiTietLopHocPhan_Click - redirect to detail lop hoc phan

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
+using QLDT_WPF.Models;
 using QLDT_WPF.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace QLDT_WPF.Views.Components
     /// <summary>
     /// Interaction logic for TeacherEditWindow.xaml
     /// </summary>
-    public partial class TeacherEditWindow : Window
+    public partial class TeacherEditWindow : UserControl
     {
         public ContentControl TargetContentArea
         {
@@ -80,14 +81,49 @@ namespace QLDT_WPF.Views.Components
         // Sự kiện khi bấm nút "Cancel"
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
-            this.Close();
+            // todo
         }
 
         // Sự kiện thay đổi mật khẩu
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Add your code here
+        }
+
+
+        // Set value
+        private void SetInfomationUser()
+        {
+            
+        }
+
+        // Set avatar 
+        private async Task GetAvatar_Set()
+        {
+            
+        }
+
+        // handle click Click_Choose_File - upload temp and show in avarta
+        private void Click_Choose_File(object sender, RoutedEventArgs e)
+        {
+                    }
+
+        // handle click SaveImage - save image to database
+        private async void SaveImage(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        // hadnle click Save_In4 - save information
+        private async void Save_In4(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        // handle click Save_Password - save password with root
+        private async void Save_Password(object sender, RoutedEventArgs e)
+        {
+            
         }
 
     }
