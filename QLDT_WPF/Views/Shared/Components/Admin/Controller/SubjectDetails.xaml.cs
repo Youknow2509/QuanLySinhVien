@@ -124,7 +124,15 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // TODO
+            var txt = txtTimKiem.Text;
+            if (txt == "")
+            {
+                sfDataGrid.ItemsSource = collection_lop_hoc_phan;
+            }
+            else
+            {
+                sfDataGrid.ItemsSource = collection_lop_hoc_phan.Where(lhp => lhp.TenLopHocPhan.ToLower().Contains(txt.ToLower()) || lhp.TenGiaoVien.ToLower().Contains(txt.ToLower()));
+            }
 
         }
 
