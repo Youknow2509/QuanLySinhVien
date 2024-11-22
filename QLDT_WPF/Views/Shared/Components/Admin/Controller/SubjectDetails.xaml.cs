@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using QLDT_WPF.Views.Components;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
+using Syncfusion.XlsIO;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.View
 {
@@ -119,7 +120,86 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
         private void ExportToExcel(object sender, RoutedEventArgs e)
         {
-            // TODO
+            //if (ObservableChuongTrinhHoc == null || ObservableChuongTrinhHoc.Count == 0)
+            // {
+            //     MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //     return;
+            // }
+
+            // using (ExcelEngine excelEngine = new ExcelEngine())
+            // {
+            //     IApplication application = excelEngine.Excel;
+            //     application.DefaultVersion = ExcelVersion.Excel2013;
+
+            //     // Tạo workbook và worksheet
+            //     IWorkbook workbook = application.Workbooks.Create(1);
+            //     IWorksheet worksheet = workbook.Worksheets[0];
+
+            //     // Đặt tiêu đề cho các cột trong worksheet
+            //     worksheet[1, 1].Text = "ID Chương Trình Học";
+            //     worksheet[1, 2].Text = "Tên Chương Trình Học";
+
+            //     // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+            //     int row = 2;
+
+            //     foreach (var cch in ObservableChuongTrinhHoc)
+            //     {
+            //         worksheet[row, 1].Text = cch.IdChuongTrinhHoc ?? "N/A";
+            //         worksheet[row, 2].Text = cch.TenChuongTrinhHoc ?? "N/A";
+
+            //         row++;
+            //     }
+
+            //     // Tự động điều chỉnh kích thước các cột
+            //     worksheet.UsedRange.AutofitColumns();
+
+            //     // Lưu file Excel
+            //     workbook.SaveAs("DanhSachChuongTrinhHoc.xlsx");
+            // }
+
+            // MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            if (collection_lop_hoc_phan == null || collection_lop_hoc_phan.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Lớp Học Phần";
+                worksheet[1, 2].Text = "Tên Lớp Học Phần";
+                worksheet[1, 3].Text = "Tên Giáo Viên";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var lhp in collection_lop_hoc_phan)
+                {
+                    worksheet[row, 1].Text = lhp.IdLopHocPhan ?? "N/A";
+                    worksheet[row, 2].Text = lhp.TenLopHocPhan ?? "N/A";
+                    worksheet[row, 3].Text = lhp.TenGiaoVien ?? "N/A";
+
+                    row++;
+                }
+
+                // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachLopHocPhan.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            
         }
 
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
