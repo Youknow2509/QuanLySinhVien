@@ -11,6 +11,7 @@ using Syncfusion.UI.Xaml.Scheduler;
 using System.Windows.Markup;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
 using Syncfusion.XlsIO;
+using QLDT_WPF.Models;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -503,7 +504,65 @@ namespace QLDT_WPF.Views.Components
         // Handle click upload Upload_TGLHP
         private void Upload_TGLHP(object sender, RoutedEventArgs e)
         {
-            // Read file and handle 
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<TaoThoiGianLopHocPhanDto> list_thoi_gian_lop_hoc_phan = 
+                        new List<TaoThoiGianLopHocPhanDto>();
+
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+                        // todo
+                        if (data.Count() >= 2)
+                        {
+                            list_chuong_trinh_hoc.Add(new TaoThoiGianLopHocPhanDto
+                            {
+                                // IdChuongTrinhHoc = data[0],
+                                // todo
+                            });
+                        }
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm thêm danh sách môn học từ file CSV trong repository
+                        
+
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+
+                                // Hiển thị thông báo lỗi
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+
+                                // Refresh data
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm thời gian lớp học phần!");
+            }
         }
 
         // handle click UploadDiemBangFile
