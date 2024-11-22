@@ -14,6 +14,8 @@ namespace QLDT_WPF.Dto
         public DateTime? ThoiGianBatDauMoi { get; set; }
         public DateTime? ThoiGianKetThucMoi { get; set; }
         public int? TrangThai { get; set; } 
+
+        public string? StatusMessage { get; set; }
         public string? TenLopHocPhan { get; set; }
     }
 }

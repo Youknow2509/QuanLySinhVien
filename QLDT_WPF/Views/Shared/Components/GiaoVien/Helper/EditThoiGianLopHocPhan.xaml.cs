@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
 
-namespace QLDT_WPF.Views.Shared.Components.Admin.View
+namespace QLDT_WPF.Views.Shared.Components.GiaoVien.Helper
 {
     /// <summary>
     /// Interaction logic for EditThoiGianLopHocPhan.xaml
@@ -26,6 +26,8 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         private string idLopHocPhan;
         private LopHocPhanRepository lopHocPhanRepository;
 
+        private NguyenVongGiaoVienRepository nguyenVongGiaoVienRepositorys;
+
         public EditThoiGianLopHocPhan(CalendarDto calendar, string id)
         {
             InitializeComponent();
@@ -34,6 +36,8 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
             idLopHocPhan = id;
 
             lopHocPhanRepository = new LopHocPhanRepository();
+
+            nguyenVongGiaoVienRepositorys = new NguyenVongGiaoVienRepository();
 
             Loaded += async (s, e) =>
             {
@@ -70,19 +74,23 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
             try
             {
                 var (ThoiGianBatDau, ThoiGianKetThuc) = helpConvertTime(thoi_gian, ca.ToString());
-                var thayDoiThoiGianLopHocPhanDto = new ThayDoiThoiGianLopHocPhanDto
+                var thayDoiThoiGianLopHocPhanDto = new NguyenVongThayDoiLichDto
                 {
-                    IdThoiGian = calendarDto.Id,
+                    IdThoiGian = idThoiGian.Text,
                     IdLopHocPhan = idLopHocPhan,
-                    ThoiGianBatDau = ThoiGianBatDau,
-                    ThoiGianKetThuc = ThoiGianKetThuc,
-                    DiaDiem = dia_diem,
+                    ThoiGianBatDauHienTai = calendarDto.Start,
+                    ThoiGianKetThucHienTai = calendarDto.End,
+                    ThoiGianBatDauMoi = ThoiGianBatDau,
+                    ThoiGianKetThucMoi = ThoiGianKetThuc,
+                    TrangThai = 0,
+                    TenLopHocPhan = calendarDto.Title
+
                 };
 
                 Task.Run(
                     async () =>
                     {
-                        var response = await lopHocPhanRepository.ChangeTime(thayDoiThoiGianLopHocPhanDto);
+                        var response = await nguyenVongGiaoVienRepositorys.Add(thayDoiThoiGianLopHocPhanDto);
 
                         Application.Current.Dispatcher.Invoke(() =>
                         {

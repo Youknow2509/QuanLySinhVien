@@ -1,6 +1,7 @@
 ﻿using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
 using QLDT_WPF.Views.Components;
+using QLDT_WPF.Views.Shared.Components.GiaoVien.Helper;
 using Syncfusion.UI.Xaml.Scheduler;
 using Syncfusion.XlsIO;
 using System;
@@ -368,7 +369,7 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
                 return;
             }
             // Open window SuaThoiGian
-            var window = new QLDT_WPF.Views.Shared.Components.Admin.View.EditThoiGianLopHocPhan(tg, idLopHocPhan);
+            var window = new EditThoiGianLopHocPhan(tg, idLopHocPhan);
             window.ShowDialog();
 
             // refresh data

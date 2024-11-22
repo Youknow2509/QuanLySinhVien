@@ -62,20 +62,21 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" MaxHeight="400">
                 <syncfusion:SfDataGrid x:Name="NguyenVongDataGrid"
                                        AutoGenerateColumns="False"
-                                       GridLinesVisibility="Horizontal"
+                                       GridLinesVisibility="Both"
                                        RowHeight="40"
                                        ColumnSizer="None"
                                        ItemsSource="{Binding PagedData}"
                                        AllowSorting="True"
                                        BorderBrush="#E5E5E5"
+                                       HorizontalAlignment="Center"
                                        BorderThickness="1">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="150"/>
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu Hiện Tại" MappingName="ThoiGianBatDauHienTai" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc Hiện Tại" MappingName="ThoiGianKetThucHienTai" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu Mới" MappingName="ThoiGianBatDauMoi" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc Mới" MappingName="ThoiGianKetThucMoi" Width="200"/>
-                        <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150"/>
+                        <syncfusion:GridTextColumn TextWrapping="Wrap" HeaderText="Lớp Học Phần" TextAlignment="Center" MappingName="TenLopHocPhan" Width="150"/>
+                        <syncfusion:GridTextColumn TextWrapping="Wrap" HeaderText="Thời Gian Bắt Đầu Hiện Tại" TextAlignment="Center" MappingName="ThoiGianBatDauHienTai" Width="200"/>
+                        <syncfusion:GridTextColumn TextWrapping="Wrap" HeaderText="Thời Gian Kết Thúc Hiện Tại" TextAlignment="Center" MappingName="ThoiGianKetThucHienTai" Width="200"/>
+                        <syncfusion:GridTextColumn TextWrapping="Wrap" HeaderText="Thời Gian Bắt Đầu Mới" TextAlignment="Center" MappingName="ThoiGianBatDauMoi" Width="200"/>
+                        <syncfusion:GridTextColumn TextWrapping="Wrap" HeaderText="Thời Gian Kết Thúc Mới" TextAlignment="Center" MappingName="ThoiGianKetThucMoi" Width="200"/>
+                        <syncfusion:GridTextColumn TextWrapping="Wrap" HeaderText="Trạng Thái" TextAlignment="Center" MappingName="StatusMessage" Width="150"/>
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
             </ScrollViewer>

@@ -258,14 +258,5 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 TargetContentArea.Content = detail;
             }
         }
-
-        private void BackButton_Click(object s, RoutedEventArgs e)
-        {
-            if (TargetContentArea == null) return;
-
-            Object _parent = Parent_Find.Get_Template(parent, idChuongTrinhHoc, parent);
-            TargetContentArea.Content = _parent;
-
-        }
     }
 }

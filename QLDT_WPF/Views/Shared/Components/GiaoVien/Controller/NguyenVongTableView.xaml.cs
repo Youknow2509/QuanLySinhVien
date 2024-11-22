@@ -74,9 +74,21 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
                 MessageBox.Show(list_nv_gv.Message);
                 return;
             }
-            for (int i = 0; i < list_nv_gv.Data.Count; i++)
+            foreach(var item in list_nv_gv.Data)
             {
-                nguynv_collection.Add(list_nv_gv.Data[i]);
+                nguynv_collection.Add(new NguyenVongThayDoiLichDto
+                {
+                    IdDangKyDoiLich = item.IdDangKyDoiLich,
+                    IdThoiGian = item.IdThoiGian,
+                    IdLopHocPhan = item.IdLopHocPhan,
+                    ThoiGianBatDauHienTai = item.ThoiGianBatDauHienTai,
+                    ThoiGianKetThucHienTai = item.ThoiGianKetThucHienTai,
+                    ThoiGianBatDauMoi = item.ThoiGianBatDauMoi,
+                    ThoiGianKetThucMoi = item.ThoiGianKetThucMoi,
+                    TrangThai = item.TrangThai,
+                    StatusMessage = (item.TrangThai == 0 ) ? "Từ chối" : (item.TrangThai == 1) ? "Đã xác nhận" : "Chờ xác nhận",
+                    TenLopHocPhan = item.TenLopHocPhan
+                });
             }
             NguyenVongDataGrid.ItemsSource = nguynv_collection;
         }

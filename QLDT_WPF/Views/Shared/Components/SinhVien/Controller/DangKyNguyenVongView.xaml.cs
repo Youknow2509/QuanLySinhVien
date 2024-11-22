@@ -197,7 +197,8 @@ namespace QLDT_WPF.Views.Shared.Components.SinhVien.View
                     else
                     {
                         // Không thực hiện hành động nếu trạng thái khác -1
-                        MessageBox.Show("Không thể hủy. Trạng thái không hợp lệ.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        Button buttonHuy = sender as Button;
+                        buttonHuy.IsEnabled = false;
                     }
                 }
             }

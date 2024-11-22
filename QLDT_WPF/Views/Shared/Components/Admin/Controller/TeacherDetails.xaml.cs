@@ -328,18 +328,5 @@ namespace QLDT_WPF.Views.Components
         //         txtAddress.Text = "Khoa Công Nghệ Thông Tin"; // Dữ liệu giả lập
         //     }
         // }
-
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (TargetContentArea != null)
-            {
-                Object _parent = Parent_Find.Get_Template(parent,idGiaoVien,parent);
-                TargetContentArea.Content = _parent;
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
     }
 }

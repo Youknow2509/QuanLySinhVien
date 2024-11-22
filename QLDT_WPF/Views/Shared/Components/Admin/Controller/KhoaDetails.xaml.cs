@@ -153,19 +153,6 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (TargetContentArea != null)
-            {
-                Object _parent = Parent_Find.Get_Template(parent,idKhoa,parent);
-                TargetContentArea.Content = _parent;
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
         // Show details giaovien
         private void ChiTietGiaoVien_Click(object sender, RoutedEventArgs e)
         {
