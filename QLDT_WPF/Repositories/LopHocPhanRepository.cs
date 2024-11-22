@@ -191,7 +191,7 @@ public class LopHocPhanRepository
             TenHocPhan = lopHocPhan.TenLopHocPhan,
             ThoiGianBatDau = lopHocPhan.ThoiGianBatDau,
             ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc,
-            TrangThaiNhapDiemon = lopHocPhan.TrangleNhapDiem
+            TrangThaiNhapDiem = lopHocPhan.TrangThaiNhapDiem
         };
 
         // check giao vien, mon hoc ton tai
