@@ -4,7 +4,6 @@
 
 # TODO:
 - Auth ...  
-- Handle add thoi gian lop phan checker
 - ....
 
 # How to run:

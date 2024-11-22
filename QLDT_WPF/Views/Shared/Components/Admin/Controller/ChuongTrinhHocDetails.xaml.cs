@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
+using QLDT_WPF.Views.Shared.Components.Admin.Controller;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
 using Syncfusion.XlsIO;
 
@@ -209,18 +210,9 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         // Handlee them mon hoc 
         private void EditCth(object s, RoutedEventArgs e)
         {
-            // Lấy ID môn học từ Tag của TextBlock
-            TextBlock textBlock = s as TextBlock;
-            if (textBlock != null && textBlock.Tag != null)
-            {
-                string Id = (string)textBlock.Tag; // Hoặc nếu ID là kiểu string, bạn có thể chuyển thành (string)textBlock.Tag
-                string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
-
-                // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Shared.Components.Admin.Controller.ChuongTrinhHocEdit(Id);
-                if (TargetContentArea == null) return;
-                TargetContentArea.Content = detail;
-            }
+               // Mo cua so chi tiet mon hoc thay cho cua so hien tai
+               var detail = new ChuongTrinhHocEdit(idChuongTrinhHoc);
+               TargetContentArea.Content = detail;
         }
 
         // Show detail mon hoc

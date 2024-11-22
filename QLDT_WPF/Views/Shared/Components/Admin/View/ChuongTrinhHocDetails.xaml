@@ -180,7 +180,9 @@
                             Foreground="White"
                             BorderBrush="#007BFF"
                             Margin="10,0,10,0"
-                            Click="EditCth">
+                            Click="EditCth"
+                            Tag="{Binding idChuongTrinhHoc}"
+                            >
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border Background="{TemplateBinding Background}"
