@@ -12,6 +12,7 @@ namespace qlsv.Models
         public string? IdMonHoc { get; set; }
         public DateTime? ThoiGianBatDau { get; set; }
         public DateTime? ThoiGianKetThuc { get; set; }
+        public bool? TrangThaiNhapDiem { get; set; }
 
         // Variables linked to another table
         public virtual GiaoVien? GiaoViens { get; set; }
