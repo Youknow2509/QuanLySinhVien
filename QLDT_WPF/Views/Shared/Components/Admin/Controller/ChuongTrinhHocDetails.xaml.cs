@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.View
 {
@@ -40,8 +42,11 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         private ChuongTrinhHocDto chuongTrinhHoc;
         private ObservableCollection<MonHocDto> monHoc_collection;
 
+        private string parent;
+        private string constCTH = "ChuongTrinhHocDetails";
+
         // Constructor
-        public ChuongTrinhHocDetails(string id)
+        public ChuongTrinhHocDetails(string id, string parent)
         {
             InitializeComponent();
 
@@ -54,6 +59,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
             // set var
             idChuongTrinhHoc = id;
+            this.parent = parent;
 
             Loaded += async (s, e) =>
             {
@@ -171,7 +177,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
                 var detail = 
-                    new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(Id);
+                    new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(Id,constCTH);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -189,10 +195,19 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
                 var detail = 
-                    new QLDT_WPF.Views.Components.KhoaDetails(Id);
+                    new QLDT_WPF.Views.Components.KhoaDetails(Id,constCTH);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
+        }
+
+        private void BackButton_Click(object s, RoutedEventArgs e)
+        {
+            if (TargetContentArea == null) return;
+
+            Object _parent = Parent_Find.Get_Template(parent, idChuongTrinhHoc, parent);
+            TargetContentArea.Content = _parent;
+
         }
     }
 }

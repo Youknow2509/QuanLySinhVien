@@ -9,12 +9,27 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
     <Grid Margin="20">
-        <!-- Border Container -->
+        <!-- Nút Back -->
+    <Button Content="Back"
+                Width="80"
+                Height="30"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="14"
+                Margin="0,0,10,0"
+                Background="#3A82E5"
+                Foreground="White"
+                BorderBrush="Transparent"
+                Click="BackButton_Click"/>
+
+    <!-- Border Container -->
         <Border BorderThickness="1"
             BorderBrush="#CCCCCC"
             CornerRadius="8"
-            Padding="10">
-            <StackPanel>
+            Padding="10"
+            Margin="0,40,0,0">
+            <!-- Dưới nút Back -->
+        <StackPanel>
                 <!-- Title -->
                 <TextBlock x:Name="titleDataTable"
                        Text="Danh Sach Lop Hoc Phan Day Mon: ..."

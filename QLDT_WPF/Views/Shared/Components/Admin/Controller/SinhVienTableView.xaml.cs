@@ -44,6 +44,7 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
              DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SinhVienTableView), new PropertyMetadata(null));
 
+        private string constSV = "SinhVienTableView";
 
 
         // Constructor
@@ -299,7 +300,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.SinhVienDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.SinhVienDetails(Id,constSV);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -316,7 +317,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(Id);
+                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(Id,constSV);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -333,7 +334,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id, constSV);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }

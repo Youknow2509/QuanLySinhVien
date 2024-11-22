@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -48,8 +49,12 @@ namespace QLDT_WPF.Views.Components
         private ObservableCollection<LopHocPhanDto> lopHocPhan_collection;
         private ObservableCollection<ScheduleAppointment> lichGiaoVien_collection;
 
+        private string constMH = "TeacherDetails";
+
+        private string parent;
+
         // Constructor
-        public TeacherDetails(string id)
+        public TeacherDetails(string id, string parent)
         {
             InitializeComponent();
 
@@ -62,6 +67,8 @@ namespace QLDT_WPF.Views.Components
 
             lopHocPhan_collection = new ObservableCollection<LopHocPhanDto>();
             lichGiaoVien_collection = new ObservableCollection<ScheduleAppointment>();
+
+            this.parent = parent;
 
             Loaded += async (s, e) =>
             {
@@ -88,7 +95,7 @@ namespace QLDT_WPF.Views.Components
 
                 await InitAsync();
             };
-
+            this.parent = parent;
         }
 
         private async Task InitAsync()
@@ -261,7 +268,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             // redirect to detail lop hoc phan
-            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan);
+            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan, constMH,idGiaoVien);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = lopHocPhanDetails;
@@ -283,7 +290,7 @@ namespace QLDT_WPF.Views.Components
             }
 
             // redirect to detail mon hoc
-            var monHocDetails = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(idMonHoc);
+            var monHocDetails = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(idMonHoc,constMH);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = monHocDetails;
@@ -310,19 +317,17 @@ namespace QLDT_WPF.Views.Components
         //     }
         // }
 
-        // private void BackButton_Click(object sender, RoutedEventArgs e)
-        // {
-        //     if (TargetContentArea != null)
-        //     {
-        //         TargetContentArea.Content = new TeacherTableView
-        //         {
-        //             TargetContentArea = TargetContentArea
-        //         };
-        //     }
-        //     else
-        //     {
-        //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //     }
-        // }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TargetContentArea != null)
+            {
+                Object _parent = Parent_Find.Get_Template(parent,idGiaoVien,parent);
+                TargetContentArea.Content = _parent;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using QLDT_WPF.Views.Components;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 namespace QLDT_WPF.Views.Shared.Components.Admin.View
 {
@@ -31,6 +32,8 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
         public ObservableCollection<MonHocDto> ObservableMonHoc { get; private set; }
 
+        private string constMH = "SubjectDetails";
+
         public ContentControl TargetContentArea
         {
             get { return (ContentControl)GetValue(TargetContentAreaProperty); }
@@ -40,14 +43,17 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectDetails), new PropertyMetadata(null));
 
+        private string parent;
 
-        public SubjectDetails(string idMonHoc)
+        public SubjectDetails(string idMonHoc, string parent)
         {   
             InitializeComponent();
             monHocRepository = new MonHocRepository();
             lopHocPhanRepository = new LopHocPhanRepository();
             this.idMonHoc = idMonHoc;
             collection_lop_hoc_phan = new ObservableCollection<LopHocPhanDto>();
+
+            this.parent = parent;   
 
             // Loaded asynchrnously
             Loaded += async (s, e) => {
@@ -132,7 +138,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 return;
             }
             // Redirect to LopHocPhanDetails
-            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan);
+            var lopHocPhanDetails = new LopHocPhanDetails(idLopHocPhan, constMH,idMonHoc);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = lopHocPhanDetails;
@@ -150,11 +156,26 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 return;
             }
             // Redirect to LopHocPhanDetails
-            var lopHocPhanDetails = new LopHocPhanDetails(idGiaoVien);
+            var lopHocPhanDetails = new LopHocPhanDetails(idGiaoVien, constMH,idMonHoc);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = lopHocPhanDetails;
             }
+        }
+
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TargetContentArea != null)
+            {
+                Object _parent = Parent_Find.Get_Template(parent,idMonHoc,parent);
+                TargetContentArea.Content = _parent;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
     }

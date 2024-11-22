@@ -341,5 +341,14 @@ namespace QLDT_WPF.Views.Components
             txtNewPassword.Password = "";
             txtConfirmPassword.Password = "";
         }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            var teacherTableView = new TeacherTableView();
+            if (TargetContentArea != null)
+            {
+                TargetContentArea.Content = teacherTableView;
+            }
+        }
     }
 }

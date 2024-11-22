@@ -8,6 +8,8 @@ using QLDT_WPF.Repositories;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Syncfusion.UI.Xaml.Scheduler;
+using System.Windows.Markup;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -36,8 +38,12 @@ namespace QLDT_WPF.Views.Components
         public ObservableCollection<CalendarDto> calendar_collections;
         public ObservableCollection<DiemDto> diem_collections;
 
+        private string parent;
+        private string constLHPD = "LophocphanDetails";
+        private string idparent;
+
         // Constructor
-        public LopHocPhanDetails(string id)
+        public LopHocPhanDetails(string id, string par, string idparent)
         {
             InitializeComponent();
 
@@ -54,6 +60,8 @@ namespace QLDT_WPF.Views.Components
 
             // set variables in constructor
             idLopHocPhan = id;
+            parent = par;
+            this.idparent = idparent;
 
             Loaded += async (s, e) =>
             {
@@ -80,6 +88,7 @@ namespace QLDT_WPF.Views.Components
 
                 await InitAysnc();
             };
+            this.idparent = idparent;
         }
 
         private T FindParent<T>(DependencyObject child) where T : DependencyObject
@@ -220,7 +229,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            var detail = new SinhVienDetails(id);
+            var detail = new SinhVienDetails(id,constLHPD);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = detail;
@@ -241,7 +250,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
-            var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(id);
+            var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(id,constLHPD);
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content = detail;
@@ -311,17 +320,17 @@ namespace QLDT_WPF.Views.Components
         }
 
 
-        // private void BackButton_Click(object sender, RoutedEventArgs e)
-        // {
-        //     if (TargetContentArea != null)
-        //     {
-        //         // Navigate back to LopHocPhanTableView or the parent view
-        //         TargetContentArea.Content = new LopHocPhanTableView();
-        //     }
-        //     else
-        //     {
-        //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //     }
-        // }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+             if (TargetContentArea != null)
+             {
+                Object _parent = Parent_Find.Get_Template(constLHPD,parent,idparent);
+                TargetContentArea.Content = _parent;
+            }
+             else
+             {
+                 MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+             }
+         }
     }
 }

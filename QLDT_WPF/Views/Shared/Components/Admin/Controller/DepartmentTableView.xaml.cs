@@ -44,6 +44,7 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
              DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(DepartmentTableView), new PropertyMetadata(null));
 
+        private string constK = "DepartmentTableView";
         // Constructor
         public DepartmentTableView()
         {
@@ -330,7 +331,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id,constK);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }

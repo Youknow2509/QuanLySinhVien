@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using QLDT_WPF.Dto;
 using QLDT_WPF.Migrations;
 using QLDT_WPF.Repositories;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -44,7 +45,11 @@ namespace QLDT_WPF.Views.Components
         private ObservableCollection<SinhVienDto> sinhviens_collection;
         private ObservableCollection<GiaoVienDto> giaoviens_collection;
 
-        public KhoaDetails(string id)
+
+        private string constK = "KhoaDetails";
+        private string parent;
+
+        public KhoaDetails(string id, string parent)
         {
             InitializeComponent();
 
@@ -56,6 +61,8 @@ namespace QLDT_WPF.Views.Components
 
             sinhviens_collection = new ObservableCollection<SinhVienDto>();
             giaoviens_collection = new ObservableCollection<GiaoVienDto>();
+            
+            this.parent = parent;
 
             // Loaded asyn data
             Loaded += async (s, e) =>
@@ -145,17 +152,18 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        // private void BackButton_Click(object sender, RoutedEventArgs e)
-        // {
-        //     if (TargetContentArea != null)
-        //     {
-        //         TargetContentArea.Content = new DepartmentTableView();
-        //     }
-        //     else
-        //     {
-        //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //     }
-        // }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TargetContentArea != null)
+            {
+                Object _parent = Parent_Find.Get_Template(parent,idKhoa,parent);
+                TargetContentArea.Content = _parent;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         // Show details giaovien
         private void ChiTietGiaoVien_Click(object sender, RoutedEventArgs e)
@@ -168,7 +176,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id, constK);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -185,7 +193,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.SinhVienDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.SinhVienDetails(Id,constK);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }

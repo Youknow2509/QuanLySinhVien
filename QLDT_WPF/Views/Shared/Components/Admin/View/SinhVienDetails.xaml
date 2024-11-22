@@ -13,18 +13,18 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Back Button -->
-        <!-- <Button Grid.Row="0"
-                Content="← Back"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="0,0,0,10"
-                Padding="10,5"
-                FontSize="14"
-                Background="#3A82E5"
-                Foreground="White"
-                BorderBrush="Transparent"
-                Click="BackButton_Click" /> -->
+        <!-- Nút Back -->
+        <Button Content="Back"
+            Width="80"
+            Height="30"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            FontSize="14"
+            Margin="0,0,10,0"
+            Background="#3A82E5"
+            Foreground="White"
+            BorderBrush="Transparent"
+            Click="BackButton_Click"/>
 
         <!-- Student Information -->
         <Border Grid.Row="1"

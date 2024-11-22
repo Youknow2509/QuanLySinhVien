@@ -41,6 +41,8 @@ namespace QLDT_WPF.Views.Components
             set { SetValue(TargetContentAreaProperty, value); }
         }
 
+        private string constLHP = "LopHocPhanTableView";
+
         public static readonly DependencyProperty TargetContentAreaProperty =
              DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(LopHocPhanTableView), new PropertyMetadata(null));
 
@@ -371,7 +373,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.LopHocPhanDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.LopHocPhanDetails(Id, constLHP,null);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -388,7 +390,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id, constLHP);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -405,7 +407,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(Id);
+                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(Id,constLHP);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }

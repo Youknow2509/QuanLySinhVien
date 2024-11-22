@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
+using QLDT_WPF.Views.Shared.Components.Admin.Help;
 
 
 namespace QLDT_WPF.Views.Components
@@ -36,7 +37,11 @@ namespace QLDT_WPF.Views.Components
         public ObservableCollection<ScheduleAppointment> Appointments { get; set; }
         public ObservableCollection<DiemDto> diem_collection { get; set; }
 
-        public SinhVienDetails(string id)
+        private string parent;
+
+        private string constSVD = "SinhVienDetails";
+
+        public SinhVienDetails(string id, string parent)
         {
             InitializeComponent();
 
@@ -49,6 +54,8 @@ namespace QLDT_WPF.Views.Components
 
             Appointments = new ObservableCollection<ScheduleAppointment>();
             diem_collection = new ObservableCollection<DiemDto>();
+
+            this.parent = parent;
 
             // Load data asynchron
             Loaded += async (s, e) =>
@@ -225,17 +232,18 @@ namespace QLDT_WPF.Views.Components
             return FindParent<T>(parentObject);
         }
 
-        // private void BackButton_Click(object sender, RoutedEventArgs e)
-        // {
-        //     if (TargetContentArea != null)
-        //     {
-        //         TargetContentArea.Content = new SinhVienTableView();
-        //     }
-        //     else
-        //     {
-        //         MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-        //     }
-        // }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TargetContentArea != null)
+            {
+                Object _parent = Parent_Find.Get_Template(parent,idSinhVien,parent);
+                TargetContentArea.Content = _parent;
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         // handle edit profile button
         private void Edit_SV_Button_Click(object sender, RoutedEventArgs e)
@@ -299,7 +307,7 @@ namespace QLDT_WPF.Views.Components
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content =
-                    new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(idMon);
+                    new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(idMon,constSVD);
             }
             else
             {
@@ -323,7 +331,7 @@ namespace QLDT_WPF.Views.Components
             if (TargetContentArea != null)
             {
                 TargetContentArea.Content =
-                    new QLDT_WPF.Views.Components.LopHocPhanDetails(idLopHocPhan);
+                    new QLDT_WPF.Views.Components.LopHocPhanDetails(idLopHocPhan,constSVD,null);
             }
             else
             {

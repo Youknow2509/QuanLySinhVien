@@ -46,6 +46,8 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(SubjectsTableView), new PropertyMetadata(null));
 
+
+        private string constMH = "SubjectsTableView";
         // Constructor
         public SubjectsTableView()
         {
@@ -327,7 +329,7 @@ namespace QLDT_WPF.Views.Components
                 string subjectName = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail_subject = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(subjectId);
+                var detail_subject = new QLDT_WPF.Views.Shared.Components.Admin.View.SubjectDetails(subjectId,constMH);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail_subject;
             }
@@ -345,7 +347,7 @@ namespace QLDT_WPF.Views.Components
 
                 // Gọi hàm hoặc mở cửa sổ chi tiết khoa, truyền vào ID và tên khoa
                 // MessageBox.Show($"Hiển thị chi tiết khoa với ID: {facultyId}, Tên Khoa: {facultyName}");
-                var detail = new QLDT_WPF.Views.Components.KhoaDetails(facultyId);
+                var detail = new QLDT_WPF.Views.Components.KhoaDetails(facultyId,constMH);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }

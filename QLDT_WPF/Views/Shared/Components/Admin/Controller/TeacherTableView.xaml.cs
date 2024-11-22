@@ -47,6 +47,7 @@ namespace QLDT_WPF.Views.Components
              DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherTableView), new PropertyMetadata(null));
 
 
+        private string constGV = "TeacherTableView";
         // Constructor
         public TeacherTableView()
         {
@@ -286,7 +287,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.TeacherDetails(Id, constGV);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
@@ -303,7 +304,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id);
+                var detail = new QLDT_WPF.Views.Components.KhoaDetails(Id,constGV);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }

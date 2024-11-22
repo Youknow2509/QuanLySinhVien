@@ -44,6 +44,8 @@ namespace QLDT_WPF.Views.Components
         public static readonly DependencyProperty TargetContentAreaProperty =
             DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(ChuongTrinhHocTableView), new PropertyMetadata(null));
 
+
+        private string constCTH = "ChuongTrinhHocTableView";
         // Constructor
         public ChuongTrinhHocTableView()
         {
@@ -322,7 +324,7 @@ namespace QLDT_WPF.Views.Components
                 string Name = textBlock.Text; // Lấy tên môn học từ thuộc tính Text của TextBlock
 
                 // Mo cua so chi tiet mon hoc thay cho cua so hien tai
-                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(Id);
+                var detail = new QLDT_WPF.Views.Shared.Components.Admin.View.ChuongTrinhHocDetails(Id,constCTH);
                 if (TargetContentArea == null) return;
                 TargetContentArea.Content = detail;
             }
