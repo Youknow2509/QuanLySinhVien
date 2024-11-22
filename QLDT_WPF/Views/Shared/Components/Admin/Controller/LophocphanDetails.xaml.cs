@@ -152,9 +152,12 @@ namespace QLDT_WPF.Views.Components
             List<CalendarDto> dtoList = req_calendar.Data;
             Appointments.Clear();
             calendar_collections.Clear();
+            //
+            int check_so_buoi = 0;
             // Convert to ScheduleAppointment
             foreach (var dto in dtoList)
             {
+                check_so_buoi++;
                 // Đã Kết Thúc, Đang Diễn Ra, Sắp Diễn Ra - So Với Thời Gian Hiện Tại
                 string StatusMessage = "";
                 if (dto.End < DateTime.Now)
@@ -194,6 +197,11 @@ namespace QLDT_WPF.Views.Components
             }
             calendar_lop_hoc_phan.Appointments = Appointments;
             DataGrid_ThoiGian_LopHocPhan.ItemsSource = calendar_collections;
+
+            if (check_so_buoi*3 >= monHocDto.SoTietHoc) {
+                // end them thoi gian lop hoc phan
+                AddThoiGianopHocPhan.IsEnabled = true;
+            }
         }
 
         private async Task Load_ScoreDataGrid()
@@ -507,65 +515,64 @@ namespace QLDT_WPF.Views.Components
         // Handle click upload Upload_TGLHP
         private void Upload_TGLHP(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+            // OpenFileDialog openFileDialog = new OpenFileDialog();
+            // openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string filePath = openFileDialog.FileName;
+            // if (openFileDialog.ShowDialog() == true)
+            // {
+            //     string filePath = openFileDialog.FileName;
 
-                try
-                {
-                    // Đọc file CSV và xử lý từng dòng
-                    string[] lines = File.ReadAllLines(filePath);
-                    List<TaoThoiGianLopHocPhanDto> list_thoi_gian_lop_hoc_phan = 
-                        new List<TaoThoiGianLopHocPhanDto>();
+            //     try
+            //     {
+            //         // Đọc file CSV và xử lý từng dòng
+            //         string[] lines = File.ReadAllLines(filePath);
+            //         List<TaoThoiGianLopHocPhanDto> list_thoi_gian_lop_hoc_phan = 
+            //             new List<TaoThoiGianLopHocPhanDto>();
 
-                    foreach (string line in lines)
-                    {
-                        string[] data = line.Split(',');
-                        // todo
-                        if (data.Count() >= 2)
-                        {
-                            list_chuong_trinh_hoc.Add(new TaoThoiGianLopHocPhanDto
-                            {
-                                // IdChuongTrinhHoc = data[0],
-                                // todo
-                            });
-                        }
-                    }
+            //         foreach (string line in lines)
+            //         {
+            //             string[] data = line.Split(',');
+            //             // todo
+            //             if (data.Count() >= 2)
+            //             {
+            //                 list_thoi_gian_lop_hoc_phan.Add(new TaoThoiGianLopHocPhanDto
+            //                 {
+            //                     // IdChuongTrinhHoc = data[0],
+            //                     // todo
+            //                 });
+            //             }
+            //         }
 
-                    Task.Run(async () =>
-                    {
-                        // Gọi hàm thêm danh sách môn học từ file CSV trong repository
-                        
+            //         Task.Run(async () =>
+            //         {
+            //             // Gọi hàm thêm danh sách môn học từ file CSV trong repository
 
-                        // Hiển thị thông báo kết quả trên luồng UI
-                        Application.Current.Dispatcher.Invoke(async () =>
-                        {
-                            if (response.Status == false)
-                            {
+            //             // Hiển thị thông báo kết quả trên luồng UI
+            //             Application.Current.Dispatcher.Invoke(async () =>
+            //             {
+            //                 if (response.Status == false)
+            //                 {
 
-                                // Hiển thị thông báo lỗi
-                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                            else
-                            {
+            //                     // Hiển thị thông báo lỗi
+            //                     MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            //                 }
+            //                 else
+            //                 {
 
-                                // Refresh data
-                            }
-                        });
-                    });
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn file CSV để thêm thời gian lớp học phần!");
-            }
+            //                     // Refresh data
+            //                 }
+            //             });
+            //         });
+            //     }
+            //     catch (Exception ex)
+            //     {
+            //         MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+            //     }
+            // }
+            // else
+            // {
+            //     MessageBox.Show("Vui lòng chọn file CSV để thêm thời gian lớp học phần!");
+            // }
         }
 
         // handle click UploadDiemBangFile
