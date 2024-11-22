@@ -882,7 +882,7 @@ public class LopHocPhanRepository
             };
         }
 
-        lhp.TrangThaiNhapDiem = !lhp.TrangThaiNhapDiem;
+        lhp.TrangThaiNhapDiem = (lhp.TrangThaiNhapDiem == true) ? false : true;
 
         await _context.SaveChangesAsync();
 
