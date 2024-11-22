@@ -44,10 +44,12 @@ namespace QLDT_WPF.Views.Shared
                     TargetContentArea.Content = Target; // Truyền UserInformation vào DiemView
                     break;
                 case "btnDangKyNguyenVong":
-                    TargetContentArea.Content = new DangKyNguyenVongView(); // Truyền UserInformation vào DangKyNguyenVongView
+                    var Target2 = new DangKyNguyenVongView(UserInformation); // Truyền UserInformation vào DangKyNguyenVongView
+                    TargetContentArea.Content = Target2; // Truyền UserInformation vào DangKyNguyenVongView
                     break;
                 case "btnDanhSachLopHocPhan":
-                    TargetContentArea.Content = new LopHocPhanComponent(UserInformation); // Truyền UserInformation vào LopHocPhanComponent
+                    var Target3 = new LopHocPhanComponent(UserInformation); // Truyền UserInformation vào LopHocPhanComponent
+                    TargetContentArea.Content = Target3; // Truyền UserInformation vào LopHocPhanComponent
                     break;
                 case "btnLichHoc":
                     var Target1 = new LichhocView(UserInformation); // Truyền UserInformation vào LichhocView

@@ -21,6 +21,7 @@
         <None Remove="Images\LeftNavBar\search.png" />
         <None Remove="Images\LeftNavBar\student.png" />
         <None Remove="Images\logo.png" />
+        <None Remove="Images\logoK.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -79,6 +80,9 @@
         </Resource>
         <Resource Include="Images\logo.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\logoK.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>
 

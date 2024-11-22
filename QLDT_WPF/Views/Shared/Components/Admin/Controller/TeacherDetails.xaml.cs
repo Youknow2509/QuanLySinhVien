@@ -136,11 +136,23 @@ namespace QLDT_WPF.Views.Components
         private async Task Load_Anh()
         {
             var req_avt = await identityRepository.GetAvatar(idGiaoVien);
-            if (req_avt.Status == false)
-            {
-                MessageBox.Show("Không tìm thấy ảnh đại diện của giáo viên", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+                if (req_avt.Status == false || req_avt.Data == null || req_avt.Data.Length == 0)
+                {
+                    // Sử dụng ảnh mặc định từ tài nguyên ứng dụng
+                    Uri defaultAvatarUri = new Uri("pack://application:,,,/Images/logoK.png"); // Thay đổi đường dẫn ảnh tùy ý
+                    var defaultAvatarBitmap = new BitmapImage(defaultAvatarUri);
+
+                    // Đặt ảnh mặc định cho ImageBrush
+                    if (AvatarImageControl.Fill is ImageBrush defaultBrush)
+                    {
+                        defaultBrush.ImageSource = defaultAvatarBitmap;
+                    }
+                    else
+                    {
+                        AvatarImageControl.Fill = new ImageBrush(defaultAvatarBitmap) { Stretch = Stretch.UniformToFill };
+                    }
+                    return;
+                }
 
             byte[] imageBytes = req_avt.Data;
             if (imageBytes == null || imageBytes.Length == 0)

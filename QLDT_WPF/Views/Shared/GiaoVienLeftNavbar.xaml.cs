@@ -54,7 +54,7 @@ namespace QLDT_WPF.Views.Shared
                     TargetContentArea.Content = new LichDayView(UserInformation);
                     break;
                 case "btnDangKyNguyenVong":
-                    TargetContentArea.Content = new NguyenVongTableView();
+                    TargetContentArea.Content = new NguyenVongTableView(UserInformation);
                     break;
                 case "btnDanhSachLopHocPhan":
                     TargetContentArea.Content = new LopHocPhanTableView(UserInformation);

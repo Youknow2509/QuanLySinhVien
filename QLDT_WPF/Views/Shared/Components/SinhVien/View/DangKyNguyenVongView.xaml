@@ -5,18 +5,12 @@
              Background="White">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid Margin="20">
-            <!-- Grid Definitions -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- Title -->
                 <RowDefinition Height="*"/>
-                <!-- Học Phần Data -->
                 <RowDefinition Height="Auto"/>
-                <!-- Pagination -->
                 <RowDefinition Height="*"/>
-                <!-- Nguyện Vọng Data -->
                 <RowDefinition Height="Auto"/>
-                <!-- Pagination -->
             </Grid.RowDefinitions>
 
             <!-- Title -->
@@ -28,7 +22,6 @@
                        HorizontalAlignment="Center"
                        Margin="0,0,0,20"/>
 
-            <!-- Học Phần Data Table -->
             <Border Grid.Row="1"
                     BorderThickness="1"
                     BorderBrush="#CCCCCC"
@@ -52,7 +45,7 @@
                                            BorderBrush="#DDDDDD"
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="LopHocPhan" Width="200" />
+                            <syncfusion:GridTextColumn HeaderText="Lớp Học Phần" MappingName="TenLopHocPhan" Width="200" />
                             <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình" MappingName="DiemQuaTrinh" Width="150" />
                             <syncfusion:GridTextColumn HeaderText="Điểm Kết Thúc" MappingName="DiemKetThuc" Width="150" />
                             <syncfusion:GridTextColumn HeaderText="Điểm Tổng Kết" MappingName="DiemTongKet" Width="150" />
@@ -67,7 +60,8 @@
                                                 Width="100"
                                                 Height="30"
                                                 HorizontalAlignment="Center"
-                                                BorderBrush="Transparent"/>
+                                                BorderBrush="Transparent"
+                                                Click="DangKy_Button"/>
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
@@ -99,7 +93,7 @@
                                Margin="0,0,0,10"/>
                     <syncfusion:SfDataGrid x:Name="NguyenVongDataGrid"
                                            AutoGenerateColumns="False"
-                                           RowHeight="40"
+                                           RowHeight="50"
                                            GridLinesVisibility="Both"
                                            ItemsSource="{Binding PagedNguyenVongData}"
                                            AllowSorting="True"
@@ -108,10 +102,70 @@
                                            BorderBrush="#DDDDDD"
                                            BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
-                            <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên" MappingName="MaSinhVien" Width="200" />
-                            <syncfusion:GridTextColumn HeaderText="Tên Sinh Viên" MappingName="TenSinhVien" Width="250" />
-                            <syncfusion:GridTextColumn HeaderText="Môn Học" MappingName="MonHoc" Width="300" />
-                            <syncfusion:GridTextColumn HeaderText="Trạng Thái" MappingName="TrangThai" Width="150" />
+                            <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên" 
+                                                       MappingName="IdSinhVien" 
+                                                       TextWrapping="Wrap"
+                                                       Width="200" />
+                            <syncfusion:GridTextColumn HeaderText="Tên Sinh Viên" 
+                                                       MappingName="TenSinhVien" 
+                                                       TextWrapping="Wrap"
+                                                       Width="250" />
+                            <syncfusion:GridTextColumn HeaderText="Môn Học" 
+                                                       MappingName="TenMonHoc" 
+                                                       TextWrapping="Wrap"
+                                                       Width="300" />
+                            <syncfusion:GridTemplateColumn HeaderText="Trạng Thái" Width="150">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="Không xác định" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TrangThai}" Value="-1">
+                                                            <Setter Property="Text" Value="Chờ xử lý" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding TrangThai}" Value="1">
+                                                            <Setter Property="Text" Value="Đã xử lý" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
+                            <syncfusion:GridTemplateColumn HeaderText="Hành Động" Width="150">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.HuyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                CommandParameter="{Binding}" 
+                                                Padding="5,2" 
+                                                Width="100" 
+                                                Height="30" 
+                                                HorizontalAlignment="Center" 
+                                                BorderBrush="Transparent"
+                                                Click="Huy_Button">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Content" Value="N/A" />
+                                                    <Setter Property="Background" Value="Gray" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TrangThai}" Value="-1">
+                                                            <Setter Property="Content" Value="Hủy" />
+                                                            <Setter Property="Background" Value="Red" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding TrangThai}" Value="1">
+                                                            <Setter Property="Content" Value="Đã xử lý" />
+                                                            <Setter Property="Background" Value="Green" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
                 </StackPanel>

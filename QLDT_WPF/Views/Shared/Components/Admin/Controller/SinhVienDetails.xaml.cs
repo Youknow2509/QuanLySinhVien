@@ -112,18 +112,30 @@ namespace QLDT_WPF.Views.Components
         private async Task Set_Avatar()
         {
             var req_avt = await identityRepository.GetAvatar(idSinhVien);
-            if (req_avt.Status == false)
+
+            byte[] imageBytes = null;
+
+            // Kiểm tra trạng thái yêu cầu hoặc dữ liệu trống
+            if (req_avt.Status == false || req_avt.Data == null || req_avt.Data.Length == 0)
             {
-                MessageBox.Show("Không tìm thấy ảnh đại diện của sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Sử dụng ảnh mặc định từ tài nguyên ứng dụng
+                Uri defaultAvatarUri = new Uri("pack://application:,,,/Images/logoK.png"); // Thay đổi đường dẫn ảnh tùy ý
+                var defaultAvatarBitmap = new BitmapImage(defaultAvatarUri);
+
+                // Đặt ảnh mặc định cho ImageBrush
+                if (AvatarImageControl.Fill is ImageBrush defaultBrush)
+                {
+                    defaultBrush.ImageSource = defaultAvatarBitmap;
+                }
+                else
+                {
+                    AvatarImageControl.Fill = new ImageBrush(defaultAvatarBitmap) { Stretch = Stretch.UniformToFill };
+                }
                 return;
             }
 
-            byte[] imageBytes = req_avt.Data;
-            if (imageBytes == null || imageBytes.Length == 0)
-            {
-                MessageBox.Show("Dữ liệu ảnh không hợp lệ!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            // Nếu có dữ liệu ảnh từ API
+            imageBytes = req_avt.Data;
 
             // Convert byte array to an image
             using (var stream = new System.IO.MemoryStream(imageBytes))
@@ -141,11 +153,11 @@ namespace QLDT_WPF.Views.Components
                 }
                 else
                 {
-                    // If the Fill is not already an ImageBrush, create one
                     AvatarImageControl.Fill = new ImageBrush(bitmap) { Stretch = Stretch.UniformToFill };
                 }
             }
         }
+
 
         // Set data in4 sinh vien
         private async Task Set_Data_In4_SV()
