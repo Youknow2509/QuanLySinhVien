@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
 using QLDT_WPF.Views.Shared.Components.Admin.Help;
+using Syncfusion.XlsIO;
 
 
 namespace QLDT_WPF.Views.Components
@@ -283,13 +284,82 @@ namespace QLDT_WPF.Views.Components
         // export point sinh vien 
         private void ExportToExcel(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if (diem_collection == null || diem_collection.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu để xuất ra Excel", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            using (ExcelEngine excelEngine = new ExcelEngine())
+            {
+                IApplication application = excelEngine.Excel;
+                application.DefaultVersion = ExcelVersion.Excel2013;
+
+                // Tạo workbook và worksheet
+                IWorkbook workbook = application.Workbooks.Create(1);
+                IWorksheet worksheet = workbook.Worksheets[0];
+
+                // Đặt tiêu đề cho các cột trong worksheet
+                worksheet[1, 1].Text = "ID Điểm";
+                worksheet[1, 2].Text = "ID Sinh Viên";
+                worksheet[1, 3].Text = "ID Môn";
+                worksheet[1, 4].Text = "ID Lớp Học Phần";
+                worksheet[1, 5].Text = "Tên Sinh Viên";
+                worksheet[1, 6].Text = "Tên Môn Học";
+                worksheet[1, 7].Text = "Tên Lớp Học Phần";
+                worksheet[1, 8].Text = "Lần Học";
+                worksheet[1, 9].Text = "Điểm Quá Trình";
+                worksheet[1, 10].Text = "Điểm Kết Thúc";
+                worksheet[1, 11].Text = "Điểm Tổng Kết";
+                worksheet[1, 12].Text = "Trạng Thái";
+
+                // Bắt đầu từ dòng thứ 2 để ghi dữ liệu
+                int row = 2;
+
+                foreach (var diem in diem_collection)
+                {
+                    worksheet[row, 1].Text = diem.IdDiem ?? "N/A";
+                    worksheet[row, 2].Text = diem.IdSinhVien ?? "N/A";
+                    worksheet[row, 3].Text = diem.IdMon ?? "N/A";
+                    worksheet[row, 4].Text = diem.IdLopHocPhan ?? "N/A";
+                    worksheet[row, 5].Text = diem.TenSinhVien ?? "N/A";
+                    worksheet[row, 6].Text = diem.TenMonHoc ?? "N/A";
+                    worksheet[row, 7].Text = diem.TenLopHocPhan ?? "N/A";
+                    worksheet[row, 8].Text = diem.LanHoc == null ? "N/A" : diem.LanHoc.ToString();
+                    worksheet[row, 9].Text = diem.DiemQuaTrinh == null ? "N/A" : diem.DiemQuaTrinh.ToString();
+                    worksheet[row, 10].Text = diem.DiemKetThuc == null ? "N/A" : diem.DiemKetThuc.ToString();
+                    worksheet[row, 11].Text = diem.DiemTongKet == null ? "N/A" : diem.DiemTongKet.ToString();
+                    worksheet[row, 12].Text = diem.TrangThai ?? "N/A";
+
+                    row++;
+                }
+
+                 // Tự động điều chỉnh kích thước các cột
+                worksheet.UsedRange.AutofitColumns();
+
+                // Lưu file Excel
+                workbook.SaveAs("DanhSachLopHocPhan.xlsx");
+
+                MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         // handle search ponint 
         private void txtTimKiem_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // TODO
+            var keyword = txtTimKiem.Text;
+            if (keyword == null || keyword.Length == 0)
+            {
+                DataGrid.ItemsSource = diem_collection;
+            }
+            else
+            {
+                DataGrid.ItemsSource = diem_collection.Where(x =>
+                    x.TenMonHoc.ToLower().Contains(keyword.ToLower()) ||
+                    x.TenLopHocPhan.ToLower().Contains(keyword.ToLower()) ||
+                    x.TrangThai.ToLower().Contains(keyword.ToLower())
+                );
+            }
         }
 
         // show detail mon hoc - TextBlock tag binding IdMon
