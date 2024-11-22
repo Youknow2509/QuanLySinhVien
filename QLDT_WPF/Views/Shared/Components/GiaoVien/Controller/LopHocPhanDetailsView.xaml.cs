@@ -1,4 +1,5 @@
-﻿using QLDT_WPF.Dto;
+﻿using Microsoft.Win32;
+using QLDT_WPF.Dto;
 using QLDT_WPF.Repositories;
 using QLDT_WPF.Views.Components;
 using QLDT_WPF.Views.Shared.Components.GiaoVien.Helper;
@@ -7,8 +8,10 @@ using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,6 +68,7 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
             monHocRepository = new MonHocRepository();
             calendarRepository = new CalendarRepository();
             diemRepository = new DiemRepository();
+
 
             //
             Appointments = new ObservableCollection<ScheduleAppointment>();
@@ -204,6 +208,16 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
 
         private async Task Load_ScoreDataGrid()
         {
+            if(lopHocPhanDto.TrangThaiNhapDiem == false)
+            {
+                NhapDiemBangFile.IsEnabled = false;
+                TrangThaiNhapDiem.Text = "Nhập điểm không khả dụng";
+            }
+            else
+            {
+                NhapDiemBangFile.IsEnabled = true;
+                TrangThaiNhapDiem.Text = "Nhập điểm khả dụng";
+            }
             var req_diem = await diemRepository
                 .GetDiemByIdLopHocPhan(idLopHocPhan);
             if (req_diem.Status == false)
@@ -232,27 +246,6 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
                 });
             }
             ScoreDataGrid.ItemsSource = diem_collections;
-        }
-
-        // Show detail of sinh vien click - tag : id sinh vien
-        private void ChiTietSinhVien_Click(object sender, RoutedEventArgs e)
-        {
-            var id = (sender as TextBlock)?.Tag.ToString() ?? "";
-            if (string.IsNullOrEmpty(id))
-            {
-                MessageBox.Show("Không tìm thấy id sinh viên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            var detail = new SinhVienDetails(id, constLHPD);
-            if (TargetContentArea != null)
-            {
-                TargetContentArea.Content = detail;
-            }
-            else
-            {
-                MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         // Show detail of chuong trinh hoc click - tag : id chuong trinh hoc
@@ -441,5 +434,150 @@ namespace QLDT_WPF.Views.Shared.Components.GiaoVien.View
             }
         }
 
+        // handle click UploadDiemBangFile
+        private void UploadDiemBangFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<NhapDiemDto> listDiemDto = new List<NhapDiemDto>();
+
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+
+                        if (data.Count() >= 4)
+                        {
+                            listDiemDto.Add(new NhapDiemDto
+                            {
+                                IdSinhVien = data[0],
+                                DiemQuaTrinh = Convert.ToDecimal(double.Parse(data[1])),
+                                DiemKetThuc = Convert.ToDecimal(double.Parse(data[2])),
+                                DiemTongKet = Convert.ToDecimal(double.Parse(data[3])),
+                            });
+                        }
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm nhập điểm sinh viên từ file CSV trong repository
+                        var response = await diemRepository
+                            .NhapDiemSinhVienList(idLopHocPhan, listDiemDto);
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi lớp học phần bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(d => d.IdDiem));
+
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Thêm điểm sinh viên từ file CSV thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                // Refresh data
+                                Load_Calendar();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm điểm cho sinh viên!");
+            }
+        }
+        private void LuuListDiem(object sender, RoutedEventArgs e)
+        {
+
+
+
+
+            // Convert ObservableCollection<DiemDto> to List<NhapDiemDto>
+            List<NhapDiemDto> listDiemDto = new List<NhapDiemDto>();
+            foreach (var diem in diem_collections)
+            {
+                listDiemDto.Add(new NhapDiemDto
+                {
+                    IdSinhVien = diem.IdSinhVien,
+                    DiemQuaTrinh = diem.DiemQuaTrinh.Value,
+                    DiemKetThuc = diem.DiemKetThuc.Value,
+                    DiemTongKet = diem.DiemTongKet.Value,
+                });
+            }
+
+            try
+            {
+                Task.Run(async () =>
+                {
+                    // Gọi hàm nhập điểm sinh viên từ file CSV trong repository
+                    var response = await diemRepository
+                        .NhapDiemSinhVienList(lopHocPhanDto.IdLopHocPhan, listDiemDto);
+                    // Hiển thị thông báo kết quả trên luồng UI
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        if (response.Status == false)
+                        {
+                            // Tạo chuỗi lỗi chi tiết cho mỗi lớp học phần bị lỗi
+                            string errorDetails = string.Join(Environment.NewLine,
+                                response.Data.Select(d => d.IdDiem));
+
+                            MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Thêm điểm sinh viên thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                            // Refresh data
+                            Load_Calendar();
+                        }
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+            }
+
+        }
+
+        private void txtInputScore_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (!string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                // Kiểm tra giá trị nhập vào có phải số thập phân hợp lệ
+                if (decimal.TryParse(textBox.Text, out decimal value))
+                {
+                    // Kiểm tra nếu nằm ngoài khoảng 0 - 10
+                    if (value < 0 || value > 10)
+                    {
+                        MessageBox.Show("Vui lòng nhập giá trị từ 0 đến 10!", "Lỗi giá trị", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        textBox.Focus();
+                        textBox.Text = ""; // Xóa nội dung nếu không hợp lệ
+                    }
+                }
+                else
+                {
+                    // Nếu không phải số hợp lệ
+                    MessageBox.Show("Giá trị không hợp lệ. Vui lòng nhập lại!", "Lỗi nhập liệu", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    textBox.Focus();
+                    textBox.Text = ""; // Xóa nội dung nếu không hợp lệ
+                }
+            }
+        }
     }
 }

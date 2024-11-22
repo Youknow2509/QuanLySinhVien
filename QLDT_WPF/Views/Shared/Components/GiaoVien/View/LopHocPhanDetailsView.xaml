@@ -186,6 +186,18 @@
                            FontWeight="Bold"
                            Foreground="#333333"
                            Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="Trạng Thái Nhập Điểm: "
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,5,0"/>
+                        <TextBlock x:Name="TrangThaiNhapDiem"
+                               FontSize="14"
+                               Foreground="#333333"
+                               Margin="0,0,5,0"/>
+
+
+                    </StackPanel>
 
                     <!-- Dropdown, Save to Excel, and Search Bar -->
                     <DockPanel HorizontalAlignment="Stretch"
@@ -254,49 +266,43 @@
                                        AutoGenerateColumns="False"
                                        RowHeight="35"
                                        AllowSorting="True"
+                                       AllowEditing="True"
                                        BorderBrush="#DDDDDD"
                                        BorderThickness="1">
                         <syncfusion:SfDataGrid.Columns>
                             <!-- Ma Sinh Vien -->
                             <syncfusion:GridTextColumn HeaderText="Mã Sinh Viên"
                                                    MappingName="IdSinhVien"
-                                                   Width="150"/>
+                                                   Width="150"
+                                                   IsReadOnly="True"/>
 
                             <!-- Sinh Vien -->
-                            <syncfusion:GridTemplateColumn HeaderText="Sinh Viên"
-                                                       Width="200">
-                                <syncfusion:GridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding TenSinhVien}"
-                                               Foreground="Blue"
-                                               TextDecorations="Underline"
-                                               Cursor="Hand"
-                                               FontSize="14"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               MouseLeftButtonUp="ChiTietSinhVien_Click"
-                                               Tag="{Binding IdSinhVien}"/>
-                                    </DataTemplate>
-                                </syncfusion:GridTemplateColumn.CellTemplate>
-                            </syncfusion:GridTemplateColumn>
+                            <syncfusion:GridTextColumn HeaderText="Tên Sinh Viên"
+                                       MappingName="TenSinhVien"
+                                       Width="150"
+                                       IsReadOnly="True"/>
                             <!-- Điểm Quá Trình -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Quá Trình"
                                                    MappingName="DiemQuaTrinh"
-                                                   Width="150"/>
+                                                   Width="150"
+                                                   />
 
                             <!-- Điểm Ket Thuc -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Kết Thúc"
                                                    MappingName="DiemKetThuc"
-                                                   Width="150"/>
+                                                   Width="150"
+                                                   />
 
                             <!-- Điểm Tong Ket -->
                             <syncfusion:GridTextColumn HeaderText="Điểm Tổng Kết"
                                                    MappingName="DiemTongKet"
-                                                   Width="150"/>
+                                                   Width="150"
+                                                   />
 
                             <syncfusion:GridTextColumn HeaderText="Trạng Thái"
                                                        Width="150"
-                                                       MappingName="TrangThai">
+                                                       MappingName="TrangThai"
+                                                        IsReadOnly="True">
                             </syncfusion:GridTextColumn>
 
                             <!-- btn Sua -->
@@ -317,6 +323,18 @@
 
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
+                    <!-- button nhap diem bang file -->
+                    <StackPanel>
+                        <StackPanel x:Name="NhapDiemBangFile" Margin="10" HorizontalAlignment="Left">
+                            <!-- File Upload Section -->
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                                <!-- Upload Button -->
+                                <Button Content="Nhập Điểm Bằng File .CSV"  Width="294" Margin="10,0,0,0" Click="UploadDiemBangFile" />
+                                <Button Content="Lưu điểm"  Width="100" Margin="300,0,0,0" Click="LuuListDiem" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    
                 </StackPanel>
             </Border>
         </StackPanel>

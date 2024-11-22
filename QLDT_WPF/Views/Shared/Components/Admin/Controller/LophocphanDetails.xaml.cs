@@ -198,8 +198,8 @@ namespace QLDT_WPF.Views.Components
 
             if (check_so_buoi * 3 >= monHocDto.SoTietHoc)
             {
-                // end them thoi gian lop hoc phan
-                AddThoiGianopHocPhan.IsEnabled = true;
+                // Không cho phép thêm thời gian mới = > ẩn button  
+                AddThoiGianopHocPhan.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -245,7 +245,7 @@ namespace QLDT_WPF.Views.Components
             if (lopHocPhanDto.TrangThaiNhapDiem == true)
             {
                 NhapDiemBangFile.IsEnabled = true;
-                TrangThaiNhapDiem.Text = "Đã Mở";
+                TrangThaiNhapDiem.Text = "Đã mở";
                 TrangThaiNhapDiem.Foreground = Brushes.Green;
             }
             else
@@ -485,6 +485,7 @@ namespace QLDT_WPF.Views.Components
                         {
                             MessageBox.Show($"Thay Đổi Trạng Thái Lớp Nhập Điểm Thành Công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                             // refresh data
+                            lopHocPhanDto.TrangThaiNhapDiem = lopHocPhanDto.TrangThaiNhapDiem == true ? false : true;
                             InitTrangThaiNhapDiem();
                         }
                     });
