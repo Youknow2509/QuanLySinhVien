@@ -332,7 +332,8 @@ public class LopHocPhanRepository
                 continue;
             }
 
-            await _context.LopHocPhans.AddAsync(new LopHocPhan{
+            await _context.LopHocPhans.AddAsync(new LopHocPhan
+            {
                 IdLopHocPhan = lhp.IdLopHocPhan,
                 IdMonHoc = lhp.IdMonHoc,
                 IdGiaoVien = lhp.IdGiaoVien,
@@ -590,7 +591,7 @@ public class LopHocPhanRepository
                 Message = "Không thể thay đổi thời gian lớp học phần khi thời gian lớp học phần đã diễn ra"
             };
         }
-        
+
         // Check trong khoang cho phep
         if (thayDoiThoiGianLopHocPhan.ThoiGianBatDau < lopHocPhan.ThoiGianBatDau
             || thayDoiThoiGianLopHocPhan.ThoiGianKetThuc > lopHocPhan.ThoiGianKetThuc)
@@ -675,7 +676,8 @@ public class LopHocPhanRepository
             where tglhp.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan
             select tg
         ).ToListAsync();
-        if (tg_lhp.Count()*3 >= mon.SoTietHoc){
+        if (tg_lhp.Count() * 3 >= mon.SoTietHoc)
+        {
             return new ApiResponse<ThayDoiThoiGianLopHocPhanDto>
             {
                 Data = null,
@@ -706,7 +708,7 @@ public class LopHocPhanRepository
                 Message = "Không thể thay đổi thời gian lớp học phần khi thời gian lớp học phần đã diễn ra"
             };
         }
-        
+
         // Check trong khoang cho phep
         var lhp = await _context.LopHocPhans
             .FirstOrDefaultAsync(x => x.IdLopHocPhan == thoiGianLopHocPhan.IdLopHocPhan);
@@ -777,20 +779,22 @@ public class LopHocPhanRepository
     /**
      * Handle Add List Thoi Gian Lop Hoc Phan - Loi Hien Thi O Dia Diem
      */
-    public async Task<ApiResponse<List<ThayDoiThoiGianLopHocPhanDto>>> 
+    public async Task<ApiResponse<List<ThayDoiThoiGianLopHocPhanDto>>>
         AddListThoiGianLopHocPhan(List<ThayDoiThoiGianLopHocPhanDto> listThoiGianLopHocPhan)
     {
         // check xem lop hoc phan du tiet chua
         List<ThayDoiThoiGianLopHocPhanDto> listThoiGianLopHocPhanError = new List<ThayDoiThoiGianLopHocPhanDto>();
-        
-        foreach (var item in listThoiGianLopHocPhan){
+
+        foreach (var item in listThoiGianLopHocPhan)
+        {
             var req_add = await AddThoiGian(item);
-            if (req_add.Status == false){
+            if (req_add.Status == false)
+            {
                 item.DiaDiem = $"Thời Gian: {item.DiaDiem} lỗi {req_add.Message}";
                 listThoiGianLopHocPhanError.Add(item);
             }
         }
-        
+
         // Nếu có bất kỳ lỗi nào trong quá trình xử lý
         if (listThoiGianLopHocPhanError.Any())
         {
@@ -813,7 +817,7 @@ public class LopHocPhanRepository
      * Kiểm Tra Xem Tồn Tại Lớp Học Phần Của Giáo Viên Hiện Tại Và Tương Lai Không 
      */
     public async Task<ApiResponse<bool>> CheckLopHocPhanGiaoVien(string idGiaoVien)
-    {   
+    {
         // Check Giao Vien Ton Tai Khong
         var giaovien = await _context.GiaoViens
             .FirstOrDefaultAsync(g => g.IdGiaoVien == idGiaoVien);
@@ -829,7 +833,7 @@ public class LopHocPhanRepository
 
         var lopHocPhan = await (
             from lhp in _context.LopHocPhans
-            where lhp.IdGiaoVien == idGiaoVien && 
+            where lhp.IdGiaoVien == idGiaoVien &&
                 (lhp.ThoiGianBatDau >= DateTime.Now || lhp.ThoiGianKetThuc >= DateTime.Now)
             select lhp
         ).AnyAsync();
@@ -927,6 +931,100 @@ public class LopHocPhanRepository
             Data = true,
             Status = true,
             Message = "Thay đổi trạng thái nhập điểm thành công"
+        };
+    }
+
+    /**
+     * Gán List Sinh Viên Vào Lớp Học Phần
+     */
+    public async Task<ApiResponse<List<SinhVienDto>>
+        > AddListSinhVienLopHocPhan(List<SinhVienDto> listSinhVien, string idLopHocPhan)
+    {
+        // Check Lop Hoc Phan Ton Tai Khong
+        var lhp = await _context.LopHocPhans
+            .FirstOrDefaultAsync(l => l.IdLopHocPhan == idLopHocPhan);
+        if (lhp == null)
+        {
+            return new ApiResponse<List<SinhVienDto>>
+            {
+                Data = null,
+                Status = false,
+                Message = "Không tìm thấy lớp học phần"
+            };
+        }
+
+        List<SinhVienDto> listSinhVienError = new List<SinhVienDto>();
+
+        foreach (var sv in listSinhVien)
+        {
+            // Check Sinh Vien Ton Tai Khong
+            var sinhvien = await _context.SinhViens
+                .FirstOrDefaultAsync(s => s.IdSinhVien == sv.IdSinhVien);
+            if (sinhvien == null)
+            {
+                sv.TenSinhVien = $"Sinh Viên: {sv.TenSinhVien} lỗi không tìm thấy sinh viên {sv.IdSinhVien}";
+                listSinhVienError.Add(sv);
+                continue;
+            }
+
+            // Check Sinh Vien Da Ton Tai
+            var sv_lhp = await _context.SinhVienLopHocPhans
+                .FirstOrDefaultAsync(s => s.IdSinhVien == sv.IdSinhVien && s.IdLopHocPhan == idLopHocPhan);
+            if (sv_lhp != null)
+            {
+                sv.TenSinhVien = $"Sinh Viên: {sv.TenSinhVien} lỗi sinh viên đã tồn tại trong lớp học phần";
+                listSinhVienError.Add(sv);
+                continue;
+            }
+
+            // Add Sinh Vien Vao Lop Hoc Phan
+            await _context.SinhVienLopHocPhans.AddAsync(new SinhVienLopHocPhan
+            {
+                IdSinhVien = sv.IdSinhVien,
+                IdLopHocPhan = idLopHocPhan
+            });
+
+            // Lay Ra So Lan Hoc Cua Sinh Vien Tai Mon Hoc Do
+            var soLanHoc = await (
+                from sv_lhp in _context.SinhVienLopHocPhans
+                where sv_lhp.IdSinhVien == sv.IdSinhVien
+                join lhp in _context.LopHocPhans
+                    on sv_lhp.IdLopHocPhan equals lhp.IdLopHocPhan
+                join mh in _context.MonHocs
+                    on lhp.IdMonHoc equals mh.IdMonHoc
+                select sv_lhp
+            ).CountAsync();
+
+            // Add Diem Sinh Vien
+            await _context.Diems.AddAsync(new DiemDto
+            {
+                IdDiem = Guid.NewGuid().ToString(),
+                IdLopHocPhan = idLopHocPhan,
+                IdSinhVien = sv.IdSinhVien,
+                DiemQuaTrinh = 0,
+                DiemKetThuc = 0,
+                DiemTongKet = 0,
+                LanHoc = soLanHoc + 1,
+            });
+        }
+
+        if (listSinhVienError.Length > 0)
+        {
+            return new ApiResponse<List<SinhVienDto>>
+            {
+                Data = listSinhVienError,
+                Status = false,
+                Message = "Thêm danh sách sinh viên vào lớp học phần thất bại"
+            };
+        }
+
+        await _context.SaveChangesAsync();
+
+        return new ApiResponse<List<SinhVienDto>>
+        {
+            Data = listSinhVien,
+            Status = true,
+            Message = "Thêm danh sách sinh viên vào lớp học phần thành công"
         };
     }
 }
