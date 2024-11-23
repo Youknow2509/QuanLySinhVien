@@ -641,7 +641,65 @@ namespace QLDT_WPF.Views.Components
         // Handle click NhapListSinhVIen_Click - Them List Sinh Vien Vao Lop Hoc Phan
         private void NhapListSinhVIen_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv"; // Chỉ cho phép chọn file CSV
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                try
+                {
+                    // Đọc file CSV và xử lý từng dòng
+                    string[] lines = File.ReadAllLines(filePath);
+                    List<SinhVienDto> listSinhVien = new List<SinhVienDto>(); 
+
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+
+                        if (data.Count() >= 1)
+                        {
+                            listSinhVien.Add(new SinhVienDto
+                            {
+                                IdSinhVien = data[0],
+                            });
+                        }
+                    }
+
+                    Task.Run(async () =>
+                    {
+                        // Gọi hàm nhập điểm sinh viên từ file CSV trong repository
+                        var response = await lopHocPhanRepository
+                            .AddListSinhVienLopHocPhan(listSinhVien, lopHocPhanDto.IdLopHocPhan);
+                        // Hiển thị thông báo kết quả trên luồng UI
+                        Application.Current.Dispatcher.Invoke(async () =>
+                        {
+                            if (response.Status == false)
+                            {
+                                // Tạo chuỗi lỗi chi tiết cho mỗi lớp học phần bị lỗi
+                                string errorDetails = string.Join(Environment.NewLine,
+                                    response.Data.Select(sv => sv.HoTen));
+
+                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Thêm sinh viên vào lớp học phần từ file CSV thành công.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                                // Refresh data
+                                Load_ScoreDataGrid();
+                            }
+                        });
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn file CSV để thêm thêm sinh viên vào lóp học phần!");
+            }
         }
     }
 }
