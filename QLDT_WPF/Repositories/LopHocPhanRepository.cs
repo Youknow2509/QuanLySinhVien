@@ -986,17 +986,17 @@ public class LopHocPhanRepository
 
             // Lay Ra So Lan Hoc Cua Sinh Vien Tai Mon Hoc Do
             var soLanHoc = await (
-                from sv_lhp in _context.SinhVienLopHocPhans
-                where sv_lhp.IdSinhVien == sv.IdSinhVien
-                join lhp in _context.LopHocPhans
-                    on sv_lhp.IdLopHocPhan equals lhp.IdLopHocPhan
+                from sv_lhp_c in _context.SinhVienLopHocPhans
+                where sv_lhp_c.IdSinhVien == sv.IdSinhVien
+                join lhp_c in _context.LopHocPhans
+                    on sv_lhp_c.IdLopHocPhan equals lhp_c.IdLopHocPhan
                 join mh in _context.MonHocs
-                    on lhp.IdMonHoc equals mh.IdMonHoc
-                select sv_lhp
+                    on lhp_c.IdMonHoc equals mh.IdMonHoc
+                select sv_lhp_c
             ).CountAsync();
 
             // Add Diem Sinh Vien
-            await _context.Diems.AddAsync(new DiemDto
+            await _context.Diems.AddAsync(new Diem
             {
                 IdDiem = Guid.NewGuid().ToString(),
                 IdLopHocPhan = idLopHocPhan,
