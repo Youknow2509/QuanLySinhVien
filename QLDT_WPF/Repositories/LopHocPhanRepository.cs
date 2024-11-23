@@ -1027,4 +1027,62 @@ public class LopHocPhanRepository
             Message = "Thêm danh sách sinh viên vào lớp học phần thành công"
         };
     }
+
+    // Xoa sinh vien khoi lop hoc phan
+    public async Task<ApiResponse<SinhVienDto>> DeleteSinhVienLopHocPhan(SinhVienDto sinhvien, string idLopHocPhan)
+    {
+        // Check sinh vien lop hoc phan xem co ton tai khong
+        var check_svlhp = await (
+            from sv in _context.SinhViens
+            join svlhp in _context.SinhVienLopHocPhans
+                on sv.IdSinhVien equals svlhp.IdSinhVien
+            join lhp in _context.LopHocPhans
+                on svlhp.IdLopHocPhan equals lhp.IdLopHocPhan
+            where sv.IdSinhVien.ToLower() == sinhvien.IdSinhVien.ToLower() && lhp.IdLopHocPhan.ToLower() == idLopHocPhan.ToLower()
+            select svlhp
+        ).FirstOrDefaultAsync();
+
+        if ( check_svlhp == null )
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = false,
+                Message = $"Không Tìm Thấy Sinh Viên Có ID: {sinhvien.IdSinhVien} Hoặc ID Lớp Học Phần: {idLopHocPhan}!!!",
+                Data = null
+            };
+        }
+
+        try
+        {
+            _context.SinhVienLopHocPhans.Remove(check_svlhp);
+
+            var diem_sv_lhp = await _context.Diems.FirstOrDefaultAsync(
+                x => x.IdSinhVien.ToLower() == sinhvien.IdSinhVien.ToLower() && x.IdLopHocPhan.ToLower() == idLopHocPhan.ToLower()
+            );
+
+            if (diem_sv_lhp != null)
+            {
+                _context.Diems.Remove(diem_sv_lhp);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = true,
+                Data = null,
+                Message = "Xoá Sinh Viên Khỏi Lớp Học Phần Thành Công"
+            };
+
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<SinhVienDto>
+            {
+                Status = false,
+                Message = ex.Message,
+                Data = null
+            };
+        }
+    }
 }
