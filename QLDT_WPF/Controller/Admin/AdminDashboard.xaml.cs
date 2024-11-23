@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using QLDT_WPF.Repositories;
 using QLDT_WPF.ViewModels;
+using QLDT_WPF.Views.Shared;
 
 namespace QLDT_WPF.Views.Admin
 {
@@ -46,6 +47,9 @@ namespace QLDT_WPF.Views.Admin
         {
             InitializeComponent();
             this.userInformation = userInformation;
+            // Truyen UserInformation vào Header
+            var _header = new Header(userInformation);
+            header.Content = _header;
             chuongTrinhHocRepository = new ChuongTrinhHocRepository();
             diemRepository = new DiemRepository();
             giaoVienRepository = new GiaoVienRepository();

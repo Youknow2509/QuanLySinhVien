@@ -46,6 +46,7 @@
             <shared:Header
                 FullName="{Binding FullName}"
                 Grid.Row="0"
+                x:Name="header"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"/>
 
