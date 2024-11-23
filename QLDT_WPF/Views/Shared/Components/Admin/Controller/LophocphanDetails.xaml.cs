@@ -65,7 +65,6 @@ namespace QLDT_WPF.Views.Components
 
             // set variables in constructor
             idLopHocPhan = id;
-            this.idparent = idparent;
 
             Loaded += async (s, e) =>
             {
@@ -207,6 +206,12 @@ namespace QLDT_WPF.Views.Components
         {
             // init trang thai nhap diem lop hoc phan 
             InitTrangThaiNhapDiem();
+
+            // Kiem Tra Lop Hoc Phan Dien Ra Chua - Cho Phep Them Sin Vien Vao Hay Ko
+            if (lopHocPhanDto.ThoiGianBatDau <= DateTime.Now)
+            {
+                DivThemListSinhVien.Visibility = Visibility.Collapsed;
+            }
 
             // Init data table diem sinh vien lop hoc phan
             var req_diem = await diemRepository
@@ -631,6 +636,12 @@ namespace QLDT_WPF.Views.Components
             {
                 MessageBox.Show("Vui lòng chọn file CSV để thêm điểm cho sinh viên!");
             }
+        }
+
+        // Handle click NhapListSinhVIen_Click - Them List Sinh Vien Vao Lop Hoc Phan
+        private void NhapListSinhVIen_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
         }
     }
 }
