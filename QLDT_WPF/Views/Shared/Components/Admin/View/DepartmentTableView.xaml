@@ -166,7 +166,7 @@
                     <!-- Add Khoa Button -->
                     <Button x:Name="btnAddKhoa"
                             Content="Thêm Khoa"
-                            Width="200"
+                            Width="140"
                             Height="40"
                             FontSize="14"
                             Background="#007BFF"

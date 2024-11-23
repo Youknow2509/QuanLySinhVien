@@ -201,7 +201,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // Export data giao  vien
-        private void ExportToExcel_gv(object sender, RoutedEventArgs e)
+        private void ExportToExcel_GV(object sender, RoutedEventArgs e)
         {
             if(giaoviens_collection.Count == 0)
             {
@@ -247,7 +247,7 @@ namespace QLDT_WPF.Views.Components
         }
 
         // Export data sinh vien
-        private void ExportToExcel_sv(object sender, RoutedEventArgs e)
+        private void ExportToExcel_SV(object sender, RoutedEventArgs e)
         {
             if(sinhviens_collection.Count == 0)
             {
@@ -290,13 +290,13 @@ namespace QLDT_WPF.Views.Components
         }
 
         // handle search in data giao vien
-        private void txtTimKiem_TextChanged_gv(object sender, TextChangedEventArgs e)
+        private void txtTimKiem_TextChanged_GV(object sender, TextChangedEventArgs e)
         {
             // TODO
         }
 
         // handle search in data sinh vien
-        private void txtTimKiem_TextChanged_sv(object sender, TextChangedEventArgs e)
+        private void txtTimKiem_TextChanged_SV(object sender, TextChangedEventArgs e)
         {
             // TODO
         }
