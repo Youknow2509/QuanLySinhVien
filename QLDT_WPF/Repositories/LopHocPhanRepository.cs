@@ -962,7 +962,7 @@ public class LopHocPhanRepository
                 .FirstOrDefaultAsync(s => s.IdSinhVien == sv.IdSinhVien);
             if (sinhvien == null)
             {
-                sv.TenSinhVien = $"Sinh Viên: {sv.TenSinhVien} lỗi không tìm thấy sinh viên {sv.IdSinhVien}";
+                sv.HoTen = $"Sinh Viên: {sv.HoTen} lỗi không tìm thấy sinh viên {sv.IdSinhVien}";
                 listSinhVienError.Add(sv);
                 continue;
             }
@@ -972,7 +972,7 @@ public class LopHocPhanRepository
                 .FirstOrDefaultAsync(s => s.IdSinhVien == sv.IdSinhVien && s.IdLopHocPhan == idLopHocPhan);
             if (sv_lhp != null)
             {
-                sv.TenSinhVien = $"Sinh Viên: {sv.TenSinhVien} lỗi sinh viên đã tồn tại trong lớp học phần";
+                sv.HoTen = $"Sinh Viên: {sv.HoTen} lỗi sinh viên đã tồn tại trong lớp học phần";
                 listSinhVienError.Add(sv);
                 continue;
             }
