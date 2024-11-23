@@ -10,8 +10,8 @@ services:
       SA_PASSWORD: 'P@ss12345'
     ports:
       - '1435:1433'
-    volumes:
-      # Use in local {path_local}:/var/opt/mssql/       
-      - /QLDT_WPF/var/opt/mssql/ 
+    # volumes:
+    #   Use in local {path_local}:/var/opt/mssql/       
+    #   - D:\btl\db_local:/var/opt/mssql/ 
     restart: unless-stopped
     # user: '1000:1000'  # Uncomment only if required

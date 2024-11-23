@@ -391,7 +391,7 @@ public class LopHocPhanRepository
                 .ToListAsync();
             
             if (diem != null){
-                _context.RemoveRange(diem);
+                _context.Diems.RemoveRange(diem);
             }
             // delete sinh vien thuoc lop hoc phan
             var sv_lhp = await _context.SinhVienLopHocPhans
@@ -399,11 +399,19 @@ public class LopHocPhanRepository
                 .ToListAsync();
             if (sv_lhp != null)
             {
-                _context.RemoveRange(sv_lhp);
+                _context.SinhVienLopHocPhans.RemoveRange(sv_lhp);
+            }
+            // Xoa thoi gian lop hoc phan
+            var tg_lhp = await _context.ThoiGianLopHocPhans
+                .Where(tg => tg.IdLopHocPhan == id)
+                .ToListAsync();
+            if (tg_lhp != null)
+            {
+                _context.ThoiGianLopHocPhans.RemoveRange(tg_lhp);
             }
             // delete lop hoc phan
-            
-            _context.Remove(lhp);
+
+            _context.LopHocPhans.Remove(lhp);
             await _context.SaveChangesAsync();
 
             return new ApiResponse<LopHocPhanDto>

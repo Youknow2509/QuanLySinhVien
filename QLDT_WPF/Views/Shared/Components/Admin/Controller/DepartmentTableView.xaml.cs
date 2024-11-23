@@ -90,6 +90,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
+            ObservableKhoa.Clear();
             // Add items to ObservableCollection
             foreach (var item in list_khoa.Data)
             {

@@ -232,12 +232,28 @@ public class KhoaRepository
             };
         }
 
-        return new ApiResponse<KhoaDto>
+        try
         {
-            Data = null,
-            Status = true,
-            Message = "Xóa dữ liệu thành công"
-        };
+            _context.Khoas.Remove(khoa);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponse<KhoaDto>
+            {
+                Data = null,
+                Status = true,
+                Message = "Xóa dữ liệu thành công"
+            };
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse<KhoaDto>
+            {
+                Data = null,
+                Status = false,
+                Message = "Xóa dữ liệu thất bại"
+            };
+        }
+        
     }
 
     /**

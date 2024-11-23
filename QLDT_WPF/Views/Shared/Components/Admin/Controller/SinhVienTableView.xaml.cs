@@ -236,30 +236,26 @@ namespace QLDT_WPF.Views.Components
                         var response = await identityRepository
                             .CreateListSinhVienFromCSV(list_sinh_vien);
 
-                        // Hiển thị thông báo kết quả trên luồng UI
-                        Application.Current.Dispatcher.Invoke(async () =>
+                        if (response.Status == false)
                         {
-                            if (response.Status == false)
-                            {
-                                // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
-                                string errorDetails = string.Join(Environment.NewLine,
-                                    response.Data.Select(sv => sv.HoTen));
+                            // Tạo chuỗi lỗi chi tiết cho mỗi môn học bị lỗi
+                            string errorDetails = string.Join(Environment.NewLine,
+                                response.Data.Select(sv => sv.HoTen));
 
-                                // Hiển thị thông báo lỗi
-                                MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-                            else
-                            {
-                                // message box show list mon hoc dto
-                                MessageBox.Show("Thanh cong");
-                                MessageBox.Show("Thêm danh sách sinh viên từ file CSV: " + string.Join(", ", list_sinh_vien.Select(x => x.HoTen)) + " thành công!");
+                            // Hiển thị thông báo lỗi
+                            MessageBox.Show($"{response.Message}\n\nChi tiết lỗi:\n{errorDetails}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        else
+                        {
+                            // message box show list mon hoc dto
+                            MessageBox.Show("Thanh cong");
+                            MessageBox.Show("Thêm danh sách sinh viên từ file CSV: " + string.Join(", ", list_sinh_vien.Select(x => x.HoTen)) + " thành công!");
 
-                                foreach (var item in list_sinh_vien)
-                                {
-                                    ObservableSinhVien.Add(item);
-                                }
+                            foreach (var item in list_sinh_vien)
+                            {
+                                ObservableSinhVien.Add(item);
                             }
-                        });
+                        }
                     });
                 }
                 catch (Exception ex)
