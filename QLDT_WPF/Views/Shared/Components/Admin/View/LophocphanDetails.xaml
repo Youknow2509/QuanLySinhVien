@@ -175,7 +175,7 @@
                         </syncfusion:GridTemplateColumn>
                     </syncfusion:SfDataGrid.Columns>
                 </syncfusion:SfDataGrid>
-                
+
                 <!-- Button Add -->
                 <StackPanel x:Name="AddThoiGianopHocPhan" Margin="10" VerticalAlignment="Top">
                     <!-- File Upload Section -->
@@ -186,7 +186,7 @@
                 </StackPanel>
 
             </StackPanel>
-            
+
         </Border>
 
         <!-- Diem sinh vien lop hoc phan -->
@@ -205,7 +205,7 @@
                                FontWeight="Bold"
                                Foreground="#333333"
                                Margin="0,0,0,10"/>
-                    
+
                     <!-- Trang Thai Lop Hoc Phan Xem Co Duoc Nhap Diem Lop Hoc Phan Khong -->
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                         <TextBlock Text="Trạng Thái Nhập Điểm: "
@@ -231,6 +231,19 @@
                                 Click="ChangeTrangThaiNhapDiem_Click"/>
                     </StackPanel>
 
+                    <!-- Button Nhap List Sinh Vien Vao Lop Hoc Phan -->
+                    <StackPanel x:Name="DivThemListSinhVien" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button x:Name="btnNhapListSinhVien"
+                                Content="Nhập Danh Sách Sinh Viên Vào Lớp Học Phần Bằng File (.csv)"
+                                Width="415"
+                                Height="30"
+                                Margin="10,0,0,0"
+                                FontSize="14"
+                                Background="Red"
+                                Foreground="White"
+                                BorderBrush="Transparent"
+                                Click="NhapListSinhVIen_Click"/>
+                    </StackPanel>
 
                     <!-- Dropdown, Save to Excel, and Search Bar -->
                     <DockPanel HorizontalAlignment="Stretch"
@@ -362,7 +375,7 @@
 
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>
-                    
+
                     <!-- button nhap diem bang file -->
                     <StackPanel x:Name="NhapDiemBangFile" Margin="10" VerticalAlignment="Top">
                         <!-- File Upload Section -->
