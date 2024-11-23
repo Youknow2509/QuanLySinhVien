@@ -89,6 +89,8 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
 
+            ObservableLopHocPhan.Clear();
+
             // Add items to ObservableCollection
             foreach (var item in list_lopHocPhan.Data)
             {

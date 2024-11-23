@@ -240,6 +240,7 @@ public class LopHocPhanRepository
 
         // handle add lop hoc phan
         await _context.LopHocPhans.AddAsync(newLopHocPhan);
+        await _context.SaveChangesAsync();
 
         return
             new ApiResponse<LopHocPhanDto>
