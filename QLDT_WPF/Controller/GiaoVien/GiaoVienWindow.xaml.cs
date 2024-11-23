@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using QLDT_WPF.Views.Shared.Components.GiaoVien.View;
 using QLDT_WPF.Repositories;
+using Header = QLDT_WPF.Views.Shared.Header;
 
 namespace QLDT_WPF.Views.GiaoVien
 {
@@ -52,6 +53,10 @@ namespace QLDT_WPF.Views.GiaoVien
 
             DataContext = this;
             this.initWindow();
+
+            // Truyen UserInformation vào Header
+            var _header = new Header(userInformation);
+            header.Content = _header;
 
             // Truyền UserInformation vào LichhocView
             var lichdayView = new LichDayView(userInformation);

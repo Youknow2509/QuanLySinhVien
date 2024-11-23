@@ -1,7 +1,9 @@
-﻿using System.Windows;
+﻿using System.Net;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using QLDT_WPF.Dto;
+using QLDT_WPF.ViewModels;
 using QLDT_WPF.Views.Components;
 using QLDT_WPF.Views.Login;
 
@@ -9,7 +11,10 @@ namespace QLDT_WPF.Views.Shared
 {
     public partial class Header : UserControl
     {
-        private readonly UserDto _user;
+
+        private UserInformation _user;
+
+
 
         public string FullName
         {
@@ -36,16 +41,13 @@ namespace QLDT_WPF.Views.Shared
                  typeof(Header),
                  new PropertyMetadata(string.Empty));
 
-        public Header()
+        public Header() { }
+
+        public Header(UserInformation user)
         {
             InitializeComponent();
 
-            // Giả lập dữ liệu người dùng
-            _user = new UserDto
-            {
-                FullName = "John Doe",
-                Email = "john.doe@example.com",
-            };
+            _user = user;
 
             // Gán dữ liệu vào giao diện Header
             FullName = _user.FullName;
@@ -60,7 +62,16 @@ namespace QLDT_WPF.Views.Shared
         private void ProfileMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Mở cửa sổ UserProfileWindow
-            var userProfileWindow = new UserProfileWindow(_user);
+            UserDto userDto = new UserDto
+            {
+                IdClaim = _user.IdUser,
+                UserName = _user.UserName,
+                FullName = _user.FullName,
+                ProfilePicture = _user.Image,
+                RoleName = _user.RoleName
+
+            };
+            var userProfileWindow = new UserProfileWindow(userDto);
             userProfileWindow.ShowDialog();
         }
 

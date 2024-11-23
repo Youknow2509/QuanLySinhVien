@@ -44,6 +44,10 @@ namespace QLDT_WPF.Views.SinhVien
             DataContext = this;
             this.initWindow();
 
+            // Truyen UserInformation vào Header
+            var _header = new Header(userInformation);
+            header.Content = _header;
+
             // Truyền UserInformation vào LichhocView
             var lichhocView = new LichhocView(userInformation);
             // truyen UserInformation vào SinhvienLeftNavbar

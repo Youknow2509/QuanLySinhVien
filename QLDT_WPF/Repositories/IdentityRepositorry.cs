@@ -910,10 +910,44 @@ namespace QLDT_WPF.Repositories
         }
 
         // Thay đổi mật khẩu
-        public bool ChangePassword(string currentPassword, string newPassword)
+        public async Task<ApiResponse<UserDto>> ChangePassword(string id, string currentPassword, string newPassword)
         {
-            // Giả lập việc gửi dữ liệu lên server (thay bằng logic thực tế)
-            return true;
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(x => x.IdClaim == id);
+            if (user == null)
+            {
+                return new ApiResponse<UserDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Không tìm thấy người dùng.",
+                    Data = null
+                };
+            }
+
+            if (!_securityService.ValidateHash(currentPassword, user.PasswordHash))
+            {
+                return new ApiResponse<UserDto>
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Mật khẩu cũ không đúng.",
+                    Data = null
+                };
+            }
+
+            user.PasswordHash = _securityService.Hash(newPassword);
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return new ApiResponse<UserDto> {
+                Status = true,
+                StatusCode = 200,
+                Message = "Đổi mật khẩu thành công.",
+                Data = new UserDto
+                {
+                    UserName = user.UserName,
+                }
+            };
         }
 
         // Get Avatar User

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Background="#F1F1F1"
           Height="40">
-        <TextBlock Text="Copyright © 2024: GIT"
+        <TextBlock Text="Copyright © 2024: UTC"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
     </Grid>
