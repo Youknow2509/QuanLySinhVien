@@ -251,9 +251,13 @@ namespace QLDT_WPF.Views.Components
                             else
                             {
                                 // message box show list mon hoc dto
+                                MessageBox.Show("Thanh cong");
                                 MessageBox.Show("Thêm danh sách sinh viên từ file CSV: " + string.Join(", ", list_sinh_vien.Select(x => x.HoTen)) + " thành công!");
 
-                                await InitAsync();
+                                foreach (var item in list_sinh_vien)
+                                {
+                                    ObservableSinhVien.Add(item);
+                                }
                             }
                         });
                     });

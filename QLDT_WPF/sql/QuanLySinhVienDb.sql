@@ -1,11 +1,11 @@
 -- Chuong trinh hoc
 INSERT INTO ChuongTrinhHoc (IdChuongTrinhHoc, TenChuongTrinhHoc)
 VALUES 
-    (NEWID(), N'CLC Công nghệ thông tin'),
-    (NEWID(), N'Công nghệ thông tin'),
-    (NEWID(), N'Khoa học máy tính'),
-    (NEWID(), N'Toán ứng dụng'),
-    (NEWID(), N'Logistics và quản lý chuỗi cung ứng');
+    ('CNTTCLC', N'CLC Công nghệ thông tin'),
+    ('CNTT', N'Công nghệ thông tin'),
+    ('KHMT', N'Khoa học máy tính'),
+    ('TUD', N'Toán ứng dụng'),
+    ('LOG', N'Logistics và quản lý chuỗi cung ứng');
 
 -- Khoa
 INSERT INTO Khoa (IdKhoa, TenKhoa)
