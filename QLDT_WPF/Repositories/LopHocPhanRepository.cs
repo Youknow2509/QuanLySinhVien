@@ -383,15 +383,45 @@ public class LopHocPhanRepository
             };
         }
 
-        _context.Remove(lhp);
-        await _context.SaveChangesAsync();
-
-        return new ApiResponse<LopHocPhanDto>
+        try
         {
-            Data = null,
-            Status = true,
-            Message = "Xóa lớp học phần thành công"
-        };
+            // delete diem thuoc lop hoc phan
+            var diem = await _context.Diems
+                .Where(d => d.IdLopHocPhan == id)
+                .ToListAsync();
+            
+            if (diem != null){
+                _context.RemoveRange(diem);
+            }
+            // delete sinh vien thuoc lop hoc phan
+            var sv_lhp = await _context.SinhVienLopHocPhans
+                .Where(sv => sv.IdLopHocPhan == id)
+                .ToListAsync();
+            if (sv_lhp != null)
+            {
+                _context.RemoveRange(sv_lhp);
+            }
+            // delete lop hoc phan
+            
+            _context.Remove(lhp);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = true,
+                Message = "Xóa lớp học phần thành công"
+            };
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse<LopHocPhanDto>
+            {
+                Data = null,
+                Status = false,
+                Message = $"Lỗi {ex.Message}"
+            };
+        }
     }
 
     /** 
@@ -1042,7 +1072,7 @@ public class LopHocPhanRepository
             select svlhp
         ).FirstOrDefaultAsync();
 
-        if ( check_svlhp == null )
+        if (check_svlhp == null)
         {
             return new ApiResponse<SinhVienDto>
             {
