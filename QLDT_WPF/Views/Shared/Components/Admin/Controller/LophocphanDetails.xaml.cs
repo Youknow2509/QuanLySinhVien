@@ -119,7 +119,7 @@ namespace QLDT_WPF.Views.Components
             nameLHP = lopHocPhanDto.TenLopHocPhan;
 
             // Set title - title_lop_hoc_phan
-            title_lop_hoc_phan.Text = $"Chi tiết lớp học phần {c}";
+            title_lop_hoc_phan.Text = $"Chi tiết lớp học phần {nameLHP}";
 
             // Set - description_lop_hoc_phan
             description_lop_hoc_phan.Text = $"Môn học: {monHocDto.TenMonHoc} - Số tín chỉ: {monHocDto.SoTinChi} - Số tiết: {monHocDto.SoTietHoc} - Bắt Đầu: {lopHocPhanDto.ThoiGianBatDau} - Kết thúc: {lopHocPhanDto.ThoiGianKetThuc}";
