@@ -1008,7 +1008,7 @@ public class LopHocPhanRepository
             });
         }
 
-        if (listSinhVienError.Length > 0)
+        if (listSinhVienError.Count > 0)
         {
             return new ApiResponse<List<SinhVienDto>>
             {
