@@ -491,6 +491,29 @@ public class DiemRepository
         NhapDiemSinhVienList(string idLopHocPhan, List<NhapDiemDto> listDiem)
     {
         List<NhapDiemDto> listDiemError = new List<NhapDiemDto>();
+
+        var Lophocphan_KhaDung = await _context.LopHocPhans.FirstOrDefaultAsync(x => x.IdLopHocPhan == idLopHocPhan);
+        if (Lophocphan_KhaDung == null)
+        {
+            return new ApiResponse<List<NhapDiemDto>>
+            {
+                Status = false,
+                Message = "Không Tìm Thấy ID Lớp Học Phần",
+                StatusCode = 400,
+                Data = null
+            };
+        }
+
+        if (Lophocphan_KhaDung.TrangThaiNhapDiem == false)
+        {
+            return new ApiResponse<List<NhapDiemDto>>
+            {
+                Status = false,
+                Message = "Lớp Học Phần Không Cho Phép Nhập Điểm",
+                StatusCode = 400,
+                Data = null
+            };
+        }
         foreach (NhapDiemDto diem in listDiem)
         {
             if (diem.IdSinhVien == null)
@@ -502,6 +525,15 @@ public class DiemRepository
                     StatusCode = 400,
                     Data = null
                 };
+            }
+            // Check diem nhap vao co hop le khong
+            if ((diem.DiemQuaTrinh < 0 || diem.DiemQuaTrinh > 10)
+                || (diem.DiemKetThuc < 0 || diem.DiemKetThuc > 10)
+                || (diem.DiemTongKet < 0 || diem.DiemTongKet > 10))
+            {
+                diem.IdDiem = "Điểm Không Hợp Lệ";
+                listDiemError.Add(diem);
+                continue;
             }
             // Query
             var qr = _context.Diems
