@@ -372,6 +372,22 @@
                                     </DataTemplate>
                                 </syncfusion:GridTemplateColumn.CellTemplate>
                             </syncfusion:GridTemplateColumn>
+                            
+                            <!-- btn xoa -->
+                            <syncfusion:GridTemplateColumn x:Name="Col_Xoa_SinhVienLopHocPhan"
+                               Width="100">
+                                <syncfusion:GridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Xoá"
+                                                Background="Red"
+                                                Foreground="White"
+                                                Padding="5,2"
+                                                Margin="0,0,0,0"
+                                                Tag="{Binding IdSinhVien}"
+                                                Click="Xoa_SinhVienLopHocPhan"/>         
+                                    </DataTemplate>
+                                </syncfusion:GridTemplateColumn.CellTemplate>
+                            </syncfusion:GridTemplateColumn>
 
                         </syncfusion:SfDataGrid.Columns>
                     </syncfusion:SfDataGrid>

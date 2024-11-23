@@ -1,20 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using QLDT_WPF.Dto;
-using Syncfusion.UI.Xaml.Grid;
-using QLDT_WPF.Views.Shared;
-using System.Windows.Media;
-using QLDT_WPF.Repositories;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Syncfusion.UI.Xaml.Scheduler;
-using System.Windows.Markup;
-using QLDT_WPF.Views.Shared.Components.Admin.Help;
-using Syncfusion.XlsIO;
-using QLDT_WPF.Models;
-using Microsoft.Win32;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Microsoft.Win32;
+using QLDT_WPF.Dto;
+using QLDT_WPF.Repositories;
+using Syncfusion.UI.Xaml.Scheduler;
+using Syncfusion.XlsIO;
 
 namespace QLDT_WPF.Views.Components
 {
@@ -211,6 +204,7 @@ namespace QLDT_WPF.Views.Components
             if (lopHocPhanDto.ThoiGianBatDau <= DateTime.Now)
             {
                 DivThemListSinhVien.Visibility = Visibility.Collapsed;
+                Col_Xoa_SinhVienLopHocPhan.IsHidden = true;
             }
 
             // Init data table diem sinh vien lop hoc phan
@@ -584,7 +578,7 @@ namespace QLDT_WPF.Views.Components
                 {
                     // Đọc file CSV và xử lý từng dòng
                     string[] lines = File.ReadAllLines(filePath);
-                    List<NhapDiemDto> listDiemDto = new List<NhapDiemDto>(); 
+                    List<NhapDiemDto> listDiemDto = new List<NhapDiemDto>();
 
                     foreach (string line in lines)
                     {
@@ -651,7 +645,7 @@ namespace QLDT_WPF.Views.Components
                 {
                     // Đọc file CSV và xử lý từng dòng
                     string[] lines = File.ReadAllLines(filePath);
-                    List<SinhVienDto> listSinhVien = new List<SinhVienDto>(); 
+                    List<SinhVienDto> listSinhVien = new List<SinhVienDto>();
 
                     foreach (string line in lines)
                     {
@@ -699,6 +693,53 @@ namespace QLDT_WPF.Views.Components
             else
             {
                 MessageBox.Show("Vui lòng chọn file CSV để thêm thêm sinh viên vào lóp học phần!");
+            }
+        }
+
+        // handle click Xoa_SinhVienLopHocPhan - Xoa sinh vien khoi lop hoc phan
+        private void Xoa_SinhVienLopHocPhan(object sender, RoutedEventArgs e)
+        {
+            // Get string id sinh vien in tag button click
+            var idSinhVien = (sender as Button)?.Tag as string;
+            if (idSinhVien == null)
+            {
+                MessageBox.Show("Không Tìm Thấy ID Sinh Viên");
+                return;
+            }
+
+            try
+            {
+                Task.Run(async () =>
+                {
+                    // Gọi hàm thêm danh sách môn học từ file CSV trong repository
+                    var response = await lopHocPhanRepository
+                        .DeleteSinhVienLopHocPhan(
+                            new SinhVienDto
+                            {
+                                IdSinhVien = idSinhVien,
+                            },
+                            lopHocPhanDto.IdLopHocPhan
+                        );
+
+                    // Hiển thị thông báo kết quả trên luồng UI
+                    Application.Current.Dispatcher.Invoke(async () =>
+                    {
+                        if (response.Status == false)
+                        {
+                            // Hiển thị thông báo lỗi
+                            MessageBox.Show($"Lỗi: {response.Data}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xoá Sinh Viên Khỏi Lớp Học Phần Thành Công");
+                            await Load_ScoreDataGrid();
+                        }
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi đọc file: " + ex.Message); ;
             }
         }
     }
