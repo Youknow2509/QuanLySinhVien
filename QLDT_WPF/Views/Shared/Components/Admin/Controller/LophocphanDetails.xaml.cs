@@ -39,6 +39,7 @@ namespace QLDT_WPF.Views.Components
         private string parent;
         private string constLHPD = "LophocphanDetails";
         private string idparent;
+        private string nameLHP;
 
         // Constructor
         public LopHocPhanDetails(string id)
@@ -115,9 +116,10 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
             monHocDto = req_mh.Data;
+            nameLHP = lopHocPhanDto.TenLopHocPhan;
 
             // Set title - title_lop_hoc_phan
-            title_lop_hoc_phan.Text = $"Chi tiết lớp học phần {lopHocPhanDto.TenLopHocPhan}";
+            title_lop_hoc_phan.Text = $"Chi tiết lớp học phần {c}";
 
             // Set - description_lop_hoc_phan
             description_lop_hoc_phan.Text = $"Môn học: {monHocDto.TenMonHoc} - Số tín chỉ: {monHocDto.SoTinChi} - Số tiết: {monHocDto.SoTietHoc} - Bắt Đầu: {lopHocPhanDto.ThoiGianBatDau} - Kết thúc: {lopHocPhanDto.ThoiGianKetThuc}";
@@ -356,8 +358,10 @@ namespace QLDT_WPF.Views.Components
 
                 worksheet.UsedRange.AutofitColumns();
 
+
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachMonHoc.xlsx");
+                string name_file = "DanhSachDiem_SinhVien_" + nameLHP + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -440,7 +444,8 @@ namespace QLDT_WPF.Views.Components
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachThoiGian.xlsx");
+                string name_file = "DanhSachDiem_ThoiGianHoc_" + nameLHP + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 

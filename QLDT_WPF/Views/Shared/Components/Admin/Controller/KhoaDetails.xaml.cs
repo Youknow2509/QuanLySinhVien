@@ -37,6 +37,7 @@ namespace QLDT_WPF.Views.Components
 
         // Variables
         private string idKhoa;
+        private string nameKhoa;
         private KhoaDto khoa;
 
         private KhoaRepository khoaRepository;
@@ -101,8 +102,8 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
             khoa = req_khoa.Data;
-
-            txtTitle.Text = $"Chi tiết khoa {khoa.TenKhoa}";
+            nameKhoa = khoa.TenKhoa;
+            txtTitle.Text = $"Chi tiết khoa {nameKhoa}";
 
             await load_data_giao_vien();
             await load_data_sinh_vien();
@@ -223,7 +224,8 @@ namespace QLDT_WPF.Views.Components
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachMonHoc.xlsx");
+                string name_file = "DanhSachGiaoVien_" + nameKhoa + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -270,7 +272,8 @@ namespace QLDT_WPF.Views.Components
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachMonHoc.xlsx");
+                string name_file = "DanhSachSinhVien_" + nameKhoa + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }

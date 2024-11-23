@@ -34,6 +34,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
         public ObservableCollection<MonHocDto> ObservableMonHoc { get; private set; }
 
         private string constMH = "SubjectDetails";
+        private string nameMonhoc;
 
         public ContentControl TargetContentArea
         {
@@ -115,6 +116,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 MessageBox.Show(monHoc.Message);
                 return;
             }
+            nameMonhoc = monHoc.Data.TenMonHoc;
             titleDataTable.Text = $"Danh sách lớp học phần của môn học {monHoc.Data.TenMonHoc}";
         }
 
@@ -195,7 +197,8 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachLopHocPhan.xlsx");
+                string name_file = "DanhSachLopHocPhan_" + nameMonhoc + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }

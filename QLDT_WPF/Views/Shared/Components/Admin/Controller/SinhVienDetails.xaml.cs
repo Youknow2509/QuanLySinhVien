@@ -39,6 +39,8 @@ namespace QLDT_WPF.Views.Components
         public ObservableCollection<DiemDto> diem_collection { get; set; }
 
         private string parent;
+        private string nameSV;
+
 
         private string constSVD = "SinhVienDetails";
 
@@ -94,6 +96,7 @@ namespace QLDT_WPF.Views.Components
                 return;
             }
             sinhVienDto = req_sv.Data;
+            nameSV = sinhVienDto.HoTen;
 
             // Set avatar
             await Set_Avatar();
@@ -337,7 +340,8 @@ namespace QLDT_WPF.Views.Components
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachLopHocPhan.xlsx");
+                string name_file = "Thongtin_SinhVien_" + nameSV + " " + idSinhVien + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
             }

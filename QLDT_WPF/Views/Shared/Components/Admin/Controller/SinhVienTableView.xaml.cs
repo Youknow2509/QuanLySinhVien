@@ -154,7 +154,7 @@ namespace QLDT_WPF.Views.Components
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSinhVien.xlsx");
+                workbook.SaveAs("DanhSachSinhVien.xlsx");
             }
 
             MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);

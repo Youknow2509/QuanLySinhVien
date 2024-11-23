@@ -39,6 +39,7 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
 
         // Variables
         private string idChuongTrinhHoc;
+        private string nameChuongTrinhHoc;
         private MonHocRepository monHocRepository;
         private ChuongTrinhHocRepository chuongTrinhHocRepository;
         private ChuongTrinhHocDto chuongTrinhHoc;
@@ -99,7 +100,8 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 return;
             }
             chuongTrinhHoc = req_cth.Data;
-            tile_datagrid.Text = $"Danh Sách Các Môn Học Của Chương Trình - {chuongTrinhHoc.TenChuongTrinhHoc}";
+            nameChuongTrinhHoc = chuongTrinhHoc.TenChuongTrinhHoc;
+            tile_datagrid.Text = $"Danh Sách Các Môn Học Của Chương Trình - {nameChuongTrinhHoc}";
 
             // init sfDataGridMonHoc
             await InitMonHoc();
@@ -198,7 +200,8 @@ namespace QLDT_WPF.Views.Shared.Components.Admin.View
                 worksheet.UsedRange.AutofitColumns();
 
                 // Lưu file Excel
-                workbook.SaveAs("DanhSachMonHoc.xlsx");
+                string name_file = "DanhsachMonHoc_" + nameChuongTrinhHoc + ".xlsx";
+                workbook.SaveAs(name_file);
 
                 MessageBox.Show("Xuất file Excel thành công", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 

@@ -93,6 +93,7 @@ namespace QLDT_WPF.Views.Components
         // Init window asynchronously
         private async Task InitAsync()
         {
+
             var list_chuongTrinhHoc = await chuongTrinhHocRepository.GetAll();
 
             // Handle unsuccessful response
@@ -101,6 +102,7 @@ namespace QLDT_WPF.Views.Components
                 MessageBox.Show(list_chuongTrinhHoc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            ObservableChuongTrinhHoc.Clear();
 
             // Add items to ObservableCollection
             foreach (var item in list_chuongTrinhHoc.Data)
