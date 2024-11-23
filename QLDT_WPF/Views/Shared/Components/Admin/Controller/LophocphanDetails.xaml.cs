@@ -434,5 +434,23 @@ namespace QLDT_WPF.Views.Components
                  MessageBox.Show("Không tìm thấy khu vực hiển thị nội dung!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
              }
          }
+
+        // handle click button ChangeTrangThaiNhapDiem_Click
+        private void ChangeTrangThaiNhapDiem_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // Handle click upload Upload_TGLHP
+        private void Upload_TGLHP(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
+        // handle click UploadDiemBangFile
+        private void UploadDiemBangFile(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
     }
 }
