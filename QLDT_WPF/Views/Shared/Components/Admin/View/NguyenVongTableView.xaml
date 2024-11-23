@@ -305,19 +305,19 @@
                         <syncfusion:SfDataGrid.Columns>
                             <syncfusion:GridTextColumn HeaderText="Tên Lớp Học Phần"
                                                        MappingName="TenLopHocPhan"
-                                                       Width="150"/>
+                                                       Width="180"/>
                             <syncfusion:GridTextColumn HeaderText="Thời Gian Bắt Đầu HT"
                                                        MappingName="ThoiGianBatDauHienTai"
-                                                       Width="150"/>
+                                                       Width="190"/>
                             <syncfusion:GridTextColumn HeaderText="Thời Gian Kết Thúc HT"
                                                        MappingName="ThoiGianKetThucHienTai"
-                                                       Width="150"/>
+                                                       Width="190"/>
                             <syncfusion:GridTextColumn HeaderText="Thời Gian BĐ Mới"
                                                        MappingName="ThoiGianBatDauMoi"
-                                                       Width="150"/>
+                                                       Width="190"/>
                             <syncfusion:GridTextColumn HeaderText="Thời Gian KT Mới"
                                                        MappingName="ThoiGianKetThucMoi"
-                                                       Width="150"/>
+                                                       Width="190"/>
                             <syncfusion:GridTemplateColumn HeaderText="Trạng Thái"
                                                            Width="120">
                                 <syncfusion:GridTemplateColumn.CellTemplate>

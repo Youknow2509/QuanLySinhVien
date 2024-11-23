@@ -139,7 +139,7 @@
                            Foreground="#333333"
                            Margin="0,0,0,10"/>
                 <local:CalendarComponent x:Name="calendar"
-                                         Width="800"/>
+                                         Width="1131"/>
             </StackPanel>
         </Border>
 

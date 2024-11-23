@@ -233,7 +233,7 @@
                     <!-- Add Lop Hoc Phan with Upload File Button -->
                     <Button x:Name="btnAddLopHocPhanWithFile"
                             Content="Thêm Lớp Học Phần từ File (.csv)"
-                            Width="200"
+                            Width="270"
                             Height="40"
                             FontSize="14"
                             Background="#007BFF"
