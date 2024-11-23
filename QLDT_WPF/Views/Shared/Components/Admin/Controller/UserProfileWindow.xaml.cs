@@ -15,20 +15,18 @@ namespace QLDT_WPF.Views.Components
     /// </summary>
     public partial class UserProfileWindow : Window
     {
-        private readonly IdentityRepository _identityRepository;
         public UserDto User { get; private set; }
 
 
         // Variables
         private GiaoVienDto giaoVien;
         private SinhVienDto sinhVien;
+        private UserDto _admin;
         private byte[] avatar_save_temp;
         private string idUser;
 
         private GiaoVienRepository giaoVienRepository;
         private IdentityRepository identityRepository;
-        private KhoaRepository khoaRepository;
-        private LopHocPhanRepository lopHocPhanRepository;
 
         private SinhVienRepository sinhVienRepository;
         public ContentControl TargetContentArea
@@ -40,7 +38,7 @@ namespace QLDT_WPF.Views.Components
         private string role;
 
         public static readonly DependencyProperty TargetContentAreaProperty =
-            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(TeacherEditWindow), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TargetContentArea), typeof(ContentControl), typeof(UserProfileWindow), new PropertyMetadata(null));
 
         private T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
@@ -63,8 +61,6 @@ namespace QLDT_WPF.Views.Components
             // Init repository
             giaoVienRepository = new GiaoVienRepository();
             identityRepository = new IdentityRepository();
-            khoaRepository = new KhoaRepository();
-            lopHocPhanRepository = new LopHocPhanRepository();
             sinhVienRepository = new SinhVienRepository();
 
 
@@ -101,7 +97,7 @@ namespace QLDT_WPF.Views.Components
 
             // Kiem tra role
             role = User.RoleName;
-            idUser = User.IdClaim;
+            idUser = User.UserName;
 
             // Neu la giao vien
             if (role == "GiaoVien")
@@ -109,7 +105,7 @@ namespace QLDT_WPF.Views.Components
 
                 giaoVien = new GiaoVienDto
                 {
-                    IdGiaoVien = User.IdClaim,
+                    IdGiaoVien = User.UserName,
                     TenGiaoVien = User.FullName,
                     Email = User.Email,
                     SoDienThoai = User.Phone
@@ -127,7 +123,7 @@ namespace QLDT_WPF.Views.Components
             {
                 sinhVien = new SinhVienDto
                 {
-                    IdSinhVien = User.IdClaim,
+                    IdSinhVien = User.UserName,
                     HoTen = User.FullName,
                     Email = User.Email,
                     SoDienThoai = User.Phone,
@@ -138,12 +134,6 @@ namespace QLDT_WPF.Views.Components
                 // Get avatar
                 await GetAvatar_Set_SV();
 
-            }
-
-            // Neu la admin
-            if (role == "Admin")
-            {
-                
             }
         }
 
@@ -466,7 +456,7 @@ namespace QLDT_WPF.Views.Components
                 MessageBox.Show("Mật khẩu không khớp!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            var req = await identityRepository.ChangePassword(idUser,currentPassword, password);
+            var req = await identityRepository.UserEditPassword(idUser,currentPassword, password);
             if (req.Status == false)
             {
                 MessageBox.Show(req.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
