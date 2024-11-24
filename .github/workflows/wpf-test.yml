@@ -2,9 +2,9 @@ name: WPF App CI
 
 on:
   push:
-    branches: [master]
+    branches: [App]
   pull_request:
-    branches: [master]
+    branches: [App]
 
 jobs:
   build:
