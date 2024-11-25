@@ -23,10 +23,10 @@ public class SinhVienController : ControllerBase
         _context = context;
     }
 
-        /**
-     * GET: api/sinhvien/
-     * get all sinh vien
-     */
+    /**
+ * GET: api/sinhvien/
+ * get all sinh vien
+ */
     [HttpGet]
     public async Task<IActionResult> GetSinhViens()
     {
@@ -42,11 +42,11 @@ public class SinhVienController : ControllerBase
                 IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
                 // list value
                 TenSinhVien = sv.HoTen,
+                TenKhoa = khoa.TenKhoa,
+                TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
                 Lop = sv.Lop,
                 NgaySinh = sv.NgaySinh,
                 DiaChi = sv.DiaChi,
-                TenKhoa = khoa.TenKhoa,
-                TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
             }
         ).ToList();
         return Ok(sinhViens);
@@ -72,11 +72,11 @@ public class SinhVienController : ControllerBase
                 IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
                 // list value
                 TenSinhVien = sv.HoTen,
+                TenKhoa = khoa.TenKhoa,
+                TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
                 Lop = sv.Lop,
                 NgaySinh = sv.NgaySinh,
                 DiaChi = sv.DiaChi,
-                TenKhoa = khoa.TenKhoa,
-                TenChuongTrinhHoc = cch.TenChuongTrinhHoc,
             }
         ).FirstOrDefault();
         return Ok(sinhVien);
@@ -90,16 +90,21 @@ public class SinhVienController : ControllerBase
     public async Task<IActionResult> UpdateSinhVien(string id, [FromBody] SinhVienDto sinhVien)
     {
         // Find the existing sinh vien
-        var existingSinhVien = await _context.SinhViens.FindAsync(id);
+        var existingSinhVien = await _context.SinhViens.FirstOrDefaultAsync(
+            x => x.IdSinhVien == sinhVien.IdSinhVien
+        );
+
         if (existingSinhVien == null)
         {
             return NotFound("Không tìm thấy sinh viên");
         }
+
         // Update the existing sinh vien
         existingSinhVien.HoTen = sinhVien.HoTen;
         existingSinhVien.Lop = sinhVien.Lop;
         existingSinhVien.NgaySinh = sinhVien.NgaySinh ?? DateTime.MinValue;
         existingSinhVien.DiaChi = sinhVien.DiaChi;
+
         // Save the changes
         await _context.SaveChangesAsync();
         return Ok(new
@@ -109,6 +114,7 @@ public class SinhVienController : ControllerBase
             data = new
             {
                 IdSinhVien = existingSinhVien.IdSinhVien,
+
                 TenSinhVien = existingSinhVien.HoTen,
                 Lop = existingSinhVien.Lop,
                 NgaySinh = existingSinhVien.NgaySinh,
@@ -122,9 +128,49 @@ public class SinhVienController : ControllerBase
      * them sinh vien
      */
     [HttpPost]
-    public async Task<IActionResult> CreateSinhVien([FromBody] SinhVien sinhVien)
-    {
-        _context.SinhViens.Add(sinhVien);
+    public async Task<IActionResult> CreateSinhVien([FromBody] SinhVienDto sinhVien)
+    {   
+        if (string.IsNullOrEmpty(sinhVien.IdSinhVien))
+        {
+            sinhVien.IdSinhVien = Guid.NewGuid().ToString();
+        } else {
+            var existingSinhVien = await _context.SinhViens.FirstOrDefaultAsync(
+                x => x.IdSinhVien == sinhVien.IdSinhVien
+            );
+
+            if (existingSinhVien != null)
+            {
+                return BadRequest("Sinh viên đã tồn tại");
+            }
+        }
+
+        SinhVien newSinhVien = new SinhVien {
+            IdSinhVien = sinhVien.IdSinhVien,
+            IdKhoa = sinhVien.IdKhoa,
+            IdChuongTrinhHoc = sinhVien.IdChuongTrinhHoc,
+
+            HoTen = sinhVien.HoTen,
+            Lop = sinhVien.Lop,
+            NgaySinh = sinhVien.NgaySinh ?? DateTime.MinValue,
+            DiaChi = sinhVien.DiaChi,
+        };
+
+        // check khoa, chuong trinh hoc
+        var khoa = await _context.Khoas
+            .FirstOrDefaultAsync(x => x.IdKhoa == sinhVien.IdKhoa);
+        if (khoa == null)
+        {
+            return BadRequest("Không tìm thấy khoa");
+        }
+        var cch = await _context.ChuongTrinhHocs
+            .FirstOrDefaultAsync(x => x.IdChuongTrinhHoc == sinhVien.IdChuongTrinhHoc);
+        if (cch == null)
+        {
+            return BadRequest("Không tìm thấy chương trình học");
+        }
+
+        _context.SinhViens.Add(newSinhVien);
+
         await _context.SaveChangesAsync();
         return Ok("Thêm sinh viên thành công");
     }
@@ -139,8 +185,37 @@ public class SinhVienController : ControllerBase
         {
             return NotFound("Không tìm thấy sinh viên");
         }
+
+        // Xoa diem sinh vien
+        var list_diem = await _context.Diems
+            .Where(x => x.IdSinhVien == id)
+            .ToListAsync();
+        if (list_diem != null)
+        {
+            _context.Diems.RemoveRange(list_diem);
+        }
+
+        // Xoa sinh vien lop hoc phan
+        var list_sv_lhp = await _context.SinhVienLopHocPhans
+            .Where(x => x.IdSinhVien == id)
+            .ToListAsync();
+        if (list_sv_lhp != null)
+        {
+            _context.SinhVienLopHocPhans.RemoveRange(list_sv_lhp);
+        }
+        // Xoa nguyen vong sinh vien
+        var list_nguyen_vong = await _context.DangKyNguyenVongs
+            .Where(x => x.IdSinhVien == id)
+            .ToListAsync();
+        if (list_nguyen_vong != null)
+        {
+            _context.DangKyNguyenVongs.RemoveRange(list_nguyen_vong);
+        }
+        // Xoa sinh vien
         _context.SinhViens.Remove(sinhVien);
+
         await _context.SaveChangesAsync();
+
         return Ok("Xóa sinh viên thành công");
     }
 
@@ -151,7 +226,7 @@ public class SinhVienController : ControllerBase
     [HttpGet("{id}/lophocphan")]
     public async Task<IActionResult> GetSinhVienThuocLopHocPhan(string id)
     {
-        var qr = await (
+        var res = await (
             from lhp in _context.LopHocPhans
             join svlhp in _context.SinhVienLopHocPhans on lhp.IdLopHocPhan equals svlhp.IdLopHocPhan
             join sv in _context.SinhViens on svlhp.IdSinhVien equals sv.IdSinhVien
@@ -163,18 +238,18 @@ public class SinhVienController : ControllerBase
                 IdSinhVien = sv.IdSinhVien,
                 IdKhoa = sv.IdKhoa,
                 IdChuongTrinhHoc = sv.IdChuongTrinhHoc,
+
                 TenSinhVien = sv.HoTen,
+                TenKhoa = k.TenKhoa,
+                TenChuongTrinhHoc = cth.TenChuongTrinhHoc,
+
                 Lop = sv.Lop,
                 NgaySinh = sv.NgaySinh,
                 DiaChi = sv.DiaChi,
-                TenKhoa = k.TenKhoa,
-                TenChuongTrinhHoc = cth.TenChuongTrinhHoc
             }
         ).ToListAsync();
 
-
-        return Ok(qr);
+        return Ok(res);
     }
-
 
 }
