@@ -47,6 +47,7 @@ public class CalendarController : ControllerBase
                                 Start = tg.NgayBatDau,
                                 End = tg.NgayKetThuc,
                                 Location = ph.DiaChi,
+                                Description = $"Lớp Học Phần: {lhp.TenHocPhan}\nPhòng Học: {ph.TenPhongHoc} tại {ph.DiaChi}\nThời Gian Bắt Đầu: {tg.NgayBatDau}\nThời Gian Kết Thúc: {tg.NgayKetThuc}",
                             }).ToListAsync();
 
         return Ok(
@@ -78,6 +79,8 @@ public class CalendarController : ControllerBase
                                 Start = tg.NgayBatDau,
                                 End = tg.NgayKetThuc,
                                 Location = ph.DiaChi,
+                                Description = $"Lớp Học Phần: {lhp.TenHocPhan}\nPhòng Học: {ph.TenPhongHoc} tại {ph.DiaChi}\nThời Gian Bắt Đầu: {tg.NgayBatDau}\nThời Gian Kết Thúc: {tg.NgayKetThuc}",
+
                             }).ToListAsync();
 
         // Add results to listEvent        
@@ -110,6 +113,7 @@ public class CalendarController : ControllerBase
                 Start = tg.NgayBatDau,
                 End = tg.NgayKetThuc,
                 Location = ph.DiaChi,
+                Description = $"Lớp Học Phần: {lhp.TenHocPhan}\nPhòng Học: {ph.TenPhongHoc} tại {ph.DiaChi}\nThời Gian Bắt Đầu: {tg.NgayBatDau}\nThời Gian Kết Thúc: {tg.NgayKetThuc}",
             }
         ).ToListAsync();
 
