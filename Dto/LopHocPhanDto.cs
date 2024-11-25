@@ -9,7 +9,7 @@ namespace web_qlsv.Dto
         public DateTime? ThoiGianBatDau { set; get; }
         public DateTime? ThoiGianKetThuc { set; get; }
         public int? SoTinChi { set; get; }
-        public int? SoTiet { set; get; }
+        public int? SoTietHoc { set; get; }
         public string? TenGiaoVien { get; set; }
         public string? TenMonHoc { get; set; }
         public string? StatusMessage { get; set; }

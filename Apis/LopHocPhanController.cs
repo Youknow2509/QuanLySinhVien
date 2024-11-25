@@ -45,7 +45,9 @@ public class LopHocPhanController : ControllerBase
                 IdGiaoVien = gv.IdGiaoVien,
                 IdMonHoc = mh.IdMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
-                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                SoTinChi = lhp.SoTinChi,
+                SoTietHoc = lhp.SoTietHoc,
             }
         ).ToListAsync();
 
@@ -76,7 +78,9 @@ public class LopHocPhanController : ControllerBase
                 IdGiaoVien = gv.IdGiaoVien,
                 IdMonHoc = mon.IdMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
-                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                SoTinChi = lhp.SoTinChi,
+                SoTietHoc = lhp.SoTietHoc,
             }
         ).ToListAsync();
 
@@ -106,7 +110,10 @@ public class LopHocPhanController : ControllerBase
                 IdGiaoVien = gv.IdGiaoVien,
                 IdMonHoc = mon.IdMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
-                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                SoTinChi = lhp.SoTinChi,
+                SoTietHoc = lhp.SoTietHoc,
+
             }
         ).ToListAsync();
 
@@ -136,7 +143,10 @@ public class LopHocPhanController : ControllerBase
                 IdGiaoVien = gv.IdGiaoVien,
                 IdMonHoc = mon.IdMonHoc,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
-                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                SoTinChi = lhp.SoTinChi,
+                SoTietHoc = lhp.SoTietHoc,
+
             }
         ).FirstOrDefaultAsync();
 
@@ -206,6 +216,8 @@ public class LopHocPhanController : ControllerBase
             IdMonHoc = lopHocPhan.IdMonHoc,
             ThoiGianBatDau = lopHocPhan.ThoiGianBatDau ?? DateTime.MinValue,
             ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc ?? DateTime.MinValue,
+            SoTinChi = lopHocPhan.SoTinChi ?? -1,
+            SoTietHoc = lopHocPhan.SoTietHoc ?? -1,
         };
 
         // Check giao vien, mon hoc
@@ -236,6 +248,8 @@ public class LopHocPhanController : ControllerBase
                 IdMonHoc = newLopHocPhan.IdMonHoc,
                 ThoiGianBatDau = newLopHocPhan.ThoiGianBatDau,
                 ThoiGianKetThuc = newLopHocPhan.ThoiGianKetThuc,
+                SoTinChi = lopHocPhan.SoTinChi,
+                SoTietHoc = lopHocPhan.SoTietHoc,
             }
         });
     }
@@ -267,6 +281,8 @@ public class LopHocPhanController : ControllerBase
         qr.IdMonHoc = lopHocPhan.IdMonHoc;
         qr.ThoiGianBatDau = lopHocPhan.ThoiGianBatDau ?? DateTime.MinValue;
         qr.ThoiGianKetThuc = lopHocPhan.ThoiGianKetThuc ?? DateTime.MinValue;
+        qr.SoTietHoc = lopHocPhan.SoTietHoc ?? -1;
+        qr.SoTinChi = lopHocPhan.SoTinChi ?? -1;
 
         // Check giao vien, mon hoc
         var mon = await _context.MonHocs.FindAsync(lopHocPhan.IdMonHoc);
@@ -295,7 +311,9 @@ public class LopHocPhanController : ControllerBase
                 IdGiaoVien = qr.IdGiaoVien,
                 IdMonHoc = qr.IdMonHoc,
                 ThoiGianBatDau = qr.ThoiGianBatDau,
-                ThoiGianKetThuc = qr.ThoiGianKetThuc
+                ThoiGianKetThuc = qr.ThoiGianKetThuc,
+                SoTinChi = qr.SoTinChi,
+                SoTietHoc = qr.SoTietHoc,
             }
         });
     }
@@ -320,7 +338,9 @@ public class LopHocPhanController : ControllerBase
                 TenHocPhan = lhp.TenHocPhan,
                 TenGiaoVien = gv.TenGiaoVien,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
-                ThoiGianKetThuc = lhp.ThoiGianKetThuc
+                ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                SoTinChi = lhp.SoTinChi,
+                SoTietHoc = lhp.SoTietHoc,
             }
         ).ToListAsync();
 
@@ -406,7 +426,9 @@ public class LopHocPhanController : ControllerBase
                 NgayKetThuc = tg.NgayKetThuc,
                 // DiaDiem = tg.DiaDiem, 
                 // TODO
-                IdLopHocPhan = lhp.IdLopHocPhan
+                IdLopHocPhan = lhp.IdLopHocPhan,
+                SoTinChi = lhp.SoTinChi,
+                SoTietHoc = lhp.SoTietHoc,
             }
         });
     }

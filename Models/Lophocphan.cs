@@ -13,9 +13,9 @@ public  class LopHocPhan
 
     public string IdMonHoc { get; set; } = null!;
 
-    public decimal SoTinChi { get; set; }
+    public int SoTinChi { get; set; }
 
-    public decimal SoTietHoc { get; set; }
+    public int SoTietHoc { get; set; }
 
     public DateTime ThoiGianBatDau { get; set; }
 
