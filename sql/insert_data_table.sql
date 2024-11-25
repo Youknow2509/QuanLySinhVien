@@ -188,3 +188,538 @@ INSERT INTO Diem (IdDiem, IdLopHocPhan, IdSinhVien, DiemQuaTrinh, DiemKetThuc, D
 -- Tạo thời gian và gắn thời gian vào lớp học phần
 -- Thêm các thời gian vào bảng ThoiGian và gắn vào lớp học phần
 
+
+--insert bang thoigian
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B1', TO_DATE('2024-08-14 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-14 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B1');
+
+-- Th?i gian ngày 2024-08-21
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B2', TO_DATE('2024-08-21 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-21 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B2');
+
+-- Th?i gian ngày 2024-09-04
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B3', TO_DATE('2024-09-04 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-04 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B3');
+
+-- Th?i gian ngày 2024-09-11
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B4', TO_DATE('2024-09-11 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-11 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B4');
+
+-- Th?i gian ngày 2024-09-18
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B5', TO_DATE('2024-09-18 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-18 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B5');
+
+-- Th?i gian ngày 2024-09-25
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B6', TO_DATE('2024-09-25 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-25 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B6');
+
+-- Th?i gian ngày 2024-10-02
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B7', TO_DATE('2024-10-02 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-02 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B7');
+
+-- Th?i gian ngày 2024-10-09
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B8', TO_DATE('2024-10-09 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-09 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B8');
+
+-- Th?i gian ngày 2024-10-16
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B9', TO_DATE('2024-10-16 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-16 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B9');
+
+-- Th?i gian ngày 2024-10-23
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B10', TO_DATE('2024-10-23 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-23 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B10');
+
+-- Th?i gian ngày 2024-10-30
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B11', TO_DATE('2024-10-30 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-30 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B11');
+
+-- Th?i gian ngày 2024-11-06
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B12', TO_DATE('2024-11-06 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-06 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B12');
+
+-- Th?i gian ngày 2024-11-13
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('HTQTORCL_QT01_B13', TO_DATE('2024-11-13 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-13 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'HTQTORCL_QT01', 'HTQTORCL_QT01_B13');
+
+
+-- Th?i gian ngày 2024-08-13
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B1', TO_DATE('2024-08-13 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-13 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B1');
+
+-- Th?i gian ngày 2024-08-20
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B2', TO_DATE('2024-08-20 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-20 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B2');
+
+-- Th?i gian ngày 2024-08-27
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B3', TO_DATE('2024-08-27 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-27 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B3');
+
+-- Th?i gian ngày 2024-09-03
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B4', TO_DATE('2024-09-03 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B4');
+
+-- Th?i gian ngày 2024-09-10
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B5', TO_DATE('2024-09-10 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-10 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B5');
+
+-- Th?i gian ngày 2024-09-17
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B6', TO_DATE('2024-09-17 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-17 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B6');
+
+-- Th?i gian ngày 2024-09-24
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B7', TO_DATE('2024-09-24 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-24 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B7');
+
+-- Th?i gian ngày 2024-10-01
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B8', TO_DATE('2024-10-01 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-01 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B8');
+
+-- Th?i gian ngày 2024-10-08
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B9', TO_DATE('2024-10-08 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-08 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B9');
+
+-- Th?i gian ngày 2024-10-15
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B10', TO_DATE('2024-10-15 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-15 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B10');
+
+-- Th?i gian ngày 2024-10-22
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B11', TO_DATE('2024-10-22 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-22 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B11');
+
+-- Th?i gian ngày 2024-10-29
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B12', TO_DATE('2024-10-29 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-29 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B12');
+
+-- Th?i gian ngày 2024-11-05
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B13', TO_DATE('2024-11-05 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-05 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B13');
+
+-- Th?i gian ngày 2024-11-12
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTW_QT01_B14', TO_DATE('2024-11-12 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-12 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '202A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTW_QT01', 'LTW_QT01_B14');
+-- Thêm th?i gian và g?n th?i gian vào l?p h?c ph?n LTTT_QT01
+
+-- Th?i gian ngày 2024-08-13
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B1', TO_DATE('2024-08-13 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-13 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B1');
+
+-- Th?i gian ngày 2024-08-20
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B2', TO_DATE('2024-08-20 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-20 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B2');
+
+-- Th?i gian ngày 2024-08-27
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B3', TO_DATE('2024-08-27 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-27 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B3');
+
+-- Th?i gian ngày 2024-09-03
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B4', TO_DATE('2024-09-03 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-03 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B4');
+
+-- Th?i gian ngày 2024-09-10
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B5', TO_DATE('2024-09-10 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-10 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B5');
+
+-- Th?i gian ngày 2024-09-17
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B6', TO_DATE('2024-09-17 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-17 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B6');
+
+-- Th?i gian ngày 2024-09-24
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B7', TO_DATE('2024-09-24 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-24 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B7');
+
+-- Th?i gian ngày 2024-10-01
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B8', TO_DATE('2024-10-01 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-01 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B8');
+
+-- Th?i gian ngày 2024-10-08
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B9', TO_DATE('2024-10-08 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-08 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B9');
+
+-- Th?i gian ngày 2024-10-15
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B10', TO_DATE('2024-10-15 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-15 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B10');
+
+-- Th?i gian ngày 2024-10-22
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B11', TO_DATE('2024-10-22 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-22 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B11');
+
+-- Th?i gian ngày 2024-10-29
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B12', TO_DATE('2024-10-29 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-29 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B12');
+
+-- Th?i gian ngày 2024-11-05
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B13', TO_DATE('2024-11-05 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-05 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B13');
+
+-- Th?i gian ngày 2024-11-12
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('LTTT_QT01_B14', TO_DATE('2024-11-12 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-12 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '301A3');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'LTTT_QT01', 'LTTT_QT01_B14');
+
+
+-- Th?i gian ngày 2024-08-17
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B1', TO_DATE('2024-08-17 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-17 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B1');
+
+-- Th?i gian ngày 2024-08-24
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B2', TO_DATE('2024-08-24 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-24 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B2');
+
+-- Th?i gian ngày 2024-08-31
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B3', TO_DATE('2024-08-31 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-31 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B3');
+
+-- Th?i gian ngày 2024-09-07
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B4', TO_DATE('2024-09-07 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-07 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B4');
+
+-- Th?i gian ngày 2024-09-14
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B5', TO_DATE('2024-09-14 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-14 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B5');
+
+-- Th?i gian ngày 2024-09-21
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B6', TO_DATE('2024-09-21 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-21 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B6');
+
+-- Th?i gian ngày 2024-09-28
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B7', TO_DATE('2024-09-28 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-28 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B7');
+
+-- Th?i gian ngày 2024-10-05
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B8', TO_DATE('2024-10-05 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-05 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B8');
+
+-- Th?i gian ngày 2024-10-12
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B9', TO_DATE('2024-10-12 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-12 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B9');
+
+-- Th?i gian ngày 2024-10-19
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B10', TO_DATE('2024-10-19 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-19 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B10');
+
+-- Th?i gian ngày 2024-10-26
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B11', TO_DATE('2024-10-26 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-26 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B11');
+
+-- Th?i gian ngày 2024-11-02
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B12', TO_DATE('2024-11-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-02 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B12');
+
+-- Th?i gian ngày 2024-11-09
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B13', TO_DATE('2024-11-09 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-09 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B13');
+
+-- Th?i gian ngày 2024-11-16
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('MMT_QT01_B14', TO_DATE('2024-11-16 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-16 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '305A2');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'MMT_QT01', 'MMT_QT01_B14');
+
+-- Th?i gian ngày 2024-08-15
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B1', TO_DATE('2024-08-15 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-15 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B1');
+
+-- Th?i gian ngày 2024-08-22
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B2', TO_DATE('2024-08-22 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-22 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B2');
+
+-- Th?i gian ngày 2024-08-29
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B3', TO_DATE('2024-08-29 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-29 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B3');
+
+-- Th?i gian ngày 2024-09-05
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B4', TO_DATE('2024-09-05 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-05 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B4');
+
+-- Th?i gian ngày 2024-09-12
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B5', TO_DATE('2024-09-12 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-12 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B5');
+
+-- Th?i gian ngày 2024-09-19
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B6', TO_DATE('2024-09-19 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-19 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B6');
+
+-- Th?i gian ngày 2024-09-26
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B7', TO_DATE('2024-09-26 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-26 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B7');
+
+-- Th?i gian ngày 2024-10-03
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B8', TO_DATE('2024-10-03 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-03 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B8');
+
+-- Th?i gian ngày 2024-10-10
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B9', TO_DATE('2024-10-10 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-10 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B9');
+
+-- Th?i gian ngày 2024-10-17
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B10', TO_DATE('2024-10-17 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-17 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B10');
+
+-- Th?i gian ngày 2024-10-24
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B11', TO_DATE('2024-10-24 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-24 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B11');
+
+-- Th?i gian ngày 2024-10-31
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B12', TO_DATE('2024-10-31 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-31 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B12');
+
+-- Th?i gian ngày 2024-11-07
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B13', TO_DATE('2024-11-07 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-07 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B13');
+
+-- Th?i gian ngày 2024-11-14
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('PTTKYC_QT01_B14', TO_DATE('2024-11-14 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-11-14 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '405A4');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian)
+    VALUES (SYS_GUID(), 'PTTKYC_QT01', 'PTTKYC_QT01_B14');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B1', TO_DATE('2024-08-15 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-15 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B1');
+-- Thêm th?i gian vào b?ng ThoiGian cho t?ng phiên h?c
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B2', TO_DATE('2024-08-22 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-22 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B2');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B3', TO_DATE('2024-08-29 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-29 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B3');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B4', TO_DATE('2024-09-05 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-05 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B4');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B5', TO_DATE('2024-09-12 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-12 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B5');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B6', TO_DATE('2024-09-19 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-19 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B6');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B7', TO_DATE('2024-09-26 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-26 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B7');
+
+-- Ti?p t?c cho các phiên h?c ti?p theo
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B8', TO_DATE('2024-10-03 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-03 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B8');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('TTUD_QT01_B9', TO_DATE('2024-10-10 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-10-10 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '105A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'TTUD_QT01', 'TTUD_QT01_B9');
+
+-- Thêm th?i gian và liên k?t cho t?ng phiên h?c c?a XSTK_QT01
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B1', TO_DATE('2024-08-12 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-12 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B1');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B2', TO_DATE('2024-08-19 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-19 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B2');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B3', TO_DATE('2024-08-26 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-26 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B3');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B4', TO_DATE('2024-09-02 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-02 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B4');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B5', TO_DATE('2024-09-09 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-09 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B5');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B6', TO_DATE('2024-09-16 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-16 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B6');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('XSTK_QT01_B7', TO_DATE('2024-09-23 13:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-09-23 15:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'XSTK_QT01', 'XSTK_QT01_B7');
+
+-- Thêm th?i gian và liên k?t cho t?ng phiên h?c c?a VLY_QT01
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B1', TO_DATE('2024-04-12 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-04-12 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B1');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B2', TO_DATE('2024-04-19 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-04-19 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B2');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B3', TO_DATE('2024-04-26 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-04-26 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B3');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B4', TO_DATE('2024-05-03 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-05-03 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B4');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B5', TO_DATE('2024-05-10 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-05-10 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B5');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B6', TO_DATE('2024-05-17 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-05-17 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B6');
+
+INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
+    VALUES ('VLY_QT01_B7', TO_DATE('2024-05-24 07:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-05-24 09:25:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');
+INSERT INTO ThoiGian_LopHocPhan (IdThoiGianLopHocPhan, IdLopHocPhan, IdThoiGian) 
+    VALUES (SYS_GUID(), 'VLY_QT01', 'VLY_QT01_B7');
