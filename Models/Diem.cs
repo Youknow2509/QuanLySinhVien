@@ -17,7 +17,7 @@ public class Diem
 
     public decimal DiemTongKet { get; set; }
 
-    public decimal LanHoc { get; set; }
+    public int LanHoc { get; set; }
 
     public virtual LopHocPhan IdLopHocPhanNavigation { get; set; } = null!;
 
