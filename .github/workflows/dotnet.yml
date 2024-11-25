@@ -5,9 +5,9 @@ name: Test Run
 
 on:
   push:
-    branches: [ "Web" ]
+    branches: [ "Web_v2" ]
   pull_request:
-    branches: [ "Web" ]
+    branches: [ "Web_v2" ]
 
 jobs:
   build:
