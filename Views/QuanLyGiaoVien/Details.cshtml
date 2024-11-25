@@ -194,6 +194,10 @@
                             failureCallback();
                         }
                     });
+                },
+                eventClick: function (info) {
+                    alert(info.event.extendedProps.description);
+                    info.jsEvent.preventDefault();
                 }
             });
             calendar.render();

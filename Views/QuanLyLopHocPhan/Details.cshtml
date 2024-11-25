@@ -327,6 +327,10 @@
                         },
                         error: function () {
                             failureCallback();
+                        },
+                        eventClick: function (info) {
+                            alert(info.event.extendedProps.description);
+                            info.jsEvent.preventDefault();
                         }
                     });
                 }
@@ -413,15 +417,15 @@
                         data: null,
                         render: function (data, type, row) {
                             return `
-                                                                            <button class="btn btn-primary btn-sm" 
-                                                                                data-toggle="modal" data-target="#modalSuaDiem" 
-                                                                                data-idDiem="${row.idDiem}" 
-                                                                                data-diem-qua-trinh="${row.diemQuaTrinh}" 
-                                                                                data-diem-ket-thuc="${row.diemKetThuc}" 
-                                                                                data-diem-tong-ket="${row.diemTongKet}">
-                                                                            Sửa
-                                                                            </button>
-                                                                        `;
+                                                                                <button class="btn btn-primary btn-sm" 
+                                                                                    data-toggle="modal" data-target="#modalSuaDiem" 
+                                                                                    data-idDiem="${row.idDiem}" 
+                                                                                    data-diem-qua-trinh="${row.diemQuaTrinh}" 
+                                                                                    data-diem-ket-thuc="${row.diemKetThuc}" 
+                                                                                    data-diem-tong-ket="${row.diemTongKet}">
+                                                                                Sửa
+                                                                                </button>
+                                                                            `;
                         }
                     }
                 ],
@@ -520,15 +524,15 @@
                             }
                             else {
                                 return `
-                                                                            <button class="btn btn-primary btn-sm" 
-                                                                                data-toggle="modal" data-target="#modalSuaThoiGian"
-                                                                                data-idThoiGian="${row.id}"
-                                                                                data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
-                                                                                data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
-                                                                                >
-                                                                            Sửa
-                                                                            </button>
-                                                                        `;
+                                                                                <button class="btn btn-primary btn-sm" 
+                                                                                    data-toggle="modal" data-target="#modalSuaThoiGian"
+                                                                                    data-idThoiGian="${row.id}"
+                                                                                    data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
+                                                                                    data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
+                                                                                    >
+                                                                                Sửa
+                                                                                </button>
+                                                                            `;
                             }
                         },
                         searchable: false,
