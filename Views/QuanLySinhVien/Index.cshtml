@@ -1,4 +1,3 @@
-
 @section Styles {
     <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 }
@@ -24,7 +23,7 @@
                     {
                         data: 'tenSinhVien',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                            return '<a href="/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
                         }
                     },
                     {
@@ -39,13 +38,13 @@
                     {
                         data: 'tenChuongTrinhHoc',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
+                            return '<a href="/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
                         }
                     },
                     {
                         data: 'tenKhoa',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
+                            return '<a href="/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
                         }
                     },
                 ],
@@ -93,8 +92,8 @@
 
 <!-- Button load csv file -->
 <div class="container-fluid mb-4">
-    <form asp-action="UploadCSV" asp-controller="QuanLySinhVien" asp-area="Admin"
-        method="post" enctype="multipart/form-data">
+    <form asp-action="UploadCSV" asp-controller="QuanLySinhVien" asp-area="Admin" method="post"
+        enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv" />
         <button type="submit" class="btn btn-primary" id="loadcsv">
             Upload CSV

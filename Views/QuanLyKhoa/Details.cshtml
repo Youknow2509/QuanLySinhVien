@@ -1,4 +1,3 @@
-
 @model Khoa
 
 @section Styles {
@@ -24,7 +23,7 @@
                     {
                         data: 'tenGiaoVien',
                         render: function (data, type, row) {
-                            return '<a href="/admin/quanlygiaovien/details?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
+                            return '<a href="/quanlygiaovien/details?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
                         }
                     },
                     {
@@ -53,7 +52,7 @@
                     {
                         data: 'hoTen',
                         render: function (data, type, row) {
-                            return '<a href="/admin/quanlysinhvien/details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                            return '<a href="/quanlysinhvien/details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
                         }
                     },
                     {

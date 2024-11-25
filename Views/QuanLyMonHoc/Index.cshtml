@@ -173,7 +173,7 @@
                     {
                         data: 'tenMonHoc',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyMonHoc/Details?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
+                            return '<a href="/QuanLyMonHoc/Details?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
                         }
                     },
                     {
@@ -185,7 +185,7 @@
                     {
                         data: 'tenKhoa',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
+                            return '<a href="/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
                         }
                     },
                     {
@@ -195,16 +195,16 @@
                         sortable: false,
                         render: function (data, type, row) {
                             return `
-                                    <button type="button" class="btn btn-primary" 
-                                        data-toggle="modal" data-target="#editMonHocModal"
-                                        data-idMonHoc="${row.idMonHoc}"
-                                        data-tenMonHoc="${row.tenMonHoc}"
-                                        data-soTinChi="${row.soTinChi}"
-                                        data-soTiet="${row.soTiet}"
-                                        data-idKhoa="${row.idKhoa}"
-                                    >Sửa</button>
-                                    <button type="button" class="btn btn-danger" onclick="deleteMonHoc('${row.idMonHoc}')">Xóa</button>
-                                `;
+                                        <button type="button" class="btn btn-primary" 
+                                            data-toggle="modal" data-target="#editMonHocModal"
+                                            data-idMonHoc="${row.idMonHoc}"
+                                            data-tenMonHoc="${row.tenMonHoc}"
+                                            data-soTinChi="${row.soTinChi}"
+                                            data-soTiet="${row.soTiet}"
+                                            data-idKhoa="${row.idKhoa}"
+                                        >Sửa</button>
+                                        <button type="button" class="btn btn-danger" onclick="deleteMonHoc('${row.idMonHoc}')">Xóa</button>
+                                    `;
                         }
                     }
                 ],

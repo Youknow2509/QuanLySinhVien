@@ -139,8 +139,9 @@
     <h3 class="box-title mt-5">Chi Tiết Thời Gian Lớp Học Phần</h3>
     <div class="box-body mt-3">
         <div class="form-group">
-            <p>&emsp;Lớp Học Phần @Model.TenHocPhan có thời gian từ: @(Model.ThoiGianBatDau) đến @(Model.ThoiGianKetThuc).</p>
-            <p>&emsp;Số tín chỉ:  và số tiết học: </p>
+            <p>&emsp;Lớp Học Phần @Model.TenHocPhan có thời gian từ: @(Model.ThoiGianBatDau) đến
+                @(Model.ThoiGianKetThuc).</p>
+            <p>&emsp;Số tín chỉ: và số tiết học: </p>
         </div>
     </div>
     <div class="table-responsive">
@@ -344,7 +345,7 @@
                     {
                         data: 'tenSinhVien',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                            return '<a href="/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
                         }
                     },
                     {
@@ -359,13 +360,13 @@
                     {
                         data: 'tenChuongTrinhHoc',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
+                            return '<a href="/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
                         }
                     },
                     {
                         data: 'tenKhoa',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
+                            return '<a href="/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
                         }
                     }
                 ],
@@ -385,7 +386,7 @@
                     {
                         data: 'tenSinhVien',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                            return '<a href="/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
                         }
                     },
                     {
@@ -412,15 +413,15 @@
                         data: null,
                         render: function (data, type, row) {
                             return `
-                                                                        <button class="btn btn-primary btn-sm" 
-                                                                            data-toggle="modal" data-target="#modalSuaDiem" 
-                                                                            data-idDiem="${row.idDiem}" 
-                                                                            data-diem-qua-trinh="${row.diemQuaTrinh}" 
-                                                                            data-diem-ket-thuc="${row.diemKetThuc}" 
-                                                                            data-diem-tong-ket="${row.diemTongKet}">
-                                                                        Sửa
-                                                                        </button>
-                                                                    `;
+                                                                            <button class="btn btn-primary btn-sm" 
+                                                                                data-toggle="modal" data-target="#modalSuaDiem" 
+                                                                                data-idDiem="${row.idDiem}" 
+                                                                                data-diem-qua-trinh="${row.diemQuaTrinh}" 
+                                                                                data-diem-ket-thuc="${row.diemKetThuc}" 
+                                                                                data-diem-tong-ket="${row.diemTongKet}">
+                                                                            Sửa
+                                                                            </button>
+                                                                        `;
                         }
                     }
                 ],
@@ -519,15 +520,15 @@
                             }
                             else {
                                 return `
-                                                                        <button class="btn btn-primary btn-sm" 
-                                                                            data-toggle="modal" data-target="#modalSuaThoiGian"
-                                                                            data-idThoiGian="${row.id}"
-                                                                            data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
-                                                                            data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
-                                                                            >
-                                                                        Sửa
-                                                                        </button>
-                                                                    `;
+                                                                            <button class="btn btn-primary btn-sm" 
+                                                                                data-toggle="modal" data-target="#modalSuaThoiGian"
+                                                                                data-idThoiGian="${row.id}"
+                                                                                data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
+                                                                                data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
+                                                                                >
+                                                                            Sửa
+                                                                            </button>
+                                                                        `;
                             }
                         },
                         searchable: false,
@@ -580,14 +581,14 @@
              */
             var checkThemTh_lhp = true;
             // Kiểm tra xem lớp học phần diễn ra chưa, nếu rồi thì tắt nút thêm
-            @* if (new Date('@Model.ThoiGianBatDau.Value.ToString("MM/dd/yyyy")') <= new Date()) {
+        @* if (new Date('@Model.ThoiGianBatDau.Value.ToString("MM/dd/yyyy")') <= new Date()) {
                 $('#modalThemThoiGian').hide();
                 $('#divThemThoiGianLopHocPhan').hide();
                 $('#UploadSinhVienCSV').hide();
                 checkThemTh_lhp = false;
             } *@
-            // Kiểm tra đã đủ tiết chưa, nếu rồi thì tắt nút thêm
-            @* $.ajax({
+                // Kiểm tra đã đủ tiết chưa, nếu rồi thì tắt nút thêm
+        @* $.ajax({
                 url: '/api/calendar/lophocphan/@Model.IdLopHocPhan',
                 type: 'GET',
                 success: function (data) {
@@ -601,33 +602,33 @@
                     alert(`Lỗi: ${xhr.responseText}`);
                 }
             }); *@
-            // Sự kiện click button thêm thời gian
-            $('#btnThemThoiGian').click(function () {
-                if (checkThemTh_lhp) {
-                    var form = $('#formThemThoiGian');
-                    $.ajax({
-                        url: '/api/lophocphan/themthoigian',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify({
-                            ThoiGianBatDau: $('#themThoiGianBatDau').val(),
-                            ThoiGianKetThuc: $('#themThoiGianKetThuc').val(),
-                            DiaDiem: $('#themDiaDiem').val(),
-                            IdLopHocPhan: '@Model.IdLopHocPhan'
-                        }),
-                        success: function (data) {
-                            $('#modalThemThoiGian').modal('hide');
-                            $('#dataTable_date').DataTable().ajax.reload();
-                        },
-                        error: function (xhr, status, error) {
-                            alert(`Lỗi: ${xhr.responseText}`);
-                        }
-                    });
-                }
-                else {
-                    alert('Lớp học phần đã diễn ra hoặc đã đủ tiết học');
-                }
-            });
+                // Sự kiện click button thêm thời gian
+                $('#btnThemThoiGian').click(function () {
+                    if (checkThemTh_lhp) {
+                        var form = $('#formThemThoiGian');
+                        $.ajax({
+                            url: '/api/lophocphan/themthoigian',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                ThoiGianBatDau: $('#themThoiGianBatDau').val(),
+                                ThoiGianKetThuc: $('#themThoiGianKetThuc').val(),
+                                DiaDiem: $('#themDiaDiem').val(),
+                                IdLopHocPhan: '@Model.IdLopHocPhan'
+                            }),
+                            success: function (data) {
+                                $('#modalThemThoiGian').modal('hide');
+                                $('#dataTable_date').DataTable().ajax.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                alert(`Lỗi: ${xhr.responseText}`);
+                            }
+                        });
+                    }
+                    else {
+                        alert('Lớp học phần đã diễn ra hoặc đã đủ tiết học');
+                    }
+                });
         });
     </script>
 }

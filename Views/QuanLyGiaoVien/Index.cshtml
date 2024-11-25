@@ -9,7 +9,7 @@
 
     <!-- Page level custom scripts -->
     <script>
-        
+
 
         $(document).ready(function () {
             // handle create giao vien
@@ -68,7 +68,7 @@
                     {
                         data: 'tenGiaoVien',
                         render: function (data, type, row) {
-                            return '<a href="/admin/quanlygiaovien/details?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
+                            return '<a href="/quanlygiaovien/details?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
                         }
                     },
                     {
@@ -80,7 +80,7 @@
                     {
                         data: 'tenKhoa',
                         render: function (data, type, row) {
-                            return '<a href="/admin/quanlykhoa/details/IdKhoa=' + row.idKhoa + '">' + data + '</a>';
+                            return '<a href="/quanlykhoa/details/IdKhoa=' + row.idKhoa + '">' + data + '</a>';
                         }
                     },
                 ],
@@ -172,8 +172,8 @@
 
 <!-- Button load csv file -->
 <div class="container-fluid mb-4">
-    <form asp-action="UploadCSV" asp-controller="QuanLyGiaoVien" asp-area="Admin"
-        method="post" enctype="multipart/form-data">
+    <form asp-action="UploadCSV" asp-controller="QuanLyGiaoVien" asp-area="Admin" method="post"
+        enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv" />
         <button type="submit" class="btn btn-primary" id="loadcsv">
             Upload CSV

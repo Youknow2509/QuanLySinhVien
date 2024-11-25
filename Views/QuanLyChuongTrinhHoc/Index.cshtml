@@ -88,7 +88,7 @@
                     {
                         data: 'tenChuongTrinhHoc',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
+                            return '<a href="/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
                         }
                     },
                     {
@@ -97,9 +97,9 @@
                         searchable: false,
                         render: function (data, type, row) {
                             return `
-                                                    <button class="edit-btn btn btn-warning" data-id="${row.idChuongTrinhHoc}" data-toggle="modal" data-target="#editChuongTrinhHocModal">Sửa</button>
-                                                    <button class="delete-btn btn btn-danger" data-id="${row.idChuongTrinhHoc}">Xóa</button>
-                                                `;
+                                                        <button class="edit-btn btn btn-warning" data-id="${row.idChuongTrinhHoc}" data-toggle="modal" data-target="#editChuongTrinhHocModal">Sửa</button>
+                                                        <button class="delete-btn btn btn-danger" data-id="${row.idChuongTrinhHoc}">Xóa</button>
+                                                    `;
                         }
                     }
                 ],

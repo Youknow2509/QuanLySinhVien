@@ -25,7 +25,7 @@ public class QuanLyGiaoVienController : Controller
     }
 
     /**
-     * GET: /Admin/QuanLyGiaoVien
+     * GET: /QuanLyGiaoVien
      * Home Page
      */
     public IActionResult Index()
@@ -33,7 +33,7 @@ public class QuanLyGiaoVienController : Controller
         return View();
     }
 
-    // GET: /Admin/QuanLyGiaoVien/{id}
+    // GET: /QuanLyGiaoVien/{id}
     public IActionResult Details(string IdGiaoVien)
     {
         var gv = _context.GiaoViens
@@ -42,7 +42,7 @@ public class QuanLyGiaoVienController : Controller
         return View(gv);
     }
 
-    // GET: /Admin/QuanLyGiaoVien/Edit/{id}
+    // GET: /QuanLyGiaoVien/Edit/{id}
     public IActionResult Edit(string IdGiaoVien)
     {
         var giaovien = (
@@ -67,7 +67,7 @@ public class QuanLyGiaoVienController : Controller
         return View(giaovien);
     }
 
-    // POST: /Admin/QuanLyGiaoVien/Edit/{id}
+    // POST: /QuanLyGiaoVien/Edit/{id}
     [HttpPost]
     public IActionResult Edit(GiaoVien gv)
     {
@@ -82,7 +82,7 @@ public class QuanLyGiaoVienController : Controller
 
 
     /**
-     * POST: /Admin/QuanLyGiaoVien/UploadCSV
+     * POST: /QuanLyGiaoVien/UploadCSV
      * Upload CSV file create list giao vien
      */
     [HttpPost]

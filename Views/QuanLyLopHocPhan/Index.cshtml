@@ -14,7 +14,7 @@
         $('#editLopHocPhanModal').on('show.bs.modal', function (e) {
             var button = $(e.relatedTarget);
             // Get data
-            var idLopHocPhan = button.attr('data-idLopHocPhan'); 
+            var idLopHocPhan = button.attr('data-idLopHocPhan');
             var idMonHoc = button.attr('data-idMonHoc');
             var idGiaoVien = button.attr('data-idGiaoVien');
             var tenLopHocPhan = button.closest('tr').find('td').eq(0).text();
@@ -163,19 +163,19 @@
                     {
                         data: 'tenLopHocPhan',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyLopHocPhan/Details?IdLopHocPhan=' + row.idLopHocPhan + '">' + data + '</a>';
+                            return '<a href="/QuanLyLopHocPhan/Details?IdLopHocPhan=' + row.idLopHocPhan + '">' + data + '</a>';
                         }
                     },
                     {
                         data: 'tenGiaoVien',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyGiaoVien/Details/?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
+                            return '<a href="/QuanLyGiaoVien/Details/?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
                         }
                     },
                     {
                         data: 'tenMonHoc',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyMonHoc/Details/?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
+                            return '<a href="/QuanLyMonHoc/Details/?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
                         }
                     },
                     {
@@ -220,16 +220,16 @@
                         sortable: false,
                         render: function (data, type, row) {
                             return `      
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
-                                                    data-idLopHocPhan="${row.idLopHocPhan}" 
-                                                    data-idMonHoc="${row.idMonHoc}" 
-                                                    data-idGiaoVien="${row.idGiaoVien}">
-                                                    Sửa
-                                                </button>                             
-                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
-                                                    Xóa
-                                                </button>    
-                                            `;
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
+                                                        data-idLopHocPhan="${row.idLopHocPhan}" 
+                                                        data-idMonHoc="${row.idMonHoc}" 
+                                                        data-idGiaoVien="${row.idGiaoVien}">
+                                                        Sửa
+                                                    </button>                             
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
+                                                        Xóa
+                                                    </button>    
+                                                `;
                         }
                     }
                 ],

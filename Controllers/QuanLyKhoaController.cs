@@ -23,7 +23,7 @@ public class QuanLyKhoaController : Controller
     }
 
     /**
-     * GET: /Admin/QuanLyKhoa
+     * GET: /QuanLyKhoa
      * Home Page
      */
     public IActionResult Index()
@@ -32,7 +32,7 @@ public class QuanLyKhoaController : Controller
     }
 
     /**
-     * GET: /Admin/QuanLyKhoa/Deatail
+     * GET: /QuanLyKhoa/Deatail
      * Xem thong tin chi tiet trong khoa
      */
     public IActionResult Details(string idKhoa)

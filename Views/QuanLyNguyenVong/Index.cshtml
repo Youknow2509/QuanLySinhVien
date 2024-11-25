@@ -37,13 +37,13 @@
                     {
                         data: 'tenSinhVien',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                            return '<a href="/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
                         }
                     },
                     {
                         data: 'tenMonHoc',
                         render: function (data, type, row) {
-                            return '<a href="/Admin/QuanLyMonHoc/Details?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
+                            return '<a href="/QuanLyMonHoc/Details?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
                         }
                     },
                     {
@@ -65,17 +65,17 @@
                         render: function (data, type, row) {
                             if (row.trangThai == null) {
                                 return `
-                                                        <button class="btn btn-success btn-sm accept-btn" data-id="${row.idDangKyNguyenVong}">Chấp nhận</button>
-                                                        <button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyNguyenVong}">Từ chối</button>
-                                                    `;
+                                                            <button class="btn btn-success btn-sm accept-btn" data-id="${row.idDangKyNguyenVong}">Chấp nhận</button>
+                                                            <button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyNguyenVong}">Từ chối</button>
+                                                        `;
                             } else if (row.trangThai == true) {
                                 return `
-                                                        <button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyNguyenVong}">Từ chối</button>
-                                                    `;
+                                                            <button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyNguyenVong}">Từ chối</button>
+                                                        `;
                             } else {
                                 return `
-                                                        <button class="btn btn-warning btn-sm accept-btn" data-id="${row.idDangKyNguyenVong}">Chấp nhận</button>
-                                                    `;
+                                                            <button class="btn btn-warning btn-sm accept-btn" data-id="${row.idDangKyNguyenVong}">Chấp nhận</button>
+                                                        `;
                             }
                         },
                     },
@@ -85,12 +85,12 @@
                         sortable: false,
                         render: function (data, type, row) {
                             return `
-                                                    <button id="deleteNguyenVong" class="btn btn-danger btn-sm delete-btn" 
-                                                        data-toggle="modal" data-target="#deleteNguyenVongModal"
-                                                        data-id="${row.idDangKyNguyenVong}"
-                                                    >
-                                                        Xóa</button>
-                                                `;
+                                                        <button id="deleteNguyenVong" class="btn btn-danger btn-sm delete-btn" 
+                                                            data-toggle="modal" data-target="#deleteNguyenVongModal"
+                                                            data-id="${row.idDangKyNguyenVong}"
+                                                        >
+                                                            Xóa</button>
+                                                    `;
                         },
                     }
                 ]
@@ -150,9 +150,9 @@
                         render: function (data, type, row) {
                             if (row.trangThai == -1) {
                                 return `
-                                            <button class="btn btn-success btn-sm accept-btn" data-id="${row.idDangKyDoiLich}">Chấp nhận</button>
-                                            <button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyDoiLich}">Từ chối</button>
-                                        `;
+                                                <button class="btn btn-success btn-sm accept-btn" data-id="${row.idDangKyDoiLich}">Chấp nhận</button>
+                                                <button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyDoiLich}">Từ chối</button>
+                                            `;
                             } else if (row.trangThai == 1) {
                                 return `<button class="btn btn-danger btn-sm reject-btn" data-id="${row.idDangKyDoiLich}">Từ chối</button>`;
                             } else {
