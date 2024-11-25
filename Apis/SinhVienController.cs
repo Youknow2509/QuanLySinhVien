@@ -5,7 +5,7 @@ using System.Text.Json;
 //
 using web_qlsv.Data;
 using web_qlsv.Models;
-// using web_qlsv.Dto;
+using web_qlsv.Dto;
 
 namespace web_qlsv.Controllers;
 
@@ -23,14 +23,5 @@ public class SinhVienController : ControllerBase
         _context = context;
     }
 
-    /**
-     * GET: api/SinhVien/
-     * Get all sinh vien 
-     */
-    [HttpGet]
-    public async Task<IActionResult> GetSinhViens()
-    {
-        var req = await _context.Sinhviens.ToListAsync();
-        return Ok(req);
-    }
+    
 }

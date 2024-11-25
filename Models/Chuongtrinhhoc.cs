@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Chuongtrinhhoc
+public  class ChuongTrinhHoc
 {
-    public string Idchuongtrinhhoc { get; set; } = null!;
+    public string IdChuongTrinhHoc { get; set; } = null!;
 
-    public string Tenchuongtrinhhoc { get; set; } = null!;
+    public string TenChuongTrinhHoc { get; set; } = null!;
 
-    public virtual ICollection<ChuongtrinhhocMonhoc> ChuongtrinhhocMonhocs { get; set; } = new List<ChuongtrinhhocMonhoc>();
+    public virtual ICollection<ChuongTrinhHocMonHoc> ChuongTrinhHocMonHocs { get; set; } = new List<ChuongTrinhHocMonHoc>();
 
-    public virtual ICollection<Sinhvien> Sinhviens { get; set; } = new List<Sinhvien>();
+    public virtual ICollection<SinhVien> SinhViens { get; set; } = new List<SinhVien>();
 }

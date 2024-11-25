@@ -3,23 +3,23 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Diem
+public class Diem
 {
-    public string Iddiem { get; set; } = null!;
+    public string IdDiem { get; set; } = null!;
 
-    public string Idlophocphan { get; set; } = null!;
+    public string IdLopHocPhan { get; set; } = null!;
 
-    public string Idsinhvien { get; set; } = null!;
+    public string IdSinhVien { get; set; } = null!;
 
-    public decimal Diemquatrinh { get; set; }
+    public decimal DiemQuaTrinh { get; set; }
 
-    public decimal Diemketthuc { get; set; }
+    public decimal DiemKetThuc { get; set; }
 
-    public decimal Diemtongket { get; set; }
+    public decimal DiemTongKet { get; set; }
 
-    public decimal Lanhoc { get; set; }
+    public decimal LanHoc { get; set; }
 
-    public virtual Lophocphan IdlophocphanNavigation { get; set; } = null!;
+    public virtual LopHocPhan IdLopHocPhanNavigation { get; set; } = null!;
 
-    public virtual Sinhvien IdsinhvienNavigation { get; set; } = null!;
+    public virtual SinhVien IdSinhVienNavigation { get; set; } = null!;
 }

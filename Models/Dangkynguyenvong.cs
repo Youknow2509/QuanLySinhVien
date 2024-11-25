@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Dangkynguyenvong
+public  class DangKyNguyenVong
 {
-    public string Iddangkynguyenvong { get; set; } = null!;
+    public string IdDangKyNguyenVong { get; set; } = null!;
 
-    public string Idsinhvien { get; set; } = null!;
+    public string IdSinhVien { get; set; } = null!;
 
-    public string Idmonhoc { get; set; } = null!;
+    public string IdMonHoc { get; set; } = null!;
 
-    public decimal Trangthai { get; set; }
+    public decimal TrangThai { get; set; }
 
-    public virtual Monhoc IdmonhocNavigation { get; set; } = null!;
+    public virtual MonHoc IdMonHocNavigation { get; set; } = null!;
 
-    public virtual Sinhvien IdsinhvienNavigation { get; set; } = null!;
+    public virtual SinhVien IdSinhVienNavigation { get; set; } = null!;
 }

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Thoigian
+public  class ThoiGian
 {
-    public string Idthoigian { get; set; } = null!;
+    public string IdThoiGian { get; set; } = null!;
 
-    public DateTime Ngaybatdau { get; set; }
+    public DateTime NgayBatDau { get; set; }
 
-    public DateTime Ngayketthuc { get; set; }
+    public DateTime NgayKetThuc { get; set; }
 
-    public string Idphonghoc { get; set; } = null!;
+    public string IdPhongHoc { get; set; } = null!;
 
-    public virtual ICollection<Dangkydoilich> Dangkydoiliches { get; set; } = new List<Dangkydoilich>();
+    public virtual ICollection<DangKyDoiLich> DangKyDoiLichs { get; set; } = new List<DangKyDoiLich>();
 
-    public virtual Phonghoc IdphonghocNavigation { get; set; } = null!;
+    public virtual PhongHoc IdPhongHocNavigation { get; set; } = null!;
 
-    public virtual ICollection<ThoigianLophocphan> ThoigianLophocphans { get; set; } = new List<ThoigianLophocphan>();
+    public virtual ICollection<ThoiGianLopHocPhan> ThoiGianLopHocPhans { get; set; } = new List<ThoiGianLopHocPhan>();
 }

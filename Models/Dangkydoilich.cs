@@ -3,21 +3,21 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Dangkydoilich
+public class DangKyDoiLich
 {
-    public string Iddangkydoilich { get; set; } = null!;
+    public string IdDangKyDoiLich { get; set; } = null!;
 
-    public string Idthoigian { get; set; } = null!;
+    public string IdThoiGian { get; set; } = null!;
 
-    public DateTime Thoigianbatdauhientai { get; set; }
+    public DateTime ThoiGianBatDauHienTai { get; set; }
 
-    public DateTime Thoigianketthuchientai { get; set; }
+    public DateTime ThoiGianKetThucHienTai { get; set; }
 
-    public DateTime Thoigianbatdaumoi { get; set; }
+    public DateTime ThoiGianBatDauMoi { get; set; }
 
-    public DateTime Thoigianketthucmoi { get; set; }
+    public DateTime ThoiGianKetThucMoi { get; set; }
 
-    public decimal Trangthai { get; set; }
+    public decimal TrangThai { get; set; }
 
-    public virtual Thoigian IdthoigianNavigation { get; set; } = null!;
+    public virtual ThoiGian IdThoiGianNavigation { get; set; } = null!;
 }

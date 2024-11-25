@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class ChuongtrinhhocMonhoc
+public  class ChuongTrinhHocMonHoc
 {
-    public string Idcthmonhoc { get; set; } = null!;
+    public string IdChuongTrinhHocMonHoc { get; set; } = null!;
 
-    public string Idchuongtrinhhoc { get; set; } = null!;
+    public string IdChuongTrinhHoc { get; set; } = null!;
 
-    public string Idmonhoc { get; set; } = null!;
+    public string IdMonHoc { get; set; } = null!;
 
-    public virtual Chuongtrinhhoc IdchuongtrinhhocNavigation { get; set; } = null!;
+    public virtual ChuongTrinhHoc IdChuongTrinhHocNavigation { get; set; } = null!;
 
-    public virtual Monhoc IdmonhocNavigation { get; set; } = null!;
+    public virtual MonHoc IdMonHocNavigation { get; set; } = null!;
 }

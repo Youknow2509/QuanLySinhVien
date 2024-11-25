@@ -3,29 +3,29 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Sinhvien
+public  class SinhVien
 {
-    public string Idsinhvien { get; set; } = null!;
+    public string IdSinhVien { get; set; } = null!;
 
-    public string Hoten { get; set; } = null!;
+    public string HoTen { get; set; } = null!;
 
     public string Lop { get; set; } = null!;
 
-    public DateTime Ngaysinh { get; set; }
+    public DateTime NgaySinh { get; set; }
 
-    public string? Diachi { get; set; }
+    public string? DiaChi { get; set; }
 
-    public string Idchuongtrinhhoc { get; set; } = null!;
+    public string IdChuongTrinhHoc { get; set; } = null!;
 
-    public string Idkhoa { get; set; } = null!;
+    public string IdKhoa { get; set; } = null!;
 
-    public virtual ICollection<Dangkynguyenvong> Dangkynguyenvongs { get; set; } = new List<Dangkynguyenvong>();
+    public virtual ICollection<DangKyNguyenVong> DangKyNguyenVongs { get; set; } = new List<DangKyNguyenVong>();
 
     public virtual ICollection<Diem> Diems { get; set; } = new List<Diem>();
 
-    public virtual Chuongtrinhhoc IdchuongtrinhhocNavigation { get; set; } = null!;
+    public virtual ChuongTrinhHoc IdChuongTrinhHocNavigation { get; set; } = null!;
 
-    public virtual Khoa IdkhoaNavigation { get; set; } = null!;
+    public virtual Khoa IdKhoaNavigation { get; set; } = null!;
 
-    public virtual ICollection<SinhvienLophocphan> SinhvienLophocphans { get; set; } = new List<SinhvienLophocphan>();
+    public virtual ICollection<SinhVienLopHocPhan> SinhVienLopHocPhans { get; set; } = new List<SinhVienLopHocPhan>();
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace web_qlsv.Models;
 
-public partial class Phonghoc
+public  class PhongHoc
 {
-    public string Idphonghoc { get; set; } = null!;
+    public string IdPhongHoc { get; set; } = null!;
 
-    public string Tenphonghoc { get; set; } = null!;
+    public string TenPhongHoc { get; set; } = null!;
 
-    public string Diachi { get; set; } = null!;
+    public string DiaChi { get; set; } = null!;
 
-    public virtual ICollection<Thoigian> Thoigians { get; set; } = new List<Thoigian>();
+    public virtual ICollection<ThoiGian> ThoiGians { get; set; } = new List<ThoiGian>();
 }
