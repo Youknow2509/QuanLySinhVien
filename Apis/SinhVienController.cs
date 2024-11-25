@@ -129,11 +129,13 @@ public class SinhVienController : ControllerBase
      */
     [HttpPost]
     public async Task<IActionResult> CreateSinhVien([FromBody] SinhVienDto sinhVien)
-    {   
+    {
         if (string.IsNullOrEmpty(sinhVien.IdSinhVien))
         {
             sinhVien.IdSinhVien = Guid.NewGuid().ToString();
-        } else {
+        }
+        else
+        {
             var existingSinhVien = await _context.SinhViens.FirstOrDefaultAsync(
                 x => x.IdSinhVien == sinhVien.IdSinhVien
             );
@@ -144,7 +146,8 @@ public class SinhVienController : ControllerBase
             }
         }
 
-        SinhVien newSinhVien = new SinhVien {
+        SinhVien newSinhVien = new SinhVien
+        {
             IdSinhVien = sinhVien.IdSinhVien,
             IdKhoa = sinhVien.IdKhoa,
             IdChuongTrinhHoc = sinhVien.IdChuongTrinhHoc,

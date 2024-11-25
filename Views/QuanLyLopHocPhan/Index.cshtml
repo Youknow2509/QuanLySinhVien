@@ -1,0 +1,384 @@
+@section Styles {
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- Page level plugins -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        // Handle edit name lop hoc phan
+        // set value into input field when click edit button
+        $('#editLopHocPhanModal').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            // Get data
+            var idLopHocPhan = button.attr('data-idLopHocPhan'); 
+            var idMonHoc = button.attr('data-idMonHoc');
+            var idGiaoVien = button.attr('data-idGiaoVien');
+            var tenLopHocPhan = button.closest('tr').find('td').eq(0).text();
+            // Set data source
+            $('#editLopHocPhanForm #idLopHocPhan').val(idLopHocPhan);
+            $('#editLopHocPhanForm #idMonHoc').val(idMonHoc);
+            $('#editLopHocPhanForm #idGiaoVien').val(idGiaoVien);
+            $('#editLopHocPhanForm #tenLopHocPhan').val(tenLopHocPhan);
+        });
+        // submit form edit
+        $('#editLopHocPhan').click(function () {
+            var idLopHocPhan = $('#editLopHocPhanForm #idLopHocPhan').val();
+            var idMonHoc = $('#editLopHocPhanForm #idMonHoc').val();
+            var idGiaoVien = $('#editLopHocPhanForm #idGiaoVien').val();
+            var tenLopHocPhan = $('#editLopHocPhanForm #tenLopHocPhan').val();
+            $.ajax({
+                url: `/api/lophocphan/${idLopHocPhan}`,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tenLopHocPhan: tenLopHocPhan,
+                    idGiaoVien: idGiaoVien,
+                    idMonHoc: idMonHoc,
+                    idLopHocPhan: idLopHocPhan
+                }),
+                success: function (data) {
+                    $('#editLopHocPhanModal').modal('hide');
+                    $('#dataTable').DataTable().ajax.reload();
+                },
+                error: function (data) {
+                    alert('Sửa lớp học phần thất bại');
+                    console.log(data);
+                }
+            });
+        });
+
+
+        // Handle delete lhp
+        $('#deleteLopHocPhanModal').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var id = button.data('id');
+
+            $('#deleteLopHocPhan').data('id', id);
+        });
+        $('#deleteLopHocPhan').click(function () {
+            var id = $('#deleteLopHocPhan').data('id');
+
+            $.ajax({
+                url: '/api/lophocphan/' + id,
+                type: 'DELETE',
+                success: function (data) {
+                    $('#deleteLopHocPhanModal').modal('hide');
+                    $('#dataTable').DataTable().ajax.reload();
+                },
+                error: function (data) {
+                    alert('Xóa lớp học phần thất bại');
+                    console.log(data);
+                }
+            });
+        });
+
+        // Create lop hoc phan
+        // Handle load mon hoc and giang vien when click create lop hoc phan
+        $('#createLopHocPhanModal').on('show.bs.modal', function (e) {
+            $.ajax({
+                url: '/api/monhoc/',
+                type: 'GET',
+                success: function (data) {
+                    var monHoc = $('#idMonHoc');
+                    monHoc.empty();
+                    monHoc.append('<option value="">Chọn môn học</option>');
+                    $.each(data, function (index, item) {
+                        monHoc.append('<option value="' + item.idMonHoc + '">' + item.tenMonHoc + '</option>');
+                    });
+                }
+            });
+
+            $.ajax({
+                url: '/api/giaovien/',
+                type: 'GET',
+                success: function (data) {
+                    var giaoVien = $('#idGiaoVien');
+                    giaoVien.empty();
+                    giaoVien.append('<option value="">Chọn giảng viên</option>');
+                    $.each(data, function (index, item) {
+                        giaoVien.append('<option value="' + item.idGiaoVien + '">' + item.tenGiaoVien + '</option>');
+                    });
+                }
+            });
+        });
+
+        // Handle create lop hoc phan
+        $('#createLopHocPhan').click(function () {
+            var tenLopHocPhan = $('#tenLopHocPhan').val().trim();
+            var idGiaoVien = $('#idGiaoVien').val().trim();
+            var idMonHoc = $('#idMonHoc').val().trim();
+            var ngayBatDau = $('#thoiGianBatDau').val().trim();
+            var ngayKetThuc = $('#thoiGianKetThuc').val().trim();
+
+            // Check if any required field is empty
+            if (!tenLopHocPhan || !idGiaoVien || !idMonHoc) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            $.ajax({
+                url: '/api/lophocphan/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    tenLopHocPhan: tenLopHocPhan,
+                    idGiaoVien: idGiaoVien,
+                    idMonHoc: idMonHoc,
+                    thoiGianBatDau: ngayBatDau,
+                    thoiGianKetThuc: ngayKetThuc
+                }),
+                success: function (data) {
+                    $('#createLopHocPhanModal').modal('hide');
+                    $('#dataTable').DataTable().ajax.reload();
+                },
+                error: function (data) {
+                    alert(`Lỗi: ${data.responseText}`);
+                    console.log(data);
+                }
+            });
+        });
+
+        function formatDateTimeForInput(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+        // Handle load and create data tables 
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                ajax: {
+                    url: '/api/lophocphan/',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'tenLopHocPhan',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyLopHocPhan/Details?IdLopHocPhan=' + row.idLopHocPhan + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'tenGiaoVien',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyGiaoVien/Details/?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'tenMonHoc',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyMonHoc/Details/?IdMonHoc=' + row.idMonHoc + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'thoiGianBatDau',
+                        render: function (data, type, row) {
+                            let date = new Date(data);
+                            let day = String(date.getDate()).padStart(2, '0');
+                            let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                            let year = date.getFullYear();
+                            return `${day}/${month}/${year}`;
+                        }
+                    },
+                    {
+                        data: 'thoiGianKetThuc',
+                        render: function (data, type, row) {
+                            let date = new Date(data);
+                            let day = String(date.getDate()).padStart(2, '0');
+                            let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                            let year = date.getFullYear();
+                            return `${day}/${month}/${year}`;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            let dateNow = formatDateTimeForInput(Date.now());
+                            if (row.thoiGianKetThuc < dateNow) {
+                                return '<span class="badge badge-danger">Đã Kết Thúc</span>';
+                            }
+                            else if (row.thoiGianBatDau <= dateNow) {
+                                return '<span class="badge badge-success">Đang Diễn Ra</span>';
+                            }
+                            else {
+                                return '<span class="badge badge-warning">Sắp Diễn Ra</span>';
+                            }
+                        },
+                    },
+                    {
+                        data: null,
+                        width: '12%',
+                        searchable: false,
+                        sortable: false,
+                        render: function (data, type, row) {
+                            return `      
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
+                                                    data-idLopHocPhan="${row.idLopHocPhan}" 
+                                                    data-idMonHoc="${row.idMonHoc}" 
+                                                    data-idGiaoVien="${row.idGiaoVien}">
+                                                    Sửa
+                                                </button>                             
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
+                                                    Xóa
+                                                </button>    
+                                            `;
+                        }
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+        });
+    </script>
+}
+
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bảng dữ liệu Lớp Học Phần</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Lớp Học Phần</th>
+                            <th>Giảng Viên</th>
+                            <th>Môn học</th>
+                            <th>Thời Gian Bắt Đầu</th>
+                            <th>Thời Gian Kết Thúc</th>
+                            <th>Trạng Thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Lớp Học Phần</th>
+                            <th>Giảng Viên</th>
+                            <th>Môn học</th>
+                            <th>Thời Gian Bắt Đầu</th>
+                            <th>Thời Gian Kết Thúc</th>
+                            <th>Trạng Thái</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog Create Lop Hoc Phan -->
+<div class="modal fade" id="createLopHocPhanModal" tabindex="-1" role="dialog"
+    aria-labelledby="createLopHocPhanModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createLopHocPhanModalLabel">Tạo mới Lớp Học Phần</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createLopHocPhanForm">
+                    <div class="form-group form-md-line-input">
+                        <label for="tenLopHocPhan">Tên Lớp Học Phần</label>
+                        <input type="text" class="form-control" id="tenLopHocPhan" name="tenLopHocPhan"
+                            placeholder="Nhập tên lớp học phần" required>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label for="idGiaoVien">Giảng Viên</label>
+                        <select class="form-control" id="idGiaoVien" name="idGiaoVien">
+                            <option value="">Chọn giảng viên</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label for="idMonHoc">Môn học</label>
+                        <select class="form-control" id="idMonHoc" name="idMonHoc">
+                            <option value="">Chọn môn học</option>
+                        </select>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label for="thoiGianBatDau">Thời Gian Bắt Đầu</label>
+                        <input type="date" class="form-control" id="thoiGianBatDau" name="thoiGianBatDau" required>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label for="thoiGianKetThuc">Thời Gian Kết Thúc</label>
+                        <input type="date" class="form-control" id="thoiGianKetThuc" name="thoiGianKetThuc" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="createLopHocPhan">Tạo mới</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button dialog create lhp -->
+<div class="container-fluid">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createLopHocPhanModal">
+        Tạo mới Lớp Học Phần
+    </button>
+</div>
+
+<!-- Dialog Xoa Lop Hoc Phan -->
+<div class="modal fade" id="deleteLopHocPhanModal" tabindex="-1" role="dialog"
+    aria-labelledby="deleteLopHocPhanModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteLopHocPhanModalLabel">Xóa Lớp Học Phần</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa lớp học phần này không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="deleteLopHocPhan">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog sua tem lop hoc phan -->
+<div class="modal fade" id="editLopHocPhanModal" tabindex="-1" role="dialog" aria-labelledby="editLopHocPhanModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLopHocPhanModalLabel">Sửa Lớp Học Phần</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editLopHocPhanForm">
+                    <div class="form-group">
+                        <label for="tenLopHocPhan">Tên Lớp Học Phần</label>
+                        <input type="text" class="form-control" id="tenLopHocPhan" name="tenLopHocPhan"
+                            placeholder="Nhập tên lớp học phần" required>
+                        <input type="hidden" name="idLopHocPhan" id="idLopHocPhan">
+                        <input type="hidden" name="idMonHoc" id="idMonHoc">
+                        <input type="hidden" name="idGiaoVien" id="idGiaoVien">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="editLopHocPhan">Sửa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

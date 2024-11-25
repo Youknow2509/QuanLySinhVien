@@ -1,0 +1,179 @@
+@section Styles {
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- jquery -->
+    <script src="~/sb-admin/vendor/jquery/jquery.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        // Define base API URL with escaped ID
+        const baseUrl = `/api/chuongtrinhhoc`;
+        const idChuongTrinhHoc = '@(ViewBag.IdChuongTrinhhoc)';  // Ensuring it's a string
+
+        // Handle deleting a course from curriculum
+        function deleteMonHocInChuongTrinhHoc(idMonHoc) {
+            console.log(`Deleting ${idMonHoc} from ${idChuongTrinhHoc}`);
+            $.ajax({
+                url: `${baseUrl}/delete/${idMonHoc}/from/${idChuongTrinhHoc}/`,
+                type: 'DELETE',
+                success: function () {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(`Delete failed: ${status} - ${error}`);
+                    alert('Xóa thất bại!');
+                }
+            });
+        }
+
+        // Handle adding a course to curriculum
+        function addMonHocToChuongTrinhHoc(idMonHoc) {
+            console.log(`Adding ${idMonHoc} to ${idChuongTrinhHoc}`);
+            $.ajax({
+                url: `${baseUrl}/add/${idMonHoc}/to/${idChuongTrinhHoc}/`,
+                type: 'PUT',
+                success: function () {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(`Add failed: ${status} - ${error}`);
+                    alert('Thêm thất bại!');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // Initialize DataTables as before
+            $('#dataTable_1').DataTable({
+                ajax: {
+                    url: `${baseUrl}/details/${idChuongTrinhHoc}`,
+                    type: 'GET',
+                    dataSrc: 'monHocInChuongTrinhHoc',
+                },
+                columns: [
+                    {
+                        data: 'tenMonHoc',
+                        render: function (data, type, row) {
+                            return `<a href="/Admin/QuanLyMonHoc/Details?IdMonHoc=${row.idMonHoc}">${data}</a>`;
+                        }
+                    },
+                    { data: 'soTinChi' },
+                    { data: 'soTietHoc' },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return `<button type="button" class="btn btn-danger" onclick="deleteMonHocInChuongTrinhHoc('${row.idMonHoc}')">Xóa</button>`;
+                        },
+                        sortable: false,
+                        searchable: false,
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+
+            $('#dataTable_2').DataTable({
+                ajax: {
+                    url: `${baseUrl}/details/${idChuongTrinhHoc}`,
+                    type: 'GET',
+                    dataSrc: 'monHocKhongCo',
+                },
+                columns: [
+                    {
+                        data: 'tenMonHoc',
+                        render: function (data, type, row) {
+                            return `<a href="/Admin/QuanLyMonHoc/Details?IdMonHoc=${row.idMonHoc}">${data}</a>`;
+                        }
+                    },
+                    { data: 'soTinChi' },
+                    { data: 'soTietHoc' },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return `<button type="button" class="btn btn-primary" onclick="addMonHocToChuongTrinhHoc('${row.idMonHoc}')">Thêm</button>`;
+                        },
+                        sortable: false,
+                        searchable: false,
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+        });
+
+    </script>
+}
+
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bảng Các Môn Đang Có Trong Chương Trình Học</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable_1" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tên Môn Học</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tên Môn Học</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Bang Cac Mon Khong Co Trong Chuong Trinh Hoc -->
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bảng Các Môn Không Có Trong Chương Trình Học</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable_2" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tên Môn Học</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tên Môn Học</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->

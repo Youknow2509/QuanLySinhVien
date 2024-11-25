@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Oracle.ManagedDataAccess.Client; 
+using Oracle.ManagedDataAccess.Client;
 //
 using web_qlsv.Data;
 

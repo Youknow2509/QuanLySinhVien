@@ -1,0 +1,633 @@
+@model LopHocPhan;
+
+@{
+    ViewBag.Title = "Chi tiết lớp học phần " + Model.TenHocPhan;
+}
+
+<h2 class="container-fluid">Chi tiết lớp học phần @Model.TenHocPhan</h2>
+
+<!-- Calendar lop hop phan -->
+<div class="container-fluid">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <h3 class="box-title mt-5">Lịch Học Của Lớp Học Phần</h3>
+        <div class="table-responsive" id="calendar">
+            <!-- js render calendar here -->
+        </div>
+    </div>
+</div>
+
+<!-- DataTales Sinh Vien Thuoc Lop Hoc Phan -->
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <h3 class="box-title mt-5">Danh Sách Sinh Viên Thuộc Lớp Học Phần</h3>
+    <div class="table-responsive">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Họ Và Tên</th>
+                                <th>Lớp</th>
+                                <th>Ngày Sinh</th>
+                                <th>Địa Chỉ</th>
+                                <th>Chương Trình Học</th>
+                                <th>Khoa</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Họ Và Tên</th>
+                                <th>Lớp</th>
+                                <th>Ngày Sinh</th>
+                                <th>Địa Chỉ</th>
+                                <th>Chương Trình Học</th>
+                                <th>Khoa</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Danh Sách Điểm Lớp Học Phần -->
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <h3 class="box-title mt-5">Danh Sách Điểm Sinh Viên Thuộc Lớp Học Phần</h3>
+    <div class="table-responsive">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable_diem" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Sinh Viên</th>
+                                <th>Điểm Quá Trình</th>
+                                <th>Điểm Kết Thúc</th>
+                                <th>Điểm Tổng Kết</th>
+                                <th>Trạng Thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Sinh Viên</th>
+                                <th>Điểm Quá Trình</th>
+                                <th>Điểm Kết Thúc</th>
+                                <th>Điểm Tổng Kết</th>
+                                <th>Trạng Thái</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button load csv file up sinh vien -->
+<div id="UploadSinhVienCSV" class="container-fluid mb-4 mt-4">
+    <form asp-action="UploadSinhVienCSV" asp-controller="QuanLyLopHocPhan" asp-area="Admin" method="post"
+        enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv" />
+        <input hidden="true" type="text" name="idLopHocPhan" value="@Model.IdLopHocPhan" />
+        <button type="submit" class="btn btn-primary" id="loadcsv">
+            Upload CSV
+        </button>
+    </form>
+</div>
+
+<!-- Dialog modal sua diem -->
+<div class="modal fade" id="modalSuaDiem" tabindex="-1" role="dialog" aria-labelledby="modalSuaDiemLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSuaDiemLabel">Sửa Điểm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formSuaDiem">
+                    <div class="form-group">
+                        <label for="diemQuaTrinh">Điểm Quá Trình</label>
+                        <input type="number" class="form-control" id="diemQuaTrinh" name="diemQuaTrinh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diemKetThuc">Điểm Kết Thúc</label>
+                        <input type="number" class="form-control" id="diemKetThuc" name="diemKetThuc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diemTongKet">Điểm Tổng Kết</label>
+                        <input type="number" class="form-control" id="diemTongKet" name="diemTongKet" required>
+                    </div>
+                    <input type="hidden" id="idDiem" name="idDiem">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSuaDiem">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hiển Bảng Thời Gian Lớp Học Phần -->
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <h3 class="box-title mt-5">Chi Tiết Thời Gian Lớp Học Phần</h3>
+    <div class="box-body mt-3">
+        <div class="form-group">
+            <p>&emsp;Lớp Học Phần @Model.TenHocPhan có thời gian từ: @(Model.ThoiGianBatDau) đến @(Model.ThoiGianKetThuc).</p>
+            <p>&emsp;Số tín chỉ:  và số tiết học: </p>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable_date" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Thời Gian Bắt Đầu</th>
+                                <th>Thời Gian Kết Thúc</th>
+                                <th>Địa Điểm</th>
+                                <th>Trạng Thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Thời Gian Bắt Đầu</th>
+                                <th>Thời Gian Kết Thúc</th>
+                                <th>Địa Điểm</th>
+                                <th>Trạng Thái</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Dialog modal sua thoi gian -->
+<div class="modal fade" id="modalSuaThoiGian" tabindex="-1" role="dialog" aria-labelledby="modalSuaThoiGianLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSuaThoiGianLabel">Sửa Thời Gian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formSuaThoiGian">
+                    <div class="form-group">
+                        <label for="thoiGianBatDau">Thời Gian Bắt Đầu</label>
+                        <input type="datetime-local" class="form-control" id="thoiGianBatDau" name="thoiGianBatDau"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="thoiGianKetThuc">Thời Gian Kết Thúc</label>
+                        <input type="datetime-local" class="form-control" id="thoiGianKetThuc" name="thoiGianKetThuc"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diaDiem">Địa Điểm</label>
+                        <input type="text" class="form-control" id="diaDiem" name="diaDiem" required>
+                    </div>
+                    <input type="hidden" id="idThoiGian" name="idThoiGian">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSuaThoiGian">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm Thời Gian Lớp Học Phần Modal -->
+<div id="divThemThoiGianLopHocPhan" class="container-fluid">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalThemThoiGian">
+        Thêm Thời Gian</button>
+    <!-- Button load csv file -->
+    <div class="container-fluid mb-4 mt-4">
+        <form asp-action="UploadThoiGianCSV" asp-controller="QuanLyLopHocPhan" asp-area="Admin" method="post"
+            enctype="multipart/form-data">
+            <input type="file" name="file" accept=".csv" />
+            <input hidden="true" type="text" name="idLopHocPhan" value="@Model.IdLopHocPhan" />
+            <button type="submit" class="btn btn-primary" id="loadcsv">
+                Upload CSV
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="modalThemThoiGian" tabindex="-1" role="dialog" aria-labelledby="modalThemThoiGianLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalThemThoiGianLabel">Thêm Thời Gian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-body-scroll">
+                <form id="formThemThoiGian">
+                    <div class="form-group">
+                        <label for="themThoiGianBatDau">Thời Gian Bắt Đầu</label>
+                        <input type="datetime-local" class="form-control" id="themThoiGianBatDau"
+                            name="themThoiGianBatDau" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="themThoiGianKetThuc">Thời Gian Kết Thúc</label>
+                        <input type="datetime-local" class="form-control" id="themThoiGianKetThuc"
+                            name="themThoiGianKetThuc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="themDiaDiem">Địa Điểm</label>
+                        <input type="text" class="form-control" id="themDiaDiem" name="themDiaDiem" required>
+                    </div>
+                    <input type="hidden" id="idLopHocPhan" name="idLopHocPhan" value="@Model.IdLopHocPhan">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnThemThoiGian">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    <!-- Calendar -->
+    <link rel='stylesheet' href='~/lib/fullcalendar-6.1.15/css/v_calendar.css' />
+    <!-- Data table -->
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- Calendar -->
+    <script src='~/lib/fullcalendar-6.1.15/dist/index.global.min.js'></script>
+    <!-- Data table -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        function formatDateTimeForInput(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+        $(document).ready(function () {
+            // Calendar events
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                displayEventTime: false,
+                initialView: 'dayGridMonth', // 'dayGridWeek', 'timeGridDay', 'listWeek'
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    today: 'Hôm nay',
+                    month: 'Tháng',
+                    week: 'Tuần',
+                    day: 'Ngày',
+                    list: 'Danh sách',
+                },
+                locale: 'vi',
+                timeZone: 'Asia/Ho_Chi_Minh',
+                titleFormat: {},
+                events: function (fetchInfo, successCallback, failureCallback) {
+                    $.ajax({
+                        url: '/api/calendar/lophocphan/@Model.IdLopHocPhan',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var events = data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    groupId: item.groupId,
+                                    title: item.title,
+                                    description: item.description,
+                                    start: item.start,
+                                    end: item.end,
+                                };
+                            });
+                            successCallback(events);
+                        },
+                        error: function () {
+                            failureCallback();
+                        }
+                    });
+                }
+            });
+            calendar.render();
+            window.calendar = calendar;
+
+            // Data table 
+            $('#dataTable').DataTable({
+                ajax: {
+                    url: '/api/sinhvien/@Model.IdLopHocPhan/lophocphan',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'tenSinhVien',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'lop',
+                    },
+                    {
+                        data: 'ngaySinh',
+                    },
+                    {
+                        data: 'diaChi',
+                    },
+                    {
+                        data: 'tenChuongTrinhHoc',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'tenKhoa',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
+                        }
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+
+            // Data table điểm sinh viên lớp học phần
+            $('#dataTable_diem').DataTable({
+                ajax: {
+                    url: '/api/diem/@Model.IdLopHocPhan/lophocphan',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'tenSinhVien',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'diemQuaTrinh',
+                    },
+                    {
+                        data: 'diemKetThuc',
+                    },
+                    {
+                        data: 'diemTongKet',
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (row.diemTongKet <= 4) {
+                                return '<span class="badge badge-danger">Học Lại</span>';
+                            }
+                            else {
+                                return '<span class="badge badge-success">Qua Môn</span>';
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return `
+                                                                        <button class="btn btn-primary btn-sm" 
+                                                                            data-toggle="modal" data-target="#modalSuaDiem" 
+                                                                            data-idDiem="${row.idDiem}" 
+                                                                            data-diem-qua-trinh="${row.diemQuaTrinh}" 
+                                                                            data-diem-ket-thuc="${row.diemKetThuc}" 
+                                                                            data-diem-tong-ket="${row.diemTongKet}">
+                                                                        Sửa
+                                                                        </button>
+                                                                    `;
+                        }
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+
+            /**
+             * Sự kiện click button sửa điểm
+             */
+            // Lấy và gán giá trị vào modal sửa điểm
+            $('#modalSuaDiem').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                // get
+                var idDiem = button.attr('data-idDiem');
+                var diemQuaTrinh = button.attr('data-diem-qua-trinh');
+                var diemKetThuc = button.attr('data-diem-ket-thuc');
+                var diemTongKet = button.attr('data-diem-tong-ket');
+                // set
+                $('#idDiem').val(idDiem);
+                $('#diemQuaTrinh').val(diemQuaTrinh);
+                $('#diemKetThuc').val(diemKetThuc);
+                $('#diemTongKet').val(diemTongKet);
+                // changle title
+                $('#modalSuaDiemLabel').text('Sửa Điểm Sinh Viên ' + button.closest('tr').find('td:eq(0)').text());
+            });
+            // Ajax sửa điểm
+            $('#btnSuaDiem').click(function () {
+                var form = $('#formSuaDiem');
+                $.ajax({
+                    url: '/api/diem/nhap',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        idDiem: $('#idDiem').val(),
+                        diemQuaTrinh: $('#diemQuaTrinh').val(),
+                        diemKetThuc: $('#diemKetThuc').val(),
+                        diemTongKet: $('#diemTongKet').val(),
+                    }),
+                    success: function (data) {
+                        $('#modalSuaDiem').modal('hide');
+                        $('#dataTable_diem').DataTable().ajax.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                        alert('Có lỗi xảy ra, vui lòng thử lại sau');
+                    }
+                });
+            });
+
+            /**
+             * Xử Lí Bảng Thời Gian
+             */
+
+            // Data table thời gian lớp học phần
+            var dataTable_date = $('#dataTable_date').DataTable({
+                ajax: {
+                    url: '/api/calendar/lophocphan/@Model.IdLopHocPhan',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'start',
+                        render: function (data, type, row) {
+                            return new Date(data).toLocaleString();
+                        }
+                    },
+                    {
+                        data: 'end',
+                        render: function (data, type, row) {
+                            return new Date(data).toLocaleString();
+                        }
+                    },
+                    { data: 'diaDiem' },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (new Date(row.end) < Date.now()) {
+                                return '<span class="badge badge-danger">Đã Kết Thúc</span>';
+                            }
+                            else if (new Date(row.start) <= Date.now()) {
+                                return '<span class="badge badge-success">Đang Diễn Ra</span>';
+                            }
+                            else {
+                                return '<span class="badge badge-warning">Sắp Diễn Ra</span>';
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (new Date(row.start) <= Date.now()) {
+                                return '';
+                            }
+                            else {
+                                return `
+                                                                        <button class="btn btn-primary btn-sm" 
+                                                                            data-toggle="modal" data-target="#modalSuaThoiGian"
+                                                                            data-idThoiGian="${row.id}"
+                                                                            data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
+                                                                            data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
+                                                                            >
+                                                                        Sửa
+                                                                        </button>
+                                                                    `;
+                            }
+                        },
+                        searchable: false,
+                        sortable: false,
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+
+            // Get set model thoi gian
+            $('#modalSuaThoiGian').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                // get
+                var idThoiGian = button.attr('data-idThoiGian');
+                var thoiGianBatDau = button.attr('data-thoi-gian-bat-dau');
+                var thoiGianKetThuc = button.attr('data-thoi-gian-ket-thuc');
+                // set
+                $('#idThoiGian').val(idThoiGian);
+                $('#thoiGianBatDau').val(thoiGianBatDau);
+                $('#thoiGianKetThuc').val(thoiGianKetThuc);
+            });
+            // Ajax edit thoi gian
+            $('#btnSuaThoiGian').click(function () {
+                var form = $('#formSuaThoiGian');
+                $.ajax({
+                    url: '/api/lophocphan/thaydoithoigian',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        IdThoiGian: $('#idThoiGian').val(),
+                        ThoiGianBatDau: $('#thoiGianBatDau').val(),
+                        ThoiGianKetThuc: $('#thoiGianKetThuc').val(),
+                        DiaDiem: $('#diaDiem').val(),
+                        IdLopHocPhan: '@Model.IdLopHocPhan'
+                    }),
+                    success: function (data) {
+                        $('#modalSuaThoiGian').modal('hide');
+                        $('#dataTable_date').DataTable().ajax.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(`Lỗi: ${xhr.responseText}`);
+                    }
+                });
+            });
+
+            /**
+             * Thêm thời gian vào lớp học phần
+             */
+            var checkThemTh_lhp = true;
+            // Kiểm tra xem lớp học phần diễn ra chưa, nếu rồi thì tắt nút thêm
+            @* if (new Date('@Model.ThoiGianBatDau.Value.ToString("MM/dd/yyyy")') <= new Date()) {
+                $('#modalThemThoiGian').hide();
+                $('#divThemThoiGianLopHocPhan').hide();
+                $('#UploadSinhVienCSV').hide();
+                checkThemTh_lhp = false;
+            } *@
+            // Kiểm tra đã đủ tiết chưa, nếu rồi thì tắt nút thêm
+            @* $.ajax({
+                url: '/api/calendar/lophocphan/@Model.IdLopHocPhan',
+                type: 'GET',
+                success: function (data) {
+                    if (data.length * 3 >= @Model.MonHocs.SoTietHoc) {
+                        $('#modalThemThoiGian').hide();
+                        $('#divThemThoiGianLopHocPhan').hide();
+                        checkThemTh_lhp = false;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(`Lỗi: ${xhr.responseText}`);
+                }
+            }); *@
+            // Sự kiện click button thêm thời gian
+            $('#btnThemThoiGian').click(function () {
+                if (checkThemTh_lhp) {
+                    var form = $('#formThemThoiGian');
+                    $.ajax({
+                        url: '/api/lophocphan/themthoigian',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            ThoiGianBatDau: $('#themThoiGianBatDau').val(),
+                            ThoiGianKetThuc: $('#themThoiGianKetThuc').val(),
+                            DiaDiem: $('#themDiaDiem').val(),
+                            IdLopHocPhan: '@Model.IdLopHocPhan'
+                        }),
+                        success: function (data) {
+                            $('#modalThemThoiGian').modal('hide');
+                            $('#dataTable_date').DataTable().ajax.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            alert(`Lỗi: ${xhr.responseText}`);
+                        }
+                    });
+                }
+                else {
+                    alert('Lớp học phần đã diễn ra hoặc đã đủ tiết học');
+                }
+            });
+        });
+    </script>
+}

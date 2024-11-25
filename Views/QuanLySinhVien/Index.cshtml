@@ -1,0 +1,104 @@
+
+@section Styles {
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- Page level plugins -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                ajax: {
+                    url: '/api/sinhvien/',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+                columns: [
+                    {
+                        data: 'tenSinhVien',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'lop',
+                    },
+                    {
+                        data: 'ngaySinh',
+                    },
+                    {
+                        data: 'diaChi',
+                    },
+                    {
+                        data: 'tenChuongTrinhHoc',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'tenKhoa',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
+                        }
+                    },
+                ],
+            });
+        });
+    </script>
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bảng dữ liệu Sinh Viên</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Họ Và Tên</th>
+                            <th>Lớp</th>
+                            <th>Ngày Sinh</th>
+                            <th>Địa Chỉ</th>
+                            <th>Chương Trình Học</th>
+                            <th>Khoa</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Họ Và Tên</th>
+                            <th>Lớp</th>
+                            <th>Ngày Sinh</th>
+                            <th>Địa Chỉ</th>
+                            <th>Chương Trình Học</th>
+                            <th>Khoa</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Button load csv file -->
+<div class="container-fluid mb-4">
+    <form asp-action="UploadCSV" asp-controller="QuanLySinhVien" asp-area="Admin"
+        method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv" />
+        <button type="submit" class="btn btn-primary" id="loadcsv">
+            Upload CSV
+        </button>
+    </form>
+</div>
+<!-- /.container-fluid -->

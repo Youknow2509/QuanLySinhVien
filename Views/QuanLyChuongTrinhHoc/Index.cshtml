@@ -1,0 +1,197 @@
+@section Styles {
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- Page level plugins -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        $(document).ready(function () {
+            // handle add chuong trinh hoc
+            $('#addChuongTrinhHocForm').submit(function (e) {
+                e.preventDefault();
+                var tenChuongTrinhHoc = $('#tenChuongTrinhHoc').val();
+                $.ajax({
+                    url: `/api/chuongtrinhhoc/create?TenChuongTrinhHoc=${tenChuongTrinhHoc}`,
+                    type: 'POST',
+                    success: function (data) {
+                        $('#addChuongTrinhHocModal').modal('hide');
+                        $('#tenChuongTrinhHoc').val('');
+                        $('#dataTable').DataTable().ajax.reload();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert('Thêm chương trình học thất bại');
+                    }
+                });
+            });
+
+            // handle edit chuong trinh hoc
+            $('#dataTable').on('click', '.edit-btn', function () {
+                var idChuongTrinhHoc = $(this).attr('data-id');
+                var tenChuongTrinhHoc = $(this).closest('tr').find('td:first').text(); // get the program name
+
+                $('#editChuongTrinhHocForm').attr('data-id', idChuongTrinhHoc); // set the ID on the form
+                $('#editChuongTrinhHocForm #tenChuongTrinhHoc').val(tenChuongTrinhHoc); // set the name in the input
+            });
+
+            $('#editChuongTrinhHocForm').submit(function (e) {
+                e.preventDefault();
+                var idChuongTrinhHoc = $(this).attr('data-id');
+                var tenChuongTrinhHoc = $('#editChuongTrinhHocForm #tenChuongTrinhHoc').val();
+
+                $.ajax({
+                    url: `/api/chuongtrinhhoc/update/${idChuongTrinhHoc}?TenChuongTrinhHoc=${tenChuongTrinhHoc}`,
+                    type: 'PUT',
+                    success: function (data) {
+                        $('#editChuongTrinhHocModal').modal('hide');
+                        $('#editChuongTrinhHocForm #tenChuongTrinhHoc').val('');
+                        $('#dataTable').DataTable().ajax.reload();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert('Sửa chương trình học thất bại');
+                    }
+                });
+            });
+
+            // handle delete chuong trinh hoc
+            $('#dataTable').on('click', '.delete-btn', function () {
+                var idChuongTrinhHoc = $(this).attr('data-id');
+                if (confirm('Bạn có chắc chắn muốn xóa chương trình học này không?')) {
+                    $.ajax({
+                        url: `/api/chuongtrinhhoc/delete/${idChuongTrinhHoc}`,
+                        type: 'DELETE',
+                        success: function (data) {
+                            console.log("Xóa chương trình học thành công - " + data);
+                            $('#dataTable').DataTable().ajax.reload();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            alert('Xóa chương trình học thất bại');
+                        }
+                    });
+                }
+            });
+
+            // handle data table dataTable
+            $('#dataTable').DataTable({
+                ajax: {
+                    url: '/api/chuongtrinhhoc/',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'tenChuongTrinhHoc',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: null,
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row) {
+                            return `
+                                                    <button class="edit-btn btn btn-warning" data-id="${row.idChuongTrinhHoc}" data-toggle="modal" data-target="#editChuongTrinhHocModal">Sửa</button>
+                                                    <button class="delete-btn btn btn-danger" data-id="${row.idChuongTrinhHoc}">Xóa</button>
+                                                `;
+                        }
+                    }
+                ],
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+        });
+    </script>
+}
+
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bảng dữ liệu Chương Trình Học</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tên Chương Trình Học</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tên Chương Trình Học</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<!-- Them chuong trinh hoc moi -->
+<div class="modal fade" id="addChuongTrinhHocModal" tabindex="-1" role="dialog"
+    aria-labelledby="addChuongTrinhHocModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addChuongTrinhHocModalLabel">Thêm Chương Trình Học Mới</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addChuongTrinhHocForm">
+                    <div class="form-group" role="form">
+                        <label for="tenChuongTrinhHoc">Tên Chương Trình Học</label>
+                        <input type="text" class="form-control" id="tenChuongTrinhHoc" name="tenChuongTrinhHoc"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <!-- Button them chuong trinh hoc moi -->
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addChuongTrinhHocModal">Thêm Chương Trình Học
+        Mới
+    </button>
+</div>
+
+<!-- diaglog sua -->
+<div class="modal fade" id="editChuongTrinhHocModal" tabindex="-1" role="dialog"
+    aria-labelledby="editChuongTrinhHocModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editChuongTrinhHocModalLabel">Sửa Chương Trình Học</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editChuongTrinhHocForm">
+                    <div class="form-group ajaxForm">
+                        <label for="tenChuongTrinhHoc">Tên Chương Trình Học</label>
+                        <input type="text" class="form-control" id="tenChuongTrinhHoc" name="tenChuongTrinhHoc"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sửa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

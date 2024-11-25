@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace qlsv.Controllers
+namespace web_qlsv.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

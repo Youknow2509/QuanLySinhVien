@@ -1,0 +1,75 @@
+@model MonHoc
+
+@{
+    ViewBag.Title = "Chi tiết môn học";
+}
+
+@section Styles {
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- Page level plugins -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Handle data  table -->
+    <script>
+        // handle data table
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                ajax: {
+                    url: '/api/LopHocPhan/@Model.IdMonHoc/lophocphan/',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                columns: [
+                    {
+                        data: 'tenHocPhan',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyLopHocPhan/Details?IdLopHocPhan=' + row.idLopHocPhan + '">' + data + '</a>';
+                        }
+                    },
+                    {
+                        data: 'tenGiaoVien',
+                        render: function (data, type, row) {
+                            return '<a href="/Admin/QuanLyGiaoVien/Details?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
+                        }
+                    }
+                ],
+                responsive: true,
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+            });
+        });
+
+    </script>
+}
+
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Các Lớp Học Phần Đang Dạy Môn @Model.TenMonHoc</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Lớp Học Phần</th>
+                            <th>Giảng Viên</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Lớp Học Phần</th>
+                            <th>Giảng Viên</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

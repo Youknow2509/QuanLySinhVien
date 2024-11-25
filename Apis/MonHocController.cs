@@ -9,7 +9,7 @@ using web_qlsv.Models;
 using Microsoft.EntityFrameworkCore;
 using web_qlsv.Dto;
 
-namespace qlsv.Controllers;
+namespace web_qlsv.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
