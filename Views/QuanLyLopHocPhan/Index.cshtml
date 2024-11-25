@@ -104,6 +104,24 @@
                     });
                 }
             });
+            // Function to format date to yyyy-MM-dd
+            function formatDateForInput(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2) month = '0' + month;
+                if (day.length < 2) day = '0' + day;
+
+                return [year, month, day].join('-');
+            }
+
+            // set thoiGianBatDau to now
+            $('#thoiGianBatDau').val(formatDateForInput(new Date()));
+            // set thoiGianKetThuc to now + 1 day
+            $('#thoiGianKetThuc').val(formatDateForInput(new Date(Date.now() + 86400000)));
+
         });
 
         // Handle create lop hoc phan
@@ -220,16 +238,16 @@
                         sortable: false,
                         render: function (data, type, row) {
                             return `      
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
-                                                        data-idLopHocPhan="${row.idLopHocPhan}" 
-                                                        data-idMonHoc="${row.idMonHoc}" 
-                                                        data-idGiaoVien="${row.idGiaoVien}">
-                                                        Sửa
-                                                    </button>                             
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
-                                                        Xóa
-                                                    </button>    
-                                                `;
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
+                                                            data-idLopHocPhan="${row.idLopHocPhan}" 
+                                                            data-idMonHoc="${row.idMonHoc}" 
+                                                            data-idGiaoVien="${row.idGiaoVien}">
+                                                            Sửa
+                                                        </button>                             
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
+                                                            Xóa
+                                                        </button>    
+                                                    `;
                         }
                     }
                 ],
