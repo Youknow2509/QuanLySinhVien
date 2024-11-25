@@ -37,7 +37,7 @@ public class QuanLyMonHocController : Controller
      */
     public IActionResult Details(string IdMonHoc)
     {
-        var monHoc = _context.MonHocs.Find(IdMonHoc);
+        var monHoc = _context.MonHocs.FirstOrDefault(x => x.IdMonHoc == IdMonHoc);;
         if (monHoc == null)
         {
             return NotFound();

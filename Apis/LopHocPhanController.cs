@@ -319,26 +319,28 @@ public class LopHocPhanController : ControllerBase
     }
 
     /**
-     * GET: api/monhoc/{idLopHocPhan}/lophocphan/
+     * GET: api/monhoc/{idLopHocPhan}/monhoc/
      * Get lop hoc phan from id mon hoc
      */
-    [HttpGet("{idLopHocPhan}/lophocphan")]
-    public async Task<IActionResult> GetLopHocPhanFromMonHoc(string idLopHocPhan)
+    [HttpGet("{idMonHoc}/monhoc")]
+    public async Task<IActionResult> GetLopHocPhanFromMonHoc(string idMonHoc)
     {
         // query
         var qr = await (
             from lhp in _context.LopHocPhans
-            where lhp.IdLopHocPhan == idLopHocPhan
+            where lhp.IdMonHoc == idMonHoc
             join gv in _context.GiaoViens on lhp.IdGiaoVien equals gv.IdGiaoVien
             select new
             {
                 IdLopHocPhan = lhp.IdLopHocPhan,
                 IdGiaoVien = gv.IdGiaoVien,
                 IdMonHoc = lhp.IdMonHoc,
+
                 TenHocPhan = lhp.TenHocPhan,
                 TenGiaoVien = gv.TenGiaoVien,
                 ThoiGianBatDau = lhp.ThoiGianBatDau,
                 ThoiGianKetThuc = lhp.ThoiGianKetThuc,
+                
                 SoTinChi = lhp.SoTinChi,
                 SoTietHoc = lhp.SoTietHoc,
             }

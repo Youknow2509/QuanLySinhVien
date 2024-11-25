@@ -19,7 +19,7 @@
         $(document).ready(function () {
             $('#dataTable').DataTable({
                 ajax: {
-                    url: '/api/LopHocPhan/@Model.IdMonHoc/lophocphan/',
+                    url: '/api/LopHocPhan/@Model.IdMonHoc/monhoc/',
                     type: 'GET',
                     dataSrc: '',
                 },
@@ -34,6 +34,34 @@
                         data: 'tenGiaoVien',
                         render: function (data, type, row) {
                             return '<a href="/QuanLyGiaoVien/Details?IdGiaoVien=' + row.idGiaoVien + '">' + data + '</a>';
+                        }
+                    },
+                    { data: 'soTinChi' },
+                    { data: 'soTietHoc' },
+                    {
+                        data: 'thoiGianBatDau',
+                        render: function (data) {
+                            if (data) {
+                                var date = new Date(data);
+                                var day = ('0' + date.getDate()).slice(-2);
+                                var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                                var year = date.getFullYear();
+                                return `${day}-${month}-${year}`;
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        data: 'thoiGianKetThuc',
+                        render: function (data) {
+                            if (data) {
+                                var date = new Date(data);
+                                var day = ('0' + date.getDate()).slice(-2);
+                                var month = ('0' + (date.getMonth() + 1)).slice(-2);
+                                var year = date.getFullYear();
+                                return `${day}-${month}-${year}`;
+                            }
+                            return '';
                         }
                     }
                 ],
@@ -60,12 +88,20 @@
                         <tr>
                             <th>Lớp Học Phần</th>
                             <th>Giảng Viên</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết Học</th>
+                            <th>Thời Gian Bắt Đầu</th>
+                            <th>Thời Gian Kết Thúc</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Lớp Học Phần</th>
                             <th>Giảng Viên</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết Học</th>
+                            <th>Thời Gian Bắt Đầu</th>
+                            <th>Thời Gian Kết Thúc</th>
                         </tr>
                     </tfoot>
                 </table>

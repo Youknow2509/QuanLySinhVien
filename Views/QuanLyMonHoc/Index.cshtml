@@ -17,8 +17,6 @@
             var button = $(e.relatedTarget);
             // get
             var tenMonHoc = button.attr('data-tenMonHoc');
-            var soTinChi = button.attr('data-soTinChi');
-            var soTiet = button.attr('data-soTiet');
             var idKhoa = button.attr('data-idKhoa');
             var idMonHoc = button.attr('data-idMonHoc');
             // handle select khoa
@@ -43,20 +41,16 @@
             });
             // set
             $('#editTenMonHoc').val(tenMonHoc);
-            $('#editSoTinChi').val(soTinChi);
-            $('#editSoTiet').val(soTiet);
             $('#editIdMonHoc').val(idMonHoc);
 
         });
         // Ajax request edit mon hoc
         $('#editMonHoc').click(function () {
             var tenMonHoc = $('#editTenMonHoc').val();
-            var soTinChi = $('#editSoTinChi').val();
-            var soTiet = $('#editSoTiet').val();
             var idKhoa = $('#editIdKhoa').val();
             var idMonHoc = $('#editIdMonHoc').val();
 
-            if (!tenMonHoc || !soTinChi || !soTiet || !idKhoa) {
+            if (!tenMonHoc || !idKhoa) {
                 alert('Vui lòng nhập đầy đủ thông tin');
                 return;
             }
@@ -68,8 +62,6 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     tenMonHoc: tenMonHoc,
-                    soTinChi: soTinChi,
-                    soTiet: soTiet,
                     idKhoa: idKhoa,
                     idMonHoc: idMonHoc,
                 }),
@@ -130,11 +122,9 @@
         // Ajax create mon hoc 
         $('#createMonHoc').click(function () {
             var tenMonHoc = $('#tenMonHoc').val().trim();
-            var soTinChi = $('#soTinChi').val().trim();
-            var soTiet = $('#soTiet').val().trim();
             var idKhoa = $('#idKhoa').val().trim();
 
-            if (!tenMonHoc || !soTinChi || !soTiet || !idKhoa) {
+            if (!tenMonHoc || !idKhoa) {
                 alert('Vui lòng nhập đầy đủ thông tin');
                 return;
             }
@@ -146,8 +136,6 @@
                 contentType: 'application/json',
                 data: JSON.stringify({
                     tenMonHoc: tenMonHoc,
-                    soTinChi: soTinChi,
-                    soTiet: soTiet,
                     idKhoa: idKhoa,
                 }),
                 success: function (data) {
@@ -177,12 +165,6 @@
                         }
                     },
                     {
-                        data: 'soTinChi',
-                    },
-                    {
-                        data: 'soTiet',
-                    },
-                    {
                         data: 'tenKhoa',
                         render: function (data, type, row) {
                             return '<a href="/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
@@ -195,16 +177,14 @@
                         sortable: false,
                         render: function (data, type, row) {
                             return `
-                                        <button type="button" class="btn btn-primary" 
-                                            data-toggle="modal" data-target="#editMonHocModal"
-                                            data-idMonHoc="${row.idMonHoc}"
-                                            data-tenMonHoc="${row.tenMonHoc}"
-                                            data-soTinChi="${row.soTinChi}"
-                                            data-soTiet="${row.soTiet}"
-                                            data-idKhoa="${row.idKhoa}"
-                                        >Sửa</button>
-                                        <button type="button" class="btn btn-danger" onclick="deleteMonHoc('${row.idMonHoc}')">Xóa</button>
-                                    `;
+                                    <button type="button" class="btn btn-primary" 
+                                        data-toggle="modal" data-target="#editMonHocModal"
+                                        data-idMonHoc="${row.idMonHoc}"
+                                        data-tenMonHoc="${row.tenMonHoc}"
+                                        data-idKhoa="${row.idKhoa}"
+                                    >Sửa</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteMonHoc('${row.idMonHoc}')">Xóa</button>
+                                `;
                         }
                     }
                 ],
@@ -229,8 +209,6 @@
                     <thead>
                         <tr>
                             <th>Tên Môn Học</th>
-                            <th>Số Tín Chỉ</th>
-                            <th>Số Tiết</th>
                             <th>Khoa</th>
                             <th></th>
                         </tr>
@@ -238,8 +216,6 @@
                     <tfoot>
                         <tr>
                             <th>Tên Môn Học</th>
-                            <th>Số Tín Chỉ</th>
-                            <th>Số Tiết</th>
                             <th>Khoa</th>
                             <th></th>
                         </tr>
@@ -269,16 +245,6 @@
                         <label for="tenMonHoc">Tên Môn Học</label>
                         <input type="text" class="form-control" id="tenMonHoc" name="tenMonHoc"
                             placeholder="Nhập tên môn học" required>
-                    </div>
-                    <div class="form-group form-md-line-input">
-                        <label for="soTinChi">Số Tín Chỉ</label>
-                        <input type="number" class="form-control" id="soTinChi" name="soTinChi"
-                            placeholder="Nhập số tín chỉ" required>
-                    </div>
-                    <div class="form-group form-md-line-input">
-                        <label for="soTiet">Số Tiết</label>
-                        <input type="number" class="form-control" id="soTiet" name="soTiet" placeholder="Nhập số tiết"
-                            required>
                     </div>
                     <div class="form-group form-md-line-input">
                         <label for="idKhoa">Khoa</label>
@@ -341,16 +307,6 @@
                         <label for="editTenMonHoc">Tên Môn Học</label>
                         <input type="text" class="form-control" id="editTenMonHoc" name="editTenMonHoc"
                             placeholder="Nhập tên môn học" required>
-                    </div>
-                    <div class="form-group
-                        <label for=" editSoTinChi">Số Tín Chỉ</label>
-                        <input type="number" class="form-control" id="editSoTinChi" name="editSoTinChi"
-                            placeholder="Nhập số tín chỉ" required>
-                    </div>
-                    <div class="form-group
-                        <label for=" editSoTiet">Số Tiết</label>
-                        <input type="number" class="form-control" id="editSoTiet" name="editSoTiet"
-                            placeholder="Nhập số tiết" required>
                     </div>
                     <div class="form-group
                         <label for=" editIdKhoa">Khoa</label>
