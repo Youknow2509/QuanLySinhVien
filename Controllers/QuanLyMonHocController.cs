@@ -7,23 +7,23 @@ using web_qlsv.Data;
 
 namespace web_qlsv.Controllers;
 
-public class QuanLyKhoaController : Controller
+public class QuanLyMonHocController : Controller
 {
     // Variable
-    private readonly ILogger<QuanLyKhoaController> _logger;
+    private readonly ILogger<QuanLyMonHocController> _logger;
     private readonly QuanLySinhVienDbContext _context;
 
     // Constructor
-    public QuanLyKhoaController(
-        ILogger<QuanLyKhoaController> logger,
-        QuanLySinhVienDbContext quanLySinhVienDbContext)
+    public QuanLyMonHocController(
+        ILogger<QuanLyMonHocController> logger,
+        QuanLySinhVienDbContext context)
     {
+        _context = context;
         _logger = logger;
-        _context = quanLySinhVienDbContext;
     }
 
     /**
-     * GET: /Admin/QuanLyKhoa
+     * GET: /Admin/QuanLyMonHoc
      * Home Page
      */
     public IActionResult Index()
@@ -32,21 +32,18 @@ public class QuanLyKhoaController : Controller
     }
 
     /**
-     * GET: /Admin/QuanLyKhoa/Deatail
-     * Xem thong tin chi tiet trong khoa
+     * GET: /Admin/QuanLyMonHoc/Details
+     * Details Page
      */
-    public IActionResult Details(string idKhoa)
+    public IActionResult Details(string IdMonHoc)
     {
-
-        // variables
-        Khoa? qr = _context.Khoas.Where(k => k.IdKhoa == idKhoa).FirstOrDefault();
-        if (qr == null)
+        var monHoc = _context.MonHocs.Find(IdMonHoc);
+        if (monHoc == null)
         {
             return NotFound();
         }
-        return View(qr);
+        return View(monHoc);
     }
-
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
