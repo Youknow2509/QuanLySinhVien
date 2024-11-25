@@ -81,10 +81,10 @@ CREATE TABLE LopHocPhan (
 
 -- Tạo bảng liên kết Chương Trình Học - Môn Học
 CREATE TABLE ChuongTrinhHoc_MonHoc (
-    IdCTHMonHoc VARCHAR2(100 CHAR) NOT NULL,
+    IdChuongTrinhHocMonHoc VARCHAR2(100 CHAR) NOT NULL,
     IdChuongTrinhHoc VARCHAR2(100 CHAR) NOT NULL,
     IdMonHoc VARCHAR2(100 CHAR) NOT NULL,
-    CONSTRAINT PK_ChuongTrinhHoc_MonHoc PRIMARY KEY (IdCTHMonHoc),
+    CONSTRAINT PK_ChuongTrinhHoc_MonHoc PRIMARY KEY (IdChuongTrinhHocMonHoc),
     CONSTRAINT FK_ChuongTrinhHoc_MonHoc_ChuongTrinhHoc_IdChuongTrinhHoc FOREIGN KEY (IdChuongTrinhHoc) REFERENCES ChuongTrinhHoc (IdChuongTrinhHoc),
     CONSTRAINT FK_ChuongTrinhHoc_MonHoc_MonHoc_IdMonHoc FOREIGN KEY (IdMonHoc) REFERENCES MonHoc (IdMonHoc)
 );
@@ -115,10 +115,10 @@ CREATE TABLE SinhVien_LopHocPhan (
 
 -- Tạo bảng Thời Gian - Lớp Học Phần
 CREATE TABLE ThoiGian_LopHocPhan (
-    IdThoigianLopHP VARCHAR2(100 CHAR) NOT NULL,
+    IdThoiGianLopHocPhan VARCHAR2(100 CHAR) NOT NULL,
     IdLopHocPhan VARCHAR2(100 CHAR) NOT NULL,
     IdThoiGian VARCHAR2(100 CHAR) NOT NULL,
-    CONSTRAINT PK_ThoiGian_LopHocPhan PRIMARY KEY (IdThoigianLopHP),
+    CONSTRAINT PK_ThoiGian_LopHocPhan PRIMARY KEY (IdThoiGianLopHocPhan),
     CONSTRAINT FK_ThoiGian_LopHocPhan_LopHocPhan_IdLopHocPhan FOREIGN KEY (IdLopHocPhan) REFERENCES LopHocPhan (IdLopHocPhan),
     CONSTRAINT FK_ThoiGian_LopHocPhan_ThoiGian_IdThoiGian FOREIGN KEY (IdThoiGian) REFERENCES ThoiGian (IdThoiGian)
 );

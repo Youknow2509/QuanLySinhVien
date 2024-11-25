@@ -40,7 +40,7 @@ INSERT INTO MonHoc (IdMonHoc, TenMonHoc, IdKhoa) VALUES ('VLY', 'Vật Lý', 'KH
 INSERT INTO MonHoc (IdMonHoc, TenMonHoc, IdKhoa) VALUES ('PLDC', 'Pháp luật đại cương', 'Triet');
 
 -- Chuong trinh hoc - Mon hoc
-INSERT INTO ChuongTrinhHoc_MonHoc (IdCTHMonHoc, IdChuongTrinhHoc, IdMonHoc)
+INSERT INTO ChuongTrinhHoc_MonHoc (IdChuongTrinhHocMonHoc, IdChuongTrinhHoc, IdMonHoc)
 SELECT 
     SYS_GUID(), 
     (SELECT IdChuongTrinhHoc 
@@ -50,7 +50,7 @@ SELECT
     IdMonHoc
 FROM MonHoc;
 
-INSERT INTO ChuongTrinhHoc_MonHoc (IdCTHMonHoc, IdChuongTrinhHoc, IdMonHoc)
+INSERT INTO ChuongTrinhHoc_MonHoc (IdChuongTrinhHocMonHoc, IdChuongTrinhHoc, IdMonHoc)
 SELECT 
     SYS_GUID(), 
     (SELECT IdChuongTrinhHoc 
@@ -127,49 +127,49 @@ INSERT INTO LopHocPhan (IdLopHocPhan, TenHocPhan, IdGiaoVien, IdMonHoc, ThoiGian
 VALUES ('PLDC_QT01', N'Pháp luật đại cương-1-1-24(QT01)', 'duongnd01', 'PLDC', TO_DATE('2024-12-02', 'YYYY-MM-DD'), TO_DATE('2025-01-20', 'YYYY-MM-DD'), 3, 4);
 
 -- Thêm sinh viên vào các lớp học phần dựa trên dữ liệu có sẵn
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LSDCSVN_QT05');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LTW_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LTTT_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'LSDCSVN_QT05');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'MMT_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'PTTKYC_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'TTUD_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'XSTK_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lý Trần Vinh'), 'VLY_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'XSTK_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'MMT_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Pham Thi J'), 'TTUD_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'PTTKYC_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Lê Văn Thuận'), 'TTUD_QT01');
 
-INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHP, IdSinhVien, IdLopHocPhan)
+INSERT INTO SinhVien_LopHocPhan (IdSinhVienLopHocPhan, IdSinhVien, IdLopHocPhan)
 VALUES (SYS_GUID(), (SELECT IdSinhVien FROM SinhVien WHERE HoTen = N'Pham Thi J'), 'XSTK_QT01');
 
 -- Thêm điểm cho sinh viên vào các lớp học phần dựa trên dữ liệu có sẵn
@@ -187,3 +187,4 @@ INSERT INTO Diem (IdDiem, IdLopHocPhan, IdSinhVien, DiemQuaTrinh, DiemKetThuc, D
 
 -- Tạo thời gian và gắn thời gian vào lớp học phần
 -- Thêm các thời gian vào bảng ThoiGian và gắn vào lớp học phần
+
