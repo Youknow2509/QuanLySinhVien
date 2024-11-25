@@ -25,7 +25,7 @@ public class QuanLyGiaoVienController : Controller
     }
 
     /**
-     * GET: /QuanLyGiaoVien
+     * GET: /Admin/QuanLyGiaoVien
      * Home Page
      */
     public IActionResult Index()
@@ -33,7 +33,7 @@ public class QuanLyGiaoVienController : Controller
         return View();
     }
 
-    // GET: /QuanLyGiaoVien/{id}
+    // GET: /Admin/QuanLyGiaoVien/{id}
     public IActionResult Details(string IdGiaoVien)
     {
         var gv = _context.GiaoViens
@@ -42,7 +42,7 @@ public class QuanLyGiaoVienController : Controller
         return View(gv);
     }
 
-    // GET: /QuanLyGiaoVien/Edit/{id}
+    // GET: /Admin/QuanLyGiaoVien/Edit/{id}
     public IActionResult Edit(string IdGiaoVien)
     {
         var giaovien = (
@@ -64,16 +64,30 @@ public class QuanLyGiaoVienController : Controller
         ViewBag.MessageUpLoadAvatar = TempData["MessageUpLoadAvatar"];
         ViewBag.StatusUpdateAvatar = TempData["StatusUpdateAvatar"];
 
-        return View(giaovien);
+        return View(new GiaoVienDto{
+            IdGiaoVien = giaovien.IdGiaoVien,
+            TenGiaoVien = giaovien.TenGiaoVien,
+            SoDienThoai = giaovien.SoDienThoai,
+            Email = giaovien.Email,
+            IdKhoa = giaovien.IdKhoa
+        });
     }
 
-    // POST: /QuanLyGiaoVien/Edit/{id}
+    // POST: /Admin/QuanLyGiaoVien/Edit/{id}
     [HttpPost]
-    public IActionResult Edit(GiaoVien gv)
+    public async Task<IActionResult> Edit(GiaoVienDto gv)
     {
         if (ModelState.IsValid)
         {
-            _context.Update(gv);
+            var res = await _context.GiaoViens
+                .FirstOrDefaultAsync(x => x.IdGiaoVien == gv.IdGiaoVien);
+
+            res.TenGiaoVien = gv.TenGiaoVien;
+            res.SoDienThoai = gv.SoDienThoai;
+            res.Email = gv.Email;
+            res.IdKhoa = gv.IdKhoa;
+
+            _context.Update(res);
             _context.SaveChanges();
             return RedirectToAction("Details", new { IdGiaoVien = gv.IdGiaoVien });
         }
@@ -82,7 +96,7 @@ public class QuanLyGiaoVienController : Controller
 
 
     /**
-     * POST: /QuanLyGiaoVien/UploadCSV
+     * POST: /Admin/QuanLyGiaoVien/UploadCSV
      * Upload CSV file create list giao vien
      */
     [HttpPost]
@@ -118,10 +132,6 @@ public class QuanLyGiaoVienController : Controller
                 //         Email = gv.Email,
                 //         IdKhoa = gv.IdKhoa
                 //     });
-                // }
-                // else
-                // {
-                //     return BadRequest(GiaoVienExists(gv).Message);
                 // }
             }
         }

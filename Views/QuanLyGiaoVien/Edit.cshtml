@@ -1,4 +1,4 @@
-@model GiaoVien
+@model web_qlsv.Dto.GiaoVienDto
 
 @{
     ViewBag.Title = "Details User";
@@ -19,6 +19,7 @@
                 };
 
                 reader.readAsDataURL(fileInput.files[0]);
+                using web_qlsv.Dto;
             }
         }
         document.addEventListener("DOMContentLoaded", function () {
@@ -27,55 +28,11 @@
                 document.getElementById("selectedAvatar").src = base64_Avatar;
             }
         });
-
-        // Xu li thay doi mat khau
-        function changePassword() {
-            var newPassword = document.getElementById("newPassword").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
-            var idGiaoVien = document.getElementById("idGiaoVien").value;
-
-            if (newPassword != confirmPassword) {
-                alert("Mật khẩu mới không trùng khớp");
-                return;
-            }
-
-            $.ajax({
-                url: '/api/GiaoVien/adminupdatepassword',
-                type: "POST",
-                headers: {
-                    'Accept': '*/*',
-                    'Content-Type': 'application/json'
-                },
-                data: JSON.stringify({
-                    idUser: idGiaoVien,
-                    newPassword: newPassword,
-                    confirmPassword: confirmPassword
-                }),
-                success: function (response) {
-                    alert("Thay đổi mật khẩu thành công");
-                },
-                error: function (response) {
-                    alert("Thay đổi mật khẩu thất bại");
-                    console.log(response.status, response.text);
-                }
-            });
-        }
     </script>
     <script>
         $(document).ready(function () {
             // Xu li lay anh tu sever va hien thi ra view
-            $.ajax({
-                url: '/api/avatar/user/@Model.IdGiaoVien',
-                type: "GET",
-                success: function (data) {
-                    if (data.profilePictureBase64 != null) {
-                        const src = 'data:image/png;base64,' + data.profilePictureBase64;
-                        $('#selectedAvatar').attr('src', src);
-                    } else {
-                        $('#selectedAvatar').attr('src', '/sb-admin/img/undraw_profile.svg');
-                    }
-                }
-            });
+            $('#selectedAvatar').attr('src', '/sb-admin/img/undraw_profile.svg');
 
             // Xu li lay danh sach khoa tu sever va hien thi ra view
             $.ajax({
@@ -103,9 +60,19 @@
                 type: 'GET',
                 success: function (res) {
                     if (res.length) {
-                        document.querySelector("select[name='IdKhoa']").disabled = true;
+                        document.querySelector("#select_khoa").disabled = true;
                         console.log("Khoa Khong The Thay Thoi Khi Dang Day Lop Hoc Phan");
+                        // Lấy giá trị hiện tại của dropdown
+                        var selectedValue = document.querySelector("#select_khoa").value;
 
+                        // Tạo input ẩn
+                        var hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden"; // Loại input ẩn
+                        hiddenInput.name = "IdKhoa"; // Tên giống với tên của dropdown
+                        hiddenInput.value = selectedValue; // Gắn giá trị hiện tại của dropdown
+
+                        // Gắn input ẩn vào form
+                        document.querySelector("#form_ip").appendChild(hiddenInput);
                     }
                 }
             });
@@ -165,7 +132,7 @@
             <div class="card mb-4">
                 <div class="card-header">Account Details</div>
                 <div class="card-body">
-                    <form asp-action="Edit" asp-area="Admin" asp-controller="QuanLyGiaoVien" method="post">
+                    <form id="form_ip" asp-action="Edit" asp-controller="QuanLyGiaoVien" method="post">
                         <div class="mb-3">
                             <label class="small mb-1" asp-for="TenGiaoVien">Họ Và Tên</label>
                             <input asp-for="TenGiaoVien" class="form-control" placeholder="Tên Giáo Viên"
@@ -187,7 +154,7 @@
                         <div class="mb-3">
                             <!-- select khoa -->
                             <label class="small mb-1" asp-for="IdKhoa">Khoa</label>
-                            <select asp-for="IdKhoa" class="form-control">
+                            <select id="select_khoa" asp-for="IdKhoa" class="form-control">
                                 <option value="">-- Chọn Khoa --</option>
                             </select>
                             <span asp-validation-for="IdKhoa" class="text-danger"></span>
@@ -195,32 +162,6 @@
                         <!-- Save changes button-->
                         <input hidden class="hidden" asp-for="IdGiaoVien" value="@Model.IdGiaoVien">
                         <button class="btn btn-primary" type="submit">Save changes</button>
-                    </form>
-                </div>
-            </div>
-            <!-- Thay doi mat khau bang ajax -->
-            <div class="card mb-4">
-                <div class="card-header">Thay Đổi Mật Khẩu</div>
-                <div class="card-body">
-                    <form id="changePasswordForm">
-                        @* <div class="mb-3">
-                            <label class="small mb-1" for="oldPassword">Mật Khẩu Hiện Tại</label>
-                            <input class="form-control" id="oldPassword" type="password"
-                                placeholder="Enter your current password">
-                        </div> *@
-                        <div class="mb-3">
-                            <label class="small mb-1" for="newPassword">Mật Khẩu Mới</label>
-                            <input class="form-control" id="newPassword" type="password"
-                                placeholder="Enter your new password">
-                        </div>
-                        <div class="mb-3">
-                            <label class="small mb-1" for="confirmPassword">Nhập Lại Mật Khẩu Mới</label>
-                            <input class="form-control" id="confirmPassword" type="password"
-                                placeholder="Confirm your new password">
-                        </div>
-                        <input hidden class="hidden" id="idGiaoVien" value="@Model.IdGiaoVien">
-                        <button class="btn btn-primary" type="button" onclick="changePassword()">Change
-                            Password</button>
                     </form>
                 </div>
             </div>

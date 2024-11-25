@@ -15,7 +15,7 @@ public  class GiaoVien
 
     public string IdKhoa { get; set; } = null!;
 
-    public virtual Khoa IdKhoaNavigation { get; set; } = null!;
+    public virtual Khoa? IdKhoaNavigation { get; set; } = null!;
 
-    public virtual ICollection<LopHocPhan> LopHocPhans { get; set; } = new List<LopHocPhan>();
+    public virtual ICollection<LopHocPhan>? LopHocPhans { get; set; } = new List<LopHocPhan>();
 }
