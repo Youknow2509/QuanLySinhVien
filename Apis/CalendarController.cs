@@ -114,6 +114,7 @@ public class CalendarController : ControllerBase
                 End = tg.NgayKetThuc,
                 Location = ph.DiaChi,
                 Description = $"Lớp Học Phần: {lhp.TenHocPhan}\nPhòng Học: {ph.TenPhongHoc} tại {ph.DiaChi}\nThời Gian Bắt Đầu: {tg.NgayBatDau}\nThời Gian Kết Thúc: {tg.NgayKetThuc}",
+                TenPhongHoc = ph.TenPhongHoc,
             }
         ).ToListAsync();
 

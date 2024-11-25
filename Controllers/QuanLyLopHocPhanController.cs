@@ -47,7 +47,7 @@ public class QuanLyLopHocPhanController : Controller
     }
 
     /**
-     * POST: /Admin/QuanLyLopHocPhan/UploadThoiGianCSV
+     * POST: QuanLyLopHocPhan/UploadThoiGianCSV
      * UploadThoiGianCSV: Xử lý upload file csv thời gian học vào lớp học phần
      */
     [HttpPost]
@@ -96,6 +96,7 @@ public class QuanLyLopHocPhanController : Controller
         // gan thoi gian vao lop hoc phan
         _context.ThoiGianLopHocPhans.AddRange(listThoiGian.Select(x => new ThoiGianLopHocPhan
         {
+            IdThoiGianLopHocPhan = Guid.NewGuid().ToString(),
             IdThoiGian = x.IdThoiGian,
             IdLopHocPhan = x.IdLopHocPhan
         }));
@@ -148,7 +149,15 @@ public class QuanLyLopHocPhanController : Controller
                                     ||
                                     (thoigian.ThoiGianKetThuc < tgCheck.NgayKetThuc && thoigian.ThoiGianKetThuc > tgCheck.NgayBatDau)
                                 )
-                            select tgCheck).Any();
+                            select tgCheck).ToList();
+        if (th_lhp_check.Count > 0)
+        {
+            return new StatusUploadFileDto
+            {
+                Status = false,
+                Message = "Thời gian không được trùng với thời gian khác"
+            };
+        }
         // Check thoi trong khoang cho phep
         if (lopHp.ThoiGianBatDau > thoigian.ThoiGianBatDau ||
             lopHp.ThoiGianKetThuc < thoigian.ThoiGianKetThuc)
@@ -214,23 +223,10 @@ public class QuanLyLopHocPhanController : Controller
         }
 
         // add sinh vien
-        _context.SinhVienLopHocPhans.AddRange(listSinhVien.Select(x => new SinhVienLopHocPhan
-        {
-            IdSinhVien = x.IdSinhVien,
-            IdLopHocPhan = x.IdLopHocPhan
-        }));
+        _context.SinhVienLopHocPhans.AddRange(listSinhVien);
 
         // add diem
-        _context.Diems.AddRange(listDiem.Select(x => new Diem
-        {
-            IdDiem = x.IdDiem,
-            IdLopHocPhan = x.IdLopHocPhan,
-            IdSinhVien = x.IdSinhVien,
-            DiemQuaTrinh = x.DiemQuaTrinh,
-            DiemKetThuc = x.DiemKetThuc,
-            DiemTongKet = x.DiemTongKet,
-            LanHoc = x.LanHoc
-        }));
+        _context.Diems.AddRange(listDiem);
 
         await _context.SaveChangesAsync();
 

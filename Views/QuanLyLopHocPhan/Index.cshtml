@@ -131,6 +131,8 @@
             var idMonHoc = $('#idMonHoc').val().trim();
             var ngayBatDau = $('#thoiGianBatDau').val().trim();
             var ngayKetThuc = $('#thoiGianKetThuc').val().trim();
+            var soTinChi = $('#soTinChi').val().trim();
+            var soTietHoc = $('#soTietHoc').val().trim();
 
             // Check if any required field is empty
             if (!tenLopHocPhan || !idGiaoVien || !idMonHoc) {
@@ -147,7 +149,9 @@
                     idGiaoVien: idGiaoVien,
                     idMonHoc: idMonHoc,
                     thoiGianBatDau: ngayBatDau,
-                    thoiGianKetThuc: ngayKetThuc
+                    thoiGianKetThuc: ngayKetThuc,
+                    soTinChi: soTinChi,
+                    soTietHoc: soTietHoc
                 }),
                 success: function (data) {
                     $('#createLopHocPhanModal').modal('hide');
@@ -217,6 +221,12 @@
                         }
                     },
                     {
+                        data: 'soTinChi',
+                    },
+                    {
+                        data: 'soTietHoc',
+                    },
+                    {
                         data: null,
                         render: function (data, type, row) {
                             let dateNow = formatDateTimeForInput(Date.now());
@@ -238,16 +248,16 @@
                         sortable: false,
                         render: function (data, type, row) {
                             return `      
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
-                                                            data-idLopHocPhan="${row.idLopHocPhan}" 
-                                                            data-idMonHoc="${row.idMonHoc}" 
-                                                            data-idGiaoVien="${row.idGiaoVien}">
-                                                            Sửa
-                                                        </button>                             
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
-                                                            Xóa
-                                                        </button>    
-                                                    `;
+                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editLopHocPhanModal" 
+                                                                    data-idLopHocPhan="${row.idLopHocPhan}" 
+                                                                    data-idMonHoc="${row.idMonHoc}" 
+                                                                    data-idGiaoVien="${row.idGiaoVien}">
+                                                                    Sửa
+                                                                </button>                             
+                                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLopHocPhanModal" data-id="${row.idLopHocPhan}">
+                                                                    Xóa
+                                                                </button>    
+                                                            `;
                         }
                     }
                 ],
@@ -275,6 +285,8 @@
                             <th>Môn học</th>
                             <th>Thời Gian Bắt Đầu</th>
                             <th>Thời Gian Kết Thúc</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết Học</th>
                             <th>Trạng Thái</th>
                             <th></th>
                         </tr>
@@ -286,6 +298,8 @@
                             <th>Môn học</th>
                             <th>Thời Gian Bắt Đầu</th>
                             <th>Thời Gian Kết Thúc</th>
+                            <th>Số Tín Chỉ</th>
+                            <th>Số Tiết Học</th>
                             <th>Trạng Thái</th>
                             <th></th>
                         </tr>
@@ -325,6 +339,16 @@
                         <select class="form-control" id="idMonHoc" name="idMonHoc">
                             <option value="">Chọn môn học</option>
                         </select>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label for="soTinChi">Số Tín Chỉ</label>
+                        <input type="number" class="form-control" id="soTinChi" name="soTinChi"
+                            placeholder="Nhập số tín chỉ" required>
+                    </div>
+                    <div class="form-group form-md-line-input">
+                        <label for="soTietHoc">Số Tiết Học</label>
+                        <input type="number" class="form-control" id="soTietHoc" name="soTietHoc"
+                            placeholder="Nhập số tiết học" required>
                     </div>
                     <div class="form-group form-md-line-input">
                         <label for="thoiGianBatDau">Thời Gian Bắt Đầu</label>

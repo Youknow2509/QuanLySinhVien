@@ -513,4 +513,37 @@ public class LopHocPhanController : ControllerBase
 
         return Ok("Thời gian lớp học phần đã được thêm");
     }
+
+    // Xoa sinh vien khoi lop hoc phan
+    [HttpDelete("xoasinhvien")]
+    public async Task<IActionResult> XoaSinhVienKhoiLopHocPhan(
+        string idSinhVien, string idLopHocPhan)
+    {
+
+        // Xoá điểm sinh viên khỏi lớp học phần
+        Diem? diem = await _context.Diems
+            .FirstOrDefaultAsync(x =>
+                x.IdLopHocPhan == idLopHocPhan &&
+                x.IdSinhVien == idSinhVien);
+        if (diem != null)
+        {
+            _context.Diems.Remove(diem);
+            await _context.SaveChangesAsync();
+        }
+
+        // find lhp
+        SinhVienLopHocPhan? svlhp = await _context.SinhVienLopHocPhans
+        .FirstOrDefaultAsync(x =>
+            x.IdLopHocPhan == idLopHocPhan &&
+            x.IdSinhVien == idSinhVien);
+        if (svlhp == null)
+        {
+            return NotFound("Không tìm thấy sinh viên trong lớp học phần");
+        }
+
+        _context.SinhVienLopHocPhans.Remove(svlhp);
+        await _context.SaveChangesAsync();
+
+        return Ok("Xóa sinh viên khỏi lớp học phần thành công");
+    }
 }

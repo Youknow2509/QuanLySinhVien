@@ -16,41 +16,6 @@
     </div>
 </div>
 
-<!-- DataTales Sinh Vien Thuoc Lop Hoc Phan -->
-<div class="col-lg-12 col-md-12 col-sm-12">
-    <h3 class="box-title mt-5">Danh Sách Sinh Viên Thuộc Lớp Học Phần</h3>
-    <div class="table-responsive">
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Họ Và Tên</th>
-                                <th>Lớp</th>
-                                <th>Ngày Sinh</th>
-                                <th>Địa Chỉ</th>
-                                <th>Chương Trình Học</th>
-                                <th>Khoa</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Họ Và Tên</th>
-                                <th>Lớp</th>
-                                <th>Ngày Sinh</th>
-                                <th>Địa Chỉ</th>
-                                <th>Chương Trình Học</th>
-                                <th>Khoa</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Danh Sách Điểm Lớp Học Phần -->
 <div class="col-lg-12 col-md-12 col-sm-12">
     <h3 class="box-title mt-5">Danh Sách Điểm Sinh Viên Thuộc Lớp Học Phần</h3>
@@ -67,6 +32,7 @@
                                 <th>Điểm Tổng Kết</th>
                                 <th>Trạng Thái</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -76,6 +42,7 @@
                                 <th>Điểm Kết Thúc</th>
                                 <th>Điểm Tổng Kết</th>
                                 <th>Trạng Thái</th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -141,7 +108,7 @@
         <div class="form-group">
             <p>&emsp;Lớp Học Phần @Model.TenHocPhan có thời gian từ: @(Model.ThoiGianBatDau) đến
                 @(Model.ThoiGianKetThuc).</p>
-            <p>&emsp;Số tín chỉ: và số tiết học: </p>
+            <p>&emsp;Số tín chỉ:@Model.SoTinChi và số tiết học: @Model.SoTietHoc</p>
         </div>
     </div>
     <div class="table-responsive">
@@ -153,6 +120,7 @@
                             <tr>
                                 <th>Thời Gian Bắt Đầu</th>
                                 <th>Thời Gian Kết Thúc</th>
+                                <th>Tên Phòng</th>
                                 <th>Địa Điểm</th>
                                 <th>Trạng Thái</th>
                                 <th></th>
@@ -162,6 +130,7 @@
                             <tr>
                                 <th>Thời Gian Bắt Đầu</th>
                                 <th>Thời Gian Kết Thúc</th>
+                                <th>Tên Phòng</th>
                                 <th>Địa Điểm</th>
                                 <th>Trạng Thái</th>
                                 <th></th>
@@ -215,7 +184,7 @@
         Thêm Thời Gian</button>
     <!-- Button load csv file -->
     <div class="container-fluid mb-4 mt-4">
-        <form asp-action="UploadThoiGianCSV" asp-controller="QuanLyLopHocPhan" asp-area="Admin" method="post"
+        <form asp-action="UploadThoiGianCSV" asp-controller="QuanLyLopHocPhan" method="post"
             enctype="multipart/form-data">
             <input type="file" name="file" accept=".csv" />
             <input hidden="true" type="text" name="idLopHocPhan" value="@Model.IdLopHocPhan" />
@@ -260,7 +229,6 @@
         </div>
     </div>
 </div>
-
 
 @section Styles {
     <!-- Calendar -->
@@ -338,47 +306,6 @@
             calendar.render();
             window.calendar = calendar;
 
-            // Data table 
-            $('#dataTable').DataTable({
-                ajax: {
-                    url: '/api/sinhvien/@Model.IdLopHocPhan/lophocphan',
-                    type: 'GET',
-                    dataSrc: '',
-                },
-                columns: [
-                    {
-                        data: 'tenSinhVien',
-                        render: function (data, type, row) {
-                            return '<a href="/QuanLySinhVien/Details?IdSinhVien=' + row.idSinhVien + '">' + data + '</a>';
-                        }
-                    },
-                    {
-                        data: 'lop',
-                    },
-                    {
-                        data: 'ngaySinh',
-                    },
-                    {
-                        data: 'diaChi',
-                    },
-                    {
-                        data: 'tenChuongTrinhHoc',
-                        render: function (data, type, row) {
-                            return '<a href="/QuanLyChuongTrinhHoc/Details?IdChuongTrinhHoc=' + row.idChuongTrinhHoc + '">' + data + '</a>';
-                        }
-                    },
-                    {
-                        data: 'tenKhoa',
-                        render: function (data, type, row) {
-                            return '<a href="/QuanLyKhoa/Details?IdKhoa=' + row.idKhoa + '">' + data + '</a>';
-                        }
-                    }
-                ],
-                language: {
-                    url: '/sb-admin/json/data_tables_vi.json',
-                },
-            });
-
             // Data table điểm sinh viên lớp học phần
             $('#dataTable_diem').DataTable({
                 ajax: {
@@ -417,21 +344,53 @@
                         data: null,
                         render: function (data, type, row) {
                             return `
-                                                                                <button class="btn btn-primary btn-sm" 
-                                                                                    data-toggle="modal" data-target="#modalSuaDiem" 
-                                                                                    data-idDiem="${row.idDiem}" 
-                                                                                    data-diem-qua-trinh="${row.diemQuaTrinh}" 
-                                                                                    data-diem-ket-thuc="${row.diemKetThuc}" 
-                                                                                    data-diem-tong-ket="${row.diemTongKet}">
-                                                                                Sửa
-                                                                                </button>
-                                                                            `;
+                                    <button class="btn btn-primary btn-sm" 
+                                        data-toggle="modal" data-target="#modalSuaDiem" 
+                                        data-idDiem="${row.idDiem}" 
+                                        data-diem-qua-trinh="${row.diemQuaTrinh}" 
+                                        data-diem-ket-thuc="${row.diemKetThuc}" 
+                                        data-diem-tong-ket="${row.diemTongKet}">
+                                    Sửa
+                                    </button>
+                                `;
                         }
+                    },
+                    {
+                        data: null,
+                        // Handle button xoa sinh vien khoi lop hoc phan
+                        render: function (data, type, row) {
+                            return `
+                                <button class="btn btn-danger btn-sm" 
+                                    data-idSinhVien="${row.idSinhVien}" 
+                                    data-idLopHocPhan="${row.idLopHocPhan}">
+                                Xóa
+                                </button>
+                            `;
+}
                     }
                 ],
                 language: {
                     url: '/sb-admin/json/data_tables_vi.json',
                 },
+            });
+
+            // Hadnle xoá sinh vien khoi lop hoc phan
+            $('#dataTable_diem').on('click', 'button.btn-danger', function () {
+                var idSinhVien = $(this).attr('data-idSinhVien');
+                var idLopHocPhan = $(this).attr('data-idLopHocPhan');
+                if (confirm('Bạn có chắc chắn muốn xóa sinh viên này khỏi lớp học phần?')) {
+                    $.ajax({
+                        url: '/api/lophocphan/xoasinhvien?idSinhVien=' + idSinhVien + '&idLopHocPhan=' + idLopHocPhan,
+                        type: 'DELETE',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $('#dataTable_diem').DataTable().ajax.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Có lỗi xảy ra, vui lòng thử lại sau' + xhr.responseText);
+                        }
+                    });
+                }
             });
 
             /**
@@ -501,7 +460,8 @@
                             return new Date(data).toLocaleString();
                         }
                     },
-                    { data: 'diaDiem' },
+                    { data: 'tenPhongHoc' },
+                    { data: 'location' },
                     {
                         data: null,
                         render: function (data, type, row) {
@@ -524,15 +484,15 @@
                             }
                             else {
                                 return `
-                                                                                <button class="btn btn-primary btn-sm" 
-                                                                                    data-toggle="modal" data-target="#modalSuaThoiGian"
-                                                                                    data-idThoiGian="${row.id}"
-                                                                                    data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
-                                                                                    data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
-                                                                                    >
-                                                                                Sửa
-                                                                                </button>
-                                                                            `;
+                                                                                            <button class="btn btn-primary btn-sm" 
+                                                                                                data-toggle="modal" data-target="#modalSuaThoiGian"
+                                                                                                data-idThoiGian="${row.id}"
+                                                                                                data-thoi-gian-bat-dau="${formatDateTimeForInput(row.start)}"
+                                                                                                data-thoi-gian-ket-thuc="${formatDateTimeForInput(row.end)}" 
+                                                                                                >
+                                                                                            Sửa
+                                                                                            </button>
+                                                                                        `;
                             }
                         },
                         searchable: false,
@@ -585,18 +545,18 @@
              */
             var checkThemTh_lhp = true;
             // Kiểm tra xem lớp học phần diễn ra chưa, nếu rồi thì tắt nút thêm
-        @* if (new Date('@Model.ThoiGianBatDau.Value.ToString("MM/dd/yyyy")') <= new Date()) {
+            if (new Date('@Model.ThoiGianBatDau') <= new Date()) {
                 $('#modalThemThoiGian').hide();
                 $('#divThemThoiGianLopHocPhan').hide();
                 $('#UploadSinhVienCSV').hide();
                 checkThemTh_lhp = false;
-            } *@
-                // Kiểm tra đã đủ tiết chưa, nếu rồi thì tắt nút thêm
-        @* $.ajax({
+            }
+            // Kiểm tra đã đủ tiết chưa, nếu rồi thì tắt nút thêm
+            $.ajax({
                 url: '/api/calendar/lophocphan/@Model.IdLopHocPhan',
                 type: 'GET',
                 success: function (data) {
-                    if (data.length * 3 >= @Model.MonHocs.SoTietHoc) {
+                    if (data.length * 3 >= @Model.SoTietHoc) {
                         $('#modalThemThoiGian').hide();
                         $('#divThemThoiGianLopHocPhan').hide();
                         checkThemTh_lhp = false;
@@ -605,34 +565,34 @@
                 error: function (xhr, status, error) {
                     alert(`Lỗi: ${xhr.responseText}`);
                 }
-            }); *@
-                // Sự kiện click button thêm thời gian
-                $('#btnThemThoiGian').click(function () {
-                    if (checkThemTh_lhp) {
-                        var form = $('#formThemThoiGian');
-                        $.ajax({
-                            url: '/api/lophocphan/themthoigian',
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                ThoiGianBatDau: $('#themThoiGianBatDau').val(),
-                                ThoiGianKetThuc: $('#themThoiGianKetThuc').val(),
-                                DiaDiem: $('#themDiaDiem').val(),
-                                IdLopHocPhan: '@Model.IdLopHocPhan'
-                            }),
-                            success: function (data) {
-                                $('#modalThemThoiGian').modal('hide');
-                                $('#dataTable_date').DataTable().ajax.reload();
-                            },
-                            error: function (xhr, status, error) {
-                                alert(`Lỗi: ${xhr.responseText}`);
-                            }
-                        });
-                    }
-                    else {
-                        alert('Lớp học phần đã diễn ra hoặc đã đủ tiết học');
-                    }
-                });
+            });
+            // Sự kiện click button thêm thời gian
+            $('#btnThemThoiGian').click(function () {
+                if (checkThemTh_lhp) {
+                    var form = $('#formThemThoiGian');
+                    $.ajax({
+                        url: '/api/lophocphan/themthoigian',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            ThoiGianBatDau: $('#themThoiGianBatDau').val(),
+                            ThoiGianKetThuc: $('#themThoiGianKetThuc').val(),
+                            DiaDiem: $('#themDiaDiem').val(),
+                            IdLopHocPhan: '@Model.IdLopHocPhan'
+                        }),
+                        success: function (data) {
+                            $('#modalThemThoiGian').modal('hide');
+                            $('#dataTable_date').DataTable().ajax.reload();
+                        },
+                        error: function (xhr, status, error) {
+                            alert(`Lỗi: ${xhr.responseText}`);
+                        }
+                    });
+                }
+                else {
+                    alert('Lớp học phần đã diễn ra hoặc đã đủ tiết học');
+                }
+            });
         });
     </script>
 }
