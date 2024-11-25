@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using qlsv.Models;
+using web_qlsv.Models;
 
-namespace qlsv.Controllers;
+namespace web_qlsv.Controllers;
 
 public class HomeController : Controller
 {
@@ -13,36 +13,15 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    // public IActionResult Index()
-    // {
-    //     // Retrieve the cookie named 'jwtToken'
-    //     var jwtAccsessToken = Request.Cookies["AccsessToken"];
-    //     var jwtRefreshToken = Request.Cookies["RefreshToken"];
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-    //     if (string.IsNullOrEmpty(jwtAccsessToken))
-    //     {
-    //        return RedirectToAction("Index", "Login", new { area = "Identity"});
-    //     }
-    //     // TODO code
-
-    //     return View();
-    // }
-
-    // public IActionResult Privacy()
-    // {
-    //     return View();
-    // }
-
-    // // TODO - rm - Test viewcomponent calendar
-    // public IActionResult Calendar()
-    // {
-    //     return View();
-    // }
-
-    // public IActionResult DataTableEdit()
-    // {
-    //     return View();
-    // }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

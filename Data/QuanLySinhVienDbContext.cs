@@ -1,311 +1,526 @@
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using qlsv.Models;
+using web_qlsv.Models;
 
-namespace qlsv.Data;
+namespace web_qlsv.Data;
 
-public class QuanLySinhVienDbContext : DbContext
+public partial class QuanLySinhVienDbContext : DbContext
 {
-    // Variables
-    public DbSet<ChuongTrinhHoc> ChuongTrinhHocs { get; set; } = null!;
-    public DbSet<ChuongTrinhHocMonHoc> ChuongTrinhHocMonHocs { get; set; } = null!;
-    public DbSet<Diem> Diems { get; set; } = null!;
-    public DbSet<GiaoVien> GiaoViens { get; set; } = null!;
-    public DbSet<Khoa> Khoas { get; set; } = null!;
-    public DbSet<LopHocPhan> LopHocPhans { get; set; } = null!;
-    public DbSet<MonHoc> MonHocs { get; set; } = null!;
-    public DbSet<SinhVien> SinhViens { get; set; } = null!;
-    public DbSet<SinhVienLopHocPhan> SinhVienLopHocPhans { get; set; } = null!;
-    public DbSet<ThoiGian> ThoiGians { get; set; } = null!;
-    public DbSet<ThoiGianLopHocPhan> ThoiGianLopHocPhans { get; set; } = null!;
-    public DbSet<DangKyNguyenVong> DangKyNguyenVongs { get; set; } = null!;
-    public DbSet<DangKyDoiLich> DangKyDoiLichs { get; set; } = null!;
+    public QuanLySinhVienDbContext()
+    {
+    }
 
-    // Constructor
     public QuanLySinhVienDbContext(DbContextOptions<QuanLySinhVienDbContext> options)
         : base(options)
     {
     }
 
+    public virtual DbSet<Chuongtrinhhoc> Chuongtrinhhocs { get; set; }
+
+    public virtual DbSet<ChuongtrinhhocMonhoc> ChuongtrinhhocMonhocs { get; set; }
+
+    public virtual DbSet<Dangkydoilich> Dangkydoiliches { get; set; }
+
+    public virtual DbSet<Dangkynguyenvong> Dangkynguyenvongs { get; set; }
+
+    public virtual DbSet<Diem> Diems { get; set; }
+
+    public virtual DbSet<Giaovien> Giaoviens { get; set; }
+
+    public virtual DbSet<Khoa> Khoas { get; set; }
+
+    public virtual DbSet<Lophocphan> Lophocphans { get; set; }
+
+    public virtual DbSet<Monhoc> Monhocs { get; set; }
+
+    public virtual DbSet<Phonghoc> Phonghocs { get; set; }
+
+    public virtual DbSet<Sinhvien> Sinhviens { get; set; }
+
+    public virtual DbSet<SinhvienLophocphan> SinhvienLophocphans { get; set; }
+
+    public virtual DbSet<Thoigian> Thoigians { get; set; }
+
+    public virtual DbSet<ThoigianLophocphan> ThoigianLophocphans { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseOracle("User Id=vinh;Password=123;Data Source=localhost:1521/orclcdb1");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ChuongTrinhHoc>(entity =>
-            {
-                entity.HasKey(e => e.IdChuongTrinhHoc);
+        modelBuilder
+            .HasDefaultSchema("VINH")
+            .UseCollation("USING_NLS_COMP");
 
-                entity.ToTable("ChuongTrinhHoc");
-
-                entity.Property(e => e.IdChuongTrinhHoc)
-                    .HasMaxLength(100)
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.TenChuongTrinhHoc).HasMaxLength(100);
-            });
-
-        modelBuilder.Entity<ChuongTrinhHocMonHoc>(entity =>
+        modelBuilder.Entity<Chuongtrinhhoc>(entity =>
         {
-            entity.HasKey(e => e.IdCthmonHoc);
+            entity.HasKey(e => e.Idchuongtrinhhoc);
 
-            entity.ToTable("ChuongTrinhHoc_MonHoc");
+            entity.ToTable("CHUONGTRINHHOC");
 
-            entity.Property(e => e.IdCthmonHoc)
+            entity.HasIndex(e => e.Tenchuongtrinhhoc, "IX_CHUONGTRINHHOC_TENCHUONGTRINHHOC");
+
+            entity.Property(e => e.Idchuongtrinhhoc)
                 .HasMaxLength(100)
-                .HasColumnName("IdCTHMonHoc")
-                .HasDefaultValueSql("(newid())");
+                .IsUnicode(false)
+                .HasColumnName("IDCHUONGTRINHHOC");
+            entity.Property(e => e.Tenchuongtrinhhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("TENCHUONGTRINHHOC");
+        });
 
-            entity.Property(e => e.IdChuongTrinhHoc).HasMaxLength(100);
+        modelBuilder.Entity<ChuongtrinhhocMonhoc>(entity =>
+        {
+            entity.HasKey(e => e.Idcthmonhoc);
 
-            entity.Property(e => e.IdMonHoc).HasMaxLength(100);
+            entity.ToTable("CHUONGTRINHHOC_MONHOC");
 
-            entity.HasOne(d => d.ChuongTrinhHocs)
-                .WithMany(p => p.ChuongTrinhHocMonHocs)
-                .HasForeignKey(d => d.IdChuongTrinhHoc);
+            entity.Property(e => e.Idcthmonhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDCTHMONHOC");
+            entity.Property(e => e.Idchuongtrinhhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDCHUONGTRINHHOC");
+            entity.Property(e => e.Idmonhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDMONHOC");
 
-            entity.HasOne(d => d.MonHocs)
-                .WithMany(p => p.ChuongTrinhHocMonHocs)
-                .HasForeignKey(d => d.IdMonHoc);
+            entity.HasOne(d => d.IdchuongtrinhhocNavigation).WithMany(p => p.ChuongtrinhhocMonhocs)
+                .HasForeignKey(d => d.Idchuongtrinhhoc)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.IdmonhocNavigation).WithMany(p => p.ChuongtrinhhocMonhocs)
+                .HasForeignKey(d => d.Idmonhoc)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<Dangkydoilich>(entity =>
+        {
+            entity.HasKey(e => e.Iddangkydoilich);
+
+            entity.ToTable("DANGKYDOILICH");
+
+            entity.HasIndex(e => e.Thoigianbatdauhientai, "IX_DANGKYDOILICH_THOIGIANBATDAUHIENTAI");
+
+            entity.HasIndex(e => e.Thoigianbatdaumoi, "IX_DANGKYDOILICH_THOIGIANBATDAUMOI");
+
+            entity.HasIndex(e => e.Thoigianketthuchientai, "IX_DANGKYDOILICH_THOIGIANKETTHUCHIENTAI");
+
+            entity.HasIndex(e => e.Thoigianketthucmoi, "IX_DANGKYDOILICH_THOIGIANKETTHUCMOI");
+
+            entity.HasIndex(e => e.Trangthai, "IX_DANGKYDOILICH_TRANGTHAI");
+
+            entity.Property(e => e.Iddangkydoilich)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDDANGKYDOILICH");
+            entity.Property(e => e.Idthoigian)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDTHOIGIAN");
+            entity.Property(e => e.Thoigianbatdauhientai)
+                .HasColumnType("DATE")
+                .HasColumnName("THOIGIANBATDAUHIENTAI");
+            entity.Property(e => e.Thoigianbatdaumoi)
+                .HasColumnType("DATE")
+                .HasColumnName("THOIGIANBATDAUMOI");
+            entity.Property(e => e.Thoigianketthuchientai)
+                .HasColumnType("DATE")
+                .HasColumnName("THOIGIANKETTHUCHIENTAI");
+            entity.Property(e => e.Thoigianketthucmoi)
+                .HasColumnType("DATE")
+                .HasColumnName("THOIGIANKETTHUCMOI");
+            entity.Property(e => e.Trangthai)
+                .HasDefaultValueSql("-1 ")
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("TRANGTHAI");
+
+            entity.HasOne(d => d.IdthoigianNavigation).WithMany(p => p.Dangkydoiliches).HasForeignKey(d => d.Idthoigian);
+        });
+
+        modelBuilder.Entity<Dangkynguyenvong>(entity =>
+        {
+            entity.HasKey(e => e.Iddangkynguyenvong);
+
+            entity.ToTable("DANGKYNGUYENVONG");
+
+            entity.HasIndex(e => e.Trangthai, "IX_DANGKYNGUYENVONG_TRANGTHAI");
+
+            entity.Property(e => e.Iddangkynguyenvong)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDDANGKYNGUYENVONG");
+            entity.Property(e => e.Idmonhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDMONHOC");
+            entity.Property(e => e.Idsinhvien)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDSINHVIEN");
+            entity.Property(e => e.Trangthai)
+                .HasDefaultValueSql("-1 ")
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("TRANGTHAI");
+
+            entity.HasOne(d => d.IdmonhocNavigation).WithMany(p => p.Dangkynguyenvongs).HasForeignKey(d => d.Idmonhoc);
+
+            entity.HasOne(d => d.IdsinhvienNavigation).WithMany(p => p.Dangkynguyenvongs).HasForeignKey(d => d.Idsinhvien);
         });
 
         modelBuilder.Entity<Diem>(entity =>
         {
-            entity.HasKey(e => e.IdDiem);
+            entity.HasKey(e => e.Iddiem);
 
-            entity.ToTable("Diem");
+            entity.ToTable("DIEM");
 
-            entity.Property(e => e.IdDiem)
+            entity.HasIndex(e => e.Diemketthuc, "IX_DIEM_DIEMKETTHUC");
+
+            entity.HasIndex(e => e.Diemquatrinh, "IX_DIEM_DIEMQUATRINH");
+
+            entity.HasIndex(e => e.Diemtongket, "IX_DIEM_DIEMTONGKET");
+
+            entity.HasIndex(e => e.Lanhoc, "IX_DIEM_LANHOC");
+
+            entity.Property(e => e.Iddiem)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("(newid())");
+                .IsUnicode(false)
+                .HasColumnName("IDDIEM");
+            entity.Property(e => e.Diemketthuc)
+                .HasColumnType("NUMBER(5,2)")
+                .HasColumnName("DIEMKETTHUC");
+            entity.Property(e => e.Diemquatrinh)
+                .HasColumnType("NUMBER(5,2)")
+                .HasColumnName("DIEMQUATRINH");
+            entity.Property(e => e.Diemtongket)
+                .HasColumnType("NUMBER(5,2)")
+                .HasColumnName("DIEMTONGKET");
+            entity.Property(e => e.Idlophocphan)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDLOPHOCPHAN");
+            entity.Property(e => e.Idsinhvien)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDSINHVIEN");
+            entity.Property(e => e.Lanhoc)
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("LANHOC");
 
-            entity.Property(e => e.DiemKetThuc).HasColumnType("decimal(5, 2)");
+            entity.HasOne(d => d.IdlophocphanNavigation).WithMany(p => p.Diems)
+                .HasForeignKey(d => d.Idlophocphan)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.Property(e => e.DiemQuaTrinh).HasColumnType("decimal(5, 2)");
-
-            entity.Property(e => e.DiemTongKet).HasColumnType("decimal(5, 2)");
-
-            entity.Property(e => e.IdLopHocPhan).HasMaxLength(100);
-
-            entity.Property(e => e.IdSinhVien).HasMaxLength(100);
-
-            entity.HasOne(d => d.LopHocPhans)
-                .WithMany(p => p.Diems)
-                .HasForeignKey(d => d.IdLopHocPhan);
-
-            entity.HasOne(d => d.SinhViens)
-                .WithMany(p => p.Diems)
-                .HasForeignKey(d => d.IdSinhVien);
+            entity.HasOne(d => d.IdsinhvienNavigation).WithMany(p => p.Diems)
+                .HasForeignKey(d => d.Idsinhvien)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
-        modelBuilder.Entity<GiaoVien>(entity =>
+        modelBuilder.Entity<Giaovien>(entity =>
         {
-            entity.HasKey(e => e.IdGiaoVien);
+            entity.HasKey(e => e.Idgiaovien);
 
-            entity.ToTable("GiaoVien");
+            entity.ToTable("GIAOVIEN");
 
-            entity.Property(e => e.IdGiaoVien)
-                .HasMaxLength(100);
+            entity.HasIndex(e => e.Email, "IX_GIAOVIEN_EMAIL");
 
-            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.HasIndex(e => e.Sodienthoai, "IX_GIAOVIEN_SODIENTHOAI");
 
-            entity.Property(e => e.IdKhoa).HasMaxLength(100);
+            entity.HasIndex(e => e.Tengiaovien, "IX_GIAOVIEN_TENGIAOVIEN");
 
-            entity.Property(e => e.SoDienThoai).HasMaxLength(15);
+            entity.Property(e => e.Idgiaovien)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDGIAOVIEN");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("EMAIL");
+            entity.Property(e => e.Idkhoa)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDKHOA");
+            entity.Property(e => e.Sodienthoai)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("SODIENTHOAI");
+            entity.Property(e => e.Tengiaovien)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("TENGIAOVIEN");
 
-            entity.Property(e => e.TenGiaoVien).HasMaxLength(100);
-
-            entity.HasOne(d => d.Khoas)
-                .WithMany(p => p.GiaoViens)
-                .HasForeignKey(d => d.IdKhoa);
+            entity.HasOne(d => d.IdkhoaNavigation).WithMany(p => p.Giaoviens)
+                .HasForeignKey(d => d.Idkhoa)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Khoa>(entity =>
         {
-            entity.HasKey(e => e.IdKhoa);
+            entity.HasKey(e => e.Idkhoa);
 
-            entity.ToTable("Khoa");
+            entity.ToTable("KHOA");
 
-            entity.Property(e => e.IdKhoa)
-                .HasMaxLength(100);
+            entity.HasIndex(e => e.Tenkhoa, "IX_KHOA_TENKHOA");
 
-            entity.Property(e => e.TenKhoa).HasMaxLength(100);
-        });
-
-        modelBuilder.Entity<LopHocPhan>(entity =>
-        {
-            entity.HasKey(e => e.IdLopHocPhan);
-
-            entity.ToTable("LopHocPhan");
-
-            entity.Property(e => e.IdLopHocPhan)
-                .HasMaxLength(100);
-
-            entity.Property(e => e.IdGiaoVien).HasMaxLength(100);
-
-            entity.Property(e => e.IdMonHoc).HasMaxLength(100);
-
-            entity.Property(e => e.TenHocPhan).HasMaxLength(100);
-
-            entity.HasOne(d => d.GiaoViens)
-                .WithMany(p => p.LopHocPhans)
-                .HasForeignKey(d => d.IdGiaoVien);
-
-            entity.HasOne(d => d.MonHocs)
-                .WithMany(p => p.LopHocPhans)
-                .HasForeignKey(d => d.IdMonHoc);
-        });
-
-        modelBuilder.Entity<MonHoc>(entity =>
-        {
-            entity.HasKey(e => e.IdMonHoc);
-
-            entity.ToTable("MonHoc");
-
-            entity.Property(e => e.IdMonHoc)
-                .HasMaxLength(100);
-
-            entity.Property(e => e.IdKhoa).HasMaxLength(100);
-
-            entity.Property(e => e.TenMonHoc).HasMaxLength(100);
-
-            entity.HasOne(d => d.Khoas)
-                .WithMany(p => p.MonHocs)
-                .HasForeignKey(d => d.IdKhoa);
-        });
-
-        modelBuilder.Entity<SinhVien>(entity =>
-        {
-            entity.HasKey(e => e.IdSinhVien);
-
-            entity.ToTable("SinhVien");
-
-            entity.Property(e => e.IdSinhVien)
-                .HasMaxLength(100);
-
-            entity.Property(e => e.DiaChi).HasMaxLength(255);
-
-            entity.Property(e => e.HoTen).HasMaxLength(100);
-
-            entity.Property(e => e.IdChuongTrinhHoc).HasMaxLength(100);
-
-            entity.Property(e => e.Lop).HasMaxLength(50);
-
-            entity.Property(e => e.NgaySinh).HasColumnType("date");
-
-            entity.HasOne(d => d.ChuongTrinhHocs)
-                .WithMany(p => p.SinhViens)
-                .HasForeignKey(d => d.IdChuongTrinhHoc);
-
-            entity.HasOne(d => d.Khoas)
-                .WithMany(p => p.SinhViens)
-                .HasForeignKey(d => d.IdKhoa);
-        });
-
-        modelBuilder.Entity<SinhVienLopHocPhan>(entity =>
-        {
-            entity.HasKey(e => e.IdSinhVienLopHp);
-
-            entity.ToTable("SinhVien_LopHocPhan");
-
-            entity.Property(e => e.IdSinhVienLopHp)
+            entity.Property(e => e.Idkhoa)
                 .HasMaxLength(100)
-                .HasColumnName("IdSinhVienLopHP")
-                .HasDefaultValueSql("(newid())");
-
-            entity.Property(e => e.IdLopHocPhan).HasMaxLength(100);
-
-            entity.Property(e => e.IdSinhVien).HasMaxLength(100);
-
-            entity.HasOne(d => d.LopHocPhans)
-                .WithMany(p => p.SinhVienLopHocPhans)
-                .HasForeignKey(d => d.IdLopHocPhan);
-
-            entity.HasOne(d => d.SinhViens)
-                .WithMany(p => p.SinhVienLopHocPhans)
-                .HasForeignKey(d => d.IdSinhVien);
+                .IsUnicode(false)
+                .HasColumnName("IDKHOA");
+            entity.Property(e => e.Tenkhoa)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("TENKHOA");
         });
 
-        modelBuilder.Entity<ThoiGian>(entity =>
+        modelBuilder.Entity<Lophocphan>(entity =>
         {
-            entity.HasKey(e => e.IdThoiGian);
+            entity.HasKey(e => e.Idlophocphan);
 
-            entity.ToTable("ThoiGian");
+            entity.ToTable("LOPHOCPHAN");
 
-            entity.Property(e => e.IdThoiGian)
+            entity.HasIndex(e => e.Tenhocphan, "IX_LOPHOCPHAN_TENHOCPHAN");
+
+            entity.HasIndex(e => e.Thoigianbatdau, "IX_LOPHOCPHAN_THOIGIANBATDAU");
+
+            entity.HasIndex(e => e.Thoigianketthuc, "IX_LOPHOCPHAN_THOIGIANKETTHUC");
+
+            entity.Property(e => e.Idlophocphan)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("(newid())");
+                .IsUnicode(false)
+                .HasColumnName("IDLOPHOCPHAN");
+            entity.Property(e => e.Idgiaovien)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDGIAOVIEN");
+            entity.Property(e => e.Idmonhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDMONHOC");
+            entity.Property(e => e.Sotiethoc)
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("SOTIETHOC");
+            entity.Property(e => e.Sotinchi)
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("SOTINCHI");
+            entity.Property(e => e.Tenhocphan)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("TENHOCPHAN");
+            entity.Property(e => e.Thoigianbatdau)
+                .HasColumnType("DATE")
+                .HasColumnName("THOIGIANBATDAU");
+            entity.Property(e => e.Thoigianketthuc)
+                .HasColumnType("DATE")
+                .HasColumnName("THOIGIANKETTHUC");
 
-            entity.Property(e => e.NgayBatDau).HasColumnType("datetime");
+            entity.HasOne(d => d.IdgiaovienNavigation).WithMany(p => p.Lophocphans)
+                .HasForeignKey(d => d.Idgiaovien)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            entity.Property(e => e.NgayKetThuc).HasColumnType("datetime");
+            entity.HasOne(d => d.IdmonhocNavigation).WithMany(p => p.Lophocphans)
+                .HasForeignKey(d => d.Idmonhoc)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
-        modelBuilder.Entity<ThoiGianLopHocPhan>(entity =>
+        modelBuilder.Entity<Monhoc>(entity =>
         {
-            entity.HasKey(e => e.IdThoigianLopHp);
+            entity.HasKey(e => e.Idmonhoc);
 
-            entity.ToTable("ThoiGian_LopHocPhan");
+            entity.ToTable("MONHOC");
 
-            entity.Property(e => e.IdThoigianLopHp)
+            entity.HasIndex(e => e.Tenmonhoc, "IX_MONHOC_TENMONHOC");
+
+            entity.Property(e => e.Idmonhoc)
                 .HasMaxLength(100)
-                .HasColumnName("IdThoigianLopHP")
-                .HasDefaultValueSql("(newid())");
+                .IsUnicode(false)
+                .HasColumnName("IDMONHOC");
+            entity.Property(e => e.Idkhoa)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDKHOA");
+            entity.Property(e => e.Tenmonhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("TENMONHOC");
 
-            entity.Property(e => e.IdLopHocPhan).HasMaxLength(100);
-
-            entity.Property(e => e.IdThoiGian).HasMaxLength(100);
-
-            entity.HasOne(d => d.LopHocPhans)
-                .WithMany(p => p.ThoiGianLopHocPhans)
-                .HasForeignKey(d => d.IdLopHocPhan);
-
-            entity.HasOne(d => d.ThoiGians)
-                .WithMany(p => p.ThoiGianLopHocPhans)
-                .HasForeignKey(d => d.IdThoiGian);
+            entity.HasOne(d => d.IdkhoaNavigation).WithMany(p => p.Monhocs)
+                .HasForeignKey(d => d.Idkhoa)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
-        modelBuilder.Entity<DangKyNguyenVong>(entity => {
-            entity.HasKey(e => e.IdDangKyNguyenVong);
+        modelBuilder.Entity<Phonghoc>(entity =>
+        {
+            entity.HasKey(e => e.Idphonghoc);
 
-            entity.ToTable("DangKyNguyenVong");
+            entity.ToTable("PHONGHOC");
 
-            entity.Property(e => e.IdDangKyNguyenVong)
+            entity.HasIndex(e => e.Diachi, "IX_PHONGHOC_DIACHI");
+
+            entity.HasIndex(e => e.Tenphonghoc, "IX_PHONGHOC_TENPHONGHOC");
+
+            entity.Property(e => e.Idphonghoc)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("(newid())");
-
-            entity.Property(e => e.IdMonHoc).HasMaxLength(100);
-
-            entity.Property(e => e.IdSinhVien).HasMaxLength(100);
-
-            // Mặc định khởi tạo trạng thái là -1. 1 Là đc chấp nhận, 0 là từ chối
-            entity.Property(e => e.TrangThai).HasDefaultValue(-1);
-
-            entity.HasOne(d => d.SinhViens)
-                .WithMany(p => p.DangKyNguyenVongs)
-                .HasForeignKey(d => d.IdSinhVien);
-
-            entity.HasOne(d => d.MonHocs)
-                .WithMany(p => p.DangKyNguyenVongs)
-                .HasForeignKey(d => d.IdMonHoc);
+                .IsUnicode(false)
+                .HasColumnName("IDPHONGHOC");
+            entity.Property(e => e.Diachi)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("DIACHI");
+            entity.Property(e => e.Tenphonghoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("TENPHONGHOC");
         });
 
-        modelBuilder.Entity<DangKyDoiLich>(entity => {
-            entity.HasKey(e => e.IdDangKyDoiLich);
+        modelBuilder.Entity<Sinhvien>(entity =>
+        {
+            entity.HasKey(e => e.Idsinhvien);
 
-            entity.ToTable("DangKyDoiLich");
+            entity.ToTable("SINHVIEN");
 
-            entity.Property(e => e.IdDangKyDoiLich)
+            entity.HasIndex(e => e.Diachi, "IX_SINHVIEN_DIACHI");
+
+            entity.HasIndex(e => e.Hoten, "IX_SINHVIEN_HOTEN");
+
+            entity.HasIndex(e => e.Lop, "IX_SINHVIEN_LOP");
+
+            entity.HasIndex(e => e.Ngaysinh, "IX_SINHVIEN_NGAYSINH");
+
+            entity.Property(e => e.Idsinhvien)
                 .HasMaxLength(100)
-                .HasDefaultValueSql("(newid())");
+                .IsUnicode(false)
+                .HasColumnName("IDSINHVIEN");
+            entity.Property(e => e.Diachi)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("DIACHI");
+            entity.Property(e => e.Hoten)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("HOTEN");
+            entity.Property(e => e.Idchuongtrinhhoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDCHUONGTRINHHOC");
+            entity.Property(e => e.Idkhoa)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDKHOA");
+            entity.Property(e => e.Lop)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("LOP");
+            entity.Property(e => e.Ngaysinh)
+                .HasColumnType("DATE")
+                .HasColumnName("NGAYSINH");
 
-            entity.Property(e => e.ThoiGianBatDauHienTai).HasColumnType("datetime");
-            entity.Property(e => e.ThoiGianKetThucHienTai).HasColumnType("datetime");
-            entity.Property(e => e.ThoiGianKetThucMoi).HasColumnType("datetime");
-            entity.Property(e => e.ThoiGianKetThucMoi).HasColumnType("datetime");
+            entity.HasOne(d => d.IdchuongtrinhhocNavigation).WithMany(p => p.Sinhviens)
+                .HasForeignKey(d => d.Idchuongtrinhhoc)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
-            // Mặc định khởi tạo trạng thái là -1. 1 Là đc chấp nhận, 0 là từ chối
-            entity.Property(e => e.TrangThai).HasDefaultValue(-1);
-
-            entity.HasOne(d => d.ThoiGians)
-                .WithMany(p => p.DangKyDoiLichs)
-                .HasForeignKey(d => d.IdThoiGian);
+            entity.HasOne(d => d.IdkhoaNavigation).WithMany(p => p.Sinhviens)
+                .HasForeignKey(d => d.Idkhoa)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
+
+        modelBuilder.Entity<SinhvienLophocphan>(entity =>
+        {
+            entity.HasKey(e => e.Idsinhvienlophp);
+
+            entity.ToTable("SINHVIEN_LOPHOCPHAN");
+
+            entity.HasIndex(e => new { e.Idsinhvien, e.Idlophocphan }, "IX_SINHVIEN_LOPHOCPHAN");
+
+            entity.Property(e => e.Idsinhvienlophp)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDSINHVIENLOPHP");
+            entity.Property(e => e.Idlophocphan)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDLOPHOCPHAN");
+            entity.Property(e => e.Idsinhvien)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDSINHVIEN");
+
+            entity.HasOne(d => d.IdlophocphanNavigation).WithMany(p => p.SinhvienLophocphans)
+                .HasForeignKey(d => d.Idlophocphan)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.IdsinhvienNavigation).WithMany(p => p.SinhvienLophocphans)
+                .HasForeignKey(d => d.Idsinhvien)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<Thoigian>(entity =>
+        {
+            entity.HasKey(e => e.Idthoigian);
+
+            entity.ToTable("THOIGIAN");
+
+            entity.HasIndex(e => e.Ngaybatdau, "IX_THOIGIAN_NGAYBATDAU");
+
+            entity.HasIndex(e => e.Ngayketthuc, "IX_THOIGIAN_NGAYKETTHUC");
+
+            entity.Property(e => e.Idthoigian)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDTHOIGIAN");
+            entity.Property(e => e.Idphonghoc)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDPHONGHOC");
+            entity.Property(e => e.Ngaybatdau)
+                .HasColumnType("DATE")
+                .HasColumnName("NGAYBATDAU");
+            entity.Property(e => e.Ngayketthuc)
+                .HasColumnType("DATE")
+                .HasColumnName("NGAYKETTHUC");
+
+            entity.HasOne(d => d.IdphonghocNavigation).WithMany(p => p.Thoigians)
+                .HasForeignKey(d => d.Idphonghoc)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<ThoigianLophocphan>(entity =>
+        {
+            entity.HasKey(e => e.Idthoigianlophp);
+
+            entity.ToTable("THOIGIAN_LOPHOCPHAN");
+
+            entity.HasIndex(e => new { e.Idlophocphan, e.Idthoigian }, "IX_THOIGIAN_LOPHOCPHAN");
+
+            entity.Property(e => e.Idthoigianlophp)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDTHOIGIANLOPHP");
+            entity.Property(e => e.Idlophocphan)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDLOPHOCPHAN");
+            entity.Property(e => e.Idthoigian)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("IDTHOIGIAN");
+
+            entity.HasOne(d => d.IdlophocphanNavigation).WithMany(p => p.ThoigianLophocphans)
+                .HasForeignKey(d => d.Idlophocphan)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.IdthoigianNavigation).WithMany(p => p.ThoigianLophocphans)
+                .HasForeignKey(d => d.Idthoigian)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        OnModelCreatingPartial(modelBuilder);
     }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

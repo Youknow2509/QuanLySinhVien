@@ -1,8 +1,0 @@
-@{
-    ViewBag.Title = "Lịch giảng dạy";
-}
-
-@await Component.InvokeAsync("Calendar", new {
-    IdUser = ViewBag.IdUser,
-    Type = "GIAOVIEN"
-})
