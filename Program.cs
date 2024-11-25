@@ -21,9 +21,15 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "My API",
+        Title = "API",
         Version = "v1",
-        Description = "A simple example of an ASP.NET Core Web API with Swagger"
+        Description = "API: Quản Lý Sinh Viên",
+        Contact = new OpenApiContact
+        {
+            Name = "Lý Trần Vinh",
+            Email = "lytranvinh.work@gmail.com",
+            Url = new Uri("https://github.com/Youknow2509"),
+        },
     });
 });
 
