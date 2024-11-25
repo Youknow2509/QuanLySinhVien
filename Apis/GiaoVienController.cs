@@ -81,7 +81,7 @@ public class GiaoVienController : ControllerBase
 
     // POST: api/giaovien/
     [HttpPost]
-    public IActionResult CreateGiaoVien([FromBody] GiaoVienDto newGiaoVien)
+    public async Task<IActionResult> CreateGiaoVien([FromBody] GiaoVienDto newGiaoVien)
     {
         if (newGiaoVien == null)
         {
@@ -100,20 +100,26 @@ public class GiaoVienController : ControllerBase
                 IdKhoa = newGiaoVien.IdKhoa
             };
             // Check duplicate ID, email, phone number
-            if (_context.GiaoViens.Any(gv => gv.IdGiaoVien == giaoVien.IdGiaoVien))
+            var existingGiaoVien = await _context.GiaoViens
+                .FirstOrDefaultAsync( x => x.IdGiaoVien == giaoVien.IdGiaoVien);
+            if (existingGiaoVien != null)
             {
-                return BadRequest("ID giáo viên đã tồn tại.");
+                return BadRequest("ID Giáo Viên Đã Tồn Tại !!!");
             }
-            if (_context.GiaoViens.Any(gv => gv.Email == giaoVien.Email))
+            existingGiaoVien = await _context.GiaoViens
+                .FirstOrDefaultAsync(x => x.Email == giaoVien.Email);
+            if (existingGiaoVien != null){
+                return BadRequest("Email Đã Tồn Tại !!!");
+            }
+            existingGiaoVien = await _context.GiaoViens
+                .FirstOrDefaultAsync(x => x.SoDienThoai == giaoVien.SoDienThoai);
+            if (existingGiaoVien != null)
             {
-                return BadRequest("Email đã tồn tại.");
+                return BadRequest("Số Điện Thoại Đã Tồn Tại !!!");
             }
-            if (_context.GiaoViens.Any(gv => gv.SoDienThoai == giaoVien.SoDienThoai))
-            {
-                return BadRequest("Số điện thoại đã tồn tại.");
-            }
+
             _context.GiaoViens.Add(giaoVien);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(giaoVien); // Return success with the newly added teacher's data
         }
@@ -144,6 +150,60 @@ public class GiaoVienController : ControllerBase
         await _context.SaveChangesAsync();
 
         // Return the updated giao vien
+        return Ok(existingGiaoVien);
+    }
+
+    // Delete giao vien
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteGiaoVien(string id)
+    {
+        // Find the existing giao vien
+        var existingGiaoVien = await _context.GiaoViens.FindAsync(id);
+        if (existingGiaoVien == null)
+        {
+            return NotFound("Không tìm thấy giáo viên");
+        }
+
+        // Remove diem 
+        var diems = await _context.Diems
+            .Where(d => d.IdLopHocPhan == id)
+            .ToListAsync();
+        if (diems != null){
+            _context.Diems.RemoveRange(diems);
+        }
+
+        // Remove sinh vien lop hoc phan
+        var sinhVienLopHocPhans = await _context.SinhVienLopHocPhans
+            .Where(sv => sv.IdLopHocPhan == id)
+            .ToListAsync();
+        if (sinhVienLopHocPhans != null)    
+        {
+            _context.SinhVienLopHocPhans.RemoveRange(sinhVienLopHocPhans);
+        }
+
+        // Remove thoi gian lop hoc phan
+        var thoiGianLopHocPhans = await _context.ThoiGianLopHocPhans
+            .Where(tg => tg.IdLopHocPhan == id)
+            .ToListAsync();
+        if (thoiGianLopHocPhans != null)
+        {
+            _context.ThoiGianLopHocPhans.RemoveRange(thoiGianLopHocPhans);
+        }
+        
+        // Remove lop hoc phan
+        var lopHocPhans = await _context.LopHocPhans
+            .Where(lhp => lhp.IdGiaoVien == id)
+            .ToListAsync();
+        if (lopHocPhans != null)
+        {
+            _context.LopHocPhans.RemoveRange(lopHocPhans);
+        }
+
+        // Remove the giao vien
+        _context.GiaoViens.Remove(existingGiaoVien);
+        await _context.SaveChangesAsync();
+
+        // Return the deleted giao vien
         return Ok(existingGiaoVien);
     }
 }

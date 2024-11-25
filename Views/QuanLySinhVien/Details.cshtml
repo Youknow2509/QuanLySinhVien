@@ -1,0 +1,333 @@
+@model SinhVien
+
+@{
+    ViewBag.Title = "Chi tiết sinh viên";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center">
+                        <img id="avt_user" class="img-responsive img-fluid rounded-circle"
+                            src="data:image/png;base64,AA==" width="280" height="280" alt="Không Tìm Thấy Ảnh">
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h2 class="box-title mt-5">Thông Tin</h2>
+                    <hr class="sidebar-divider">
+                    <ul class="list-unstyled">
+                        <li>
+                            <h5>Họ Tên: @Model.HoTen</h5>
+                        </li>
+                        <li>
+                            <h5>Lớp: @Model.Lop</h5>
+                        </li>
+                        <li>
+                            <h5>Ngày Sinh: @Model.NgaySinh.ToString("dd-MM-yyyy")</h5>
+                        </li>
+                        <li>
+                            <h5>Địa Chỉ: @Model.DiaChi</h5>
+                        </li>
+                        <li>
+                            <h5>Chương Trình Học: @Model.IdChuongTrinhHocNavigation.TenChuongTrinhHoc</h5>
+                        </li>
+                        <li>
+                            <h5>Khoa: @Model.IdKhoaNavigation.TenKhoa</h5>
+                        </li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <a class="btn btn-primary" asp-action="Edit" asp-route-idSinhVien="@Model.IdSinhVien"
+                                asp-area="Admin" asp-controller="QuanLySinhVien">Sửa</a>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="sidebar-divider m-4">
+
+                <!-- Lịch Học Của Sinh Viên -->
+                <div class="container-fluid">
+                    <div id='calendar'></div>
+                </div>
+
+                <hr class="sidebar-divider m-4">
+
+                <!-- Danh sách điểm của sinh viên -->
+                <div class="container-fluid">
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Bảng dữ liệu điểm của sinh viên: @Model.HoTen
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable_diem" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Môn</th>
+                                            <th>Lớp Học Phần</th>
+                                            <th>Điểm Quá Trình</th>
+                                            <th>Điểm Kết Thúc</th>
+                                            <th>Điểm Tổng Kết</th>
+                                            <th>Lần Học</th>
+                                            <th>Trạng Thái</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Môn</th>
+                                            <th>Lớp Học Phần</th>
+                                            <th>Điểm Quá Trình</th>
+                                            <th>Điểm Kết Thúc</th>
+                                            <th>Điểm Tổng Kết</th>
+                                            <th>Lần Học</th>
+                                            <th>Trạng Thái</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog modal sua diem -->
+<div class="modal fade" id="modalSuaDiem" tabindex="-1" role="dialog" aria-labelledby="modalSuaDiemLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalSuaDiemLabel">Sửa Điểm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formSuaDiem">
+                    <div class="form-group">
+                        <label for="diemQuaTrinh">Điểm Quá Trình</label>
+                        <input type="number" class="form-control" id="diemQuaTrinh" name="diemQuaTrinh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diemKetThuc">Điểm Kết Thúc</label>
+                        <input type="number" class="form-control" id="diemKetThuc" name="diemKetThuc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="diemTongKet">Điểm Tổng Kết</label>
+                        <input type="number" class="form-control" id="diemTongKet" name="diemTongKet" required>
+                    </div>
+                    <input type="hidden" id="idDiem" name="idDiem">
+                    <input type="hidden" id="idLopHocPhan" name="idLopHocPhan">
+                    <input type="hidden" id="lanhoc" name="lanhoc">
+                    <input type="hidden" id="idSinhVien" name="idSinhVien" value="@Model.IdSinhVien">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSuaDiem">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <!-- Data table -->
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <!-- Calendar -->
+    <link rel='stylesheet' href='~/lib/fullcalendar-6.1.15/css/v_calendar.css' />
+}
+
+@section Scripts {
+    <!-- Calendar -->
+    <script src='~/lib/fullcalendar-6.1.15/dist/index.global.min.js'></script>
+
+    <!-- Data table -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        /**
+         * Handle edit diem
+         */
+        $('#dataTable_diem').on('click', 'button', function () {
+            // Get          
+            var idDiem = $(this).attr('data-idDiem');
+            var diemQuaTrinh = $(this).attr('data-diemQuaTrinh');
+            var diemKetThuc = $(this).attr('data-diemKetThuc');
+            var diemTongKet = $(this).attr('data-diemTongKet');
+            var idLopHocPhan = $(this).attr('data-idLopHocPhan');
+            var lanhoc = $(this).attr('data-lanhoc');
+
+            // Set
+            $('#idDiem').val(idDiem);
+            $('#diemQuaTrinh').val(diemQuaTrinh);
+            $('#diemKetThuc').val(diemKetThuc);
+            $('#diemTongKet').val(diemTongKet);
+            $('#idLopHocPhan').val(idLopHocPhan);
+            $('#lanhoc').val(lanhoc);
+        });
+        // Ajax edit 
+        $('#btnSuaDiem').click(function () {
+            var idDiem = $('#idDiem').val();
+            var diemQuaTrinh = $('#diemQuaTrinh').val();
+            var diemKetThuc = $('#diemKetThuc').val();
+            var diemTongKet = $('#diemTongKet').val();
+            var idLopHocPhan = $('#idLopHocPhan').val();
+            var lanhoc = $('#lanhoc').val();
+            var idSinhVien = $('#idSinhVien').val();
+
+            $.ajax({
+                url: '/api/diem/' + idDiem,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    DiemQuaTrinh: diemQuaTrinh,
+                    DiemKetThuc: diemKetThuc,
+                    DiemTongKet: diemTongKet,
+                    IdLopHocPhan: idLopHocPhan,
+                    LanHoc: lanhoc,
+                    IdDiem: idDiem,
+                    IdSinhVien: idSinhVien,
+                }),
+                success: function (data) {
+                    // Refresh table
+                    $('#dataTable_diem').DataTable().ajax.reload();
+                    $('#modalSuaDiem').modal('hide');
+                },
+                error: function (err) {
+                    console.log(err);
+                    alert('Có lỗi xảy ra');
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            // Avatar events
+            $.ajax({
+                url: '/api/avatar/user/@Model.IdSinhVien',
+                async: false,
+                success: function (data) {
+                    if (data.profilePictureBase64 != null) {
+                        const src = 'data:image/png;base64,' + data.profilePictureBase64;
+                        $('#avt_user').attr('src', src);
+                    } else {
+                        $('#avt_user').attr('src', '/sb-admin/img/undraw_profile.svg');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    return null;
+                }
+            });
+
+            // Xử lý lịch học của sinh viên
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                displayEventTime: false,
+                initialView: 'dayGridMonth', // 'dayGridWeek', 'timeGridDay', 'listWeek'
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    today: 'Hôm nay',
+                    month: 'Tháng',
+                    week: 'Tuần',
+                    day: 'Ngày',
+                    list: 'Danh sách',
+                },
+                locale: 'vi',
+                timeZone: 'Asia/Ho_Chi_Minh',
+                titleFormat: {},
+                events: function (fetchInfo, successCallback, failureCallback) {
+                    $.ajax({
+                        url: '/api/calendar/sinhvien/@Model.IdSinhVien',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var events = data.map(function (item) {
+                                return {
+                                    id: item.id,
+                                    groupId: item.groupId,
+                                    title: item.title,
+                                    description: item.description,
+                                    start: item.start,
+                                    end: item.end,
+                                };
+                            });
+                            successCallback(events);
+                        },
+                        error: function () {
+                            failureCallback();
+                        },
+                    });
+                },
+                eventClick: function (info) {
+                    alert(info.event.extendedProps.description);
+                    info.jsEvent.preventDefault();
+                }
+            });
+            calendar.render();
+            window.calendar = calendar;
+
+            // Xử lý bảng điểm của sinh viên
+            $('#dataTable_diem').DataTable({
+                ajax: {
+                    url: '/api/diem/@Model.IdSinhVien/sinhvien',
+                    type: 'GET',
+                    dataSrc: '',
+                },
+                language: {
+                    url: '/sb-admin/json/data_tables_vi.json',
+                },
+                columns: [
+                    { data: "tenMonHoc" },
+                    { data: "tenLopHocPhan" },
+                    { data: "diemQuaTrinh" },
+                    { data: "diemKetThuc" },
+                    { data: "diemTongKet" },
+                    { data: "lanHoc" },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (row.diemTongKet <= 4) {
+                                return '<span class="badge badge-danger">Học Lại</span>';
+                            }
+                            else {
+                                return '<span class="badge badge-success">Qua Môn</span>';
+                            }
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return `
+                                                                    <button class="btn btn-primary" 
+                                                                        data-toggle="modal"
+                                                                        data-target="#modalSuaDiem"
+                                                                        data-idDiem="${row.idDiem}"
+                                                                        data-diemQuaTrinh="${row.diemQuaTrinh}"
+                                                                        data-diemKetThuc="${row.diemKetThuc}"
+                                                                        data-diemTongKet="${row.diemTongKet}"
+                                                                        data-idLopHocPhan="${row.idLopHocPhan}"
+                                                                        data-lanhoc="${row.lanHoc}"
+                                                                        >Sửa</button>
+                                                                `;
+                        },
+                        sortable: false,
+                        searchable: false,
+                    }
+                ],
+            });
+        });
+    </script>
+}
