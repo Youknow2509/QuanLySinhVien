@@ -49,6 +49,74 @@
                     },
                 ],
             });
+
+            // handle load dialog them sinh vien
+            $('#dialogThemSinhVien').on('show.bs.modal', function () {
+                // load selected khoa
+                $.ajax({
+                    url: '/api/khoa', // Endpoint to get list of departments
+                    type: 'GET',
+                    success: function (data) {
+                        let khoaSelect = $('#idKhoa');
+                        khoaSelect.empty();
+                        khoaSelect.append('<option value="">Chọn Khoa</option>');
+                        data.forEach(function (khoa) {
+                            khoaSelect.append('<option value="' + khoa.idKhoa + '">' + khoa.tenKhoa + '</option>');
+                        });
+                    },
+                    error: function () {
+                        alert('Không thể tải danh sách Khoa.');
+                    }
+                });
+
+                // load selected chuong trinh hoc
+                $.ajax({
+                    url: '/api/chuongtrinhhoc', // Endpoint to get list of departments
+                    type: 'GET',
+                    success: function (data) {
+                        let chuongTrinhHocSelect = $('#idChuongTrinhHoc');
+                        chuongTrinhHocSelect.empty();
+                        chuongTrinhHocSelect.append('<option value="">Chọn Chương Trình Học</option>');
+                        data.forEach(function (chuongTrinhHoc) {
+                            chuongTrinhHocSelect.append('<option value="' + chuongTrinhHoc.idChuongTrinhHoc + '">' + chuongTrinhHoc.tenChuongTrinhHoc + '</option>');
+                        });
+                    },
+                    error: function () {
+                        alert('Không thể tải danh sách Chương Trình Học.');
+                    }
+                });
+
+                // set date default to date now
+                $('#ngaySinh').val(new Date().toISOString().split('T')[0]);
+            });
+
+            // handle submit them sinh vien
+            $('#formThemSinhVien').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '/api/sinhvien/', // Endpoint to create new teacher
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        idSinhVien: $('#idSinhVien').val(),
+                        hoTen: $('#hoTen').val(),
+                        email: $('#email').val(),
+                        soDienThoai: $('#soDienThoai').val(),
+                        diaChi: $('#diaChi').val(),
+                        ngaySinh: $('#ngaySinh').val(),
+                        idKhoa: $('#idKhoa').val(),
+                        idChuongTrinhHoc: $('#idChuongTrinhHoc').val(),
+                    }),
+                    success: function () {
+                        $('#dialogThemSinhVien').modal('hide');
+                        $('#dataTable').DataTable().ajax.reload(); // Reload the table
+                    },
+                    error: function () {
+                        alert('Không thể thêm sinh viên.');
+                    }
+                });
+            });
         });
     </script>
 }
@@ -101,3 +169,68 @@
     </form>
 </div>
 <!-- /.container-fluid -->
+
+<!-- Them Sinh vien -->
+<!-- Button Them -->
+<div class="container-fluid ">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogThemSinhVien">
+        Thêm Sinh Viên
+    </button>
+</div>
+
+
+<!-- Dialog Them Sinh vien -->
+<div class="modal fade" id="dialogThemSinhVien" tabindex="-1" role="dialog" aria-labelledby="dialogThemSinhVienLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dialogThemSinhVienLabel">Thêm Sinh Viên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formThemSinhVien">
+                    <div class="form-group">
+                        <label for="idSinhVien">Mã Sinh Viên</label>
+                        <input type="text" class="form-control" id="idSinhVien" name="idSinhVien" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoTen">Tên Sinh Viên</label>
+                        <input type="text" class="form-control" id="hoTen" name="tenSinhVien" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soDienThoai">Số Điện Thoại</label>
+                        <input type="text" class="form-control" id="soDienThoai" name="soDienThoai" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soDienThoai">Địa Chỉ</label>
+                        <input type="text" class="form-control" id="diaChi" name="diaChi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngaySinh">Ngày Sinh</label>
+                        <input type="date" class="form-control" id="ngaySinh" name="ngaySinh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="idKhoa">Khoa</label>
+                        <select class="form-control" id="idKhoa" name="idKhoa" required>
+                            <option value="">Chọn Khoa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idChuongTrinhHoc">Chương Trình Học</label>
+                        <select class="form-control" id="idChuongTrinhHoc" name="idChuongTrinhHoc" required>
+                            <option value="">Chọn Chương Trình Học</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

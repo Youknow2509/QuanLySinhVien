@@ -128,7 +128,7 @@ public class SinhVienController : ControllerBase
      * them sinh vien
      */
     [HttpPost]
-    public async Task<IActionResult> CreateSinhVien([FromBody] SinhVienDto sinhVien)
+    public async Task<IActionResult> CreateSinhVien(SinhVienDto sinhVien)
     {
         if (string.IsNullOrEmpty(sinhVien.IdSinhVien))
         {
@@ -153,7 +153,7 @@ public class SinhVienController : ControllerBase
             IdChuongTrinhHoc = sinhVien.IdChuongTrinhHoc,
 
             HoTen = sinhVien.HoTen,
-            Lop = sinhVien.Lop,
+            Lop = string.IsNullOrEmpty(sinhVien.Lop) ? "None" : sinhVien.Lop,
             NgaySinh = sinhVien.NgaySinh ?? DateTime.MinValue,
             DiaChi = sinhVien.DiaChi,
         };
