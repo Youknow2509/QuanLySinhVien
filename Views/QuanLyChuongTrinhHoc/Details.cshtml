@@ -1,0 +1,101 @@
+@section Styles {
+    <link href="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <!-- Page level plugins -->
+    <script src="~/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script>
+        const baseUrl = `/api/chuongtrinhhoc`;
+        const idChuongTrinhHoc = '@(ViewBag.IdChuongTrinhhoc)';  // Ensuring it's a string
+        // Handle deleting a course from curriculum
+        function deleteMonHocInChuongTrinhHoc(idMonHoc) {
+            console.log(`Deleting ${idMonHoc} from ${idChuongTrinhHoc}`);
+            $.ajax({
+                url: `${baseUrl}/delete/${idMonHoc}/from/${idChuongTrinhHoc}/`,
+                type: 'DELETE',
+                success: function () {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error(`Delete failed: ${status} - ${error}`);
+                    alert('Xóa thất bại!');
+                }
+            });
+        }
+    </script>
+    <script src="~/sb-admin/js/demo/datatables-demo.js"></script>
+
+}
+
+@model IEnumerable<MonHoc>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh Sách Các Môn Học Của Chương Trình - @ViewBag.Title</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tên Môn Học</th>
+                            <th>Khoa</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Tên Môn Học</th>
+                            <th>Khoa</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a  asp-controller="QuanLyMonHoc" asp-action="Details"
+                                        asp-route-IdMonHoc="@item.IdMonHoc">@item.TenMonHoc</a>
+                                </td>
+                                <td  asp-controller="QuanLyKhoa" asp-action="Details"
+                                    asp-route-IdKhoa="@item.IdKhoa">
+                                    @item.IdKhoaNavigation.TenKhoa
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary"  asp-controller="QuanLyMonHoc"
+                                        asp-action="Edit" asp-route-IdMonHoc="@item.IdMonHoc">
+                                        Sửa
+                                    </a>
+                                    <a class="btn btn-danger"
+                                        onclick="deleteMonHocInChuongTrinhHoc('@item.IdMonHoc')"
+                                    >
+                                        Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">
+            <a
+                asp-controller="QuanLyChuongTrinhHoc"
+                asp-action="AddMonHocToChuongTrinh"
+                asp-route-IdChuongTrinhHoc="@ViewBag.IdChuongTrinhHoc"
+                class="btn btn-primary"
+            >
+                Thêm Môn Học
+            </a>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->

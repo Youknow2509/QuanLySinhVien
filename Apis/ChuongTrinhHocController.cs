@@ -169,6 +169,7 @@ public class ChuongTrinhHocController : ControllerBase
         _context.ChuongTrinhHocMonHocs.Add(
             new ChuongTrinhHocMonHoc
             {
+                IdChuongTrinhHocMonHoc = Guid.NewGuid().ToString(),
                 IdMonHoc = idMonHoc,
                 IdChuongTrinhHoc = idChuongTrinhHoc
             }
@@ -190,24 +191,15 @@ public class ChuongTrinhHocController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateChuongTrinhHoc(string TenChuongTrinhHoc)
     {
-        var cth = await (
-            from chh in _context.ChuongTrinhHocs
-            where chh.TenChuongTrinhHoc == TenChuongTrinhHoc
-            select chh
-        ).FirstOrDefaultAsync();
-
-        if (cth != null) // Chuong trinh hoc nay da ton tai
-        {
-            return BadRequest("Chương trình học đã tồn tại");
-        }
-
         _context.ChuongTrinhHocs.Add(
             new ChuongTrinhHoc
             {
+                IdChuongTrinhHoc = Guid.NewGuid().ToString(),
                 TenChuongTrinhHoc = TenChuongTrinhHoc
             }
         );
-        _context.SaveChanges();
+
+        await _context.SaveChangesAsync();
 
         return Ok(
             new
@@ -223,7 +215,10 @@ public class ChuongTrinhHocController : ControllerBase
      */
     [HttpDelete("delete/{idChuongTrinhHoc}")]
     public async Task<IActionResult> DeleteChuongTrinhHoc(string idChuongTrinhHoc)
-    {
+    {   
+        // Xoa sinh vine khoi chuong trinh hoc 
+        // TODO
+
         // Xoa mon hoc thuoc chuong trinh hoc
         var monHocInChuongTrinhHoc = await (
             from cch_mh in _context.ChuongTrinhHocMonHocs
