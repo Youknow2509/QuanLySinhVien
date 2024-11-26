@@ -1,8 +1,8 @@
+# Quản Lý Sinh Viên Xử Dụng DataBase Oracle
+
 # Contact:
 - **Mail**: *lytranvinh.work@gmail.com*
 - **Github**: *https://github.com/Youknow2509*
-
-# Quản Lý Sinh Viên Xử Dụng DataBase Oracle:
 
 # Một Số Lệnh Hay Dùng Trong Project:
 
@@ -117,15 +117,236 @@ Example:
 ```
 -> Tạo `User` với `username`: `vinh` và `password`:  `123` trong `cdb`: `orclcdb1`.
 
-- TODO ....
+- Gán quyền đăng nhập tạo bảng cho user `vinh`
+```bash
+    GRANT CREATE SESSION TO VINH;
+    GRANT CREATE TABLE TO VINH;
+```
+
+- Import cấu trúc bảng tại [file](sql/create_table.sql)
+- Import dữ liệu **template** [file](sql/insert_data_table.sql)
+
+-> **String connection**: `User Id=vinh;Password=123;Data Source=localhost:1521/orclcdb1`
 
 #  Quản Trị CSDL Oracle
 
 ## Quản Lý Instant
+### Các chế độ của Instance
+#### Shutdown Instance
+- Tắt `Instance` với các chế độ khác nhau - *Chú ý phải đăng nhập tải khoản* `dba`.
+    - `NORMAL`: Đóng cơ sở dữ liệu `sau khi tất cả các user đã logout`.
+    - `IMMEDIATE`: Tắt `ngay lập tức`, các `giao dịch đang chạy bị hủy`.
+    - `ABORT`: Tắt ngay lập tức, không chờ xử lý.
+```bash
+    SHUTDOWN NORMAL;
+    SHUTDOWN IMMEDIATE;
+    SHUTDOWN ABORT;
+```
 
+| **Tiêu chí**	| **IMMEDIATE** | **ABORT** |
+| :------------:| :------------------------------------------: | :----------: |
+| Hủy giao dịch | Có (rollback tất cả các giao dịch chưa xong) | Không rollback, giao dịch bị bỏ qua |
+| Ghi dữ liệu về disk | Có | Không | 
+| Thời gian tắt	| Lâu hơn ABORT | Nhanh Nhất |
+| Yêu cầu Instance Recovery | Không cần | Cần Instance Recovery khi khởi động |
+| Trường hợp sử dụng | Khi cần tắt nhanh nhưng vẫn đảm bảo dữ liệu an toàn. | Khi gặp lỗi hoặc cần tắt khẩn cấp. |
+
+#### Start Instance
+- Khởi động Oracle Instance để sẵn sàng kết nối với cơ sở dữ liệu.
+    - `NOMOUNT`: Chỉ khởi động bộ nhớ và các tiến trình nền, chưa gắn cơ sở dữ liệu.
+    - `MOUNT`: Gắn cơ sở dữ liệu vào instance (truy cập control file nhưng chưa mở datafile).
+    - `OPEN`: Mở toàn bộ cơ sở dữ liệu cho phép người dùng truy cập.
+```bash
+  STARTUP NOMOUNT;
+  STARTUP MOUNT;
+  STARTUP OPEN;
+```
+
+### Chế độ truy cập Instance
+#### READ ONLY
+- Cơ sở dữ liệu `chỉ` cho phép `đọc`, không được phép chỉnh sửa.
+```bash
+    ALTER DATABASE OPEN READ ONLY;
+```
+#### RESTRICTED SESSION
+- Chỉ những user có quyền `đặc biệt` mới được truy cập (thường dùng trong bảo trì).
+```bash
+    ALTER SYSTEM ENABLE RESTRICTED SESSION;
+```
+- Gán quyền cho người dùng: 
+```bash
+    GRANT RESTRICTED SESSION TO {username};
+```
+- Kiểm tra trạng thái **RESTRICTED SESSION**
+```bash
+    SELECT VALUE FROM V$PARAMETER WHERE NAME = 'restricted_session';
+    # TRUE: Chế độ đang bật.
+    # FALSE: Chế độ đang tắt.
+```
+- Khi bật chế độ này:
+    - Các kết nối hiện tại sẽ không bị ảnh hưởng, nhưng các **kết nối mới sẽ bị chặn** (nếu không có quyền RESTRICTED SESSION).
+
+#### Xem trạng thái hiện tại của Instance
+```bash
+    SELECT INSTANCE_NAME, STATUS FROM V$INSTANCE;
+```
 ## Quản Lý TableSpace
+- **TableSpace** là đơn vị lưu trữ **logic** trong Oracle, bao gồm một hoặc nhiều **datafile** (tệp dữ liệu vật lý trên đĩa).
+  
+### Kiểm Tra Thông Tin TableSpace
+#### Thông Tin Chung
+```bash
+SELECT TABLESPACE_NAME, STATUS, CONTENTS, BIGFILE, SEGMENT_SPACE_MANAGEMENT
+FROM DBA_TABLESPACES;
+```
+- Giải thích các cột:
+  - **TABLESPACE_NAME**: Tên của tablespace.
+  - **STATUS**: Trạng thái hiện tại của tablespace (**ONLINE**, **OFFLINE**, **READ** **ONLY**).
+  - **CONTENTS**:
+    - **PERMANENT**: Lưu trữ dữ liệu vĩnh viễn.
+    - **TEMPORARY**: Lưu trữ dữ liệu tạm thời.
+    - **UNDO**: Lưu trữ dữ liệu undo.
+  - **BIGFILE**: Tablespace có sử dụng bigfile hay không (YES hoặc NO)
+    - **YES**: Tablespace là một bigfile tablespace, tức là nó chỉ chứa một file dữ liệu rất lớn (lên đến 128 TB, tùy thuộc vào kích thước block).
+    - **NO**: Tablespace là một smallfile tablespace, tức là có thể chứa nhiều file dữ liệu nhỏ hơn (thường tối đa là 1022 file).
+  - **SEGMENT_SPACE_MANAGEMENT**: Kiểm soát không gian segment (AUTO hoặc MANUAL).
+#### Dung Lượng Sử Dụng
+```bash
+SELECT DATA_FILES.TABLESPACE_NAME,
+       ROUND(SUM(DATA_FILES.BYTES) / 1024 / 1024, 2) AS TOTAL_SIZE_MB,
+       ROUND(SUM(DATA_FILES.BYTES - NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024, 2) AS USED_SIZE_MB,
+       ROUND(SUM(NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024, 2) AS FREE_SIZE_MB,
+       ROUND(SUM(NVL(FREE_SPACE.BYTES, 0)) * 100 / SUM(DATA_FILES.BYTES), 2) AS FREE_PERCENT
+FROM DBA_DATA_FILES DATA_FILES
+LEFT JOIN DBA_FREE_SPACE FREE_SPACE
+ON DATA_FILES.FILE_ID = FREE_SPACE.FILE_ID
+GROUP BY DATA_FILES.TABLESPACE_NAME;
+```
 
-## Truy Vấn Thông Tin Cấu Trúc Lưu Trữ Quản Trị Người Dùng, Quyền, Chức Danh
+#### Xem datafile của một tablespace
+```bash
+SELECT FILE_NAME, 
+       TABLESPACE_NAME,
+       ROUND(BYTES / 1024 / 1024, 2) AS SIZE_MB,
+       AUTOEXTENSIBLE, 
+       ROUND(MAXBYTES / 1024 / 1024, 2) AS MAX_SIZE_MB,
+       INCREMENT_BY * (TS.BLOCK_SIZE / 1024) AS INCREMENT_SIZE_MB
+FROM DBA_DATA_FILES DF
+JOIN DBA_TABLESPACES TS
+ON DF.TABLESPACE_NAME = TS.TABLESPACE_NAME
+WHERE DF.TABLESPACE_NAME = 'USERS'; # Thay 'USERS' bằng table muốn tìm hoặc xoá đi để xem tất cả
+```
+
+##### Kiểm tra Tablespace tạm thời (Temporary Tablespace)
+```bash
+  SELECT TABLESPACE_NAME, FILE_NAME,
+         ROUND(BYTES/1024/1024, 2) AS SIZE_MB,
+         AUTOEXTENSIBLE, MAXBYTES/1024/1024 AS MAX_SIZE_MB
+  FROM DBA_TEMP_FILES;
+```
+##### Kiểm tra Undo Tablespace
+```bash
+  SELECT TABLESPACE_NAME, FILE_NAME,
+       ROUND(BYTES/1024/1024, 2) AS SIZE_MB,
+       AUTOEXTENSIBLE, MAXBYTES/1024/1024 AS MAX_SIZE_MB
+  FROM DBA_DATA_FILES
+  WHERE TABLESPACE_NAME = (SELECT VALUE FROM V$PARAMETER WHERE NAME = 'undo_tablespace');
+```
+#### Kiểm tra trạng thái ONLINE/OFFLINE của Tablespace
+```bash
+SELECT TABLESPACE_NAME, STATUS
+FROM DBA_TABLESPACES;
+```
+#### Kiểm tra phần trăm dung lượng còn trống
+```bash
+SELECT TABLESPACE_NAME,
+       ROUND((TOTAL_MB - USED_MB), 2) AS FREE_MB,
+       ROUND((FREE_MB / TOTAL_MB) * 100, 2) AS FREE_PERCENT
+FROM (
+    SELECT DATA_FILES.TABLESPACE_NAME,
+           SUM(DATA_FILES.BYTES) / 1024 / 1024 AS TOTAL_MB,
+           SUM(DATA_FILES.BYTES - NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024 AS USED_MB,
+           SUM(NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024 AS FREE_MB
+    FROM DBA_DATA_FILES DATA_FILES
+    LEFT JOIN DBA_FREE_SPACE FREE_SPACE
+    ON DATA_FILES.FILE_ID = FREE_SPACE.FILE_ID
+    GROUP BY DATA_FILES.TABLESPACE_NAME
+);
+```
+#### Kiểm tra Tablespace đang bị đầy
+```bash
+    SELECT TABLESPACE_NAME,
+       ROUND((TOTAL_MB - USED_MB), 2) AS FREE_MB,
+       CASE
+           WHEN ROUND((FREE_MB / TOTAL_MB) * 100, 2) < 10 THEN 'NEAR FULL'
+           ELSE 'OK'
+       END AS STATUS
+FROM (
+    SELECT DATA_FILES.TABLESPACE_NAME,
+           SUM(DATA_FILES.BYTES) / 1024 / 1024 AS TOTAL_MB,
+           SUM(DATA_FILES.BYTES - NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024 AS USED_MB,
+           SUM(NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024 AS FREE_MB
+    FROM DBA_DATA_FILES DATA_FILES
+    LEFT JOIN DBA_FREE_SPACE FREE_SPACE
+    ON DATA_FILES.FILE_ID = FREE_SPACE.FILE_ID
+    GROUP BY DATA_FILES.TABLESPACE_NAME
+);
+```
+#### Kiểm tra lịch sử cảnh báo Tablespace đầy
+``` bash
+SELECT OBJECT_NAME, OBJECT_TYPE, REASON, CREATION_TIME
+FROM DBA_OUTSTANDING_ALERTS
+WHERE OBJECT_TYPE = 'TABLESPACE';
+```
+#### Kiểm tra người dùng sử dụng một Tablespace
+```bash 
+SELECT USERNAME, DEFAULT_TABLESPACE, TEMPORARY_TABLESPACE
+FROM DBA_USERS
+WHERE DEFAULT_TABLESPACE = 'TABLESPACE_NAME';
+```
+
+### Các loại Tablespace trong Oracle
+#### SYSTEM và SYSAUX:
+- Lưu trữ các cấu trúc hệ thống và metadata.
+- Bắt buộc phải có trong mọi cơ sở dữ liệu.
+#### USER Tablespace:
+- Chứa dữ liệu của người dùng (bảng, chỉ mục, v.v.).
+- Ví dụ: USERS.
+#### TEMP Tablespace:
+- Chứa dữ liệu tạm thời trong quá trình xử lý (sort, join, hash operations).
+- Ví dụ: TEMP.
+#### UNDO Tablespace:
+- Lưu trữ thông tin undo để rollback giao dịch và hỗ trợ tính năng read-consistency.
+- Ví dụ: UNDOTBS1.
+
+### Tác vụ quản lý Tablespace
+
+#### Tạo một Tablespace
+#### Thêm Datafile vào Tablespace
+#### Thay đổi kích thước Datafile
+#### Xóa Tablespace
+#### Di chuyển vị trí Datafile
+#### Bật/Tắt tự động mở rộng (Autoextend)
+#### Đưa Tablespace về trạng thái OFFLINE/ONLINE
+
+### Một số lưu ý quan trọng
+- `SYSTEM` và `SYSAUX` tablespace `không` thể đưa về trạng thái `OFFLINE`.
+- `TEMP` Tablespace:
+  - Chỉ sử dụng để lưu dữ liệu tạm thời, không cần backup.
+  - Có thể cấu hình lại:
+    ``` bash
+        ALTER DATABASE DEFAULT TEMPORARY TABLESPACE temp;
+    ```
+  - `UNDO` Tablespace:
+    - Không `xóa` hoặc `sửa đổi` trực tiếp. Có thể cấu hình undo tablespace mặc định:
+    ``` bash
+        ALTER SYSTEM SET UNDO_TABLESPACE = undotbs2;
+    ```
+
+
+## Truy Vấn Thông Tin Cấu Trúc Lưu Trữ 
+
+## Quản trị người dùng và quyền
 
 ## Import, Export Schema
 
