@@ -551,6 +551,168 @@ WHERE TABLESPACE_NAME = 'USERS'
 GROUP BY TABLESPACE_NAME;
 ```
 ## Quản trị người dùng và quyền
+### Quản Trị Người Dùng
+
+#### Tạo Người Dùng Mới
+- Người dùng mới trong Oracle cần được tạo cùng với tablespace mặc định và temporary tablespace.
+```sql
+CREATE USER username IDENTIFIED BY password
+DEFAULT TABLESPACE users
+TEMPORARY TABLESPACE temp
+QUOTA 100M ON users;
+```
+
+#### Sửa Đổi Thông Tin Người Dùng
+- Đổi mật khẩu, tablespace mặc định, hoặc hạn mức lưu trữ (quota) của user.
+```sql
+  ALTER USER username IDENTIFIED BY new_password;
+  ALTER USER username DEFAULT TABLESPACE new_tablespace;
+  ALTER USER username QUOTA UNLIMITED ON users;
+```
+#### Xóa Người Dùng
+- Từ khóa `CASCADE` sẽ xóa tất cả các đối tượng (bảng, chỉ mục, v.v.) thuộc user.
+```sql
+DROP USER username CASCADE;
+```
+
+### Phân Quyền Trong Oracle
+#### System Privileges
+- Quyền hệ thống cho phép người dùng thực hiện các **thao tác** cụ thể trên cơ sở dữ liệu, như tạo bảng, truy cập vào các tablespace, hoặc quản trị hệ thống.
+- Ví dụ về quyền: 
+    `CREATE TABLE`, `CREATE USER`, `DROP ANY TABLE`, `SELECT ANY TABLE`.
+- Cấp quyền hệ thống:
+```sql
+GRANT CREATE SESSION TO username;
+GRANT CREATE TABLE, CREATE VIEW TO username;
+```
+- Thu hồi quyền hệ thống:
+```sql
+REVOKE CREATE SESSION FROM username;
+REVOKE CREATE TABLE FROM username;
+```
+
+#### Object Privileges
+- Quyền đối tượng cho phép người dùng thực hiện các **thao tác** cụ thể trên các đối tượng (bảng, chỉ mục, v.v.).
+- Ví dụ về quyền:
+    `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `EXECUTE`.
+- Cấp quyền đối tượng:
+```sql
+GRANT SELECT, INSERT ON employees TO username;
+GRANT EXECUTE ON procedure_name TO username;
+```
+- Thu hồi quyền đối tượng:
+```sql
+REVOKE SELECT, INSERT ON employees FROM username;
+REVOKE EXECUTE ON procedure_name FROM username;
+```
+#### Role (Vai Trò)
+- `Role` là tập hợp các quyền được nhóm lại, giúp đơn giản hóa việc quản trị quyền cho người dùng.
+
+##### Tạo Role:
+```sql
+CREATE ROLE manager_role;
+```
+
+##### Cấp quyền cho Role:
+```sql
+GRANT CREATE TABLE, CREATE VIEW TO manager_role;
+```
+
+##### Gán Role cho User:
+```sql
+GRANT manager_role TO username;
+```
+
+##### Thu hồi Role từ User:
+```sql
+REVOKE manager_role FROM username;
+```
+
+### Các Quyền Đặc Biệt
+#### Quyền Kết Nối (CREATE SESSION)
+- Cho phép người dùng kết nối vào cơ sở dữ liệu:
+```sql
+GRANT CREATE SESSION TO username;
+```
+#### Quyền Điều Hành Hệ Thống
+- `DBA Role`: Cấp quyền quản trị toàn bộ cơ sở dữ liệu.
+```sql
+GRANT DBA TO username;
+```
+- Thu hồi quyền:
+```sql
+REVOKE DBA FROM username;
+```
+#### Quyền Trên Bất Kỳ Đối Tượng (ANY Privileges)
+- Ví dụ: `SELECT ANY TABLE`, `DROP ANY TABLE`.
+```sql
+GRANT SELECT ANY TABLE TO username;
+REVOKE DROP ANY TABLE FROM username;
+```
+
+### Kiểm Tra Thông Tin Người Dùng và Quyền
+#### Kiểm Tra Danh Sách Người Dùng
+- `ACCOUNT_STATUS`: Hiển thị trạng thái của user (`OPEN`, `LOCKED`).
+```sql
+SELECT USERNAME, ACCOUNT_STATUS, DEFAULT_TABLESPACE, TEMPORARY_TABLESPACE
+FROM DBA_USERS;
+```
+
+#### Kiểm Tra Quyền Của Một User
+- Kiểm tra quyền `hệ thống` của user.
+```sql
+SELECT * FROM DBA_SYS_PRIVS WHERE GRANTEE = 'USERNAME';
+```
+- Kiểm tra quyền trên các `đối tượng` của user.
+```sql
+SELECT * FROM DBA_TAB_PRIVS WHERE GRANTEE = 'USERNAME';
+```
+
+### Khóa và Mở Khóa Tài Khoản
+#### Khóa Tài Khoản
+```sql
+ALTER USER username ACCOUNT LOCK;
+```
+
+#### Mở Khóa Tài Khoản
+```sql
+ALTER USER username ACCOUNT UNLOCK;
+```
+
+### Cấu Hình Thời Gian Sử Dụng Mật Khẩu
+#### Kiểm Tra Hồ Sơ Cấu Hình Mật Khẩu (Profile)
+```sql
+SELECT * FROM DBA_PROFILES WHERE RESOURCE_NAME LIKE 'PASSWORD%';
+```
+
+#### Cấu Hình Hồ Sơ
+- Câu lệnh SQL sau sẽ tạo một `profile` mới có tên `app_user_profile` với các giới hạn liên quan đến mật khẩu:
+```sql
+CREATE PROFILE app_user_profile LIMIT
+PASSWORD_LIFE_TIME 30           -- Thời gian mật khẩu có hiệu lực là 30 ngày.
+PASSWORD_REUSE_TIME 60          -- Thời gian phải đợi ít nhất 60 ngày trước khi mật khẩu có thể được tái sử dụng.
+PASSWORD_REUSE_MAX 5;           -- Số lần tối đa mật khẩu có thể được tái sử dụng là 5 lần.
+```
+- Áp dụng Profile cho User:
+```sql
+ALTER USER username PROFILE app_user_profile;
+```
+
+### Đổi Mật Khẩu Người Dùng
+```sql
+ALTER USER username IDENTIFIED BY new_password;
+```
+
+### Kiểm Tra Session Của Người Dùng
+#### Kiểm Tra Người Dùng Đang Kết Nối
+```sql
+SELECT SID, SERIAL#, USERNAME, STATUS FROM V$SESSION WHERE USERNAME = 'USERNAME';
+```
+#### Ngắt Kết Nối Session
+```sql
+ALTER SYSTEM KILL SESSION 'SID,SERIAL#'; -- thay sid và serial#
+```
 
 ## Import, Export Schema
+
 
