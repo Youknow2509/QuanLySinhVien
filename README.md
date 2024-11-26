@@ -98,18 +98,18 @@ Example:
 ```
 
 - Tạo `tablespace` lưu dữ liệu bài tập lớn **riêng**
-```bash
+```sql
     CREATE TABLESPACE TBS_BTL
     DATAFILE '/home/oracle/datafiles/datafile_tbs_btl.dbf' SIZE 100M;
 ```
 
 - Kiểm tra `tablespace` vừa tạo:
-```bash
+```sql
     SELECT TABLESPACE_NAME, STATUS, LOGGING FROM USER_TABLESPACES WHERE TABLESPACE_NAME = 'TBS_BTL';
 ```
 
 - Tạo `User` với `tablespace` vừa tạo:
-```bash
+```sql
     CREATE USER VINH IDENTIFIED BY 123
     DEFAULT TABLESPACE TBS_BTL
     TEMPORARY TABLESPACE TEMP
@@ -118,7 +118,7 @@ Example:
 -> Tạo `User` với `username`: `vinh` và `password`:  `123` trong `cdb`: `orclcdb1`.
 
 - Gán quyền đăng nhập tạo bảng cho user `vinh`
-```bash
+```sql
     GRANT CREATE SESSION TO VINH;
     GRANT CREATE TABLE TO VINH;
 ```
@@ -156,7 +156,7 @@ Example:
     - `NOMOUNT`: Chỉ khởi động bộ nhớ và các tiến trình nền, chưa gắn cơ sở dữ liệu.
     - `MOUNT`: Gắn cơ sở dữ liệu vào instance (truy cập control file nhưng chưa mở datafile).
     - `OPEN`: Mở toàn bộ cơ sở dữ liệu cho phép người dùng truy cập.
-```bash
+```sql
   STARTUP NOMOUNT;
   STARTUP MOUNT;
   STARTUP OPEN;
@@ -165,16 +165,16 @@ Example:
 ### Chế độ truy cập Instance
 #### READ ONLY
 - Cơ sở dữ liệu `chỉ` cho phép `đọc`, không được phép chỉnh sửa.
-```bash
+```sql
     ALTER DATABASE OPEN READ ONLY;
 ```
 #### RESTRICTED SESSION
 - Chỉ những user có quyền `đặc biệt` mới được truy cập (thường dùng trong bảo trì).
-```bash
+```sql
     ALTER SYSTEM ENABLE RESTRICTED SESSION;
 ```
 - Gán quyền cho người dùng: 
-```bash
+```sql
     GRANT RESTRICTED SESSION TO {username};
 ```
 - Kiểm tra trạng thái **RESTRICTED SESSION**
@@ -258,7 +258,7 @@ SELECT TABLESPACE_NAME, STATUS
 FROM DBA_TABLESPACES;
 ```
 #### Kiểm tra phần trăm dung lượng còn trống
-```bash
+```sql
 SELECT TABLESPACE_NAME,
        ROUND((TOTAL_MB - USED_MB), 2) AS FREE_MB,
        ROUND((FREE_MB / TOTAL_MB) * 100, 2) AS FREE_PERCENT
@@ -274,7 +274,7 @@ FROM (
 );
 ```
 #### Kiểm tra Tablespace đang bị đầy
-```bash
+```sql
     SELECT TABLESPACE_NAME,
        ROUND((TOTAL_MB - USED_MB), 2) AS FREE_MB,
        CASE
@@ -306,29 +306,173 @@ WHERE DEFAULT_TABLESPACE = 'TABLESPACE_NAME';
 ```
 
 ### Các loại Tablespace trong Oracle
-#### SYSTEM và SYSAUX:
-- Lưu trữ các cấu trúc hệ thống và metadata.
-- Bắt buộc phải có trong mọi cơ sở dữ liệu.
-#### USER Tablespace:
-- Chứa dữ liệu của người dùng (bảng, chỉ mục, v.v.).
-- Ví dụ: USERS.
-#### TEMP Tablespace:
-- Chứa dữ liệu tạm thời trong quá trình xử lý (sort, join, hash operations).
-- Ví dụ: TEMP.
-#### UNDO Tablespace:
-- Lưu trữ thông tin undo để rollback giao dịch và hỗ trợ tính năng read-consistency.
-- Ví dụ: UNDOTBS1.
+| **Loại** | **Tablespace	Mục đích sử dụng** |
+| :--: | :------------------------- |
+|SYSTEM | Lưu trữ các thông tin hệ thống và metadata. |
+| SYSAUX | Lưu trữ các thành phần hỗ trợ, giảm tải cho SYSTEM Tablespace. |
+| PERMANENT | Lưu trữ dữ liệu vĩnh viễn của người dùng như bảng, chỉ mục. |
+| TEMPORARY	| Lưu trữ dữ liệu tạm thời cho các hoạt động như sắp xếp và kết hợp. |
+| UNDO | Lưu trữ thông tin undo để rollback giao dịch và đảm bảo read-consistency. |
+| BIGFILE | Quản lý một tệp dữ liệu lớn thay vì nhiều tệp nhỏ, thích hợp cho cơ sở dữ liệu lớn. |
+| READ ONLY | Dữ liệu chỉ đọc, không chỉnh sửa (ví dụ: dữ liệu lịch sử). |
+| Encrypted	| Lưu trữ dữ liệu được mã hóa để tăng cường bảo mật. |
 
 ### Tác vụ quản lý Tablespace
-
 #### Tạo một Tablespace
+```bash
+CREATE TABLESPACE my_tablespace
+DATAFILE '/path/to/datafile/my_tablespace01.dbf' SIZE 100M;
+```
 #### Thêm Datafile vào Tablespace
+```bash
+ALTER TABLESPACE my_tablespace
+ADD DATAFILE '/path/to/datafile/my_tablespace02.dbf' SIZE 100M
+AUTOEXTEND ON NEXT 10M MAXSIZE 1G;
+```
 #### Thay đổi kích thước Datafile
+- Tăng kích thước của một datafile hiện tại:
+```bash
+ALTER DATABASE DATAFILE '/path/to/datafile/my_tablespace01.dbf' RESIZE 200M;
+```
+- Bật hoặc tắt tính năng autoextend cho một datafile:
+```bash
+ALTER DATABASE DATAFILE '/path/to/datafile/my_tablespace01.dbf'
+AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED;
+```
 #### Xóa Tablespace
+- Xóa một tablespace và datafile đi kèm:
+```bash
+DROP TABLESPACE my_tablespace INCLUDING CONTENTS AND DATAFILES;
+```
+  - `INCLUDING CONTENTS`: Xóa tất cả dữ liệu trong tablespace.
+  - `AND DATAFILES`: Xóa luôn các tệp vật lý khỏi đĩa.
 #### Di chuyển vị trí Datafile
+- Di chuyển datafile của một tablespace:
+  - Đưa `Tablespace` về chế độ `OFFLINE`:
+  ```bash
+  ALTER TABLESPACE my_tablespace OFFLINE;
+  ```
+  - Di chuyển tệp datafile: Sử dụng lệnh OS để di chuyển tệp đến vị trí mới:
+  ```bash
+  mv /old/path/my_tablespace01.dbf /new/path/my_tablespace01.dbf
+  ```
+  - Cập nhật đường dẫn trong Oracle:
+  ```bash
+  ALTER DATABASE RENAME FILE '/old/path/my_tablespace01.dbf' TO '/new/path/my_tablespace01.dbf';
+  ```
+  - Đưa `Tablespace` về chế độ `ONLINE`:
+  ```bash
+  ALTER TABLESPACE my_tablespace ONLINE;
+  ```
 #### Bật/Tắt tự động mở rộng (Autoextend)
-#### Đưa Tablespace về trạng thái OFFLINE/ONLINE
+- Bật `autoextend` cho `datafile`:
+```sql
+ALTER DATABASE DATAFILE '/path/to/datafile/my_tablespace01.dbf' AUTOEXTEND ON NEXT 10M MAXSIZE 1G;
+```
+- Tắt `autoextend`:
+```sql
+ALTER DATABASE DATAFILE '/path/to/datafile/my_tablespace01.dbf' AUTOEXTEND OFF;
+```
 
+#### Đưa Tablespace về trạng thái OFFLINE/ONLINE
+- `OFFLINE`: Tablespace không khả dụng cho người dùng.
+```sql
+ALTER TABLESPACE my_tablespace OFFLINE;
+```
+- `ONLINE`: Kích hoạt lại tablespace để sử dụng.
+```sql
+ALTER TABLESPACE my_tablespace ONLINE;
+```
+### Một số thông tin về datafile
+#### Truy vấn danh sách các Datafile của các Tablespace vĩnh viễn:
+```sql
+SELECT DDF.FILE_ID,
+       DDF.FILE_NAME,
+       DDF.TABLESPACE_NAME,
+       ROUND(DDF.BYTES / 1024 / 1024, 2) AS SIZE_MB,
+       DDF.AUTOEXTENSIBLE,
+       ROUND(DDF.MAXBYTES / 1024 / 1024, 2) AS MAX_SIZE_MB,
+       DDF.INCREMENT_BY * (TS.BLOCK_SIZE / 1024) AS INCREMENT_SIZE_MB
+FROM DBA_DATA_FILES DDF
+JOIN DBA_TABLESPACES TS ON DDF.TABLESPACE_NAME = TS.TABLESPACE_NAME;
+```
+
+#### Truy vấn thông tin về các Datafile tạm thời (Temporary Tablespace):
+```sql
+SELECT TABLESPACE_NAME,
+       FILE_NAME,
+       ROUND(BYTES/1024/1024, 2) AS SIZE_MB,
+       AUTOEXTENSIBLE,
+       MAXBYTES/1024/1024 AS MAX_SIZE_MB
+FROM DBA_TEMP_FILES;
+```
+#### Truy vấn trạng thái của các Datafile (ONLINE/OFFLINE):
+```sql
+SELECT DF.FILE# AS FILE_ID,
+       DF.NAME AS FILE_NAME,
+       TS.NAME AS TABLESPACE_NAME,
+       DF.STATUS
+FROM V$DATAFILE DF
+JOIN V$TABLESPACE TS ON DF.TS# = TS.TS#;
+```
+
+#### Truy vấn dung lượng đã sử dụng và còn trống trong mỗi Datafile:
+```sql
+SELECT TABLESPACE_NAME,
+       FILE_NAME,
+       ROUND(BYTES/1024/1024, 2) AS TOTAL_SIZE_MB,
+       ROUND(FREE_SPACE/1024/1024, 2) AS FREE_SIZE_MB,
+       ROUND((BYTES - FREE_SPACE)/BYTES * 100, 2) AS USED_PERCENT
+FROM (
+    SELECT DF.TABLESPACE_NAME, DF.FILE_NAME, DF.BYTES,
+           (DF.BYTES - NVL(FS.BYTES, 0)) AS FREE_SPACE
+    FROM DBA_DATA_FILES DF
+    LEFT JOIN (
+        SELECT FILE_ID, SUM(BYTES) AS BYTES
+        FROM DBA_FREE_SPACE
+        GROUP BY FILE_ID
+    ) FS
+    ON DF.FILE_ID = FS.FILE_ID
+);
+```
+#### Xem danh sách các Datafile có tính năng Autoextend:
+```sql
+SELECT DF.FILE_NAME,
+       DF.TABLESPACE_NAME,
+       DF.AUTOEXTENSIBLE,
+       ROUND(DF.INCREMENT_BY * TS.BLOCK_SIZE / 1024 / 1024, 2) AS INCREMENT_SIZE_MB,
+       ROUND(DF.MAXBYTES / 1024 / 1024, 2) AS MAX_SIZE_MB
+FROM DBA_DATA_FILES DF
+JOIN DBA_TABLESPACES TS ON DF.TABLESPACE_NAME = TS.TABLESPACE_NAME
+WHERE DF.AUTOEXTENSIBLE = 'YES';
+```
+#### Xem đường dẫn vật lý và block size của các Datafile:
+```sql
+SELECT DF.FILE_NAME,
+   DF.TABLESPACE_NAME,
+   TS.BLOCK_SIZE,
+   DF.BYTES / 1024 / 1024 AS SIZE_MB
+FROM DBA_DATA_FILES DF
+JOIN DBA_TABLESPACES TS ON DF.TABLESPACE_NAME = TS.TABLESPACE_NAME;
+```
+#### Tóm tắt toàn bộ thông tin chi tiết của các Datafile:
+```sql
+SELECT DF.FILE_ID,
+       DF.FILE_NAME,
+       DF.TABLESPACE_NAME,
+       DF.BYTES / 1024 / 1024 AS TOTAL_SIZE_MB,
+       DF.AUTOEXTENSIBLE,
+       DF.MAXBYTES / 1024 / 1024 AS MAX_SIZE_MB,
+       NVL(FS.FREE_SPACE_MB, 0) AS FREE_SPACE_MB,
+       ROUND((DF.BYTES - NVL(FS.FREE_SPACE_MB, 0)) / DF.BYTES * 100, 2) AS USED_PERCENT
+FROM DBA_DATA_FILES DF
+LEFT JOIN (
+    SELECT FILE_ID, SUM(BYTES) / 1024 / 1024 AS FREE_SPACE_MB
+    FROM DBA_FREE_SPACE
+    GROUP BY FILE_ID
+) FS
+ON DF.FILE_ID = FS.FILE_ID;
+```
 ### Một số lưu ý quan trọng
 - `SYSTEM` và `SYSAUX` tablespace `không` thể đưa về trạng thái `OFFLINE`.
 - `TEMP` Tablespace:
@@ -343,8 +487,7 @@ WHERE DEFAULT_TABLESPACE = 'TABLESPACE_NAME';
         ALTER SYSTEM SET UNDO_TABLESPACE = undotbs2;
     ```
 
-
-## Truy Vấn Thông Tin Cấu Trúc Lưu Trữ 
+## Truy Vấn Thông Tin Cấu Trúc Lưu Trữ (segment, extent)
 
 ## Quản trị người dùng và quyền
 
