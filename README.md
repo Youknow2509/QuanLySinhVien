@@ -488,7 +488,68 @@ ON DF.FILE_ID = FS.FILE_ID;
     ```
 
 ## Truy Vấn Thông Tin Cấu Trúc Lưu Trữ (segment, extent)
+- `Segment`:
+    - Là một đối tượng `logic` trong cơ sở dữ liệu Oracle, lưu trữ dữ liệu thực tế (ví dụ: bảng, chỉ mục, undo, tạm thời).
+    - Mỗi segment bao gồm nhiều Extent.
+- `Extent`:
+    - Là một tập hợp các khối (blocks) liên tục trong một datafile.
+    - Extent được phân bổ khi segment cần thêm không gian lưu trữ.
 
+### Truy Vấn Thông Tin Segment
+
+#### Danh Sách Các Segment Trong Tablespace
+```sql
+SELECT SEGMENT_NAME, SEGMENT_TYPE, TABLESPACE_NAME, BYTES/1024/1024 AS SIZE_MB, BLOCKS
+FROM DBA_SEGMENTS
+WHERE TABLESPACE_NAME = 'USERS';
+```
+#### Kiểm Tra Dung Lượng Sử Dụng Của Segment
+```sql
+SELECT SEGMENT_NAME, SEGMENT_TYPE, TABLESPACE_NAME, BYTES/1024/1024 AS SIZE_MB
+FROM DBA_SEGMENTS
+WHERE SEGMENT_NAME = 'EMPLOYEES';
+```
+### Truy Vấn Thông Tin Extent
+#### Danh Sách Extent Của Một Segment
+```sql
+SELECT SEGMENT_NAME, EXTENT_ID, FILE_ID, BLOCK_ID, BYTES/1024 AS SIZE_KB
+FROM DBA_EXTENTS
+WHERE SEGMENT_NAME = 'EMPLOYEES';
+```
+#### Tổng Dung Lượng Của Extent Trong Một Tablespace
+- Tính tổng dung lượng tất cả các extent trong một tablespace cụ thể.
+```sql
+SELECT TABLESPACE_NAME, SUM(BYTES)/1024/1024 AS TOTAL_SIZE_MB
+FROM DBA_EXTENTS
+WHERE TABLESPACE_NAME = 'USERS'
+GROUP BY TABLESPACE_NAME;
+```
+#### Phân Bổ Extent Theo Segment
+- Hiển thị số lượng extent và kích thước của mỗi segment trong một tablespace.
+```sql
+SELECT SEGMENT_NAME, COUNT(*) AS TOTAL_EXTENTS, SUM(BYTES)/1024/1024 AS SIZE_MB
+FROM USE_EXTENTS
+WHERE TABLESPACE_NAME = 'USERS'
+GROUP BY SEGMENT_NAME
+ORDER BY SIZE_MB DESC;
+```
+
+### Truy Vấn Thông Tin Liên Quan Đến Block
+#### Danh Sách Block Của Extent
+- Hiển thị thông tin về các block của từng extent trong segment.
+```sql
+SELECT SEGMENT_NAME, EXTENT_ID, FILE_ID, BLOCK_ID, BLOCKS
+FROM DBA_EXTENTS
+WHERE SEGMENT_NAME = 'EMPLOYEES';
+```
+#### Tổng Số Block Được Sử Dụng Trong Tablespace
+- Tổng số block được sử dụng trong một tablespace cụ thể.
+```sql
+SELECT TABLESPACE_NAME, SUM(BLOCKS) AS TOTAL_BLOCKS
+FROM DBA_EXTENTS
+WHERE TABLESPACE_NAME = 'USERS'
+GROUP BY TABLESPACE_NAME;
+```
 ## Quản trị người dùng và quyền
 
 ## Import, Export Schema
