@@ -715,4 +715,123 @@ ALTER SYSTEM KILL SESSION 'SID,SERIAL#'; -- thay sid và serial#
 
 ## Import, Export Schema
 
+### So Sánh Schema Và User
+| Điểm khác biệt | User | Schema |
+| :------------: | :--- | :----- |
+|Khái niệm|	Là tài khoản người dùng trong DB.	|Là tập hợp các đối tượng thuộc về user.|
+|Tên|	Tên user phải là duy nhất trong DB.|	Tên schema trùng với tên của user.|
+|Các đối tượng sở hữu|	User sở hữu các đối tượng trong schema.	|Schema chứa các đối tượng của user.|
+|Tạo và Xóa	|User có thể được tạo và xóa độc lập.	|Schema không thể được tạo trực tiếp, mà phải tạo qua user.|
+|Quyền Hạn	|User có thể được cấp quyền truy cập vào cơ sở dữ liệu.	|Schema không có quyền hạn riêng biệt.|
+|Tác động khi xóa	|Khi xóa user, schema của user đó cũng bị xóa.	|Schema bị xóa khi xóa user.|
 
+- Truy vấn các đối tượng trong Schema
+  - Xử dụng khi ở tài khoản dba và xem một user bất kì:
+  ```sql
+  SELECT OBJECT_NAME, OBJECT_TYPE FROM DBA_OBJECTS WHERE OWNER = 'V';
+  ```
+  - Xem từ trực tiếp user hiện tại
+  ```sql
+  SELECT OBJECT_NAME, OBJECT_TYPE FROM USER_OBJECTS;
+  ```
+
+### Export Schema (expdp)
+- **Bước 1**: Tạo Thư Mục Chứa File Dump (tệp dữ liệu xuất ra)
+```sql
+-- Tạo thư mục trong hệ điều hành
+CREATE DIRECTORY dpump_dir AS '/path/to/directory';
+
+-- CREATE OR REPLACE DIRECTORY dpump_dir AS '/path/to/directory';
+
+-- Cấp quyền cho user 'v' để đọc và ghi vào thư mục này
+GRANT READ, WRITE ON DIRECTORY dpump_dir TO v;
+```
+- **Bước 2**: Thực Hiện Export Schema
+```bash
+expdp v/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=v_schema.dmp LOGFILE=v_schema_export.log SCHEMAS=v;
+```
+- Giải thích:
+    - `v/123@orclcdb1`: Tên người dùng (user), mật khẩu, cdb.
+    - `DIRECTORY=dpump_dir`: Thư mục mà Oracle sẽ sử dụng để lưu trữ các file dump và log.
+    - `DUMPFILE=v_schema.dmp`: Tên file dump, nơi sẽ chứa dữ liệu schema v.
+    - `LOGFILE=v_schema_export.log`: Tên file log ghi lại quá trình xuất dữ liệu.
+    - `SCHEMAS=v`: Tên schema bạn muốn export.
+
+## Tham số tuỳ chỉnh khi export
+- Chỉ export metadata (cấu trúc), không bao gồm dữ liệu.
+```bash
+    CONTENT=METADATA_ONLY
+```
+- Chỉ dữ liệu 
+```bash
+    CONTENT=DATA_ONLY
+```
+- Giới hạn kích thước của mỗi file dump. Hữu ích khi export dữ liệu lớn.
+```bash
+    FILESIZE=500M
+```
+- Số luồng song song thực hiện export, tăng tốc độ xử lý với dữ liệu lớn.
+```bash
+    PARALLEL=4
+```
+- Chỉ export các đối tượng thuộc một hoặc nhiều tablespace cụ thể.
+```bash
+    TABLESPACES=USERS
+```
+- Mã hóa file dump để bảo mật
+    - `ALL`: Mã hóa cả dữ liệu và metadata.
+    - `DATA_ONLY`: Chỉ mã hóa dữ liệu.
+    - `METADATA_ONLY`: Chỉ mã hóa metadata.
+    - `NONE`: Không mã hóa (mặc định).
+```bash
+    ENCRYPTION=ALL ENCRYPTION_PASSWORD=my_secret_password
+```
+
+### Import Schema (impdp)
+- **Bước 1**: Tạo Thư Mục Chứa File Dump (tệp dữ liệu xuất ra)
+```sql
+-- Tạo thư mục trong hệ điều hành
+CREATE DIRECTORY dpump_dir AS '/path/to/directory';
+
+-- CREATE OR REPLACE DIRECTORY dpump_dir AS '/path/to/directory';
+
+-- Cấp quyền cho user 'v' để đọc và ghi vào thư mục này
+GRANT READ, WRITE ON DIRECTORY dpump_dir TO v;
+```
+- **Bước 2**: Thực Hiện Import Schema
+```bash
+impdp v/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=v_schema.dmp LOGFILE=v_schema_import.log SCHEMAS=v;
+```
+- Giải thích:
+    - `v/123@orclcdb1`: Tên người dùng (user), mật khẩu, cdb.
+    - `DIRECTORY=dpump_dir`: Thư mục mà Oracle sẽ sử dụng để lưu trữ các file dump và log.
+    - `DUMPFILE=v_schema.dmp`: Tên file dump, nơi sẽ chứa dữ liệu schema v.
+    - `LOGFILE=v_schema_export.log`: Tên file log ghi lại quá trình xuất dữ liệu.
+    - `SCHEMAS=v`: Tên schema bạn cần import.
+
+#### Tham số tuỳ chỉnh khi import
+- Chỉ định liệu bạn có muốn import toàn bộ cơ sở dữ liệu hay không.
+```bash
+    FULL=Y
+```
+- Chỉ định tên của schema (hoặc nhiều schema) cần import
+```bash
+    SCHEMAS=V,V2
+```
+- Chỉ định các bảng cụ thể từ trong schema hoặc cơ sở dữ liệu để import.
+```bash
+    TABLES=V.THOIGIAN,V.LOPHOCPHAN
+```
+- Chỉ định chuyển đổi schema từ một schema nguồn (source) sang một schema đích
+```bash
+    REMAP_SCHEMA=old_schema:new_schema
+```
+- Chuyển đổi tablespace từ một tablespace nguồn sang một tablespace đích.
+```bash
+    REMAP_TABLESPACE=old_tablespace:new_tablespace
+```
+- Chuyển đổi tên bảng khi import dữ liệu.
+```bash
+    REMAP_TABLE=old_table:new_table
+```
+- Include, exclude ...
