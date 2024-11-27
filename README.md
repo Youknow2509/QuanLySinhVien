@@ -129,25 +129,27 @@ Example:
 -> **String connection**: `User Id=vinh;Password=123;Data Source=localhost:1521/orclcdb1`
 
 # Mục Lục Quản Trị CSDL Oracle
-1. [Quản Lý Instant](#quản-lý-instant)
-   1.1. [Các chế độ của Instance](#các-chế-độ-của-instance)
-   1.2. [Shutdown Instance](#shutdown-instance)
-   1.3. [Start Instance](#start-instance)
-   1.4. [Chế độ truy cập Instance](#chế-độ-truy-cập-instance)
-2. [Quản Lý TableSpace](#quản-lý-tablespace)
-   2.1. [Kiểm Tra Thông Tin TableSpace](#kiểm-tra-thông-tin-tablespace)
-   2.2. [Dung Lượng Sử Dụng](#dung-lượng-sử-dụng)
-   2.3. [Xem datafile của một tablespace](#xem-datafile-của-một-tablespace)
-   2.4. [Các loại Tablespace trong Oracle](#các-loại-tablespace-trong-oracle)
-   2.5. [Tác vụ quản lý Tablespace](#tác-vụ-quản-lý-tablespace)
-3. [Truy Vấn Thông Tin Cấu Trúc Lưu Trữ (segment, extent)](#truy-vấn-thông-tin-cấu-trúc-lưu-trữ-segment-extent)
-4. [Quản Trị Người Dùng và Quyền](#quản-trị-người-dùng-và-quyền)
-   4.1. [Quản Trị Người Dùng](#quản-trị-người-dùng)
-   4.2. [Phân Quyền Trong Oracle](#phân-quyền-trong-oracle)
-   4.3. [Các Quyền Đặc Biệt](#các-quyền-đặc-biệt)
-5. [Import, Export Schema](#import-export-schema)
-6. [Một số lưu ý quan trọng](#một-số-lưu-ý-quan-trọng)
-7. 
+- [Quản Lý Instant](#quản-lý-instant)
+    - [Các chế độ của Instance](#các-chế-độ-của-instance)
+    - [Shutdown Instance](#shutdown-instance)
+    - [Start Instance](#start-instance)
+    - [Chế độ truy cập Instance](#chế-độ-truy-cập-instance)
+- [Quản Lý TableSpace](#quản-lý-tablespace)
+    - [Kiểm Tra Thông Tin TableSpace](#kiểm-tra-thông-tin-tablespace)
+    - [Dung Lượng Sử Dụng](#dung-lượng-sử-dụng)
+    - [Xem datafile của một tablespace](#xem-datafile-của-một-tablespace)
+    - [Các loại Tablespace trong Oracle](#các-loại-tablespace-trong-oracle)
+    - [Tác vụ quản lý Tablespace](#tác-vụ-quản-lý-tablespace)
+- [Truy Vấn Thông Tin Cấu Trúc Lưu Trữ (segment, extent)](#truy-vấn-thông-tin-cấu-trúc-lưu-trữ-segment-extent)
+    - [Quản Trị Người Dùng và Quyền](#quản-trị-người-dùng-và-quyền)
+    - [Quản Trị Người Dùng](#quản-trị-người-dùng)
+    - [Phân Quyền Trong Oracle](#phân-quyền-trong-oracle)
+    - [Các Quyền Đặc Biệt](#các-quyền-đặc-biệt)
+- [Import, Export Schema](#import-export-schema)
+    - [So sánh Schema và User](#so-sánh-schema-và-user)
+    - [Export](#export-schema-(expdp))
+    - [Import](#import-schema-())
+
 #  Quản Trị CSDL Oracle
 
 ## Quản Lý Instant
