@@ -247,16 +247,16 @@ GROUP BY DATA_FILES.TABLESPACE_NAME;
 
 #### Xem datafile của một tablespace
 ```bash
-SELECT FILE_NAME, 
-       TABLESPACE_NAME,
-       ROUND(BYTES / 1024 / 1024, 2) AS SIZE_MB,
-       AUTOEXTENSIBLE, 
-       ROUND(MAXBYTES / 1024 / 1024, 2) AS MAX_SIZE_MB,
-       INCREMENT_BY * (TS.BLOCK_SIZE / 1024) AS INCREMENT_SIZE_MB
+SELECT DF.FILE_NAME,
+       DF.TABLESPACE_NAME,
+       ROUND(DF.BYTES / 1024 / 1024, 2) AS SIZE_MB,
+       DF.AUTOEXTENSIBLE,
+       ROUND(DF.MAXBYTES / 1024 / 1024, 2) AS MAX_SIZE_MB,
+       ROUND(DF.INCREMENT_BY * (TS.BLOCK_SIZE / 1024), 2) AS INCREMENT_SIZE_MB
 FROM DBA_DATA_FILES DF
 JOIN DBA_TABLESPACES TS
 ON DF.TABLESPACE_NAME = TS.TABLESPACE_NAME
-WHERE DF.TABLESPACE_NAME = 'USERS'; # Thay 'USERS' bằng table muốn tìm hoặc xoá đi để xem tất cả
+WHERE DF.TABLESPACE_NAME = 'TBS_BTL';
 ```
 
 ##### Kiểm tra Tablespace tạm thời (Temporary Tablespace)
@@ -350,10 +350,10 @@ DATAFILE '/path/to/datafile/my_tablespace01.dbf' SIZE 100M;
 ```sql
 -- TABLESPACE chính
 CREATE TABLESPACE TBS_BTL
-DATAFILE '/home/oracle/datafiles.datafile_tbs_btl.dbf' SIZE 100M;
+DATAFILE '/home/oracle/datafiles/datafile_tbs_btl.dbf' SIZE 100M;
 -- TABLESPACE 2
 CREATE TABLESPACE TBS_BTL_2
-DATAFILE '/home/oracle/datafiles.datafile_tbs_btl_2.dbf' SIZE 50M;
+DATAFILE '/home/oracle/datafiles/datafile_tbs_btl_2.dbf' SIZE 50M;
 ```
 #### Thêm Datafile vào Tablespace
 ```bash
@@ -946,3 +946,195 @@ impdp v/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=v_schema.dmp LOGFILE=v_schema_
     REMAP_TABLE=old_table:new_table
 ```
 - Include, exclude ...
+
+# Bài Tập Lớn
+- Tạo `tablespace`:
+```sql
+-- TABLESPACE chính
+CREATE TABLESPACE TBS_BTL
+DATAFILE '/home/oracle/datafiles/datafile_tbs_btl.dbf' SIZE 100M;
+-- TABLESPACE 2
+CREATE TABLESPACE TBS_BTL_2
+DATAFILE '/home/oracle/datafiles/datafile_tbs_btl_2.dbf' SIZE 50M;
+-- TABLESPCE test drop
+CREATE TABLESPACE TBS_BTL_DROP
+DATAFILE '/home/oracle/datafiles/datafile_tbs_btl_drop.dbf' SIZE 1M;
+```
+![alt text](resource/images/tbs1.png)
+![alt text](resource/images/tbs2.png)
+- Tạo người dùng:
+```sql
+-- Người dùng admin
+CREATE USER vinh IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 100M ON TBS_BTL;
+
+-- Người dùng sinh viên
+CREATE USER sv IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 10M ON TBS_BTL;
+
+-- Người dùng giáo viên
+CREATE USER gv IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 1M ON TBS_BTL;
+
+-- Người dùng test xoá
+CREATE USER t_drop IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 1M ON TBS_BTL;
+
+-- Người dùng test thay đổi thông tin
+CREATE USER t_alter IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 1M ON TBS_BTL;
+
+-- Người dùng import data
+CREATE USER v_imp IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 20M ON TBS_BTL;
+```
+![alt text](resource/images/user1.png)
+![alt text](resource/images/user2.png)
+
+- Tạo `role`
+```sql
+    -- Tạo role admin
+    CREATE ROLE admin;
+    -- Cấp quyền tạo bảng
+    GRANT CREATE TABLE TO admin;
+    -- Cấp quyền đăng nhập cho role admin
+    GRANT CREATE SESSION TO admin;
+    -- Cấp quyền tạo role
+    GRANT CREATE ROLE TO admin;
+
+
+    -- Tạo role giáo viên
+    CREATE ROLE giao_vien;
+    -- Cấp quyền cho role giáo viên
+    GRANT SELECT ON Diem TO giao_vien;  -- Xem điểm sinh viên
+    GRANT UPDATE ON Diem TO giao_vien;  -- Sửa điểm sinh viên
+    GRANT SELECT ON ThoiGian_LopHocPhan TO giao_vien;  -- Xem thời gian lớp học phần
+    GRANT SELECT ON SinhVien TO giao_vien;  -- Xem thông tin sinh viên
+
+    -- Tạo role sinh viên
+    CREATE ROLE sinh_vien;
+    -- Cấp quyền cho role sinh viên
+    GRANT SELECT ON Diem TO sinh_vien;  -- Xem điểm sinh viên
+    -- Cấp quyền xem sinh viên
+    GRANT SELECT ON SinhVien to sinh_vien;
+
+    -- Tạo role có quyền RESTRICTED SESSION
+    CREATE ROLE restricted_role;
+    -- Cấp quyền RESTRICTED SESSION cho role restricted_role
+    GRANT RESTRICTED SESSION TO restricted_role;
+    -- Cấp quyền CREATE SESSION cho role restricted_role để người dùng có thể đăng nhập
+    GRANT CREATE SESSION TO restricted_role;
+```
+![alt text](resource/images/role1.png)
+
+![alt text](resource/images/role2.png)
+
+![alt text](resource/images/role3.png)
+
+```sql
+-- Xem các quyền đang hoạt động của một người dùng
+select * from SESSION_ROLES;
+
+-- Xem quyền đôi tượng của một role
+select ROLE, TABLE_NAME, PRIVILEGE from ROLE_TAB_PRIVS;
+
+-- Xem các quyền hệ thông của role
+select ROLE , PRIVILEGE from ROLE_SYS_PRIVS;
+```
+![alt text](resource/images/role4.png)
+
+- Export schema từ user
+```bash
+-- đăng nhập dba cấp quyền đọc sửa file cho người dùng
+CREATE DIRECTORY dpump_dir AS '/home/oracle/schemas';
+GRANT READ, WRITE ON DIRECTORY dpump_dir TO 'vinh';
+
+-- đăng xuất người dùng xử dụng lệnh
+expdp vinh/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=vinh_schema.dmp LOGFILE=vinh_schema_export.log SCHEMAS=vinh;
+```
+
+- Import schema vào người dùng
+```sql
+-- chú ý cấp quyền xử dụng thư mục cho người dùng
+impdp v_imp/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=v_imp_schema.dmp LOGFILE=v_imp_schema_import.log SCHEMAS=vinh REMAP_SCHEMAS=vinh:V_IMP
+```
+
+- Tắt Instance với các chế độ khác nhau 
+  - Chú ý phải đăng nhập tải khoản dba.
+    - NORMAL: Đóng cơ sở dữ liệu sau khi tất cả các user đã logout.
+    - IMMEDIATE: Tắt ngay lập tức, các giao dịch đang chạy bị hủy.
+    - ABORT: Tắt ngay lập tức, không chờ xử lý.
+```sql
+    SHUTDOWN NORMAL;
+    SHUTDOWN IMMEDIATE;
+    SHUTDOWN ABORT;
+```
+
+- Khởi động Oracle Instance để sẵn sàng kết nối với cơ sở dữ liệu.
+    - NOMOUNT: Chỉ khởi động bộ nhớ và các tiến trình nền, chưa gắn cơ sở dữ liệu.
+    - MOUNT: Gắn cơ sở dữ liệu vào instance (truy cập control file nhưng chưa mở datafile).
+    - OPEN: Mở toàn bộ cơ sở dữ liệu cho phép người dùng truy cập.
+```sql
+  STARTUP NOMOUNT;
+  STARTUP MOUNT;
+  STARTUP OPEN;
+```
+
+[Chế độ truy cập Instance - Coppy phần trên](#chế-độ-truy-cập-instance)
+
+- Xem thông tin chung table space
+```sql
+SELECT DATA_FILES.TABLESPACE_NAME,
+       ROUND(SUM(DATA_FILES.BYTES) / 1024 / 1024, 2) AS TOTAL_SIZE_MB,
+       ROUND(SUM(DATA_FILES.BYTES - NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024, 2) AS USED_SIZE_MB,
+       ROUND(SUM(NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024, 2) AS FREE_SIZE_MB,
+       ROUND(SUM(NVL(FREE_SPACE.BYTES, 0)) * 100 / SUM(DATA_FILES.BYTES), 2) AS FREE_PERCENT
+FROM DBA_DATA_FILES DATA_FILES
+LEFT JOIN DBA_FREE_SPACE FREE_SPACE
+ON DATA_FILES.FILE_ID = FREE_SPACE.FILE_ID
+GROUP BY DATA_FILES.TABLESPACE_NAME;
+```
+![alt text](resource/images//tbs3.png)
+
+- Xem dung lượng table space
+```sql
+SELECT DATA_FILES.TABLESPACE_NAME,
+       ROUND(SUM(DATA_FILES.BYTES) / 1024 / 1024, 2) AS TOTAL_SIZE_MB,
+       ROUND(SUM(DATA_FILES.BYTES - NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024, 2) AS USED_SIZE_MB,
+       ROUND(SUM(NVL(FREE_SPACE.BYTES, 0)) / 1024 / 1024, 2) AS FREE_SIZE_MB,
+       ROUND(SUM(NVL(FREE_SPACE.BYTES, 0)) * 100 / SUM(DATA_FILES.BYTES), 2) AS FREE_PERCENT
+FROM DBA_DATA_FILES DATA_FILES
+LEFT JOIN DBA_FREE_SPACE FREE_SPACE
+ON DATA_FILES.FILE_ID = FREE_SPACE.FILE_ID
+GROUP BY DATA_FILES.TABLESPACE_NAME;
+```
+![alt text](resource/images//tbs4.png)
+
+- Xem datafile của một tablespace
+```sql
+SELECT DF.FILE_NAME,
+       DF.TABLESPACE_NAME,
+       ROUND(DF.BYTES / 1024 / 1024, 2) AS SIZE_MB,
+       DF.AUTOEXTENSIBLE,
+       ROUND(DF.MAXBYTES / 1024 / 1024, 2) AS MAX_SIZE_MB,
+       ROUND(DF.INCREMENT_BY * (TS.BLOCK_SIZE / 1024), 2) AS INCREMENT_SIZE_MB
+FROM DBA_DATA_FILES DF
+JOIN DBA_TABLESPACES TS
+ON DF.TABLESPACE_NAME = TS.TABLESPACE_NAME
+WHERE DF.TABLESPACE_NAME = 'TBS_BTL';
+```
+![alt text](resource/images//tbs5.png)
+
+- Lấy các câu lệnh còn lại trên Kiểm Tra Thông Tin TableSpace ở trên
