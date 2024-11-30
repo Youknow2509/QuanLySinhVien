@@ -345,6 +345,16 @@ WHERE DEFAULT_TABLESPACE = 'TABLESPACE_NAME';
 CREATE TABLESPACE my_tablespace
 DATAFILE '/path/to/datafile/my_tablespace01.dbf' SIZE 100M;
 ```
+
+- Trong `btl`:
+```sql
+-- TABLESPACE chính
+CREATE TABLESPACE TBS_BTL
+DATAFILE '/home/oracle/datafiles.datafile_tbs_btl.dbf' SIZE 100M;
+-- TABLESPACE 2
+CREATE TABLESPACE TBS_BTL_2
+DATAFILE '/home/oracle/datafiles.datafile_tbs_btl_2.dbf' SIZE 50M;
+```
 #### Thêm Datafile vào Tablespace
 ```bash
 ALTER TABLESPACE my_tablespace
@@ -583,6 +593,39 @@ DEFAULT TABLESPACE users
 TEMPORARY TABLESPACE temp
 QUOTA 100M ON users;
 ```
+- Trong `btl`:
+```sql
+-- Người dùng admin
+CREATE USER vinh IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 100M ON TBS_BTL;
+
+-- Người dùng sinh viên
+CREATE USER sv IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 10M ON TBS_BTL;
+
+-- Người dùng giáo viên
+CREATE USER gv IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 1M ON TBS_BTL;
+
+-- Người dùng test xoá
+CREATE USER t_drop IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 1M ON TBS_BTL;
+
+-- Người dùng test thay đổi thông tin
+CREATE USER t_alter IDENTIFIED BY 123
+DEFAULT TABLESPACE TBS_BTL
+TEMPORARY TABLESPACE temp
+QUOTA 1M ON TBS_BTL;
+
+```
 
 #### Sửa Đổi Thông Tin Người Dùng
 - Đổi mật khẩu, tablespace mặc định, hoặc hạn mức lưu trữ (quota) của user.
@@ -591,13 +634,59 @@ QUOTA 100M ON users;
   ALTER USER username DEFAULT TABLESPACE new_tablespace;
   ALTER USER username QUOTA UNLIMITED ON users;
 ```
+- Trong `btl`
+```sql
+    -- Đổi mật khẩu
+    ALTER USER T_ALTER IDENTIFIED BY 1234;
+    -- Đổi tablespace mới
+    ALTER USER T_ALTER DEFAULT TABLESPACE TBS_BTL_2;
+    -- Đổi QUOTA trong tablespace
+    ALTER USER T_ALTER QUOTA UNLIMITED ON TBS_BTL_2;
+```
 #### Xóa Người Dùng
 - Từ khóa `CASCADE` sẽ xóa tất cả các đối tượng (bảng, chỉ mục, v.v.) thuộc user.
 ```sql
 DROP USER username CASCADE;
 ```
 
+- Trong `btl`:
+```sql
+    DROP USER t_drop;
+```
+
 ### Phân Quyền Trong Oracle
+- Trong `btl`
+```sql
+  -- Tạo role admin
+  CREATE ROLE admin;
+  -- Cấp quyền đăng nhập cho role admin
+  GRANT CREATE SESSION TO admin;
+  
+  -- Tạo role giáo viên
+  CREATE ROLE giao_vien;
+  -- Cấp quyền cho role giáo viên
+  GRANT SELECT ON Diem TO giao_vien;  -- Xem điểm sinh viên
+  GRANT UPDATE ON Diem TO giao_vien;  -- Sửa điểm sinh viên
+  GRANT SELECT ON ThoiGian_LopHocPhan TO giao_vien;  -- Xem thời gian lớp học phần
+  GRANT SELECT ON SinhVien TO giao_vien;  -- Xem thông tin sinh viên
+  -- Cấp quyền đăng nhập cho role giáo viên
+  GRANT CREATE SESSION TO giao_vien;
+
+  -- Tạo role sinh viên
+  CREATE ROLE sinh_vien;
+  -- Cấp quyền cho role sinh viên
+  GRANT SELECT ON Diem TO sinh_vien;  -- Xem điểm sinh viên
+  -- Cấp quyền đăng nhập cho role sinh viên
+  GRANT CREATE SESSION TO sinh_vien;
+
+  -- Tạo role có quyền RESTRICTED SESSION
+  CREATE ROLE restricted_role;
+  -- Cấp quyền RESTRICTED SESSION cho role restricted_role
+  GRANT RESTRICTED SESSION TO restricted_role;
+  -- Cấp quyền CREATE SESSION cho role restricted_role để người dùng có thể đăng nhập
+  GRANT CREATE SESSION TO restricted_role;
+
+```
 #### System Privileges
 - Quyền hệ thống cho phép người dùng thực hiện các **thao tác** cụ thể trên cơ sở dữ liệu, như tạo bảng, truy cập vào các tablespace, hoặc quản trị hệ thống.
 - Ví dụ về quyền: 
