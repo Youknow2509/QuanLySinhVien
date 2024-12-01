@@ -172,7 +172,7 @@
 ```
 
 - `Import` schema vào người dùng
-```sql
+```bash
     -- chú ý cấp quyền xử dụng thư mục cho người dùng
     impdp v_imp/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=v_imp_schema.dmp LOGFILE=v_imp_schema_import.log SCHEMAS=QLSV REMAP_SCHEMAS=QLSV:V_IMP
 ```
@@ -454,17 +454,16 @@ JOIN DBA_TABLESPACES TS ON DDF.TABLESPACE_NAME = TS.TABLESPACE_NAME;
     - Extent được phân bổ khi segment cần thêm không gian lưu trữ.
 
 ## Truy Vấn Thông Tin Segment
--
+- Danh Sách Các Segment Trong Tablespace
 ```sql
     SELECT SEGMENT_NAME, SEGMENT_TYPE, TABLESPACE_NAME, BYTES/1024/1024 AS SIZE_MB, BLOCKS
     FROM DBA_SEGMENTS
     WHERE TABLESPACE_NAME = 'TBS_BTL';
 ```
+![alt text](resource/images/se1.png)
 
--
+- Hiện thị thông tin Segment sở bởi user
 ```sql
-    SELECT SEGMENT_NAME, SEGMENT_TYPE, TABLESPACE_NAME, BYTES/1024/1024 AS SIZE_MB
-    FROM DBA_SEGMENTS
-    WHERE SEGMENT_NAME = 'QLSV';
+    SELECT segment_name, tablespace_name, blocks FROM dba_segments WHERE owner = 'QLSV';
 ```
 

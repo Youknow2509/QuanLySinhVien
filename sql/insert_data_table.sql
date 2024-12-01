@@ -184,11 +184,26 @@ INSERT INTO Diem (IdDiem, IdLopHocPhan, IdSinhVien, DiemQuaTrinh, DiemKetThuc, D
 INSERT INTO Diem (IdDiem, IdLopHocPhan, IdSinhVien, DiemQuaTrinh, DiemKetThuc, DiemTongKet, LanHoc) VALUES (SYS_GUID(), 'VLY_QT01', '222631159', 2, 4, 3, 1);
 
 -- Tạo Phòng Học
+INSERT INTO PhongHoc (IdPhongHoc, TenPhongHoc, DiaChi)
+VALUES ('503A8', 'Phòng 503A8', 'Tầng 5, Tòa nhà A8');
+
+INSERT INTO PhongHoc (IdPhongHoc, TenPhongHoc, DiaChi)
+VALUES ('202A8', 'Phòng 202A8', 'Tầng 2, Tòa nhà A8');
+
+INSERT INTO PhongHoc (IdPhongHoc, TenPhongHoc, DiaChi)
+VALUES ('105A8', 'Phòng 105A8', 'Tầng 1, Tòa nhà A8');
+
+INSERT INTO PhongHoc (IdPhongHoc, TenPhongHoc, DiaChi)
+VALUES ('301A3', 'Phòng 301A3', 'Tầng 3, Tòa nhà A3');
+
+INSERT INTO PhongHoc (IdPhongHoc, TenPhongHoc, DiaChi)
+VALUES ('305A2', 'Phòng 305A2', 'Tầng 3, Tòa nhà A2');
+
+INSERT INTO PhongHoc (IdPhongHoc, TenPhongHoc, DiaChi)
+VALUES ('405A4', 'Phòng 405A4', 'Tầng 4, Tòa nhà A4');
 
 -- Tạo thời gian và gắn thời gian vào lớp học phần
 -- Thêm các thời gian vào bảng ThoiGian và gắn vào lớp học phần
-
-
 --insert bang thoigian
 INSERT INTO ThoiGian (IdThoiGian, NgayBatDau, NgayKetThuc, IdPhongHoc)
     VALUES ('HTQTORCL_QT01_B1', TO_DATE('2024-08-14 15:35:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2024-08-14 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), '503A8');

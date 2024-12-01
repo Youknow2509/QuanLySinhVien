@@ -105,10 +105,10 @@ CREATE TABLE Diem (
 
 -- Tạo bảng Sinh Viên - Lớp Học Phần
 CREATE TABLE SinhVien_LopHocPhan (
-    IdSinhVienLopHP VARCHAR2(100 CHAR) NOT NULL,
+    IDSINHVIENLOPHOCPHAN VARCHAR2(100 CHAR) NOT NULL,
     IdSinhVien VARCHAR2(100 CHAR) NOT NULL,
     IdLopHocPhan VARCHAR2(100 CHAR) NOT NULL,
-    CONSTRAINT PK_SinhVien_LopHocPhan PRIMARY KEY (IdSinhVienLopHP),
+    CONSTRAINT PK_SinhVien_LopHocPhan PRIMARY KEY (IDSINHVIENLOPHOCPHAN),
     CONSTRAINT FK_SinhVien_LopHocPhan_LopHocPhan_IdLopHocPhan FOREIGN KEY (IdLopHocPhan) REFERENCES LopHocPhan (IdLopHocPhan),
     CONSTRAINT FK_SinhVien_LopHocPhan_SinhVien_IdSinhVien FOREIGN KEY (IdSinhVien) REFERENCES SinhVien (IdSinhVien)
 );
