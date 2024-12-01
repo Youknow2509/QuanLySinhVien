@@ -466,4 +466,3 @@ JOIN DBA_TABLESPACES TS ON DDF.TABLESPACE_NAME = TS.TABLESPACE_NAME;
 ```sql
     SELECT segment_name, tablespace_name, blocks FROM dba_segments WHERE owner = 'QLSV';
 ```
-
