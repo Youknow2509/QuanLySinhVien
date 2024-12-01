@@ -466,3 +466,113 @@ JOIN DBA_TABLESPACES TS ON DDF.TABLESPACE_NAME = TS.TABLESPACE_NAME;
 ```sql
     SELECT segment_name, tablespace_name, blocks FROM dba_segments WHERE owner = 'QLSV';
 ```
+![alt text](resource/images/et1.png)
+
+## Truy Vấn Thông Tin Extent
+- Tính tổng dung lượng tất cả các extent trong một tablespace cụ thể.
+```sql
+    SELECT TABLESPACE_NAME, SUM(BYTES)/1024/1024 AS TOTAL_SIZE_MB
+    FROM DBA_EXTENTS
+    WHERE TABLESPACE_NAME = 'TBS_BTL'
+    GROUP BY TABLESPACE_NAME;
+```
+![alt text](resource/images/ex1.png)
+
+- Hiển thị thông tin về các block của từng extent trong segment.
+```sql
+    SELECT SEGMENT_NAME, EXTENT_ID, FILE_ID, BLOCK_ID, BLOCKS
+    FROM DBA_EXTENTS
+    WHERE SEGMENT_NAME = 'SINHVIEN';
+```
+![alt text](resource/images/ex3.png)
+
+- Tổng số block được sử dụng trong một tablespace cụ thể.
+```sql
+    SELECT TABLESPACE_NAME, SUM(BLOCKS) AS TOTAL_BLOCKS
+    FROM DBA_EXTENTS
+    WHERE TABLESPACE_NAME = 'TBS_BTL'
+    GROUP BY TABLESPACE_NAME;
+```
+![alt text](resource/images/ex4.png)
+
+# Người dùng
+- Khóa và Mở Khóa Tài Khoản
+```sql
+    -- Khoá tài khoản
+    ALTER USER vinh ACCOUNT LOCK;
+    -- Mở khoá tài khoản
+    ALTER USER vinh ACCOUNT UNLOCK;
+```
+
+## Cấu Hình Thời Gian Sử Dụng Mật Khẩu
+- Kiểm Tra Hồ Sơ Cấu Hình Mật Khẩu (Profile)
+```sql
+    SELECT * FROM DBA_PROFILES WHERE RESOURCE_NAME LIKE 'PASSWORD%';
+    select PROFILE from DBA_PROFILES;
+```
+- Các tham số thường dùng trong profile
+    - `PASSWORD_LIFE_TIME`: Thời gian tối đa mật khẩu có hiệu lực.
+    ```sql
+        ALTER PROFILE default LIMIT PASSWORD_LIFE_TIME 180;
+        -- Điều này có nghĩa là mật khẩu phải được thay đổi sau 180 ngày.
+    ```
+    - `PASSWORD_REUSE_TIME`: Thời gian yêu cầu trước khi một mật khẩu có thể được tái sử dụng.
+    ```sql
+        ALTER PROFILE default LIMIT PASSWORD_REUSE_TIME 365;
+        -- Điều này có nghĩa là người dùng không thể tái sử dụng mật khẩu cũ trong vòng 365 ngày.
+    ```
+    - `PASSWORD_GRACE_TIME`: Số ngày cho phép sau khi mật khẩu hết hạn để thay đổi mật khẩu.
+    ```sql
+        ALTER PROFILE default LIMIT PASSWORD_GRACE_TIME 7;
+    ```
+    - `FAILED_LOGIN_ATTEMPTS`:Số lần đăng nhập sai tối đa cho phép trước khi tài khoản bị khóa.
+    ```sql
+        ALTER PROFILE default LIMIT FAILED_LOGIN_ATTEMPTS 5;
+    ```
+    - `SESSIONS_PER_USER`: Số phiên làm việc đồng thời tối đa mà một người dùng có thể mở.
+    ```sql 
+    ALTER PROFILE default LIMIT SESSIONS_PER_USER 3;
+    ```
+    - `IDLE_TIME`: Thời gian nhàn rỗi tối đa (tính bằng phút) trước khi một phiên làm việc bị tự động kết thúc.
+    ```sql
+        ALTER PROFILE default LIMIT IDLE_TIME 30;
+    ```
+    - `CONNECT_TIME`: Thời gian tối đa (tính bằng phút) mà người dùng có thể duy trì kết nối với cơ sở dữ liệu.
+    ```sql
+        ALTER PROFILE default LIMIT CONNECT_TIME 60;
+    ```
+    - `CPU_PER_SESSION`: Số lượng thời gian CPU tối đa (tính bằng giây) mà người dùng có thể sử dụng trong một phiên làm việc.
+    ```sql
+        ALTER PROFILE default LIMIT CPU_PER_SESSION 1000;
+    ```
+    - `COMPOSITE_LIMIT`:Xác định mức tiêu thụ tài nguyên tổng hợp của phiên làm việc của người dùng, bao gồm CPU, bộ nhớ và các tài nguyên hệ thống khác. Thường được sử dụng để giới hạn việc sử dụng tài nguyên của hệ thống.
+    ```sql
+        ALTER PROFILE default LIMIT COMPOSITE_LIMIT 5000000;
+    ```
+- Tạo profile
+```sql
+    CREATE PROFILE v_profile_1 LIMIT
+    PASSWORD_LIFE_TIME 30           -- Thời gian mật khẩu có hiệu lực là 30 ngày.
+    PASSWORD_REUSE_TIME 60          -- Thời gian phải đợi ít nhất 60 ngày trước khi mật khẩu có thể được tái sử dụng.
+    PASSWORD_REUSE_MAX 5         -- Số lần tối đa mật khẩu có thể được tái sử dụng là 5 lần.
+    FAILED_LOGIN_ATTEMPTS 2;
+```
+
+## Config
+- Sửa
+```sql
+ALTER PROFILE v_profile_1 LIMIT
+    FAILED_LOGIN_ATTEMPTS 3             -- Sửa đổi số lần đăng nhập sai tối đa
+    CONNECT_TIME 120                    -- Sửa đổi thời gian kết nối tối đa
+    PASSWORD_LIFE_TIME 90;              -- Thay đổi thời gian tối đa của mật khẩu
+```
+
+- Xoá
+```sql
+  DROP PROFILE v_profile_1;
+```
+
+- Gán và thay đổi
+```sql
+    ALTER USER vinh PROFILE v_profile_1;
+```
