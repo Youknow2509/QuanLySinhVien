@@ -170,6 +170,7 @@
     -- đăng xuất người dùng xử dụng lệnh
     expdp qlsv/123@orclcdb1 DIRECTORY=dpump_dir DUMPFILE=QLSV_schema.dmp LOGFILE=QLSV_schema_export.log SCHEMAS=QLSV;
 ```
+![alt text](resource/images/exp1.png)
 
 - `Import` schema vào người dùng
 ```bash
